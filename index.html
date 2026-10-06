@@ -375,6 +375,7 @@
 
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
+const PEER_OPTS = {host:'peerjs.92k.de',port:443,path:'/',secure:true,debug:1,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:global.stun.twilio.com:3478'}]}};
 
 const state = {mode:null,role:null,myIdx:0,players:[],pool:[],totalRounds:0,roundNumber:0,current:null,currentBid:0,currentBidder:null,activePlayers:[],turnPointer:0,startingMoney:0,firstBidderOffset:0,basePrice:0,phase:'lobby',log:[],peer:null,connections:[],hostConn:null,roomCode:null,poolSource:[],poolSize:0};
 
@@ -417,10 +418,10 @@ function createRoom(){
   renderLobby();
   show('lobbyScreen');
   setStatus('lobbyStatus','Подключаемся к серверу...');
-  const peer = new Peer('ahero-'+code,{debug:1});
+  const peer = new Peer('ahero-'+code, PEER_OPTS);
   state.peer = peer;
   peer.on('open',()=>{setStatus('lobbyStatus','Комната готова. Ждём игроков...','ok');});
-  peer.on('error',err=>{console.error(err);setStatus('lobbyStatus','Ошибка сети: '+err.type,'err');});
+  peer.on('error',err=>{console.error(err);setStatus('lobbyStatus','Ошибка: '+err.type,'err');});
   peer.on('connection',conn=>{conn.on('open',()=>{state.connections.push(conn);conn.on('data',data=>onHostData(conn,data));conn.on('close',()=>onClientDisconnect(conn));});});
 }
 
@@ -593,7 +594,7 @@ function joinRoom(){
   if(code.length<4){setStatus('joinStatus','Введи код комнаты','err');return;}
   setStatus('joinStatus','Подключаемся...');
   state.mode='online';state.role='client';state.roomCode=code;
-  const peer = new Peer({debug:1});
+  const peer = new Peer(PEER_OPTS);
   state.peer = peer;
   peer.on('open',()=>{
     const conn = peer.connect('ahero-'+code,{reliable:true});
@@ -603,7 +604,7 @@ function joinRoom(){
     conn.on('close',()=>{setStatus('joinStatus','Хост отключился','err');alert('Хост отключился. Игра завершена.');location.reload();});
     conn.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка: '+err.message,'err');});
   });
-  peer.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка сети: '+err.type,'err');});
+  peer.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка: '+err.type,'err');});
 }
 
 function onClientData(data){
