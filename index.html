@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#1a1a2e">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Аукцион Героев</title>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{overscroll-behavior:none}
+  body{font-family:system-ui,-apple-system,sans-serif;background:radial-gradient(circle at top,#2a1a4e,#0f0f1e 70%);color:#eaeaea;min-height:100vh;padding:12px;font-size:15px}
+  .container{max-width:640px;margin:0 auto}
+  h1{text-align:center;color:#f39c12;margin-bottom:14px;font-size:22px;letter-spacing:1px}
+  h2{color:#f39c12;font-size:16px;margin-bottom:8px}
+  .panel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:12px}
+  label{display:block;margin-bottom:6px;color:#bbb;font-size:13px}
+  input[type=text],input[type=number]{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#1a1a2e;color:#eee;font-size:16px;outline:none}
+  input:focus{border-color:#f39c12}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .row>*{flex:1;min-width:100px}
+  .themes{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .themes label{display:inline-flex;align-items:center;gap:5px;margin:0;padding:8px 12px;border-radius:20px;background:#1a1a2e;border:1px solid #333;font-size:13px;cursor:pointer}
+  .themes input{accent-color:#f39c12}
+  button{padding:14px 20px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-weight:600;transition:.15s;width:100%}
+  button:active:not(:disabled){transform:scale(.98)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .btn-primary{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff}
+  .btn-secondary{background:#333;color:#eee}
+  .btn-pass{background:#7a2020;color:#fff}
+  .btn-bid{background:linear-gradient(135deg,#27ae60,#229954);color:#fff}
+  .btn-row{display:flex;gap:8px;margin-top:8px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:#aaa}
+  .topbar b{color:#f39c12}
+  .char-card{text-align:center;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(155,89,182,.15));border:2px solid rgba(243,156,18,.4);margin-bottom:12px}
+  .char-emoji{font-size:42px;margin-bottom:4px}
+  .char-name{font-size:21px;font-weight:700;color:#f39c12;margin-bottom:3px}
+  .char-source{color:#aaa;font-size:12px;margin-bottom:10px}
+  .power-bar{height:12px;background:#1a1a2e;border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 5px}
+  .power-fill{height:100%;background:linear-gradient(90deg,#e74c3c,#f39c12);transition:width .4s}
+  .power-value{font-size:14px;color:#f39c12;font-weight:700}
+  .base-price{margin-top:8px;color:#27ae60;font-size:14px;font-weight:600}
+  .players-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+  .player-item{background:#1a1a2e;border-radius:10px;padding:10px;border:2px solid transparent;font-size:13px}
+  .player-item.active{border-color:#f39c12}
+  .player-item.out{opacity:.4}
+  .player-item .pn{font-weight:700;margin-bottom:3px;font-size:14px}
+  .player-item .pm{color:#27ae60;font-weight:600}
+  .player-item .pc{color:#888;font-size:11px;margin-top:2px}
+  .bid-info{background:#1a1a2e;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center}
+  .bid-info .bid-amount{font-size:20px;color:#f39c12;font-weight:700}
+  .bid-info .bid-who{color:#aaa;font-size:13px;margin-top:3px}
+  .action-panel{text-align:center;margin-bottom:10px}
+  .action-panel .turn-name{font-size:15px;margin-bottom:10px}
+  .turn-name b{color:#f39c12}
+  .bid-controls{display:flex;gap:8px;align-items:center}
+  .bid-controls input{flex:1;min-width:0}
+  .bid-controls button{flex:0 0 auto;width:auto;padding:12px 18px}
+  .log{max-height:110px;overflow-y:auto;font-size:12px;color:#888;background:#141428;border-radius:8px;padding:8px;margin-top:8px}
+  .log div{margin-bottom:2px}
+  .results-table{width:100%;border-collapse:collapse;font-size:13px}
+  .results-table th,.results-table td{padding:8px 6px;text-align:left;border-bottom:1px solid #333;vertical-align:top}
+  .results-table th{color:#f39c12;font-size:12px}
+  .winner{color:#f39c12;font-weight:700;font-size:17px;text-align:center;margin-bottom:12px}
+  .chars-inline{color:#aaa;font-size:11px;line-height:1.4}
+  .room-code{font-size:34px;font-weight:800;letter-spacing:8px;text-align:center;color:#f39c12;padding:16px;background:#141428;border-radius:14px;border:2px dashed rgba(243,156,18,.4);margin:10px 0;font-family:'Courier New',monospace}
+  .lobby-players{list-style:none;margin:10px 0}
+  .lobby-players li{padding:10px;background:#1a1a2e;border-radius:8px;margin-bottom:6px;font-size:14px}
+  .lobby-players li::before{content:"👤 ";margin-right:4px}
+  .status-msg{font-size:13px;color:#aaa;text-align:center;margin-top:8px;min-height:20px}
+  .status-msg.err{color:#e74c3c}
+  .status-msg.ok{color:#27ae60}
+  .hidden{display:none!important}
+  .mode-tabs{display:flex;gap:6px;margin-bottom:14px}
+  .mode-tabs button{background:#1a1a2e;color:#aaa;border:1px solid #333;font-size:13px;padding:10px}
+  .mode-tabs button.on{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-color:transparent}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>⚔️ АУКЦИОН ГЕРОЕВ ⚔️</h1>
+
+  <div id="menuScreen">
+    <div class="panel">
+      <h2>Режим игры</h2>
+      <div class="mode-tabs">
+        <button class="on" data-mode="online">🌐 Онлайн</button>
+        <button data-mode="hotseat">📱 Локально</button>
+      </div>
+      <div id="onlineMenu">
+        <button class="btn-primary" id="createRoomBtn" style="margin-bottom:8px">🎮 Создать комнату</button>
+        <button class="btn-secondary" id="joinRoomBtn">🚪 Присоединиться по коду</button>
+      </div>
+      <div id="hotseatMenu" class="hidden">
+        <button class="btn-primary" id="hotseatBtn">Начать локальную игру</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="createScreen" class="hidden">
+    <div class="panel">
+      <h2>Настройки игры</h2>
+      <label>Тематики</label>
+      <div class="themes" id="themeBoxes">
+        <label><input type="checkbox" class="theme" value="anime" checked> Аниме</label>
+        <label><input type="checkbox" class="theme" value="cartoon"> Мультики</label>
+        <label><input type="checkbox" class="theme" value="movie"> Фильмы</label>
+        <label><input type="checkbox" class="theme" value="game"> Игры</label>
+        <label><input type="checkbox" class="theme" value="donghua"> Дунхуа</label>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="row">
+        <div>
+          <label>Стартовые деньги</label>
+          <input type="number" id="startMoney" value="1000" step="100" min="100">
+        </div>
+        <div>
+          <label>Персонажей</label>
+          <input type="number" id="charCount" value="10" min="3" max="40">
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <label>Твоё имя</label>
+      <input type="text" id="hostName" value="Хост" maxlength="16">
+    </div>
+    <button class="btn-primary" id="createConfirmBtn">Создать комнату</button>
+    <button class="btn-secondary" id="backFromCreate" style="margin-top:8px">Назад</button>
+  </div>
+
+  <div id="lobbyScreen" class="hidden">
+    <div class="panel">
+      <h2>Код комнаты</h2>
+      <div class="room-code" id="roomCode">-----</div>
+      <p style="font-size:13px;color:#aaa;text-align:center">Передай код друзьям — они вводят его в «Присоединиться»</p>
+    </div>
+    <div class="panel">
+      <h2>Игроки <span id="lobbyCount" style="color:#aaa;font-weight:400;font-size:13px"></span></h2>
+      <ul class="lobby-players" id="lobbyList"></ul>
+      <button class="btn-primary" id="startOnlineBtn" disabled>Начать игру</button>
+      <div class="status-msg" id="lobbyStatus"></div>
+    </div>
+  </div>
+
+  <div id="joinScreen" class="hidden">
+    <div class="panel">
+      <h2>Присоединиться к игре</h2>
+      <label>Код комнаты</label>
+      <input type="text" id="joinCode" placeholder="ABCDE" maxlength="5" style="text-transform:uppercase;letter-spacing:4px;text-align:center;font-size:22px;font-weight:700">
+      <label style="margin-top:10px">Твоё имя</label>
+      <input type="text" id="joinName" value="Игрок" maxlength="16">
+      <div class="btn-row">
+        <button class="btn-primary" id="joinConfirmBtn">Войти</button>
+        <button class="btn-secondary" id="backFromJoin">Назад</button>
+      </div>
+      <div class="status-msg" id="joinStatus"></div>
+    </div>
+  </div>
+
+  <div id="hotseatScreen" class="hidden">
+    <div class="panel">
+      <h2>Настройки (локально)</h2>
+      <label>Тематики</label>
+      <div class="themes" id="themeBoxes2">
+        <label><input type="checkbox" class="theme2" value="anime" checked> Аниме</label>
+        <label><input type="checkbox" class="theme2" value="cartoon"> Мультики</label>
+        <label><input type="checkbox" class="theme2" value="movie"> Фильмы</label>
+        <label><input type="checkbox" class="theme2" value="game"> Игры</label>
+        <label><input type="checkbox" class="theme2" value="donghua"> Дунхуа</label>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="row">
+        <div>
+          <label>Игроков</label>
+          <input type="number" id="hsPlayerCount" value="2" min="2" max="6">
+        </div>
+        <div>
+          <label>Стартовые деньги</label>
+          <input type="number" id="hsStartMoney" value="1000" step="100">
+        </div>
+        <div>
+          <label>Персонажей</label>
+          <input type="number" id="hsCharCount" value="10" min="3" max="40">
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Имена</h2>
+      <div id="hsPlayerNames"></div>
+    </div>
+    <button class="btn-primary" id="hsStartBtn">Начать</button>
+    <button class="btn-secondary" id="backFromHs" style="margin-top:8px">Назад</button>
+  </div>
+
+  <div id="gameScreen" class="hidden">
+    <div class="topbar">
+      <span>Раунд <b id="roundNum">1</b>/<b id="roundTotal">10</b></span>
+      <span id="charRemaining"></span>
+    </div>
+    <div class="char-card" id="charCard"></div>
+    <div class="players-list" id="playersList"></div>
+    <div class="bid-info" id="bidInfo"></div>
+    <div class="panel action-panel" id="actionPanel"></div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div id="resultsScreen" class="hidden">
+    <div class="panel">
+      <div class="winner" id="winnerText"></div>
+      <table class="results-table" id="resultsTable"></table>
+    </div>
+    <button class="btn-primary" onclick="location.reload()">Играть снова</button>
+  </div>
+</div>
+
+<script>const CHARACTERS = [
+  {n:"Сайтама",t:"anime",p:100,d:"One Punch Man"},
+  {n:"Вис",t:"anime",p:99,d:"Dragon Ball Super"},
+  {n:"Бирс",t:"anime",p:98,d:"Dragon Ball Super"},
+  {n:"Гоку",t:"anime",p:97,d:"Dragon Ball"},
+  {n:"Джирен",t:"anime",p:95,d:"Dragon Ball Super"},
+  {n:"Веджита",t:"anime",p:92,d:"Dragon Ball"},
+  {n:"Сатору Годжо",t:"anime",p:92,d:"Магическая битва"},
+  {n:"Кагуя",t:"anime",p:90,d:"Наруто"},
+  {n:"Сукуна",t:"anime",p:90,d:"Магическая битва"},
+  {n:"Фриза",t:"anime",p:88,d:"Dragon Ball"},
+  {n:"Наруто (СО6П)",t:"anime",p:88,d:"Наруто"},
+  {n:"Меруэм",t:"anime",p:88,d:"Hunter x Hunter"},
+  {n:"Саске (СО6П)",t:"anime",p:87,d:"Наруто"},
+  {n:"Ичиго (финал)",t:"anime",p:87,d:"Блич"},
+  {n:"Луффи (G5)",t:"anime",p:86,d:"One Piece"},
+  {n:"Мадара (Джуби)",t:"anime",p:85,d:"Наруто"},
+  {n:"Алукард",t:"anime",p:85,d:"Hellsing"},
+  {n:"Шигараки (финал)",t:"anime",p:85,d:"Моя геройская академия"},
+  {n:"Эсканор (The One)",t:"anime",p:84,d:"Семь смертных грехов"},
+  {n:"Моб (100%)",t:"anime",p:84,d:"Моб Психо 100"},
+  {n:"Айзен (Хогёку)",t:"anime",p:83,d:"Блич"},
+  {n:"Мелиодас",t:"anime",p:82,d:"Семь смертных грехов"},
+  {n:"All Might",t:"anime",p:82,d:"Моя геройская академия"},
+  {n:"Кенпачи",t:"anime",p:80,d:"Блич"},
+  {n:"Музан",t:"anime",p:80,d:"Клинок, рассекающий демонов"},
+  {n:"Деку (финал)",t:"anime",p:80,d:"Моя геройская академия"},
+  {n:"Эрен (Основатель)",t:"anime",p:78,d:"Атака титанов"},
+  {n:"Гон (взрослый)",t:"anime",p:75,d:"Hunter x Hunter"},
+  {n:"Зоро",t:"anime",p:72,d:"One Piece"},
+  {n:"Гриффит",t:"anime",p:72,d:"Берсерк"},
+  {n:"Хисока",t:"anime",p:70,d:"Hunter x Hunter"},
+  {n:"Санджи",t:"anime",p:68,d:"One Piece"},
+  {n:"Гатс",t:"anime",p:68,d:"Берсерк"},
+  {n:"Тодороки",t:"anime",p:68,d:"Моя геройская академия"},
+  {n:"Киллуа",t:"anime",p:65,d:"Hunter x Hunter"},
+  {n:"Бакуго",t:"anime",p:65,d:"Моя геройская академия"},
+  {n:"Юджи Итадори",t:"anime",p:62,d:"Магическая битва"},
+  {n:"Танджиро",t:"anime",p:60,d:"Клинок, рассекающий демонов"},
+  {n:"Рой Мустанг",t:"anime",p:58,d:"Стальной алхимик"},
+  {n:"Леви Аккерман",t:"anime",p:55,d:"Атака титанов"},
+  {n:"Эдвард Элрик",t:"anime",p:55,d:"Стальной алхимик"},
+  {n:"Недзуко",t:"anime",p:55,d:"Клинок, рассекающий демонов"},
+  {n:"Спайк Шпигель",t:"anime",p:55,d:"Cowboy Bebop"},
+  {n:"Микаса",t:"anime",p:50,d:"Атака титанов"},
+  {n:"Лелуш",t:"anime",p:25,d:"Code Geass"},
+  {n:"L",t:"anime",p:15,d:"Тетрадь смерти"},
+  {n:"Рейген",t:"anime",p:15,d:"Моб Психо 100"},
+  {n:"Лайт Ягами",t:"anime",p:12,d:"Тетрадь смерти"},
+  {n:"Бен 10 (Alien X)",t:"cartoon",p:95,d:"Ben 10"},
+  {n:"Багз Банни",t:"cartoon",p:90,d:"Looney Tunes"},
+  {n:"Микки Маус",t:"cartoon",p:88,d:"Disney"},
+  {n:"Попай",t:"cartoon",p:85,d:"Popeye"},
+  {n:"Тимми Тёрнер",t:"cartoon",p:80,d:"Волшебные родители"},
+  {n:"Аанг (Avatar State)",t:"cartoon",p:78,d:"Аватар"},
+  {n:"Самурай Джек",t:"cartoon",p:75,d:"Samurai Jack"},
+  {n:"Стивен Юниверс",t:"cartoon",p:75,d:"Steven Universe"},
+  {n:"Корра",t:"cartoon",p:72,d:"Легенда о Корре"},
+  {n:"Гранат",t:"cartoon",p:72,d:"Steven Universe"},
+  {n:"Джейк",t:"cartoon",p:70,d:"Время приключений"},
+  {n:"Блоссом",t:"cartoon",p:70,d:"Суперкрошки"},
+  {n:"Дэнни Фантом",t:"cartoon",p:65,d:"Danny Phantom"},
+  {n:"Тоф",t:"cartoon",p:62,d:"Аватар"},
+  {n:"Моджо Джоджо",t:"cartoon",p:60,d:"Суперкрошки"},
+  {n:"Катара",t:"cartoon",p:58,d:"Аватар"},
+  {n:"Зуко",t:"cartoon",p:55,d:"Аватар"},
+  {n:"Перри Утконос",t:"cartoon",p:55,d:"Финес и Ферб"},
+  {n:"Финн",t:"cartoon",p:50,d:"Время приключений"},
+  {n:"Джерри",t:"cartoon",p:50,d:"Том и Джерри"},
+  {n:"Ким Поссибл",t:"cartoon",p:45,d:"Ким Пять-с-Плюсом"},
+  {n:"Том",t:"cartoon",p:45,d:"Том и Джерри"},
+  {n:"Шэгги",t:"cartoon",p:40,d:"Скуби-Ду"},
+  {n:"Скуби-Ду",t:"cartoon",p:30,d:"Скуби-Ду"},
+  {n:"Рик Санчез",t:"cartoon",p:25,d:"Рик и Морти"},
+  {n:"Танос (Перчатка)",t:"movie",p:97,d:"Marvel"},
+  {n:"Супермен",t:"movie",p:96,d:"DC"},
+  {n:"Тор",t:"movie",p:92,d:"Marvel"},
+  {n:"Алая Ведьма",t:"movie",p:90,d:"Marvel"},
+  {n:"Халк",t:"movie",p:88,d:"Marvel"},
+  {n:"Флэш",t:"movie",p:88,d:"DC"},
+  {n:"Нео",t:"movie",p:88,d:"Матрица"},
+  {n:"Чудо-женщина",t:"movie",p:85,d:"DC"},
+  {n:"Кратос",t:"movie",p:85,d:"God of War"},
+  {n:"Магнето",t:"movie",p:82,d:"Marvel"},
+  {n:"Йода",t:"movie",p:82,d:"Звёздные войны"},
+  {n:"Гэндальф",t:"movie",p:82,d:"Властелин колец"},
+  {n:"Доктор Стрэндж",t:"movie",p:80,d:"Marvel"},
+  {n:"Люк Скайуокер",t:"movie",p:80,d:"Звёздные войны"},
+  {n:"Палпатин",t:"movie",p:80,d:"Звёздные войны"},
+  {n:"Дамблдор",t:"movie",p:80,d:"Гарри Поттер"},
+  {n:"Дарт Вейдер",t:"movie",p:78,d:"Звёздные войны"},
+  {n:"Волан-де-Морт",t:"movie",p:78,d:"Гарри Поттер"},
+  {n:"Киборг",t:"movie",p:75,d:"DC"},
+  {n:"Аквамен",t:"movie",p:72,d:"DC"},
+  {n:"Росомаха",t:"movie",p:70,d:"Marvel"},
+  {n:"Профессор Икс",t:"movie",p:70,d:"Marvel"},
+  {n:"Терминатор Т-800",t:"movie",p:70,d:"Терминатор"},
+  {n:"Локи",t:"movie",p:68,d:"Marvel"},
+  {n:"Железный человек",t:"movie",p:65,d:"Marvel"},
+  {n:"Мастер Чиф",t:"movie",p:65,d:"Halo"},
+  {n:"Человек-паук",t:"movie",p:62,d:"Marvel"},
+  {n:"Чак Норрис",t:"movie",p:60,d:"Легенда"},
+  {n:"Арагорн",t:"movie",p:58,d:"Властелин колец"},
+  {n:"Капитан Америка",t:"movie",p:55,d:"Marvel"},
+  {n:"Джон Уик",t:"movie",p:55,d:"John Wick"},
+  {n:"Рэмбо",t:"movie",p:55,d:"Рэмбо"},
+  {n:"Гарри Поттер",t:"movie",p:55,d:"Гарри Поттер"},
+  {n:"Леголас",t:"movie",p:55,d:"Властелин колец"},
+  {n:"Джеймс Бонд",t:"movie",p:50,d:"007"},
+  {n:"Индиана Джонс",t:"movie",p:48,d:"Индиана Джонс"},
+  {n:"Бэтмен",t:"movie",p:45,d:"DC"},
+  {n:"Рокки",t:"movie",p:45,d:"Рокки"},
+  {n:"Рипли",t:"movie",p:45,d:"Чужой"},
+  {n:"Джокер",t:"movie",p:20,d:"DC"},
+  {n:"Doom Slayer",t:"game",p:92,d:"DOOM"},
+  {n:"Райдэн",t:"game",p:88,d:"Mortal Kombat"},
+  {n:"Сефирот",t:"game",p:88,d:"Final Fantasy VII"},
+  {n:"Мьюту",t:"game",p:85,d:"Pokémon"},
+  {n:"Шэдоу",t:"game",p:82,d:"Sonic"},
+  {n:"Гэнондорф",t:"game",p:80,d:"The Legend of Zelda"},
+  {n:"Соник",t:"game",p:80,d:"Sonic"},
+  {n:"Акума",t:"game",p:80,d:"Street Fighter"},
+  {n:"Клауд Страйф",t:"game",p:78,d:"Final Fantasy VII"},
+  {n:"Самус Аран",t:"game",p:78,d:"Metroid"},
+  {n:"Линк",t:"game",p:75,d:"The Legend of Zelda"},
+  {n:"Боузер",t:"game",p:75,d:"Mario"},
+  {n:"Скорпион",t:"game",p:72,d:"Mortal Kombat"},
+  {n:"Саб-Зиро",t:"game",p:72,d:"Mortal Kombat"},
+  {n:"Марио",t:"game",p:70,d:"Mario"},
+  {n:"Наклз",t:"game",p:70,d:"Sonic"},
+  {n:"Рю",t:"game",p:70,d:"Street Fighter"},
+  {n:"Чаризард",t:"game",p:70,d:"Pokémon"},
+  {n:"Кен",t:"game",p:68,d:"Street Fighter"},
+  {n:"Геральт",t:"game",p:68,d:"The Witcher"},
+  {n:"Луиджи",t:"game",p:65,d:"Mario"},
+  {n:"Пикачу",t:"game",p:65,d:"Pokémon"},
+  {n:"2B",t:"game",p:65,d:"NieR: Automata"},
+  {n:"Тифа",t:"game",p:62,d:"Final Fantasy VII"},
+  {n:"Чунь-Ли",t:"game",p:60,d:"Street Fighter"},
+  {n:"Эцио",t:"game",p:60,d:"Assassin's Creed"},
+  {n:"Альтаир",t:"game",p:58,d:"Assassin's Creed"},
+  {n:"Зельда",t:"game",p:55,d:"The Legend of Zelda"},
+  {n:"Тревор",t:"game",p:55,d:"GTA V"},
+  {n:"CJ",t:"game",p:40,d:"GTA San Andreas"},
+  {n:"Эш Кетчум",t:"game",p:20,d:"Pokémon"},
+  {n:"Ши Хао",t:"donghua",p:95,d:"Совершенный мир"},
+  {n:"Ло Фэн",t:"donghua",p:92,d:"Пожиратель звёзд"},
+  {n:"Хуа Чэн",t:"donghua",p:88,d:"Благословение небожителей"},
+  {n:"Юнь Чэ",t:"donghua",p:85,d:"Восставший против богов"},
+  {n:"Тан Сан",t:"donghua",p:82,d:"Боевой континент"},
+  {n:"Хань Ли",t:"donghua",p:82,d:"Путешествие к бессмертию"},
+  {n:"Сяо Янь",t:"donghua",p:80,d:"Битва через небеса"},
+  {n:"Се Лянь",t:"donghua",p:78,d:"Благословение небожителей"},
+  {n:"Лань Ванцзи",t:"donghua",p:72,d:"Магистр дьявольского культа"},
+  {n:"Вэй Усянь",t:"donghua",p:70,d:"Магистр дьявольского культа"}
+];
+
+const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
+const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
+
+const state = {mode:null,role:null,myIdx:0,players:[],pool:[],totalRounds:0,roundNumber:0,current:null,currentBid:0,currentBidder:null,activePlayers:[],turnPointer:0,startingMoney:0,firstBidderOffset:0,basePrice:0,phase:'lobby',log:[],peer:null,connections:[],hostConn:null,roomCode:null,poolSource:[],poolSize:0};
+
+const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','gameScreen','resultsScreen'];
+function show(id){screens.forEach(s=>document.getElementById(s).classList.toggle('hidden', s!==id));window.scrollTo(0,0);}
+
+document.querySelectorAll('.mode-tabs button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('.mode-tabs button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const m = b.dataset.mode;
+    document.getElementById('onlineMenu').classList.toggle('hidden', m!=='online');
+    document.getElementById('hotseatMenu').classList.toggle('hidden', m!=='hotseat');
+  };
+});
+document.getElementById('createRoomBtn').onclick = ()=>show('createScreen');
+document.getElementById('joinRoomBtn').onclick = ()=>show('joinScreen');
+document.getElementById('hotseatBtn').onclick = ()=>{renderHotseatNames();show('hotseatScreen');};
+document.getElementById('backFromCreate').onclick = ()=>show('menuScreen');
+document.getElementById('backFromJoin').onclick = ()=>show('menuScreen');
+document.getElementById('backFromHs').onclick = ()=>show('menuScreen');
+
+document.getElementById('createConfirmBtn').onclick = createRoom;
+function genCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';for(let i=0;i<5;i++)c+=chars[Math.floor(Math.random()*chars.length)];return c;}
+
+function createRoom(){
+  const themes = [...document.querySelectorAll('.theme:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
+  const startMoney = Math.max(100, +document.getElementById('startMoney').value||1000);
+  const charCount = Math.max(3, Math.min(40, +document.getElementById('charCount').value||10));
+  const hostName = (document.getElementById('hostName').value.trim()||'Хост').slice(0,16);
+  const pool = CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length < charCount){alert('В тематиках только '+pool.length+' персонажей. Уменьши число или добавь темы.');return;}
+  state.mode='online';state.role='host';state.myIdx=0;state.startingMoney=startMoney;state.totalRounds=charCount;state.poolSource=themes;state.poolSize=charCount;
+  state.players=[{name:hostName,money:startMoney,characters:[],connected:true}];
+  const code = genCode();
+  state.roomCode = code;
+  document.getElementById('roomCode').textContent = code;
+  document.getElementById('lobbyList').innerHTML = '';
+  renderLobby();
+  show('lobbyScreen');
+  setStatus('lobbyStatus','Подключаемся к серверу...');
+  const peer = new Peer('ahero-'+code,{debug:1});
+  state.peer = peer;
+  peer.on('open',()=>{setStatus('lobbyStatus','Комната готова. Ждём игроков...','ok');});
+  peer.on('error',err=>{console.error(err);setStatus('lobbyStatus','Ошибка сети: '+err.type,'err');});
+  peer.on('connection',conn=>{conn.on('open',()=>{state.connections.push(conn);conn.on('data',data=>onHostData(conn,data));conn.on('close',()=>onClientDisconnect(conn));});});
+}
+
+function onClientDisconnect(conn){
+  const idx = state.connections.indexOf(conn);
+  if(idx>=0)state.connections.splice(idx,1);
+  const p = state.players.find(p=>p._conn===conn);
+  if(p){p.connected=false;}
+  broadcastLobby();
+  if(state.phase==='bidding'){
+    const pidx = state.players.indexOf(p);
+    if(pidx>=0 && state.activePlayers.includes(pidx)){
+      const tp = state.turnPointer;
+      if(state.activePlayers[tp]===pidx){
+        state.activePlayers.splice(tp,1);
+        if(state.turnPointer>=state.activePlayers.length)state.turnPointer=0;
+        logLine(p.name+' отключился — авто-пас');
+        hostCheckEnd();
+      }
+    }
+    broadcastState();
+  }
+}
+
+function onHostData(conn,data){
+  if(data.type==='join'){
+    if(state.phase!=='lobby'){conn.send({type:'err',msg:'Игра уже началась'});return;}
+    if(state.players.length>=6){conn.send({type:'err',msg:'Комната заполнена (6)'});return;}
+    const name = (data.name||'Игрок').slice(0,16);
+    let finalName = name;let n=2;
+    while(state.players.some(p=>p.name===finalName)){finalName=name+' '+n;n++;if(n>20)break;}
+    const idx = state.players.length;
+    state.players.push({name:finalName,money:state.startingMoney,characters:[],connected:true,_conn:conn});
+    conn.send({type:'welcome',idx});
+    broadcastLobby();
+    logLine(finalName+' присоединился');
+  }
+  else if(data.type==='bid'){
+    const pidx = state.players.findIndex(p=>p._conn===conn);
+    if(pidx<0)return;if(state.phase!=='bidding')return;
+    if(state.activePlayers[state.turnPointer]!==pidx)return;
+    hostBid(pidx,data.amount);
+  }
+  else if(data.type==='pass'){
+    const pidx = state.players.findIndex(p=>p._conn===conn);
+    if(pidx<0)return;if(state.phase!=='bidding')return;
+    if(state.activePlayers[state.turnPointer]!==pidx)return;
+    hostPass(pidx);
+  }
+}
+
+function broadcastLobby(){
+  const list = document.getElementById('lobbyList');
+  list.innerHTML = '';
+  state.players.forEach(p=>{const li=document.createElement('li');li.textContent=p.name+(p.connected?'':' (отключён)');list.appendChild(li);});
+  document.getElementById('lobbyCount').textContent = '('+state.players.length+'/6)';
+  document.getElementById('startOnlineBtn').disabled = state.players.length<2;
+  if(state.role==='host'){
+    const payload = {type:'lobby',players:state.players.map(p=>({name:p.name}))};
+    state.connections.forEach(c=>{try{c.send(payload);}catch(e){}});
+  }
+}
+
+function setStatus(id,msg,cls){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg'+(cls?' '+cls:'');}
+
+document.getElementById('startOnlineBtn').onclick = ()=>{
+  if(state.players.length<2)return;
+  const themes = state.poolSource;
+  let pool = CHARACTERS.filter(c=>themes.includes(c.t));
+  pool = shuffle(pool).slice(0,state.poolSize);
+  state.pool = pool;
+  state.roundNumber = 0;
+  state.phase = 'bidding';
+  state.firstBidderOffset = 0;
+  state.currentBid = 0;
+  state.currentBidder = null;
+  state.log = [];
+  state.connections.forEach(c=>{try{c.send({type:'start'});}catch(e){}});
+  nextRound();
+};
+
+function nextRound(){
+  if(state.pool.length===0){endGame();return;}
+  state.roundNumber++;
+  state.current = state.pool.shift();
+  state.basePrice = Math.max(10, Math.round(state.current.p*state.startingMoney/200));
+  state.currentBid = 0;
+  state.currentBidder = null;
+  state.activePlayers = state.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
+  if(state.activePlayers.length===0){logLine('Раунд '+state.roundNumber+': никто не может торговаться');hostFinishRound(null);return;}
+  state.turnPointer = state.firstBidderOffset % state.activePlayers.length;
+  state.firstBidderOffset++;
+  logLine('— Раунд '+state.roundNumber+': «'+state.current.n+'» (сила '+state.current.p+', старт '+state.basePrice+')');
+  broadcastState();
+}
+
+function minBid(){
+  if(state.currentBid===0)return state.basePrice;
+  const step = Math.max(10, Math.round(state.currentBid*0.1));
+  return state.currentBid + step;
+}
+
+function hostBid(pidx,amount){
+  const p = state.players[pidx];
+  const min = minBid();
+  amount = Math.round(amount);
+  if(amount<min){state.connections.forEach(c=>{try{c.send({type:'err',msg:'Минимум '+min});}catch(e){}});return;}
+  if(amount>p.money)return;
+  state.currentBid = amount;
+  state.currentBidder = pidx;
+  logLine(p.name+' ставит '+amount);
+  state.turnPointer = (state.turnPointer+1)%state.activePlayers.length;
+  hostCheckEnd();
+}
+
+function hostPass(pidx){
+  const p = state.players[pidx];
+  logLine(p.name+' пасует');
+  state.activePlayers.splice(state.turnPointer,1);
+  if(state.turnPointer>=state.activePlayers.length)state.turnPointer=0;
+  hostCheckEnd();
+}
+
+function hostCheckEnd(){
+  if(state.activePlayers.length===0){hostFinishRound(null);return;}
+  if(state.activePlayers.length===1){
+    const last = state.activePlayers[0];
+    if(state.currentBidder===last){hostFinishRound(last);return;}
+    else{state.turnPointer=0;broadcastState();return;}
+  }
+  broadcastState();
+}
+
+function hostFinishRound(winnerIdx){
+  if(winnerIdx!==null){
+    const p = state.players[winnerIdx];
+    p.money -= state.currentBid;
+    p.characters.push(state.current);
+    logLine('✅ '+p.name+' купил «'+state.current.n+'» за '+state.currentBid);
+  } else {
+    logLine('❌ «'+state.current.n+'» не куплен');
+  }
+  state.phase = 'paused';
+  broadcastState();
+  setTimeout(()=>{
+    state.phase = 'bidding';
+    if(state.pool.length===0)endGame();
+    else nextRound();
+  },1800);
+}
+
+function endGame(){state.phase='results';broadcastState();}
+
+function broadcastState(){
+  if(state.role!=='host')return;
+  const snapshot = buildSnapshot();
+  renderSnapshot(snapshot);
+  state.connections.forEach(c=>{try{c.send({type:'state',view:snapshot});}catch(e){}});
+}
+
+function buildSnapshot(){
+  const publicPlayers = state.players.map(p=>({name:p.name,money:p.money,characters:p.characters,connected:p.connected!==false}));
+  return {phase:state.phase,round:state.roundNumber,totalRounds:state.totalRounds,char:state.current,basePrice:state.basePrice,players:publicPlayers,currentBid:state.currentBid,currentBidder:state.currentBidder,turnIdx:state.activePlayers.length?state.activePlayers[state.turnPointer]:-1,activeIdx:[...state.activePlayers],log:[...state.log],poolLeft:state.pool.length};
+}
+
+document.getElementById('joinConfirmBtn').onclick = joinRoom;
+function joinRoom(){
+  const code = document.getElementById('joinCode').value.trim().toUpperCase();
+  const name = (document.getElementById('joinName').value.trim()||'Игрок').slice(0,16);
+  if(code.length<4){setStatus('joinStatus','Введи код комнаты','err');return;}
+  setStatus('joinStatus','Подключаемся...');
+  state.mode='online';state.role='client';state.roomCode=code;
+  const peer = new Peer({debug:1});
+  state.peer = peer;
+  peer.on('open',()=>{
+    const conn = peer.connect('ahero-'+code,{reliable:true});
+    state.hostConn = conn;
+    conn.on('open',()=>{setStatus('joinStatus','Отправляем данные...');conn.send({type:'join',name});});
+    conn.on('data',data=>onClientData(data));
+    conn.on('close',()=>{setStatus('joinStatus','Хост отключился','err');alert('Хост отключился. Игра завершена.');location.reload();});
+    conn.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка: '+err.message,'err');});
+  });
+  peer.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка сети: '+err.type,'err');});
+}
+
+function onClientData(data){
+  if(data.type==='welcome'){
+    state.myIdx = data.idx;
+    setStatus('joinStatus','Успешно! Ждём старта...','ok');
+    show('lobbyScreen');
+    document.getElementById('roomCode').textContent = state.roomCode;
+    document.getElementById('startOnlineBtn').classList.add('hidden');
+    setStatus('lobbyStatus','Ожидание начала игры хостом...');
+  }
+  else if(data.type==='lobby'){
+    const list = document.getElementById('lobbyList');
+    list.innerHTML = '';
+    data.players.forEach((p,i)=>{const li=document.createElement('li');li.textContent=p.name+(i===state.myIdx?' (ты)':'');list.appendChild(li);});
+    document.getElementById('lobbyCount').textContent = '('+data.players.length+'/6)';
+  }
+  else if(data.type==='start'){show('gameScreen');}
+  else if(data.type==='state'){renderSnapshot(data.view);}
+  else if(data.type==='err'){alert(data.msg);}
+}let lastLogCount = 0;
+
+function renderSnapshot(view){
+  document.getElementById('roundNum').textContent = view.round;
+  document.getElementById('roundTotal').textContent = view.totalRounds;
+  document.getElementById('charRemaining').textContent = 'Осталось: '+view.poolLeft;
+  if(view.phase==='results'){renderResults(view);return;}
+  if(view.phase==='lobby'){return;}
+  show('gameScreen');
+  const c = view.char;
+  if(c){
+    document.getElementById('charCard').innerHTML = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>'+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+'<div class="power-bar"><div class="power-fill" style="width:'+c.p+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 100</div>'+'<div class="base-price">Стартовая цена: '+view.basePrice+' 💰</div>';
+  }
+  const pl = document.getElementById('playersList');
+  pl.innerHTML = '';
+  view.players.forEach((p,i)=>{
+    const isActive = view.activeIdx.includes(i);
+    const isTurn = view.turnIdx===i;
+    const el = document.createElement('div');
+    el.className = 'player-item'+(isActive?' active':' out');
+    el.style.borderColor = isTurn?'#f39c12':(isActive?'rgba(243,156,18,.3)':'transparent');
+    const totalPower = p.characters.reduce((s,x)=>s+x.p,0);
+    const youTag = (state.role==='client'&&i===state.myIdx)?' (ты)':'';
+    el.innerHTML = '<div class="pn">'+(isTurn?'🎯 ':'')+p.name+youTag+'</div>'+'<div class="pm">💰 '+p.money+'</div>'+'<div class="pc">Героев: '+p.characters.length+' · Сила: '+totalPower+'</div>';
+    pl.appendChild(el);
+  });
+  const bi = document.getElementById('bidInfo');
+  if(view.currentBid===0){
+    bi.innerHTML = '<div class="bid-amount">Ставок пока нет</div>'+'<div class="bid-who">Минимум: '+view.basePrice+'</div>';
+  } else {
+    const leaderName = view.players[view.currentBidder]?view.players[view.currentBidder].name:'?';
+    bi.innerHTML = '<div class="bid-amount">'+view.currentBid+' 💰</div>'+'<div class="bid-who">Лидер: <b>'+leaderName+'</b></div>';
+  }
+  renderActionPanel(view);
+  const log = document.getElementById('log');
+  if(view.log.length!==lastLogCount){
+    log.innerHTML = '';
+    view.log.slice(-30).forEach(l=>{const d=document.createElement('div');d.textContent=l;log.appendChild(d);});
+    log.scrollTop = log.scrollHeight;
+    lastLogCount = view.log.length;
+  }
+}
+
+function renderActionPanel(view){
+  const ap = document.getElementById('actionPanel');
+  if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
+  let actorIdx = -1;
+  if(state.role==='host'){
+    if(state.mode==='hotseat'){actorIdx = view.turnIdx;}
+    else{actorIdx = view.turnIdx===0?0:-1;}
+  } else if(state.role==='client'){
+    actorIdx = (view.turnIdx===state.myIdx)?state.myIdx:-1;
+  }
+  if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
+  const currentPlayerName = view.players[view.turnIdx].name;
+  if(actorIdx===-1){
+    ap.innerHTML = '<div class="turn-name">Ход: <b>'+currentPlayerName+'</b></div>'+'<div style="color:#888;font-size:13px;margin-top:6px">Ожидание ставки...</div>';
+    return;
+  }
+  const player = view.players[actorIdx];
+  const min = view.currentBid===0?view.basePrice:view.currentBid+Math.max(10,Math.round(view.currentBid*0.1));
+  const canBid = player.money>=min;
+  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="10" value="'+Math.min(min,player.money)+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  if(canBid){
+    document.getElementById('bidBtn').onclick = ()=>{
+      const v = +document.getElementById('bidInput').value;
+      localBid(actorIdx,v);
+    };
+  }
+  document.getElementById('passBtn').onclick = ()=>localPass(actorIdx);
+}
+
+function localBid(actorIdx,amount){
+  if(state.role==='client'){state.hostConn.send({type:'bid',amount});return;}
+  if(state.mode==='hotseat'){hotseatBid(actorIdx,amount);return;}
+  if(actorIdx!==0)return;
+  hostBid(actorIdx,amount);
+}
+
+function localPass(actorIdx){
+  if(state.role==='client'){state.hostConn.send({type:'pass'});return;}
+  if(state.mode==='hotseat'){hotseatPass(actorIdx);return;}
+  if(actorIdx!==0)return;
+  hostPass(actorIdx);
+}
+
+function hotseatBid(pidx,amount){
+  const p = state.players[pidx];
+  const min = minBid();
+  amount = Math.round(amount);
+  if(amount<min)return;
+  if(amount>p.money)return;
+  state.currentBid = amount;
+  state.currentBidder = pidx;
+  logLine(p.name+' ставит '+amount);
+  state.turnPointer = (state.turnPointer+1)%state.activePlayers.length;
+  hostCheckEnd();
+}
+
+function hotseatPass(pidx){
+  const p = state.players[pidx];
+  logLine(p.name+' пасует');
+  state.activePlayers.splice(state.turnPointer,1);
+  if(state.turnPointer>=state.activePlayers.length)state.turnPointer=0;
+  hostCheckEnd();
+}
+
+const hsNames = document.getElementById('hsPlayerNames');
+document.getElementById('hsPlayerCount').addEventListener('input',renderHotseatNames);
+function renderHotseatNames(){
+  const n = Math.max(2,Math.min(6,+document.getElementById('hsPlayerCount').value||2));
+  const old = [...hsNames.querySelectorAll('input')].map(i=>i.value);
+  hsNames.innerHTML = '';
+  for(let i=0;i<n;i++){
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.value = old[i]||('Игрок '+(i+1));
+    inp.maxLength = 16;
+    hsNames.appendChild(inp);
+  }
+}
+renderHotseatNames();
+
+document.getElementById('hsStartBtn').onclick = ()=>{
+  const themes = [...document.querySelectorAll('.theme2:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
+  const startMoney = Math.max(100,+document.getElementById('hsStartMoney').value||1000);
+  const charCount = Math.max(3,Math.min(40,+document.getElementById('hsCharCount').value||10));
+  const names = [...hsNames.querySelectorAll('input')].map(i=>i.value.trim()||'Игрок');
+  let pool = CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length<charCount){alert('В тематиках только '+pool.length+' персонажей. Уменьши число.');return;}
+  pool = shuffle(pool).slice(0,charCount);
+  state.mode = 'hotseat';
+  state.role = 'host';
+  state.myIdx = -1;
+  state.players = names.map(n=>({name:n,money:startMoney,characters:[],connected:true}));
+  state.pool = pool;
+  state.totalRounds = charCount;
+  state.roundNumber = 0;
+  state.startingMoney = startMoney;
+  state.firstBidderOffset = 0;
+  state.phase = 'bidding';
+  state.log = [];
+  lastLogCount = 0;
+  show('gameScreen');
+  nextRound();
+};
+
+function renderResults(view){
+  show('resultsScreen');
+  const sorted = [...view.players].map((p)=>({name:p.name,money:p.money,characters:p.characters,totalPower:p.characters.reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
+  const w = sorted[0];
+  document.getElementById('winnerText').textContent = '🏆 '+w.name+' — сила '+w.totalPower+'!';
+  const tbl = document.getElementById('resultsTable');
+  tbl.innerHTML = '<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
+  sorted.forEach((p,i)=>{
+    const chars = p.characters.slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
+    tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
+  });
+}
+
+function logLine(msg){state.log.push(msg);if(state.log.length>100)state.log.shift();}
+
+function shuffle(a){
+  a = [...a];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+show('menuScreen');
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').then(()=>console.log('SW ok')).catch(e=>console.log('SW:',e));
+  });
+}
+</script>
+</body>
+</html>
