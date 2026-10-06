@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#1a1a2e">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Аукцион Героев</title>
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{overscroll-behavior:none}
@@ -80,7 +81,6 @@
 <body>
 <div class="container">
   <h1>⚔️ АУКЦИОН ГЕРОЕВ ⚔️</h1>
-
   <div id="menuScreen">
     <div class="panel">
       <h2>Режим игры</h2>
@@ -97,7 +97,6 @@
       </div>
     </div>
   </div>
-
   <div id="createScreen" class="hidden">
     <div class="panel">
       <h2>Настройки игры</h2>
@@ -112,14 +111,8 @@
     </div>
     <div class="panel">
       <div class="row">
-        <div>
-          <label>Стартовые деньги</label>
-          <input type="number" id="startMoney" value="1000" step="100" min="100">
-        </div>
-        <div>
-          <label>Персонажей</label>
-          <input type="number" id="charCount" value="10" min="3" max="40">
-        </div>
+        <div><label>Стартовые деньги</label><input type="number" id="startMoney" value="1000" step="100" min="100"></div>
+        <div><label>Персонажей</label><input type="number" id="charCount" value="10" min="3" max="40"></div>
       </div>
     </div>
     <div class="panel">
@@ -129,12 +122,11 @@
     <button class="btn-primary" id="createConfirmBtn">Создать комнату</button>
     <button class="btn-secondary" id="backFromCreate" style="margin-top:8px">Назад</button>
   </div>
-
   <div id="lobbyScreen" class="hidden">
     <div class="panel">
       <h2>Код комнаты</h2>
       <div class="room-code" id="roomCode">-----</div>
-      <p style="font-size:13px;color:#aaa;text-align:center">Передай код друзьям — они вводят его в «Присоединиться»</p>
+      <p style="font-size:13px;color:#aaa;text-align:center">Передай код друзьям</p>
     </div>
     <div class="panel">
       <h2>Игроки <span id="lobbyCount" style="color:#aaa;font-weight:400;font-size:13px"></span></h2>
@@ -143,7 +135,6 @@
       <div class="status-msg" id="lobbyStatus"></div>
     </div>
   </div>
-
   <div id="joinScreen" class="hidden">
     <div class="panel">
       <h2>Присоединиться к игре</h2>
@@ -158,7 +149,6 @@
       <div class="status-msg" id="joinStatus"></div>
     </div>
   </div>
-
   <div id="hotseatScreen" class="hidden">
     <div class="panel">
       <h2>Настройки (локально)</h2>
@@ -173,18 +163,9 @@
     </div>
     <div class="panel">
       <div class="row">
-        <div>
-          <label>Игроков</label>
-          <input type="number" id="hsPlayerCount" value="2" min="2" max="6">
-        </div>
-        <div>
-          <label>Стартовые деньги</label>
-          <input type="number" id="hsStartMoney" value="1000" step="100">
-        </div>
-        <div>
-          <label>Персонажей</label>
-          <input type="number" id="hsCharCount" value="10" min="3" max="40">
-        </div>
+        <div><label>Игроков</label><input type="number" id="hsPlayerCount" value="2" min="2" max="6"></div>
+        <div><label>Стартовые деньги</label><input type="number" id="hsStartMoney" value="1000" step="100"></div>
+        <div><label>Персонажей</label><input type="number" id="hsCharCount" value="10" min="3" max="40"></div>
       </div>
     </div>
     <div class="panel">
@@ -194,7 +175,6 @@
     <button class="btn-primary" id="hsStartBtn">Начать</button>
     <button class="btn-secondary" id="backFromHs" style="margin-top:8px">Назад</button>
   </div>
-
   <div id="gameScreen" class="hidden">
     <div class="topbar">
       <span>Раунд <b id="roundNum">1</b>/<b id="roundTotal">10</b></span>
@@ -206,7 +186,6 @@
     <div class="panel action-panel" id="actionPanel"></div>
     <div class="log" id="log"></div>
   </div>
-
   <div id="resultsScreen" class="hidden">
     <div class="panel">
       <div class="winner" id="winnerText"></div>
@@ -215,8 +194,19 @@
     <button class="btn-primary" onclick="location.reload()">Играть снова</button>
   </div>
 </div>
+<script>const firebaseConfig = {
+  apiKey: "AIzaSyCvxE90O88g_CIER2p6u66Ai80uAXzd48Y",
+  authDomain: "auction-heroes-game.firebaseapp.com",
+  databaseURL: "https://auction-heroes-game-default-rtdb.firebaseio.com",
+  projectId: "auction-heroes-game",
+  storageBucket: "auction-heroes-game.firebasestorage.app",
+  messagingSenderId: "379468915340",
+  appId: "1:379468915340:web:dbda45048541d96e7451a9"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-<script>const CHARACTERS = [
+const CHARACTERS = [
   {n:"Сайтама",t:"anime",p:100,d:"One Punch Man"},
   {n:"Вис",t:"anime",p:99,d:"Dragon Ball Super"},
   {n:"Бирс",t:"anime",p:98,d:"Dragon Ball Super"},
@@ -375,9 +365,17 @@
 
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
-const PEER_OPTS = {host:'peerjs.92k.de',port:443,path:'/',secure:true,debug:1,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:global.stun.twilio.com:3478'}]}};
 
-const state = {mode:null,role:null,myIdx:0,players:[],pool:[],totalRounds:0,roundNumber:0,current:null,currentBid:0,currentBidder:null,activePlayers:[],turnPointer:0,startingMoney:0,firstBidderOffset:0,basePrice:0,phase:'lobby',log:[],peer:null,connections:[],hostConn:null,roomCode:null,poolSource:[],poolSize:0};
+const state = {
+  mode:null, role:null, myIdx:0,
+  roomCode:null, playerId:null,
+  roomRef:null, roomListener:null,
+  players:[], pool:[], totalRounds:0, roundNumber:0,
+  current:null, currentBid:0, currentBidder:null,
+  activePlayers:[], turnPointer:0, startingMoney:0,
+  firstBidderOffset:0, basePrice:0, phase:'lobby',
+  log:[], poolSource:[], poolSize:0
+};
 
 const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','gameScreen','resultsScreen'];
 function show(id){screens.forEach(s=>document.getElementById(s).classList.toggle('hidden', s!==id));window.scrollTo(0,0);}
@@ -399,7 +397,8 @@ document.getElementById('backFromJoin').onclick = ()=>show('menuScreen');
 document.getElementById('backFromHs').onclick = ()=>show('menuScreen');
 
 document.getElementById('createConfirmBtn').onclick = createRoom;
-function genCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';for(let i=0;i<5;i++)c+=chars[Math.floor(Math.random()*chars.length)];return c;}
+function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+function genId(){return Math.random().toString(36).slice(2,10);}
 
 function createRoom(){
   const themes = [...document.querySelectorAll('.theme:checked')].map(el=>el.value);
@@ -408,224 +407,196 @@ function createRoom(){
   const charCount = Math.max(3, Math.min(40, +document.getElementById('charCount').value||10));
   const hostName = (document.getElementById('hostName').value.trim()||'Хост').slice(0,16);
   const pool = CHARACTERS.filter(c=>themes.includes(c.t));
-  if(pool.length < charCount){alert('В тематиках только '+pool.length+' персонажей. Уменьши число или добавь темы.');return;}
-  state.mode='online';state.role='host';state.myIdx=0;state.startingMoney=startMoney;state.totalRounds=charCount;state.poolSource=themes;state.poolSize=charCount;
-  state.players=[{name:hostName,money:startMoney,characters:[],connected:true}];
+  if(pool.length < charCount){alert('В тематиках только '+pool.length+' персонажей.');return;}
+
+  state.mode='online'; state.role='host'; state.myIdx=0;
+  state.startingMoney=startMoney; state.totalRounds=charCount;
+  state.poolSource=themes; state.poolSize=charCount;
+  state.playerId = genId();
+
   const code = genCode();
   state.roomCode = code;
-  document.getElementById('roomCode').textContent = code;
-  document.getElementById('lobbyList').innerHTML = '';
-  renderLobby();
-  show('lobbyScreen');
-  setStatus('lobbyStatus','Подключаемся к серверу...');
-  const peer = new Peer('ahero-'+code, PEER_OPTS);
-  state.peer = peer;
-  peer.on('open',()=>{setStatus('lobbyStatus','Комната готова. Ждём игроков...','ok');});
-  peer.on('error',err=>{console.error(err);setStatus('lobbyStatus','Ошибка: '+err.type,'err');});
-  peer.on('connection',conn=>{conn.on('open',()=>{state.connections.push(conn);conn.on('data',data=>onHostData(conn,data));conn.on('close',()=>onClientDisconnect(conn));});});
+
+  const room = {
+    code, hostId: state.playerId, phase: 'lobby',
+    totalRounds: charCount, startingMoney: startMoney,
+    poolSource: themes, poolSize: charCount,
+    roundNumber: 0, current: null, basePrice: 0,
+    currentBid: 0, currentBidder: null, turnPointer: 0, firstBidderOffset: 0,
+    activePlayers: [], log: [], pool: [],
+    players: { [state.playerId]: { name: hostName, money: startMoney, characters: [], order: 0 } }
+  };
+
+  state.roomRef = db.ref('rooms/'+code);
+  state.roomRef.set(room).then(()=>{
+    document.getElementById('roomCode').textContent = code;
+    show('lobbyScreen');
+    setStatus('lobbyStatus','Комната создана. Ждём игроков...','ok');
+    listenToRoom();
+  }).catch(err=>{
+    setStatus('lobbyStatus','Ошибка: '+err.message,'err');
+  });
 }
 
-function onClientDisconnect(conn){
-  const idx = state.connections.indexOf(conn);
-  if(idx>=0)state.connections.splice(idx,1);
-  const p = state.players.find(p=>p._conn===conn);
-  if(p){p.connected=false;}
-  broadcastLobby();
-  if(state.phase==='bidding'){
-    const pidx = state.players.indexOf(p);
-    if(pidx>=0 && state.activePlayers.includes(pidx)){
-      const tp = state.turnPointer;
-      if(state.activePlayers[tp]===pidx){
-        state.activePlayers.splice(tp,1);
-        if(state.turnPointer>=state.activePlayers.length)state.turnPointer=0;
-        logLine(p.name+' отключился — авто-пас');
-        hostCheckEnd();
-      }
-    }
-    broadcastState();
-  }
+function listenToRoom(){
+  if(state.roomListener && state.roomRef) state.roomRef.off('value', state.roomListener);
+  state.roomListener = state.roomRef.on('value', snapshot => {
+    const data = snapshot.val();
+    if(!data) return;
+    handleRoomUpdate(data);
+  }, err => {
+    console.error(err);
+  });
 }
 
-function onHostData(conn,data){
-  if(data.type==='join'){
-    if(state.phase!=='lobby'){conn.send({type:'err',msg:'Игра уже началась'});return;}
-    if(state.players.length>=6){conn.send({type:'err',msg:'Комната заполнена (6)'});return;}
-    const name = (data.name||'Игрок').slice(0,16);
-    let finalName = name;let n=2;
-    while(state.players.some(p=>p.name===finalName)){finalName=name+' '+n;n++;if(n>20)break;}
-    const idx = state.players.length;
-    state.players.push({name:finalName,money:state.startingMoney,characters:[],connected:true,_conn:conn});
-    conn.send({type:'welcome',idx});
-    broadcastLobby();
-    logLine(finalName+' присоединился');
-  }
-  else if(data.type==='bid'){
-    const pidx = state.players.findIndex(p=>p._conn===conn);
-    if(pidx<0)return;if(state.phase!=='bidding')return;
-    if(state.activePlayers[state.turnPointer]!==pidx)return;
-    hostBid(pidx,data.amount);
-  }
-  else if(data.type==='pass'){
-    const pidx = state.players.findIndex(p=>p._conn===conn);
-    if(pidx<0)return;if(state.phase!=='bidding')return;
-    if(state.activePlayers[state.turnPointer]!==pidx)return;
-    hostPass(pidx);
-  }
-}
+function handleRoomUpdate(room){
+  const players = room.players || {};
+  const playerList = Object.keys(players)
+    .map(k=>({id:k, ...players[k]}))
+    .sort((a,b)=>(a.order||0)-(b.order||0));
 
-function broadcastLobby(){
-  const list = document.getElementById('lobbyList');
-  list.innerHTML = '';
-  state.players.forEach(p=>{const li=document.createElement('li');li.textContent=p.name+(p.connected?'':' (отключён)');list.appendChild(li);});
-  document.getElementById('lobbyCount').textContent = '('+state.players.length+'/6)';
-  document.getElementById('startOnlineBtn').disabled = state.players.length<2;
-  if(state.role==='host'){
-    const payload = {type:'lobby',players:state.players.map(p=>({name:p.name}))};
-    state.connections.forEach(c=>{try{c.send(payload);}catch(e){}});
+  state.players = playerList;
+  state.phase = room.phase;
+  state.roundNumber = room.roundNumber || 0;
+  state.totalRounds = room.totalRounds;
+  state.startingMoney = room.startingMoney;
+  state.current = room.current;
+  state.basePrice = room.basePrice || 0;
+  state.currentBid = room.currentBid || 0;
+  state.currentBidder = room.currentBidder;
+  state.turnPointer = room.turnPointer || 0;
+  state.activePlayers = room.activePlayers || [];
+  state.log = room.log || [];
+  state.pool = room.pool || [];
+
+  if(state.role === 'host' && state.myIdx === 0){
+    const ids = playerList.map(p=>p.id);
+    state.myIdx = ids.indexOf(state.playerId);
+  } else if(state.role === 'client'){
+    const ids = playerList.map(p=>p.id);
+    state.myIdx = ids.indexOf(state.playerId);
+  }
+
+  if(room.phase === 'lobby'){
+    show('lobbyScreen');
+    document.getElementById('roomCode').textContent = room.code;
+    const list = document.getElementById('lobbyList');
+    list.innerHTML = '';
+    playerList.forEach(p=>{
+      const li = document.createElement('li');
+      li.textContent = p.name + (p.id === state.playerId ? ' (ты)' : '');
+      list.appendChild(li);
+    });
+    document.getElementById('lobbyCount').textContent = '('+playerList.length+'/6)';
+    const startBtn = document.getElementById('startOnlineBtn');
+    if(state.role === 'host') startBtn.disabled = playerList.length < 2;
+    else { startBtn.style.display = 'none'; setStatus('lobbyStatus','Ожидание начала игры хостом...'); }
+  } else if(room.phase === 'playing' || room.phase === 'paused' || room.phase === 'results'){
+    show('gameScreen');
+    renderFromRoom(room, playerList);
   }
 }
 
 function setStatus(id,msg,cls){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg'+(cls?' '+cls:'');}
 
-document.getElementById('startOnlineBtn').onclick = ()=>{
-  if(state.players.length<2)return;
-  const themes = state.poolSource;
-  let pool = CHARACTERS.filter(c=>themes.includes(c.t));
-  pool = shuffle(pool).slice(0,state.poolSize);
-  state.pool = pool;
-  state.roundNumber = 0;
-  state.phase = 'bidding';
-  state.firstBidderOffset = 0;
-  state.currentBid = 0;
-  state.currentBidder = null;
-  state.log = [];
-  state.connections.forEach(c=>{try{c.send({type:'start'});}catch(e){}});
-  nextRound();
-};
-
-function nextRound(){
-  if(state.pool.length===0){endGame();return;}
-  state.roundNumber++;
-  state.current = state.pool.shift();
-  state.basePrice = Math.max(10, Math.round(state.current.p*state.startingMoney/200));
-  state.currentBid = 0;
-  state.currentBidder = null;
-  state.activePlayers = state.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
-  if(state.activePlayers.length===0){logLine('Раунд '+state.roundNumber+': никто не может торговаться');hostFinishRound(null);return;}
-  state.turnPointer = state.firstBidderOffset % state.activePlayers.length;
-  state.firstBidderOffset++;
-  logLine('— Раунд '+state.roundNumber+': «'+state.current.n+'» (сила '+state.current.p+', старт '+state.basePrice+')');
-  broadcastState();
-}
-
-function minBid(){
-  if(state.currentBid===0)return state.basePrice;
-  const step = Math.max(10, Math.round(state.currentBid*0.1));
-  return state.currentBid + step;
-}
-
-function hostBid(pidx,amount){
-  const p = state.players[pidx];
-  const min = minBid();
-  amount = Math.round(amount);
-  if(amount<min){state.connections.forEach(c=>{try{c.send({type:'err',msg:'Минимум '+min});}catch(e){}});return;}
-  if(amount>p.money)return;
-  state.currentBid = amount;
-  state.currentBidder = pidx;
-  logLine(p.name+' ставит '+amount);
-  state.turnPointer = (state.turnPointer+1)%state.activePlayers.length;
-  hostCheckEnd();
-}
-
-function hostPass(pidx){
-  const p = state.players[pidx];
-  logLine(p.name+' пасует');
-  state.activePlayers.splice(state.turnPointer,1);
-  if(state.turnPointer>=state.activePlayers.length)state.turnPointer=0;
-  hostCheckEnd();
-}
-
-function hostCheckEnd(){
-  if(state.activePlayers.length===0){hostFinishRound(null);return;}
-  if(state.activePlayers.length===1){
-    const last = state.activePlayers[0];
-    if(state.currentBidder===last){hostFinishRound(last);return;}
-    else{state.turnPointer=0;broadcastState();return;}
-  }
-  broadcastState();
-}
-
-function hostFinishRound(winnerIdx){
-  if(winnerIdx!==null){
-    const p = state.players[winnerIdx];
-    p.money -= state.currentBid;
-    p.characters.push(state.current);
-    logLine('✅ '+p.name+' купил «'+state.current.n+'» за '+state.currentBid);
-  } else {
-    logLine('❌ «'+state.current.n+'» не куплен');
-  }
-  state.phase = 'paused';
-  broadcastState();
-  setTimeout(()=>{
-    state.phase = 'bidding';
-    if(state.pool.length===0)endGame();
-    else nextRound();
-  },1800);
-}
-
-function endGame(){state.phase='results';broadcastState();}
-
-function broadcastState(){
-  if(state.role!=='host')return;
-  const snapshot = buildSnapshot();
-  renderSnapshot(snapshot);
-  state.connections.forEach(c=>{try{c.send({type:'state',view:snapshot});}catch(e){}});
-}
-
-function buildSnapshot(){
-  const publicPlayers = state.players.map(p=>({name:p.name,money:p.money,characters:p.characters,connected:p.connected!==false}));
-  return {phase:state.phase,round:state.roundNumber,totalRounds:state.totalRounds,char:state.current,basePrice:state.basePrice,players:publicPlayers,currentBid:state.currentBid,currentBidder:state.currentBidder,turnIdx:state.activePlayers.length?state.activePlayers[state.turnPointer]:-1,activeIdx:[...state.activePlayers],log:[...state.log],poolLeft:state.pool.length};
-}
-
 document.getElementById('joinConfirmBtn').onclick = joinRoom;
 function joinRoom(){
   const code = document.getElementById('joinCode').value.trim().toUpperCase();
   const name = (document.getElementById('joinName').value.trim()||'Игрок').slice(0,16);
-  if(code.length<4){setStatus('joinStatus','Введи код комнаты','err');return;}
+  if(code.length < 4){setStatus('joinStatus','Введи код комнаты','err');return;}
   setStatus('joinStatus','Подключаемся...');
-  state.mode='online';state.role='client';state.roomCode=code;
-  const peer = new Peer(PEER_OPTS);
-  state.peer = peer;
-  peer.on('open',()=>{
-    const conn = peer.connect('ahero-'+code,{reliable:true});
-    state.hostConn = conn;
-    conn.on('open',()=>{setStatus('joinStatus','Отправляем данные...');conn.send({type:'join',name});});
-    conn.on('data',data=>onClientData(data));
-    conn.on('close',()=>{setStatus('joinStatus','Хост отключился','err');alert('Хост отключился. Игра завершена.');location.reload();});
-    conn.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка: '+err.message,'err');});
+
+  state.mode='online'; state.role='client'; state.roomCode=code;
+  state.playerId = genId();
+
+  state.roomRef = db.ref('rooms/'+code);
+  state.roomRef.once('value').then(snap=>{
+    const room = snap.val();
+    if(!room){setStatus('joinStatus','Комната не найдена','err');return;}
+    if(room.phase !== 'lobby'){setStatus('joinStatus','Игра уже началась','err');return;}
+    const cnt = Object.keys(room.players||{}).length;
+    if(cnt >= 6){setStatus('joinStatus','Комната заполнена (6)','err');return;}
+    let finalName = name; let n=2;
+    while(Object.values(room.players||{}).some(p=>p.name===finalName)){finalName = name+' '+n; n++; if(n>20)break;}
+    state.roomRef.child('players/'+state.playerId).set({name:finalName, money:room.startingMoney, characters:[], order: cnt});
+    setStatus('joinStatus','Успешно! Ждём старта...','ok');
+    listenToRoom();
+  }).catch(err=>{
+    setStatus('joinStatus','Ошибка: '+err.message,'err');
   });
-  peer.on('error',err=>{console.error(err);setStatus('joinStatus','Ошибка: '+err.type,'err');});
 }
 
-function onClientData(data){
-  if(data.type==='welcome'){
-    state.myIdx = data.idx;
-    setStatus('joinStatus','Успешно! Ждём старта...','ok');
-    show('lobbyScreen');
-    document.getElementById('roomCode').textContent = state.roomCode;
-    document.getElementById('startOnlineBtn').classList.add('hidden');
-    setStatus('lobbyStatus','Ожидание начала игры хостом...');
-  }
-  else if(data.type==='lobby'){
-    const list = document.getElementById('lobbyList');
-    list.innerHTML = '';
-    data.players.forEach((p,i)=>{const li=document.createElement('li');li.textContent=p.name+(i===state.myIdx?' (ты)':'');list.appendChild(li);});
-    document.getElementById('lobbyCount').textContent = '('+data.players.length+'/6)';
-  }
-  else if(data.type==='start'){show('gameScreen');}
-  else if(data.type==='state'){renderSnapshot(data.view);}
-  else if(data.type==='err'){alert(data.msg);}
-}let lastLogCount = 0;
+document.getElementById('startOnlineBtn').onclick = startOnlineGame;
+
+function startOnlineGame(){
+  if(state.role !== 'host') return;
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    const players = data.players || {};
+    if(Object.keys(players).length < 2) return;
+    let pool = CHARACTERS.filter(c=>data.poolSource.includes(c.t));
+    pool = shuffle(pool).slice(0, data.poolSize);
+    room.child('pool').set(pool);
+    room.child('phase').set('playing');
+    room.child('roundNumber').set(0);
+    room.child('firstBidderOffset').set(0);
+    room.child('log').set([]);
+    hostNextRound();
+  });
+}
+
+function hostNextRound(){
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    const pool = data.pool || [];
+    if(pool.length === 0){ room.child('phase').set('results'); return; }
+    const next = pool[0];
+    const rest = pool.slice(1);
+    const roundNumber = (data.roundNumber || 0) + 1;
+    const basePrice = Math.max(10, Math.round(next.p * data.startingMoney / 200));
+
+    const players = data.players || {};
+    const playerIds = Object.keys(players);
+    const activeIdx = [];
+    playerIds.forEach((pid, idx) => { if(players[pid].money > 0) activeIdx.push(idx); });
+
+    const updates = {
+      pool: rest, current: next, basePrice,
+      roundNumber, currentBid: 0, currentBidder: null,
+      activePlayers: activeIdx
+    };
+    const fo = (data.firstBidderOffset || 0);
+    updates.turnPointer = activeIdx.length ? (fo % activeIdx.length) : 0;
+    updates.firstBidderOffset = fo + 1;
+    const log = (data.log || []);
+    log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+', старт '+basePrice+')');
+    updates.log = log.slice(-100);
+    room.update(updates);
+  });
+}
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}function renderFromRoom(room, playerList){
+  const ids = playerList.map(p=>p.id);
+  const view = {
+    phase: room.phase,
+    round: room.roundNumber || 0,
+    totalRounds: room.totalRounds,
+    char: room.current,
+    basePrice: room.basePrice || 0,
+    players: playerList.map(p=>({name:p.name, money:p.money, characters:p.characters || [], connected:true})),
+    currentBid: room.currentBid || 0,
+    currentBidder: room.currentBidder,
+    turnIdx: (room.activePlayers && room.activePlayers.length) ? room.activePlayers[room.turnPointer] : -1,
+    activeIdx: room.activePlayers || [],
+    log: room.log || [],
+    poolLeft: (room.pool || []).length
+  };
+  renderSnapshot(view);
+}
+
+let lastLogCount = 0;
 
 function renderSnapshot(view){
   document.getElementById('roundNum').textContent = view.round;
@@ -646,9 +617,9 @@ function renderSnapshot(view){
     const el = document.createElement('div');
     el.className = 'player-item'+(isActive?' active':' out');
     el.style.borderColor = isTurn?'#f39c12':(isActive?'rgba(243,156,18,.3)':'transparent');
-    const totalPower = p.characters.reduce((s,x)=>s+x.p,0);
-    const youTag = (state.role==='client'&&i===state.myIdx)?' (ты)':'';
-    el.innerHTML = '<div class="pn">'+(isTurn?'🎯 ':'')+p.name+youTag+'</div>'+'<div class="pm">💰 '+p.money+'</div>'+'<div class="pc">Героев: '+p.characters.length+' · Сила: '+totalPower+'</div>';
+    const totalPower = (p.characters||[]).reduce((s,x)=>s+x.p,0);
+    const youTag = (i===state.myIdx)?' (ты)':'';
+    el.innerHTML = '<div class="pn">'+(isTurn?'🎯 ':'')+p.name+youTag+'</div>'+'<div class="pm">💰 '+p.money+'</div>'+'<div class="pc">Героев: '+(p.characters||[]).length+' · Сила: '+totalPower+'</div>';
     pl.appendChild(el);
   });
   const bi = document.getElementById('bidInfo');
@@ -671,66 +642,172 @@ function renderSnapshot(view){
 function renderActionPanel(view){
   const ap = document.getElementById('actionPanel');
   if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
-  let actorIdx = -1;
-  if(state.role==='host'){
-    if(state.mode==='hotseat'){actorIdx = view.turnIdx;}
-    else{actorIdx = view.turnIdx===0?0:-1;}
-  } else if(state.role==='client'){
-    actorIdx = (view.turnIdx===state.myIdx)?state.myIdx:-1;
-  }
   if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
   const currentPlayerName = view.players[view.turnIdx].name;
-  if(actorIdx===-1){
+  const isMyTurn = (state.myIdx === view.turnIdx);
+
+  if(!isMyTurn){
     ap.innerHTML = '<div class="turn-name">Ход: <b>'+currentPlayerName+'</b></div>'+'<div style="color:#888;font-size:13px;margin-top:6px">Ожидание ставки...</div>';
     return;
   }
-  const player = view.players[actorIdx];
+  const player = view.players[state.myIdx];
   const min = view.currentBid===0?view.basePrice:view.currentBid+Math.max(10,Math.round(view.currentBid*0.1));
   const canBid = player.money>=min;
-  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="10" value="'+Math.min(min,player.money)+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="10" value="'+Math.min(min,player.money)+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
   if(canBid){
-    document.getElementById('bidBtn').onclick = ()=>{
-      const v = +document.getElementById('bidInput').value;
-      localBid(actorIdx,v);
-    };
+    document.getElementById('bidBtn').onclick = ()=>{ const v=+document.getElementById('bidInput').value; submitBid(v); };
   }
-  document.getElementById('passBtn').onclick = ()=>localPass(actorIdx);
+  document.getElementById('passBtn').onclick = submitPass;
 }
 
-function localBid(actorIdx,amount){
-  if(state.role==='client'){state.hostConn.send({type:'bid',amount});return;}
-  if(state.mode==='hotseat'){hotseatBid(actorIdx,amount);return;}
-  if(actorIdx!==0)return;
-  hostBid(actorIdx,amount);
+function submitBid(amount){
+  if(state.role === 'host') hostHandleBid(amount);
+  else clientHandleBid(amount);
+}
+function submitPass(){
+  if(state.role === 'host') hostHandlePass();
+  else clientHandlePass();
 }
 
-function localPass(actorIdx){
-  if(state.role==='client'){state.hostConn.send({type:'pass'});return;}
-  if(state.mode==='hotseat'){hotseatPass(actorIdx);return;}
-  if(actorIdx!==0)return;
-  hostPass(actorIdx);
+function hostHandleBid(amount){
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    const players = data.players || {};
+    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid = ids[data.activePlayers[data.turnPointer]];
+    if(turnPid !== state.playerId) return;
+    const min = data.currentBid===0 ? data.basePrice : data.currentBid + Math.max(10, Math.round(data.currentBid*0.1));
+    amount = Math.round(amount);
+    if(amount < min) return;
+    if(amount > players[state.playerId].money) return;
+    const log = (data.log||[]);
+    log.push(players[state.playerId].name+' ставит '+amount);
+    const tp = (data.turnPointer+1) % data.activePlayers.length;
+    const updates = { currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) };
+    room.update(updates).then(()=>checkEnd());
+  });
 }
 
-function hotseatBid(pidx,amount){
-  const p = state.players[pidx];
-  const min = minBid();
-  amount = Math.round(amount);
-  if(amount<min)return;
-  if(amount>p.money)return;
-  state.currentBid = amount;
-  state.currentBidder = pidx;
-  logLine(p.name+' ставит '+amount);
-  state.turnPointer = (state.turnPointer+1)%state.activePlayers.length;
-  hostCheckEnd();
+function hostHandlePass(){
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    const players = data.players || {};
+    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid = ids[data.activePlayers[data.turnPointer]];
+    if(turnPid !== state.playerId) return;
+    const log = (data.log||[]);
+    log.push(players[state.playerId].name+' пасует');
+    const newActive = data.activePlayers.slice();
+    newActive.splice(data.turnPointer, 1);
+    const tp = newActive.length ? (data.turnPointer % newActive.length) : 0;
+    room.update({ activePlayers: newActive, turnPointer: tp, log: log.slice(-100) }).then(()=>checkEnd());
+  });
 }
 
-function hotseatPass(pidx){
-  const p = state.players[pidx];
-  logLine(p.name+' пасует');
-  state.activePlayers.splice(state.turnPointer,1);
-  if(state.turnPointer>=state.activePlayers.length)state.turnPointer=0;
-  hostCheckEnd();
+function clientHandleBid(amount){
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    if(!data) return;
+    const players = data.players || {};
+    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid = ids[data.activePlayers[data.turnPointer]];
+    if(turnPid !== state.playerId) return;
+    const min = data.currentBid===0 ? data.basePrice : data.currentBid + Math.max(10, Math.round(data.currentBid*0.1));
+    amount = Math.round(amount);
+    if(amount < min) return;
+    if(amount > players[state.playerId].money) return;
+    const log = (data.log||[]);
+    log.push(players[state.playerId].name+' ставит '+amount);
+    const tp = (data.turnPointer+1) % data.activePlayers.length;
+    room.update({ currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) }).then(()=>{
+      if(state.role !== 'host'){ /* guest just updates */ }
+    });
+  });
 }
+
+function clientHandlePass(){
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    if(!data) return;
+    const players = data.players || {};
+    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid = ids[data.activePlayers[data.turnPointer]];
+    if(turnPid !== state.playerId) return;
+    const log = (data.log||[]);
+    log.push(players[state.playerId].name+' пасует');
+    const newActive = data.activePlayers.slice();
+    newActive.splice(data.turnPointer, 1);
+    const tp = newActive.length ? (data.turnPointer % newActive.length) : 0;
+    room.update({ activePlayers: newActive, turnPointer: tp, log: log.slice(-100) });
+  });
+}
+
+function checkEnd(){
+  if(state.role !== 'host') return;
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    if(!data) return;
+    if(data.activePlayers.length === 0){ hostFinishRound(null); return; }
+    if(data.activePlayers.length === 1){
+      const last = data.activePlayers[0];
+      if(data.currentBidder === last){ hostFinishRound(last); return; }
+    }
+  });
+}
+
+function hostFinishRound(winnerIdx){
+  const room = state.roomRef;
+  room.once('value').then(snap=>{
+    const data = snap.val();
+    if(!data) return;
+    const players = data.players || {};
+    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const log = (data.log||[]);
+    let updates = { phase: 'paused' };
+    if(winnerIdx !== null && winnerIdx !== undefined){
+      const winnerPid = ids[winnerIdx];
+      const newMoney = players[winnerPid].money - data.currentBid;
+      const chars = (players[winnerPid].characters || []).slice();
+      chars.push(data.current);
+      updates['players/'+winnerPid+'/money'] = newMoney;
+      updates['players/'+winnerPid+'/characters'] = chars;
+      log.push('✅ '+players[winnerPid].name+' купил «'+data.current.n+'» за '+data.currentBid);
+    } else {
+      log.push('❌ «'+data.current.n+'» не куплен');
+    }
+    updates.log = log.slice(-100);
+    room.update(updates).then(()=>{
+      setTimeout(()=>{
+        room.once('value').then(s2=>{
+          const d2 = s2.val();
+          if((d2.pool||[]).length === 0){ room.child('phase').set('results'); }
+          else { room.child('phase').set('playing'); hostNextRound(); }
+        });
+      }, 1800);
+    });
+  });
+}
+
+function renderResults(view){
+  show('resultsScreen');
+  const sorted = [...view.players].map((p)=>({name:p.name,money:p.money,characters:p.characters||[],totalPower:(p.characters||[]).reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
+  const w = sorted[0];
+  document.getElementById('winnerText').textContent = '🏆 '+w.name+' — сила '+w.totalPower+'!';
+  const tbl = document.getElementById('resultsTable');
+  tbl.innerHTML = '<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
+  sorted.forEach((p,i)=>{
+    const chars = (p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
+    tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
+  });
+}
+
+/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
+const hsLocal = {players:[], pool:[], roundNumber:0, totalRounds:0, startingMoney:0, current:null, currentBid:0, currentBidder:null, activePlayers:[], turnPointer:0, basePrice:0, phase:'lobby', log:[], firstBidderOffset:0};
 
 const hsNames = document.getElementById('hsPlayerNames');
 document.getElementById('hsPlayerCount').addEventListener('input',renderHotseatNames);
@@ -755,27 +832,127 @@ document.getElementById('hsStartBtn').onclick = ()=>{
   const charCount = Math.max(3,Math.min(40,+document.getElementById('hsCharCount').value||10));
   const names = [...hsNames.querySelectorAll('input')].map(i=>i.value.trim()||'Игрок');
   let pool = CHARACTERS.filter(c=>themes.includes(c.t));
-  if(pool.length<charCount){alert('В тематиках только '+pool.length+' персонажей. Уменьши число.');return;}
+  if(pool.length<charCount){alert('В тематиках только '+pool.length+' персонажей.');return;}
   pool = shuffle(pool).slice(0,charCount);
-  state.mode = 'hotseat';
-  state.role = 'host';
-  state.myIdx = -1;
-  state.players = names.map(n=>({name:n,money:startMoney,characters:[],connected:true}));
-  state.pool = pool;
-  state.totalRounds = charCount;
-  state.roundNumber = 0;
-  state.startingMoney = startMoney;
-  state.firstBidderOffset = 0;
-  state.phase = 'bidding';
-  state.log = [];
+
+  state.mode = 'hotseat'; state.role = 'host'; state.myIdx = -1;
+  hsLocal.players = names.map(n=>({name:n,money:startMoney,characters:[]}));
+  hsLocal.pool = pool;
+  hsLocal.totalRounds = charCount;
+  hsLocal.roundNumber = 0;
+  hsLocal.startingMoney = startMoney;
+  hsLocal.firstBidderOffset = 0;
+  hsLocal.log = [];
+  hsLocal.phase = 'playing';
   lastLogCount = 0;
   show('gameScreen');
-  nextRound();
+  hsNextRound();
 };
 
-function renderResults(view){
-  show('resultsScreen');
-  const sorted = [...view.players].map((p)=>({name:p.name,money:p.money,characters:p.characters,totalPower:p.characters.reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
+function hsNextRound(){
+  if(hsLocal.pool.length === 0){ hsRenderResults(); return; }
+  hsLocal.roundNumber++;
+  hsLocal.current = hsLocal.pool.shift();
+  hsLocal.basePrice = Math.max(10, Math.round(hsLocal.current.p * hsLocal.startingMoney / 200));
+  hsLocal.currentBid = 0;
+  hsLocal.currentBidder = null;
+  hsLocal.activePlayers = hsLocal.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
+  if(hsLocal.activePlayers.length === 0){ hsFinishRound(null); return; }
+  hsLocal.turnPointer = hsLocal.firstBidderOffset % hsLocal.activePlayers.length;
+  hsLocal.firstBidderOffset++;
+  hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+', старт '+hsLocal.basePrice+')');
+  hsRender();
+}
+
+function hsRender(){
+  const view = {
+    phase: hsLocal.phase,
+    round: hsLocal.roundNumber,
+    totalRounds: hsLocal.totalRounds,
+    char: hsLocal.current,
+    basePrice: hsLocal.basePrice,
+    players: hsLocal.players,
+    currentBid: hsLocal.currentBid,
+    currentBidder: hsLocal.currentBidder,
+    turnIdx: hsLocal.activePlayers.length ? hsLocal.activePlayers[hsLocal.turnPointer] : -1,
+    activeIdx: hsLocal.activePlayers,
+    log: hsLocal.log,
+    poolLeft: hsLocal.pool.length
+  };
+  renderSnapshot(view);
+}
+
+function renderActionPanelOverride(view){ /* не используется */ }
+
+/* Переопределяем рендер для hotseat: показываем ход текущего игрока */
+const origRenderActionPanel = renderActionPanel;
+renderActionPanel = function(view){
+  const ap = document.getElementById('actionPanel');
+  if(state.mode !== 'hotseat'){ origRenderActionPanel(view); return; }
+  if(view.phase==='paused'){ ap.innerHTML='<div class="turn-name">Раунд завершён...</div>'; return; }
+  if(view.turnIdx === -1){ ap.innerHTML='<div class="turn-name">Ждём...</div>'; return; }
+  const player = view.players[view.turnIdx];
+  const min = view.currentBid===0?view.basePrice:view.currentBid+Math.max(10,Math.round(view.currentBid*0.1));
+  const canBid = player.money >= min;
+  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="10" value="'+Math.min(min,player.money)+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  if(canBid){
+    document.getElementById('bidBtn').onclick = ()=>{
+      const v = +document.getElementById('bidInput').value;
+      hsBid(hsLocal.activePlayers[hsLocal.turnPointer], v);
+    };
+  }
+  document.getElementById('passBtn').onclick = ()=>hsPass(hsLocal.activePlayers[hsLocal.turnPointer]);
+};
+
+function hsBid(pidx, amount){
+  const p = hsLocal.players[pidx];
+  const min = hsLocal.currentBid===0?hsLocal.basePrice:hsLocal.currentBid+Math.max(10,Math.round(hsLocal.currentBid*0.1));
+  amount = Math.round(amount);
+  if(amount < min) return;
+  if(amount > p.money) return;
+  hsLocal.currentBid = amount;
+  hsLocal.currentBidder = pidx;
+  hsLocal.log.push(p.name+' ставит '+amount);
+  hsLocal.turnPointer = (hsLocal.turnPointer+1) % hsLocal.activePlayers.length;
+  hsCheckEnd();
+}
+
+function hsPass(pidx){
+  const p = hsLocal.players[pidx];
+  hsLocal.log.push(p.name+' пасует');
+  hsLocal.activePlayers.splice(hsLocal.turnPointer, 1);
+  if(hsLocal.turnPointer >= hsLocal.activePlayers.length) hsLocal.turnPointer = 0;
+  hsCheckEnd();
+}
+
+function hsCheckEnd(){
+  if(hsLocal.activePlayers.length === 0){ hsFinishRound(null); return; }
+  if(hsLocal.activePlayers.length === 1){
+    const last = hsLocal.activePlayers[0];
+    if(hsLocal.currentBidder === last){ hsFinishRound(last); return; }
+  }
+  hsRender();
+}
+
+function hsFinishRound(winnerIdx){
+  if(winnerIdx !== null){
+    const p = hsLocal.players[winnerIdx];
+    p.money -= hsLocal.currentBid;
+    p.characters.push(hsLocal.current);
+    hsLocal.log.push('✅ '+p.name+' купил «'+hsLocal.current.n+'» за '+hsLocal.currentBid);
+  } else {
+    hsLocal.log.push('❌ «'+hsLocal.current.n+'» не куплен');
+  }
+  hsLocal.phase = 'paused';
+  hsRender();
+  setTimeout(()=>{
+    hsLocal.phase = 'playing';
+    hsNextRound();
+  }, 1800);
+}
+
+function hsRenderResults(){
+  const sorted = hsLocal.players.map(p=>({name:p.name,money:p.money,characters:p.characters,totalPower:p.characters.reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
   const w = sorted[0];
   document.getElementById('winnerText').textContent = '🏆 '+w.name+' — сила '+w.totalPower+'!';
   const tbl = document.getElementById('resultsTable');
@@ -784,14 +961,7 @@ function renderResults(view){
     const chars = p.characters.slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
     tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
   });
-}
-
-function logLine(msg){state.log.push(msg);if(state.log.length>100)state.log.shift();}
-
-function shuffle(a){
-  a = [...a];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
+  show('resultsScreen');
 }
 
 show('menuScreen');
