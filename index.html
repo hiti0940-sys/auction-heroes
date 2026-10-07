@@ -486,9 +486,6 @@ function handleRoomUpdate(room){
   } else if(room.phase === 'playing' || room.phase === 'paused' || room.phase === 'results'){
     show('gameScreen');
     renderFromRoom(room, playerList);
-    if(state.role === 'host' && room.phase === 'playing'){
-      setTimeout(hostAutoCheck, 250);
-    }
   }
 }
 
@@ -755,13 +752,15 @@ function clientHandlePass(){
   });
 }
 
-/* Авто-проверка хостом: если игроков осталось 0 или 1 — завершаем раунд */
+/* Авто-проверка хостом */
 function hostAutoCheck(){
   if(state.role !== 'host') return;
   const room = state.roomRef;
+  if(!room) return;
   room.once('value').then(snap=>{
     const data = snap.val();
     if(!data || data.phase !== 'playing') return;
+    if(!data.current) return;
     const ap = data.activePlayers || [];
     if(ap.length === 0){ hostFinishRound(null); return; }
     if(ap.length === 1){
@@ -774,14 +773,17 @@ function hostAutoCheck(){
         }
       }
     }
-  });
+  }).catch(e=>console.error('autoCheck:', e));
 }
 
 function hostFinishRound(winnerIdx){
   const room = state.roomRef;
+  if(!room) return;
   room.once('value').then(snap=>{
     const data = snap.val();
     if(!data) return;
+    if(data.phase !== 'playing') return;
+    if(!data.current) return;
     const players = data.players || {};
     const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
     const log = (data.log||[]);
@@ -802,6 +804,7 @@ function hostFinishRound(winnerIdx){
       setTimeout(()=>{
         room.once('value').then(s2=>{
           const d2 = s2.val();
+          if(!d2) return;
           const totalMoney = Object.values(d2.players||{}).reduce((s,p)=>s+(p.money||0),0);
           if((d2.pool||[]).length === 0 || totalMoney <= 0){
             if(totalMoney <= 0 && (d2.pool||[]).length > 0){
@@ -994,6 +997,13 @@ function hsRenderResults(){
   });
   show('resultsScreen');
 }
+
+/* Хост каждые 800 мс проверяет состояние */
+setInterval(function(){
+  if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
+    hostAutoCheck();
+  }
+}, 800);
 
 show('menuScreen');
 </script>
