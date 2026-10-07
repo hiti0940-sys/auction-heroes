@@ -6,20 +6,7 @@
 <meta name="theme-color" content="#1a1a2e">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Аукцион Героев</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script>
-window.onerror = function(msg, src, line, col){
-  var d = document.createElement('div');
-  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#c00;color:#fff;padding:10px;z-index:99999;font-size:13px;font-family:monospace;word-break:break-all';
-  d.textContent = '❗ ' + msg + ' (строка ' + line + ')';
-  document.body.appendChild(d);
-};
-window.addEventListener('unhandledrejection', function(e){
-  var d = document.createElement('div');
-  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#c00;color:#fff;padding:10px;z-index:99999;font-size:13px;font-family:monospace;word-break:break-all';
-  d.textContent = '❗ Promise: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason));
-  document.body.appendChild(d);
-});
-</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -220,160 +207,160 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const CHARACTERS = [
-  {n:"Сайтама",t:"anime",p:100,d:"One Punch Man"},
-  {n:"Вис",t:"anime",p:99,d:"Dragon Ball Super"},
-  {n:"Бирс",t:"anime",p:98,d:"Dragon Ball Super"},
-  {n:"Гоку",t:"anime",p:97,d:"Dragon Ball"},
-  {n:"Джирен",t:"anime",p:95,d:"Dragon Ball Super"},
-  {n:"Веджита",t:"anime",p:92,d:"Dragon Ball"},
-  {n:"Сатору Годжо",t:"anime",p:92,d:"Магическая битва"},
-  {n:"Кагуя",t:"anime",p:90,d:"Наруто"},
-  {n:"Сукуна",t:"anime",p:90,d:"Магическая битва"},
-  {n:"Фриза",t:"anime",p:88,d:"Dragon Ball"},
-  {n:"Наруто (СО6П)",t:"anime",p:88,d:"Наруто"},
-  {n:"Меруэм",t:"anime",p:88,d:"Hunter x Hunter"},
-  {n:"Саске (СО6П)",t:"anime",p:87,d:"Наруто"},
-  {n:"Ичиго (финал)",t:"anime",p:87,d:"Блич"},
-  {n:"Луффи (G5)",t:"anime",p:86,d:"One Piece"},
-  {n:"Мадара (Джуби)",t:"anime",p:85,d:"Наруто"},
-  {n:"Алукард",t:"anime",p:85,d:"Hellsing"},
-  {n:"Шигараки (финал)",t:"anime",p:85,d:"Моя геройская академия"},
-  {n:"Эсканор (The One)",t:"anime",p:84,d:"Семь смертных грехов"},
-  {n:"Моб (100%)",t:"anime",p:84,d:"Моб Психо 100"},
-  {n:"Айзен (Хогёку)",t:"anime",p:83,d:"Блич"},
-  {n:"Мелиодас",t:"anime",p:82,d:"Семь смертных грехов"},
-  {n:"All Might",t:"anime",p:82,d:"Моя геройская академия"},
-  {n:"Кенпачи",t:"anime",p:80,d:"Блич"},
-  {n:"Музан",t:"anime",p:80,d:"Клинок, рассекающий демонов"},
-  {n:"Деку (финал)",t:"anime",p:80,d:"Моя геройская академия"},
-  {n:"Эрен (Основатель)",t:"anime",p:78,d:"Атака титанов"},
-  {n:"Гон (взрослый)",t:"anime",p:75,d:"Hunter x Hunter"},
-  {n:"Зоро",t:"anime",p:72,d:"One Piece"},
-  {n:"Гриффит",t:"anime",p:72,d:"Берсерк"},
-  {n:"Хисока",t:"anime",p:70,d:"Hunter x Hunter"},
-  {n:"Санджи",t:"anime",p:68,d:"One Piece"},
-  {n:"Гатс",t:"anime",p:68,d:"Берсерк"},
-  {n:"Тодороки",t:"anime",p:68,d:"Моя геройская академия"},
-  {n:"Киллуа",t:"anime",p:65,d:"Hunter x Hunter"},
-  {n:"Бакуго",t:"anime",p:65,d:"Моя геройская академия"},
-  {n:"Юджи Итадори",t:"anime",p:62,d:"Магическая битва"},
-  {n:"Танджиро",t:"anime",p:60,d:"Клинок, рассекающий демонов"},
-  {n:"Рой Мустанг",t:"anime",p:58,d:"Стальной алхимик"},
-  {n:"Леви Аккерман",t:"anime",p:55,d:"Атака титанов"},
-  {n:"Эдвард Элрик",t:"anime",p:55,d:"Стальной алхимик"},
-  {n:"Недзуко",t:"anime",p:55,d:"Клинок, рассекающий демонов"},
-  {n:"Спайк Шпигель",t:"anime",p:55,d:"Cowboy Bebop"},
-  {n:"Микаса",t:"anime",p:50,d:"Атака титанов"},
-  {n:"Лелуш",t:"anime",p:25,d:"Code Geass"},
-  {n:"L",t:"anime",p:15,d:"Тетрадь смерти"},
-  {n:"Рейген",t:"anime",p:15,d:"Моб Психо 100"},
-  {n:"Лайт Ягами",t:"anime",p:12,d:"Тетрадь смерти"},
-  {n:"Бен 10 (Alien X)",t:"cartoon",p:95,d:"Ben 10"},
-  {n:"Багз Банни",t:"cartoon",p:90,d:"Looney Tunes"},
-  {n:"Микки Маус",t:"cartoon",p:88,d:"Disney"},
-  {n:"Попай",t:"cartoon",p:85,d:"Popeye"},
-  {n:"Тимми Тёрнер",t:"cartoon",p:80,d:"Волшебные родители"},
-  {n:"Аанг (Avatar State)",t:"cartoon",p:78,d:"Аватар"},
-  {n:"Самурай Джек",t:"cartoon",p:75,d:"Samurai Jack"},
-  {n:"Стивен Юниверс",t:"cartoon",p:75,d:"Steven Universe"},
-  {n:"Корра",t:"cartoon",p:72,d:"Легенда о Корре"},
-  {n:"Гранат",t:"cartoon",p:72,d:"Steven Universe"},
-  {n:"Джейк",t:"cartoon",p:70,d:"Время приключений"},
-  {n:"Блоссом",t:"cartoon",p:70,d:"Суперкрошки"},
-  {n:"Дэнни Фантом",t:"cartoon",p:65,d:"Danny Phantom"},
-  {n:"Тоф",t:"cartoon",p:62,d:"Аватар"},
-  {n:"Моджо Джоджо",t:"cartoon",p:60,d:"Суперкрошки"},
-  {n:"Катара",t:"cartoon",p:58,d:"Аватар"},
-  {n:"Зуко",t:"cartoon",p:55,d:"Аватар"},
-  {n:"Перри Утконос",t:"cartoon",p:55,d:"Финес и Ферб"},
-  {n:"Финн",t:"cartoon",p:50,d:"Время приключений"},
-  {n:"Джерри",t:"cartoon",p:50,d:"Том и Джерри"},
-  {n:"Ким Поссибл",t:"cartoon",p:45,d:"Ким Пять-с-Плюсом"},
-  {n:"Том",t:"cartoon",p:45,d:"Том и Джерри"},
-  {n:"Шэгги",t:"cartoon",p:40,d:"Скуби-Ду"},
-  {n:"Скуби-Ду",t:"cartoon",p:30,d:"Скуби-Ду"},
-  {n:"Рик Санчез",t:"cartoon",p:25,d:"Рик и Морти"},
-  {n:"Танос (Перчатка)",t:"movie",p:97,d:"Marvel"},
-  {n:"Супермен",t:"movie",p:96,d:"DC"},
-  {n:"Тор",t:"movie",p:92,d:"Marvel"},
-  {n:"Алая Ведьма",t:"movie",p:90,d:"Marvel"},
-  {n:"Халк",t:"movie",p:88,d:"Marvel"},
-  {n:"Флэш",t:"movie",p:88,d:"DC"},
-  {n:"Нео",t:"movie",p:88,d:"Матрица"},
-  {n:"Чудо-женщина",t:"movie",p:85,d:"DC"},
-  {n:"Кратос",t:"movie",p:85,d:"God of War"},
-  {n:"Магнето",t:"movie",p:82,d:"Marvel"},
-  {n:"Йода",t:"movie",p:82,d:"Звёздные войны"},
-  {n:"Гэндальф",t:"movie",p:82,d:"Властелин колец"},
-  {n:"Доктор Стрэндж",t:"movie",p:80,d:"Marvel"},
-  {n:"Люк Скайуокер",t:"movie",p:80,d:"Звёздные войны"},
-  {n:"Палпатин",t:"movie",p:80,d:"Звёздные войны"},
-  {n:"Дамблдор",t:"movie",p:80,d:"Гарри Поттер"},
-  {n:"Дарт Вейдер",t:"movie",p:78,d:"Звёздные войны"},
-  {n:"Волан-де-Морт",t:"movie",p:78,d:"Гарри Поттер"},
-  {n:"Киборг",t:"movie",p:75,d:"DC"},
-  {n:"Аквамен",t:"movie",p:72,d:"DC"},
-  {n:"Росомаха",t:"movie",p:70,d:"Marvel"},
-  {n:"Профессор Икс",t:"movie",p:70,d:"Marvel"},
-  {n:"Терминатор Т-800",t:"movie",p:70,d:"Терминатор"},
-  {n:"Локи",t:"movie",p:68,d:"Marvel"},
-  {n:"Железный человек",t:"movie",p:65,d:"Marvel"},
-  {n:"Мастер Чиф",t:"movie",p:65,d:"Halo"},
-  {n:"Человек-паук",t:"movie",p:62,d:"Marvel"},
-  {n:"Чак Норрис",t:"movie",p:60,d:"Легенда"},
-  {n:"Арагорн",t:"movie",p:58,d:"Властелин колец"},
-  {n:"Капитан Америка",t:"movie",p:55,d:"Marvel"},
-  {n:"Джон Уик",t:"movie",p:55,d:"John Wick"},
-  {n:"Рэмбо",t:"movie",p:55,d:"Рэмбо"},
-  {n:"Гарри Поттер",t:"movie",p:55,d:"Гарри Поттер"},
-  {n:"Леголас",t:"movie",p:55,d:"Властелин колец"},
-  {n:"Джеймс Бонд",t:"movie",p:50,d:"007"},
-  {n:"Индиана Джонс",t:"movie",p:48,d:"Индиана Джонс"},
-  {n:"Бэтмен",t:"movie",p:45,d:"DC"},
-  {n:"Рокки",t:"movie",p:45,d:"Рокки"},
-  {n:"Рипли",t:"movie",p:45,d:"Чужой"},
-  {n:"Джокер",t:"movie",p:20,d:"DC"},
-  {n:"Doom Slayer",t:"game",p:92,d:"DOOM"},
-  {n:"Райдэн",t:"game",p:88,d:"Mortal Kombat"},
-  {n:"Сефирот",t:"game",p:88,d:"Final Fantasy VII"},
-  {n:"Мьюту",t:"game",p:85,d:"Pokémon"},
-  {n:"Шэдоу",t:"game",p:82,d:"Sonic"},
-  {n:"Гэнондорф",t:"game",p:80,d:"The Legend of Zelda"},
-  {n:"Соник",t:"game",p:80,d:"Sonic"},
-  {n:"Акума",t:"game",p:80,d:"Street Fighter"},
-  {n:"Клауд Страйф",t:"game",p:78,d:"Final Fantasy VII"},
-  {n:"Самус Аран",t:"game",p:78,d:"Metroid"},
-  {n:"Линк",t:"game",p:75,d:"The Legend of Zelda"},
-  {n:"Боузер",t:"game",p:75,d:"Mario"},
-  {n:"Скорпион",t:"game",p:72,d:"Mortal Kombat"},
-  {n:"Саб-Зиро",t:"game",p:72,d:"Mortal Kombat"},
-  {n:"Марио",t:"game",p:70,d:"Mario"},
-  {n:"Наклз",t:"game",p:70,d:"Sonic"},
-  {n:"Рю",t:"game",p:70,d:"Street Fighter"},
-  {n:"Чаризард",t:"game",p:70,d:"Pokémon"},
-  {n:"Кен",t:"game",p:68,d:"Street Fighter"},
-  {n:"Геральт",t:"game",p:68,d:"The Witcher"},
-  {n:"Луиджи",t:"game",p:65,d:"Mario"},
-  {n:"Пикачу",t:"game",p:65,d:"Pokémon"},
-  {n:"2B",t:"game",p:65,d:"NieR: Automata"},
-  {n:"Тифа",t:"game",p:62,d:"Final Fantasy VII"},
-  {n:"Чунь-Ли",t:"game",p:60,d:"Street Fighter"},
-  {n:"Эцио",t:"game",p:60,d:"Assassin's Creed"},
-  {n:"Альтаир",t:"game",p:58,d:"Assassin's Creed"},
-  {n:"Зельда",t:"game",p:55,d:"The Legend of Zelda"},
-  {n:"Тревор",t:"game",p:55,d:"GTA V"},
-  {n:"CJ",t:"game",p:40,d:"GTA San Andreas"},
-  {n:"Эш Кетчум",t:"game",p:20,d:"Pokémon"},
-  {n:"Ши Хао",t:"donghua",p:95,d:"Совершенный мир"},
-  {n:"Ло Фэн",t:"donghua",p:92,d:"Пожиратель звёзд"},
-  {n:"Хуа Чэн",t:"donghua",p:88,d:"Благословение небожителей"},
-  {n:"Юнь Чэ",t:"donghua",p:85,d:"Восставший против богов"},
-  {n:"Тан Сан",t:"donghua",p:82,d:"Боевой континент"},
-  {n:"Хань Ли",t:"donghua",p:82,d:"Путешествие к бессмертию"},
-  {n:"Сяо Янь",t:"donghua",p:80,d:"Битва через небеса"},
-  {n:"Се Лянь",t:"donghua",p:78,d:"Благословение небожителей"},
-  {n:"Лань Ванцзи",t:"donghua",p:72,d:"Магистр дьявольского культа"},
-  {n:"Вэй Усянь",t:"donghua",p:70,d:"Магистр дьявольского культа"}
+  {n:"Сайтама",t:"anime",p:1000,d:"One Punch Man"},
+  {n:"Вис",t:"anime",p:990,d:"Dragon Ball Super"},
+  {n:"Бирс",t:"anime",p:980,d:"Dragon Ball Super"},
+  {n:"Гоку",t:"anime",p:970,d:"Dragon Ball"},
+  {n:"Джирен",t:"anime",p:950,d:"Dragon Ball Super"},
+  {n:"Веджита",t:"anime",p:920,d:"Dragon Ball"},
+  {n:"Сатору Годжо",t:"anime",p:920,d:"Магическая битва"},
+  {n:"Кагуя",t:"anime",p:900,d:"Наруто"},
+  {n:"Сукуна",t:"anime",p:900,d:"Магическая битва"},
+  {n:"Фриза",t:"anime",p:880,d:"Dragon Ball"},
+  {n:"Наруто (СО6П)",t:"anime",p:880,d:"Наруто"},
+  {n:"Меруэм",t:"anime",p:880,d:"Hunter x Hunter"},
+  {n:"Саске (СО6П)",t:"anime",p:870,d:"Наруто"},
+  {n:"Ичиго (финал)",t:"anime",p:870,d:"Блич"},
+  {n:"Луффи (G5)",t:"anime",p:860,d:"One Piece"},
+  {n:"Мадара (Джуби)",t:"anime",p:850,d:"Наруто"},
+  {n:"Алукард",t:"anime",p:850,d:"Hellsing"},
+  {n:"Шигараки (финал)",t:"anime",p:850,d:"Моя геройская академия"},
+  {n:"Эсканор (The One)",t:"anime",p:840,d:"Семь смертных грехов"},
+  {n:"Моб (100%)",t:"anime",p:840,d:"Моб Психо 100"},
+  {n:"Айзен (Хогёку)",t:"anime",p:830,d:"Блич"},
+  {n:"Мелиодас",t:"anime",p:820,d:"Семь смертных грехов"},
+  {n:"All Might",t:"anime",p:820,d:"Моя геройская академия"},
+  {n:"Кенпачи",t:"anime",p:800,d:"Блич"},
+  {n:"Музан",t:"anime",p:800,d:"Клинок, рассекающий демонов"},
+  {n:"Деку (финал)",t:"anime",p:800,d:"Моя геройская академия"},
+  {n:"Эрен (Основатель)",t:"anime",p:780,d:"Атака титанов"},
+  {n:"Гон (взрослый)",t:"anime",p:750,d:"Hunter x Hunter"},
+  {n:"Зоро",t:"anime",p:720,d:"One Piece"},
+  {n:"Гриффит",t:"anime",p:720,d:"Берсерк"},
+  {n:"Хисока",t:"anime",p:700,d:"Hunter x Hunter"},
+  {n:"Санджи",t:"anime",p:680,d:"One Piece"},
+  {n:"Гатс",t:"anime",p:680,d:"Берсерк"},
+  {n:"Тодороки",t:"anime",p:680,d:"Моя геройская академия"},
+  {n:"Киллуа",t:"anime",p:650,d:"Hunter x Hunter"},
+  {n:"Бакуго",t:"anime",p:650,d:"Моя геройская академия"},
+  {n:"Юджи Итадори",t:"anime",p:620,d:"Магическая битва"},
+  {n:"Танджиро",t:"anime",p:600,d:"Клинок, рассекающий демонов"},
+  {n:"Рой Мустанг",t:"anime",p:580,d:"Стальной алхимик"},
+  {n:"Леви Аккерман",t:"anime",p:550,d:"Атака титанов"},
+  {n:"Эдвард Элрик",t:"anime",p:550,d:"Стальной алхимик"},
+  {n:"Недзуко",t:"anime",p:550,d:"Клинок, рассекающий демонов"},
+  {n:"Спайк Шпигель",t:"anime",p:550,d:"Cowboy Bebop"},
+  {n:"Микаса",t:"anime",p:500,d:"Атака титанов"},
+  {n:"Лелуш",t:"anime",p:250,d:"Code Geass"},
+  {n:"L",t:"anime",p:150,d:"Тетрадь смерти"},
+  {n:"Рейген",t:"anime",p:150,d:"Моб Психо 100"},
+  {n:"Лайт Ягами",t:"anime",p:120,d:"Тетрадь смерти"},
+  {n:"Бен 10 (Alien X)",t:"cartoon",p:950,d:"Ben 10"},
+  {n:"Багз Банни",t:"cartoon",p:900,d:"Looney Tunes"},
+  {n:"Микки Маус",t:"cartoon",p:880,d:"Disney"},
+  {n:"Попай",t:"cartoon",p:850,d:"Popeye"},
+  {n:"Тимми Тёрнер",t:"cartoon",p:800,d:"Волшебные родители"},
+  {n:"Аанг (Avatar State)",t:"cartoon",p:780,d:"Аватар"},
+  {n:"Самурай Джек",t:"cartoon",p:750,d:"Samurai Jack"},
+  {n:"Стивен Юниверс",t:"cartoon",p:750,d:"Steven Universe"},
+  {n:"Корра",t:"cartoon",p:720,d:"Легенда о Корре"},
+  {n:"Гранат",t:"cartoon",p:720,d:"Steven Universe"},
+  {n:"Джейк",t:"cartoon",p:700,d:"Время приключений"},
+  {n:"Блоссом",t:"cartoon",p:700,d:"Суперкрошки"},
+  {n:"Дэнни Фантом",t:"cartoon",p:650,d:"Danny Phantom"},
+  {n:"Тоф",t:"cartoon",p:620,d:"Аватар"},
+  {n:"Моджо Джоджо",t:"cartoon",p:600,d:"Суперкрошки"},
+  {n:"Катара",t:"cartoon",p:580,d:"Аватар"},
+  {n:"Зуко",t:"cartoon",p:550,d:"Аватар"},
+  {n:"Перри Утконос",t:"cartoon",p:550,d:"Финес и Ферб"},
+  {n:"Финн",t:"cartoon",p:500,d:"Время приключений"},
+  {n:"Джерри",t:"cartoon",p:500,d:"Том и Джерри"},
+  {n:"Ким Поссибл",t:"cartoon",p:450,d:"Ким Пять-с-Плюсом"},
+  {n:"Том",t:"cartoon",p:450,d:"Том и Джерри"},
+  {n:"Шэгги",t:"cartoon",p:400,d:"Скуби-Ду"},
+  {n:"Скуби-Ду",t:"cartoon",p:300,d:"Скуби-Ду"},
+  {n:"Рик Санчез",t:"cartoon",p:250,d:"Рик и Морти"},
+  {n:"Танос (Перчатка)",t:"movie",p:970,d:"Marvel"},
+  {n:"Супермен",t:"movie",p:960,d:"DC"},
+  {n:"Тор",t:"movie",p:920,d:"Marvel"},
+  {n:"Алая Ведьма",t:"movie",p:900,d:"Marvel"},
+  {n:"Халк",t:"movie",p:880,d:"Marvel"},
+  {n:"Флэш",t:"movie",p:880,d:"DC"},
+  {n:"Нео",t:"movie",p:880,d:"Матрица"},
+  {n:"Чудо-женщина",t:"movie",p:850,d:"DC"},
+  {n:"Кратос",t:"movie",p:850,d:"God of War"},
+  {n:"Магнето",t:"movie",p:820,d:"Marvel"},
+  {n:"Йода",t:"movie",p:820,d:"Звёздные войны"},
+  {n:"Гэндальф",t:"movie",p:820,d:"Властелин колец"},
+  {n:"Доктор Стрэндж",t:"movie",p:800,d:"Marvel"},
+  {n:"Люк Скайуокер",t:"movie",p:800,d:"Звёздные войны"},
+  {n:"Палпатин",t:"movie",p:800,d:"Звёздные войны"},
+  {n:"Дамблдор",t:"movie",p:800,d:"Гарри Поттер"},
+  {n:"Дарт Вейдер",t:"movie",p:780,d:"Звёздные войны"},
+  {n:"Волан-де-Морт",t:"movie",p:780,d:"Гарри Поттер"},
+  {n:"Киборг",t:"movie",p:750,d:"DC"},
+  {n:"Аквамен",t:"movie",p:720,d:"DC"},
+  {n:"Росомаха",t:"movie",p:700,d:"Marvel"},
+  {n:"Профессор Икс",t:"movie",p:700,d:"Marvel"},
+  {n:"Терминатор Т-800",t:"movie",p:700,d:"Терминатор"},
+  {n:"Локи",t:"movie",p:680,d:"Marvel"},
+  {n:"Железный человек",t:"movie",p:650,d:"Marvel"},
+  {n:"Мастер Чиф",t:"movie",p:650,d:"Halo"},
+  {n:"Человек-паук",t:"movie",p:620,d:"Marvel"},
+  {n:"Чак Норрис",t:"movie",p:600,d:"Легенда"},
+  {n:"Арагорн",t:"movie",p:580,d:"Властелин колец"},
+  {n:"Капитан Америка",t:"movie",p:550,d:"Marvel"},
+  {n:"Джон Уик",t:"movie",p:550,d:"John Wick"},
+  {n:"Рэмбо",t:"movie",p:550,d:"Рэмбо"},
+  {n:"Гарри Поттер",t:"movie",p:550,d:"Гарри Поттер"},
+  {n:"Леголас",t:"movie",p:550,d:"Властелин колец"},
+  {n:"Джеймс Бонд",t:"movie",p:500,d:"007"},
+  {n:"Индиана Джонс",t:"movie",p:480,d:"Индиана Джонс"},
+  {n:"Бэтмен",t:"movie",p:450,d:"DC"},
+  {n:"Рокки",t:"movie",p:450,d:"Рокки"},
+  {n:"Рипли",t:"movie",p:450,d:"Чужой"},
+  {n:"Джокер",t:"movie",p:200,d:"DC"},
+  {n:"Doom Slayer",t:"game",p:920,d:"DOOM"},
+  {n:"Райдэн",t:"game",p:880,d:"Mortal Kombat"},
+  {n:"Сефирот",t:"game",p:880,d:"Final Fantasy VII"},
+  {n:"Мьюту",t:"game",p:850,d:"Pokémon"},
+  {n:"Шэдоу",t:"game",p:820,d:"Sonic"},
+  {n:"Гэнондорф",t:"game",p:800,d:"The Legend of Zelda"},
+  {n:"Соник",t:"game",p:800,d:"Sonic"},
+  {n:"Акума",t:"game",p:800,d:"Street Fighter"},
+  {n:"Клауд Страйф",t:"game",p:780,d:"Final Fantasy VII"},
+  {n:"Самус Аран",t:"game",p:780,d:"Metroid"},
+  {n:"Линк",t:"game",p:750,d:"The Legend of Zelda"},
+  {n:"Боузер",t:"game",p:750,d:"Mario"},
+  {n:"Скорпион",t:"game",p:720,d:"Mortal Kombat"},
+  {n:"Саб-Зиро",t:"game",p:720,d:"Mortal Kombat"},
+  {n:"Марио",t:"game",p:700,d:"Mario"},
+  {n:"Наклз",t:"game",p:700,d:"Sonic"},
+  {n:"Рю",t:"game",p:700,d:"Street Fighter"},
+  {n:"Чаризард",t:"game",p:700,d:"Pokémon"},
+  {n:"Кен",t:"game",p:680,d:"Street Fighter"},
+  {n:"Геральт",t:"game",p:680,d:"The Witcher"},
+  {n:"Луиджи",t:"game",p:650,d:"Mario"},
+  {n:"Пикачу",t:"game",p:650,d:"Pokémon"},
+  {n:"2B",t:"game",p:650,d:"NieR: Automata"},
+  {n:"Тифа",t:"game",p:620,d:"Final Fantasy VII"},
+  {n:"Чунь-Ли",t:"game",p:600,d:"Street Fighter"},
+  {n:"Эцио",t:"game",p:600,d:"Assassin's Creed"},
+  {n:"Альтаир",t:"game",p:580,d:"Assassin's Creed"},
+  {n:"Зельда",t:"game",p:550,d:"The Legend of Zelda"},
+  {n:"Тревор",t:"game",p:550,d:"GTA V"},
+  {n:"CJ",t:"game",p:400,d:"GTA San Andreas"},
+  {n:"Эш Кетчум",t:"game",p:200,d:"Pokémon"},
+  {n:"Ши Хао",t:"donghua",p:950,d:"Совершенный мир"},
+  {n:"Ло Фэн",t:"donghua",p:920,d:"Пожиратель звёзд"},
+  {n:"Хуа Чэн",t:"donghua",p:880,d:"Благословение небожителей"},
+  {n:"Юнь Чэ",t:"donghua",p:850,d:"Восставший против богов"},
+  {n:"Тан Сан",t:"donghua",p:820,d:"Боевой континент"},
+  {n:"Хань Ли",t:"donghua",p:820,d:"Путешествие к бессмертию"},
+  {n:"Сяо Янь",t:"donghua",p:800,d:"Битва через небеса"},
+  {n:"Се Лянь",t:"donghua",p:780,d:"Благословение небожителей"},
+  {n:"Лань Ванцзи",t:"donghua",p:720,d:"Магистр дьявольского культа"},
+  {n:"Вэй Усянь",t:"donghua",p:700,d:"Магистр дьявольского культа"}
 ];
 
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
@@ -457,9 +444,7 @@ function listenToRoom(){
     const data = snapshot.val();
     if(!data) return;
     handleRoomUpdate(data);
-  }, err => {
-    console.error(err);
-  });
+  }, err => { console.error(err); });
 }
 
 function handleRoomUpdate(room){
@@ -482,13 +467,8 @@ function handleRoomUpdate(room){
   state.log = room.log || [];
   state.pool = room.pool || [];
 
-  if(state.role === 'host' && state.myIdx === 0){
-    const ids = playerList.map(p=>p.id);
-    state.myIdx = ids.indexOf(state.playerId);
-  } else if(state.role === 'client'){
-    const ids = playerList.map(p=>p.id);
-    state.myIdx = ids.indexOf(state.playerId);
-  }
+  const ids = playerList.map(p=>p.id);
+  state.myIdx = ids.indexOf(state.playerId);
 
   if(room.phase === 'lobby'){
     show('lobbyScreen');
@@ -559,24 +539,34 @@ function startOnlineGame(){
   });
 }
 
+/* Ставка начинается с 1, стартовой цены нет */
 function hostNextRound(){
   const room = state.roomRef;
   room.once('value').then(snap=>{
     const data = snap.val();
     const pool = data.pool || [];
     if(pool.length === 0){ room.child('phase').set('results'); return; }
+
+    // Проверка: у всех 0 денег — конец игры
+    const players = data.players || {};
+    const totalMoney = Object.values(players).reduce((s,p)=>s+(p.money||0),0);
+    if(totalMoney <= 0){
+      const log = (data.log||[]);
+      log.push('💰 У всех закончились деньги — конец игры!');
+      room.update({ phase:'results', log: log.slice(-100) });
+      return;
+    }
+
     const next = pool[0];
     const rest = pool.slice(1);
     const roundNumber = (data.roundNumber || 0) + 1;
-    const basePrice = Math.max(10, Math.round(next.p * data.startingMoney / 200));
 
-    const players = data.players || {};
     const playerIds = Object.keys(players);
     const activeIdx = [];
     playerIds.forEach((pid, idx) => { if(players[pid].money > 0) activeIdx.push(idx); });
 
     const updates = {
-      pool: rest, current: next, basePrice,
+      pool: rest, current: next, basePrice: 1,
       roundNumber, currentBid: 0, currentBidder: null,
       activePlayers: activeIdx
     };
@@ -584,20 +574,19 @@ function hostNextRound(){
     updates.turnPointer = activeIdx.length ? (fo % activeIdx.length) : 0;
     updates.firstBidderOffset = fo + 1;
     const log = (data.log || []);
-    log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+', старт '+basePrice+')');
+    log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
     updates.log = log.slice(-100);
     room.update(updates);
   });
 }
 
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}function renderFromRoom(room, playerList){
-  const ids = playerList.map(p=>p.id);
   const view = {
     phase: room.phase,
     round: room.roundNumber || 0,
     totalRounds: room.totalRounds,
     char: room.current,
-    basePrice: room.basePrice || 0,
+    basePrice: room.basePrice || 1,
     players: playerList.map(p=>({name:p.name, money:p.money, characters:p.characters || [], connected:true})),
     currentBid: room.currentBid || 0,
     currentBidder: room.currentBidder,
@@ -620,7 +609,8 @@ function renderSnapshot(view){
   show('gameScreen');
   const c = view.char;
   if(c){
-    document.getElementById('charCard').innerHTML = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>'+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+'<div class="power-bar"><div class="power-fill" style="width:'+c.p+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 100</div>'+'<div class="base-price">Стартовая цена: '+view.basePrice+' 💰</div>';
+    const pct = Math.min(100, Math.round(c.p/10));
+    document.getElementById('charCard').innerHTML = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>'+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 1000</div>';
   }
   const pl = document.getElementById('playersList');
   pl.innerHTML = '';
@@ -637,7 +627,7 @@ function renderSnapshot(view){
   });
   const bi = document.getElementById('bidInfo');
   if(view.currentBid===0){
-    bi.innerHTML = '<div class="bid-amount">Ставок пока нет</div>'+'<div class="bid-who">Минимум: '+view.basePrice+'</div>';
+    bi.innerHTML = '<div class="bid-amount">Ставок пока нет</div>'+'<div class="bid-who">Ставка от 1</div>';
   } else {
     const leaderName = view.players[view.currentBidder]?view.players[view.currentBidder].name:'?';
     bi.innerHTML = '<div class="bid-amount">'+view.currentBid+' 💰</div>'+'<div class="bid-who">Лидер: <b>'+leaderName+'</b></div>';
@@ -652,6 +642,12 @@ function renderSnapshot(view){
   }
 }
 
+/* Минимальная ставка: 1 если ставок нет, иначе предыдущая + 1 */
+function calcMinBid(currentBid){
+  if(!currentBid || currentBid === 0) return 1;
+  return currentBid + 1;
+}
+
 function renderActionPanel(view){
   const ap = document.getElementById('actionPanel');
   if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
@@ -664,9 +660,10 @@ function renderActionPanel(view){
     return;
   }
   const player = view.players[state.myIdx];
-  const min = view.currentBid===0?view.basePrice:view.currentBid+Math.max(10,Math.round(view.currentBid*0.1));
-  const canBid = player.money>=min;
-  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="10" value="'+Math.min(min,player.money)+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  const min = calcMinBid(view.currentBid);
+  const canBid = player.money >= min;
+  const defaultVal = canBid ? min : 1;
+  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
   if(canBid){
     document.getElementById('bidBtn').onclick = ()=>{ const v=+document.getElementById('bidInput').value; submitBid(v); };
   }
@@ -690,7 +687,7 @@ function hostHandleBid(amount){
     const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
     const turnPid = ids[data.activePlayers[data.turnPointer]];
     if(turnPid !== state.playerId) return;
-    const min = data.currentBid===0 ? data.basePrice : data.currentBid + Math.max(10, Math.round(data.currentBid*0.1));
+    const min = calcMinBid(data.currentBid);
     amount = Math.round(amount);
     if(amount < min) return;
     if(amount > players[state.playerId].money) return;
@@ -728,16 +725,14 @@ function clientHandleBid(amount){
     const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
     const turnPid = ids[data.activePlayers[data.turnPointer]];
     if(turnPid !== state.playerId) return;
-    const min = data.currentBid===0 ? data.basePrice : data.currentBid + Math.max(10, Math.round(data.currentBid*0.1));
+    const min = calcMinBid(data.currentBid);
     amount = Math.round(amount);
     if(amount < min) return;
     if(amount > players[state.playerId].money) return;
     const log = (data.log||[]);
     log.push(players[state.playerId].name+' ставит '+amount);
     const tp = (data.turnPointer+1) % data.activePlayers.length;
-    room.update({ currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) }).then(()=>{
-      if(state.role !== 'host'){ /* guest just updates */ }
-    });
+    room.update({ currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) });
   });
 }
 
@@ -798,7 +793,16 @@ function hostFinishRound(winnerIdx){
       setTimeout(()=>{
         room.once('value').then(s2=>{
           const d2 = s2.val();
-          if((d2.pool||[]).length === 0){ room.child('phase').set('results'); }
+          const totalMoney = Object.values(d2.players||{}).reduce((s,p)=>s+(p.money||0),0);
+          if((d2.pool||[]).length === 0 || totalMoney <= 0){
+            if(totalMoney <= 0 && (d2.pool||[]).length > 0){
+              const log2 = (d2.log||[]);
+              log2.push('💰 У всех закончились деньги — конец игры!');
+              room.update({ phase:'results', log: log2.slice(-100) });
+            } else {
+              room.child('phase').set('results');
+            }
+          }
           else { room.child('phase').set('playing'); hostNextRound(); }
         });
       }, 1800);
@@ -864,16 +868,23 @@ document.getElementById('hsStartBtn').onclick = ()=>{
 
 function hsNextRound(){
   if(hsLocal.pool.length === 0){ hsRenderResults(); return; }
+  // Проверка: у всех 0 денег — конец игры
+  const totalMoney = hsLocal.players.reduce((s,p)=>s+(p.money||0),0);
+  if(totalMoney <= 0){
+    hsLocal.log.push('💰 У всех закончились деньги — конец игры!');
+    hsRenderResults();
+    return;
+  }
   hsLocal.roundNumber++;
   hsLocal.current = hsLocal.pool.shift();
-  hsLocal.basePrice = Math.max(10, Math.round(hsLocal.current.p * hsLocal.startingMoney / 200));
+  hsLocal.basePrice = 1;
   hsLocal.currentBid = 0;
   hsLocal.currentBidder = null;
   hsLocal.activePlayers = hsLocal.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
   if(hsLocal.activePlayers.length === 0){ hsFinishRound(null); return; }
   hsLocal.turnPointer = hsLocal.firstBidderOffset % hsLocal.activePlayers.length;
   hsLocal.firstBidderOffset++;
-  hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+', старт '+hsLocal.basePrice+')');
+  hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+')');
   hsRender();
 }
 
@@ -895,9 +906,6 @@ function hsRender(){
   renderSnapshot(view);
 }
 
-function renderActionPanelOverride(view){ /* не используется */ }
-
-/* Переопределяем рендер для hotseat: показываем ход текущего игрока */
 const origRenderActionPanel = renderActionPanel;
 renderActionPanel = function(view){
   const ap = document.getElementById('actionPanel');
@@ -905,9 +913,10 @@ renderActionPanel = function(view){
   if(view.phase==='paused'){ ap.innerHTML='<div class="turn-name">Раунд завершён...</div>'; return; }
   if(view.turnIdx === -1){ ap.innerHTML='<div class="turn-name">Ждём...</div>'; return; }
   const player = view.players[view.turnIdx];
-  const min = view.currentBid===0?view.basePrice:view.currentBid+Math.max(10,Math.round(view.currentBid*0.1));
+  const min = calcMinBid(view.currentBid);
   const canBid = player.money >= min;
-  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="10" value="'+Math.min(min,player.money)+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  const defaultVal = canBid ? min : 1;
+  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
   if(canBid){
     document.getElementById('bidBtn').onclick = ()=>{
       const v = +document.getElementById('bidInput').value;
@@ -919,7 +928,7 @@ renderActionPanel = function(view){
 
 function hsBid(pidx, amount){
   const p = hsLocal.players[pidx];
-  const min = hsLocal.currentBid===0?hsLocal.basePrice:hsLocal.currentBid+Math.max(10,Math.round(hsLocal.currentBid*0.1));
+  const min = calcMinBid(hsLocal.currentBid);
   amount = Math.round(amount);
   if(amount < min) return;
   if(amount > p.money) return;
