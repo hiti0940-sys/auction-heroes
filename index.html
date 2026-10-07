@@ -36,6 +36,9 @@
   .topbar b{color:#f39c12}
   .char-card{text-align:center;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(155,89,182,.15));border:2px solid rgba(243,156,18,.4);margin-bottom:12px}
   .char-emoji{font-size:42px;margin-bottom:4px}
+  .char-img{width:100%;max-width:280px;height:280px;margin:0 auto 10px;border-radius:14px;overflow:hidden;background:#0f0f1e;display:flex;align-items:center;justify-content:center}
+  .char-img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .char-img.face img{object-position:center center}
   .char-name{font-size:21px;font-weight:700;color:#f39c12;margin-bottom:3px}
   .char-source{color:#aaa;font-size:12px;margin-bottom:10px}
   .power-bar{height:12px;background:#1a1a2e;border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 5px}
@@ -365,6 +368,14 @@ const CHARACTERS = [
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
+/* Словарь картинок: ключ — точное имя из CHARACTERS, crop: face (лицо) или full (полный рост) */
+const CHAR_IMAGES = {
+  "Сайтама": {file:"img/saitama.jpg", crop:"face"},
+  "Гоку": {file:"img/goku.jpg", crop:"full"},
+  "Наруто (СО6П)": {file:"img/naruto.jpg", crop:"face"},
+  "Луффи (G5)": {file:"img/luffy.jpg", crop:"full"}
+};
+
 const state = {
   mode:null, role:null, myIdx:0,
   roomCode:null, playerId:null,
@@ -538,7 +549,6 @@ function startOnlineGame(){
   });
 }
 
-/* Первый ход чередуется по раундам */
 function hostNextRound(){
   const room = state.roomRef;
   room.once('value').then(snap=>{
@@ -608,7 +618,14 @@ function renderSnapshot(view){
   const c = view.char;
   if(c){
     const pct = Math.min(100, Math.round(c.p/10));
-    document.getElementById('charCard').innerHTML = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>'+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 1000</div>';
+    const imgInfo = CHAR_IMAGES[c.n];
+    let topPart;
+    if(imgInfo){
+      topPart = '<div class="char-img'+(imgInfo.crop==='face'?' face':'')+'"><img src="'+imgInfo.file+'" alt="'+c.n+'"></div>';
+    } else {
+      topPart = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>';
+    }
+    document.getElementById('charCard').innerHTML = topPart+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 1000</div>';
   }
   const pl = document.getElementById('playersList');
   pl.innerHTML = '';
@@ -752,7 +769,6 @@ function clientHandlePass(){
   });
 }
 
-/* Авто-проверка хостом */
 function hostAutoCheck(){
   if(state.role !== 'host') return;
   const room = state.roomRef;
@@ -998,7 +1014,6 @@ function hsRenderResults(){
   show('resultsScreen');
 }
 
-/* Хост каждые 800 мс проверяет состояние */
 setInterval(function(){
   if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
     hostAutoCheck();
