@@ -642,28 +642,19 @@ function renderSnapshot(view){
   }
 }
 
-/* Минимальная ставка: 1 если ставок нет, иначе предыдущая + 1 */
-function calcMinBid(currentBid){
-  if(!currentBid || currentBid === 0) return 1;
-  return currentBid + 1;
-}
-
 function renderActionPanel(view){
   const ap = document.getElementById('actionPanel');
   if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
   if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
   const currentPlayerName = view.players[view.turnIdx].name;
   const isMyTurn = (state.myIdx === view.turnIdx);
-
   if(!isMyTurn){
     ap.innerHTML = '<div class="turn-name">Ход: <b>'+currentPlayerName+'</b></div>'+'<div style="color:#888;font-size:13px;margin-top:6px">Ожидание ставки...</div>';
     return;
   }
   const player = view.players[state.myIdx];
-  const min = calcMinBid(view.currentBid);
-  const canBid = player.money >= min;
-  const defaultVal = canBid ? min : 1;
-  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  const canBid = player.money >= 1;
+  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="1" max="'+player.money+'" step="1" value="1" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(!canBid?'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Нет денег</div>':'');
   if(canBid){
     document.getElementById('bidBtn').onclick = ()=>{ const v=+document.getElementById('bidInput').value; submitBid(v); };
   }
@@ -687,9 +678,8 @@ function hostHandleBid(amount){
     const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
     const turnPid = ids[data.activePlayers[data.turnPointer]];
     if(turnPid !== state.playerId) return;
-    const min = calcMinBid(data.currentBid);
     amount = Math.round(amount);
-    if(amount < min) return;
+    if(amount < 1) return;
     if(amount > players[state.playerId].money) return;
     const log = (data.log||[]);
     log.push(players[state.playerId].name+' ставит '+amount);
@@ -725,9 +715,8 @@ function clientHandleBid(amount){
     const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
     const turnPid = ids[data.activePlayers[data.turnPointer]];
     if(turnPid !== state.playerId) return;
-    const min = calcMinBid(data.currentBid);
     amount = Math.round(amount);
-    if(amount < min) return;
+    if(amount < 1) return;
     if(amount > players[state.playerId].money) return;
     const log = (data.log||[]);
     log.push(players[state.playerId].name+' ставит '+amount);
@@ -868,7 +857,6 @@ document.getElementById('hsStartBtn').onclick = ()=>{
 
 function hsNextRound(){
   if(hsLocal.pool.length === 0){ hsRenderResults(); return; }
-  // Проверка: у всех 0 денег — конец игры
   const totalMoney = hsLocal.players.reduce((s,p)=>s+(p.money||0),0);
   if(totalMoney <= 0){
     hsLocal.log.push('💰 У всех закончились деньги — конец игры!');
@@ -913,10 +901,8 @@ renderActionPanel = function(view){
   if(view.phase==='paused'){ ap.innerHTML='<div class="turn-name">Раунд завершён...</div>'; return; }
   if(view.turnIdx === -1){ ap.innerHTML='<div class="turn-name">Ждём...</div>'; return; }
   const player = view.players[view.turnIdx];
-  const min = calcMinBid(view.currentBid);
-  const canBid = player.money >= min;
-  const defaultVal = canBid ? min : 1;
-  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки</div>');
+  const canBid = player.money >= 1;
+  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="1" max="'+player.money+'" step="1" value="1" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(!canBid?'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Нет денег</div>':'');
   if(canBid){
     document.getElementById('bidBtn').onclick = ()=>{
       const v = +document.getElementById('bidInput').value;
@@ -928,9 +914,8 @@ renderActionPanel = function(view){
 
 function hsBid(pidx, amount){
   const p = hsLocal.players[pidx];
-  const min = calcMinBid(hsLocal.currentBid);
   amount = Math.round(amount);
-  if(amount < min) return;
+  if(amount < 1) return;
   if(amount > p.money) return;
   hsLocal.currentBid = amount;
   hsLocal.currentBidder = pidx;
