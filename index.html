@@ -36,9 +36,10 @@
   .topbar b{color:#f39c12}
   .char-card{text-align:center;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(155,89,182,.15));border:2px solid rgba(243,156,18,.4);margin-bottom:12px}
   .char-emoji{font-size:42px;margin-bottom:4px}
-  .char-img{width:100%;max-width:280px;height:280px;margin:0 auto 10px;border-radius:14px;overflow:hidden;background:#0f0f1e;display:flex;align-items:center;justify-content:center}
-  .char-img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-  .char-img.face img{object-position:center center}
+  .char-img{width:100%;max-width:300px;height:340px;margin:0 auto 10px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);display:flex;align-items:center;justify-content:center}
+  .char-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .char-img.contain img{object-fit:contain;object-position:center center}
+  .char-img.face img{object-fit:cover;object-position:center 25%}
   .char-name{font-size:21px;font-weight:700;color:#f39c12;margin-bottom:3px}
   .char-source{color:#aaa;font-size:12px;margin-bottom:10px}
   .power-bar{height:12px;background:#1a1a2e;border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 5px}
@@ -253,6 +254,8 @@ const CHARACTERS = [
   {n:"Недзуко",t:"anime",p:550,d:"Клинок, рассекающий демонов"},
   {n:"Спайк Шпигель",t:"anime",p:550,d:"Cowboy Bebop"},
   {n:"Микаса",t:"anime",p:500,d:"Атака титанов"},
+  {n:"Сакура",t:"anime",p:520,d:"Наруто"},
+  {n:"Рукия",t:"anime",p:530,d:"Блич"},
   {n:"Лелуш",t:"anime",p:250,d:"Code Geass"},
   {n:"L",t:"anime",p:150,d:"Тетрадь смерти"},
   {n:"Рейген",t:"anime",p:150,d:"Моб Психо 100"},
@@ -368,12 +371,37 @@ const CHARACTERS = [
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
-/* Словарь картинок: ключ — точное имя из CHARACTERS, crop: face (лицо) или full (полный рост) */
+/* fit: "cover" — обрезать по центру, "contain" — вписать целиком, "face" — фокус на лицо */
 const CHAR_IMAGES = {
-  "Сайтама": {file:"img/saitama.jpg", crop:"face"},
-  "Гоку": {file:"img/goku.jpg", crop:"full"},
-  "Наруто (СО6П)": {file:"img/naruto.jpg", crop:"face"},
-  "Луффи (G5)": {file:"img/luffy.jpg", crop:"full"}
+  "Сайтама":         {file:"img/saitama",  fit:"face"},
+  "Гоку":            {file:"img/goku",     fit:"contain"},
+  "Наруто (СО6П)":   {file:"img/naruto",   fit:"face"},
+  "Луффи (G5)":      {file:"img/luffy",    fit:"cover"},
+  "Саске (СО6П)":    {file:"img/sasuke",   fit:"contain"},
+  "Ичиго (финал)":   {file:"img/ichigo",   fit:"contain"},
+  "Сатору Годжо":    {file:"img/gojo",     fit:"face"},
+  "Сукуна":          {file:"img/sukuna",   fit:"contain"},
+  "Юджи Итадори":    {file:"img/yuji",     fit:"cover"},
+  "Леви Аккерман":   {file:"img/levi",     fit:"face"},
+  "Эрен (Основатель)":{file:"img/eren",    fit:"face"},
+  "Микаса":          {file:"img/mikasa",   fit:"cover"},
+  "Сакура":          {file:"img/sakura",   fit:"cover"},
+  "Рукия":           {file:"img/rukia",    fit:"cover"},
+  "Зоро":            {file:"img/zoro",     fit:"face"},
+  "Санджи":          {file:"img/sanji",    fit:"cover"},
+  "Киллуа":          {file:"img/killua",   fit:"cover"},
+  "Гон (взрослый)":  {file:"img/gon",      fit:"cover"},
+  "Танджиро":        {file:"img/tanjiro",  fit:"contain"},
+  "Недзуко":         {file:"img/nezuko",   fit:"cover"},
+  "Деку (финал)":    {file:"img/deku",     fit:"contain"},
+  "Бакуго":          {file:"img/bakugo",   fit:"contain"},
+  "Тодороки":        {file:"img/todoroki", fit:"cover"},
+  "Кратос":          {file:"img/kratos",   fit:"cover"},
+  "Танос (Перчатка)":{file:"img/thanos",   fit:"face"},
+  "Тор":             {file:"img/thor",     fit:"contain"},
+  "Супермен":        {file:"img/superman", fit:"cover"},
+  "Бэтмен":          {file:"img/batman",   fit:"contain"},
+  "Джокер":          {file:"img/joker",    fit:"cover"}
 };
 
 const state = {
@@ -621,7 +649,9 @@ function renderSnapshot(view){
     const imgInfo = CHAR_IMAGES[c.n];
     let topPart;
     if(imgInfo){
-      topPart = '<div class="char-img'+(imgInfo.crop==='face'?' face':'')+'"><img src="'+imgInfo.file+'" alt="'+c.n+'"></div>';
+      const cls = imgInfo.fit==='contain' ? ' contain' : (imgInfo.fit==='face' ? ' face' : '');
+      const f = imgInfo.file;
+      topPart = '<div class="char-img'+cls+'"><img src="'+f+'.png" onerror="this.onerror=null;this.src=\''+f+'.jpg\'" alt="'+c.n+'"></div>';
     } else {
       topPart = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>';
     }
@@ -657,7 +687,6 @@ function renderSnapshot(view){
   }
 }
 
-/* Минимум: если ставок нет — 1, если есть — только больше */
 function calcMinBid(currentBid){
   if(!currentBid || currentBid === 0) return 1;
   return currentBid + 1;
@@ -849,9 +878,7 @@ function renderResults(view){
     const chars = (p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
     tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
   });
-}
-
-/* ============ ЛОКАЛЬНЫЙ РЕЖИМ ============ */
+  }/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
 const hsLocal = {players:[], pool:[], roundNumber:0, totalRounds:0, startingMoney:0, current:null, currentBid:0, currentBidder:null, activePlayers:[], turnPointer:0, basePrice:0, phase:'lobby', log:[], firstBidderOffset:0};
 
 const hsNames = document.getElementById('hsPlayerNames');
@@ -1014,6 +1041,7 @@ function hsRenderResults(){
   show('resultsScreen');
 }
 
+/* Хост каждые 800 мс проверяет состояние */
 setInterval(function(){
   if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
     hostAutoCheck();
