@@ -6,7 +6,20 @@
 <meta name="theme-color" content="#1a1a2e">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Аукцион Героев</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script>
+window.onerror = function(msg, src, line, col){
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#c00;color:#fff;padding:10px;z-index:99999;font-size:13px;font-family:monospace;word-break:break-all';
+  d.textContent = '❗ ' + msg + ' (строка ' + line + ')';
+  document.body.appendChild(d);
+};
+window.addEventListener('unhandledrejection', function(e){
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#c00;color:#fff;padding:10px;z-index:99999;font-size:13px;font-family:monospace;word-break:break-all';
+  d.textContent = '❗ Promise: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason));
+  document.body.appendChild(d);
+});
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
