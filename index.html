@@ -41,7 +41,6 @@
   .power-bar{height:12px;background:#1a1a2e;border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 5px}
   .power-fill{height:100%;background:linear-gradient(90deg,#e74c3c,#f39c12);transition:width .4s}
   .power-value{font-size:14px;color:#f39c12;font-weight:700}
-  .base-price{margin-top:8px;color:#27ae60;font-size:14px;font-weight:600}
   .players-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
   .player-item{background:#1a1a2e;border-radius:10px;padding:10px;border:2px solid transparent;font-size:13px}
   .player-item.active{border-color:#f39c12}
@@ -487,6 +486,9 @@ function handleRoomUpdate(room){
   } else if(room.phase === 'playing' || room.phase === 'paused' || room.phase === 'results'){
     show('gameScreen');
     renderFromRoom(room, playerList);
+    if(state.role === 'host' && room.phase === 'playing'){
+      setTimeout(hostAutoCheck, 250);
+    }
   }
 }
 
@@ -539,7 +541,7 @@ function startOnlineGame(){
   });
 }
 
-/* Первый ход чередуется по раундам — не один и тот же игрок */
+/* Первый ход чередуется по раундам */
 function hostNextRound(){
   const room = state.roomRef;
   room.once('value').then(snap=>{
@@ -564,11 +566,10 @@ function hostNextRound(){
     const activeIdx = [];
     playerIds.forEach((pid, idx) => { if(players[pid].money > 0) activeIdx.push(idx); });
 
-    // Чередование первого хода: раунд 1 → 0-й активный, раунд 2 → 1-й, и т.д.
     const turnPointer = activeIdx.length ? ((roundNumber - 1) % activeIdx.length) : 0;
 
     const updates = {
-      pool: rest, current: next, basePrice: 1,
+      pool: rest, current: next, basePrice: 0,
       roundNumber, currentBid: 0, currentBidder: null,
       activePlayers: activeIdx,
       turnPointer: turnPointer
@@ -642,9 +643,7 @@ function renderSnapshot(view){
   }
 }
 
-/* Минимальная ставка:
-   - если ставок нет — 1 (первый ставит любую)
-   - если ставка есть — только больше (текущая + 1) */
+/* Минимум: если ставок нет — 1, если есть — только больше */
 function calcMinBid(currentBid){
   if(!currentBid || currentBid === 0) return 1;
   return currentBid + 1;
@@ -665,7 +664,7 @@ function renderActionPanel(view){
   const canBid = player.money >= min;
   const defaultVal = canBid ? min : 1;
   const hint = view.currentBid === 0 ? 'Можно ставить любую сумму (от 1)' : ('Нужно больше: минимум '+min);
-  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(!canBid?'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег для ставки (нужно '+min+')</div>':'');
+  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(!canBid?'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег (нужно '+min+')</div>':'');
   if(canBid){
     document.getElementById('bidBtn').onclick = ()=>{ const v=+document.getElementById('bidInput').value; submitBid(v); };
   }
@@ -697,7 +696,7 @@ function hostHandleBid(amount){
     log.push(players[state.playerId].name+' ставит '+amount);
     const tp = (data.turnPointer+1) % data.activePlayers.length;
     const updates = { currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) };
-    room.update(updates).then(()=>checkEnd());
+    room.update(updates).then(()=>hostAutoCheck());
   });
 }
 
@@ -714,7 +713,7 @@ function hostHandlePass(){
     const newActive = data.activePlayers.slice();
     newActive.splice(data.turnPointer, 1);
     const tp = newActive.length ? (data.turnPointer % newActive.length) : 0;
-    room.update({ activePlayers: newActive, turnPointer: tp, log: log.slice(-100) }).then(()=>checkEnd());
+    room.update({ activePlayers: newActive, turnPointer: tp, log: log.slice(-100) }).then(()=>hostAutoCheck());
   });
 }
 
@@ -756,16 +755,24 @@ function clientHandlePass(){
   });
 }
 
-function checkEnd(){
+/* Авто-проверка хостом: если игроков осталось 0 или 1 — завершаем раунд */
+function hostAutoCheck(){
   if(state.role !== 'host') return;
   const room = state.roomRef;
   room.once('value').then(snap=>{
     const data = snap.val();
-    if(!data) return;
-    if(data.activePlayers.length === 0){ hostFinishRound(null); return; }
-    if(data.activePlayers.length === 1){
-      const last = data.activePlayers[0];
-      if(data.currentBidder === last){ hostFinishRound(last); return; }
+    if(!data || data.phase !== 'playing') return;
+    const ap = data.activePlayers || [];
+    if(ap.length === 0){ hostFinishRound(null); return; }
+    if(ap.length === 1){
+      const last = ap[0];
+      if(data.currentBidder === last){
+        hostFinishRound(last);
+      } else {
+        if(data.turnPointer !== 0){
+          room.child('turnPointer').set(0);
+        }
+      }
     }
   });
 }
@@ -825,7 +832,7 @@ function renderResults(view){
   });
 }
 
-/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
+/* ============ ЛОКАЛЬНЫЙ РЕЖИМ ============ */
 const hsLocal = {players:[], pool:[], roundNumber:0, totalRounds:0, startingMoney:0, current:null, currentBid:0, currentBidder:null, activePlayers:[], turnPointer:0, basePrice:0, phase:'lobby', log:[], firstBidderOffset:0};
 
 const hsNames = document.getElementById('hsPlayerNames');
@@ -883,7 +890,6 @@ function hsNextRound(){
   hsLocal.currentBidder = null;
   hsLocal.activePlayers = hsLocal.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
   if(hsLocal.activePlayers.length === 0){ hsFinishRound(null); return; }
-  // Чередование первого хода по номеру раунда
   hsLocal.turnPointer = ((hsLocal.roundNumber - 1) % hsLocal.activePlayers.length);
   hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+')');
   hsRender();
@@ -954,6 +960,7 @@ function hsCheckEnd(){
   if(hsLocal.activePlayers.length === 1){
     const last = hsLocal.activePlayers[0];
     if(hsLocal.currentBidder === last){ hsFinishRound(last); return; }
+    else { hsLocal.turnPointer = 0; hsRender(); return; }
   }
   hsRender();
 }
