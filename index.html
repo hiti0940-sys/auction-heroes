@@ -386,40 +386,42 @@ const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", do
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
 const CHAR_STATS = {
-  "Сайтама":         {atk:40, def:30, agi:15, mag:0,  int:10, ability:"one_punch"},
-  "Гоку":            {atk:35, def:28, agi:35, mag:15, int:20, ability:"rage"},
-  "Наруто (СО6П)":   {atk:30, def:22, agi:30, mag:20, int:25, ability:"clones"},
-  "Луффи (G5)":      {atk:32, def:25, agi:28, mag:5,  int:18, ability:"regen"},
-  "Зоро":            {atk:34, def:24, agi:32, mag:0,  int:22, ability:"precision"},
-  "Леви Аккерман":   {atk:28, def:20, agi:50, mag:0,  int:30, ability:"speed"},
-  "Кратос":          {atk:38, def:30, agi:18, mag:10, int:12, ability:"rage"},
-  "Танос (Перчатка)":{atk:36, def:32, agi:15, mag:25, int:30, ability:"infinity"},
-  "Бэтмен":          {atk:26, def:35, agi:25, mag:5,  int:40, ability:"prep"},
-  "Джокер":          {atk:22, def:18, agi:28, mag:15, int:38, ability:"chaos"}
+  "Сайтама":         {hp:10000, atk:40, def:30, agi:15, mag:0,  int:10, ability:"one_punch"},
+  "Гоку":            {hp:2000,  atk:35, def:28, agi:35, mag:15, int:20, ability:"kamehameha"},
+  "Наруто (СО6П)":   {hp:800,   atk:30, def:22, agi:30, mag:20, int:25, ability:"rasengan"},
+  "Луффи (G5)":      {hp:2000,  atk:32, def:25, agi:28, mag:5,  int:18, ability:"nika"},
+  "Зоро":            {hp:300,   atk:34, def:24, agi:32, mag:0,  int:22, ability:"asura"},
+  "Леви Аккерман":   {hp:300,   atk:28, def:20, agi:50, mag:0,  int:30, ability:"ackerman"},
+  "Кратос":          {hp:800,   atk:38, def:30, agi:18, mag:10, int:12, ability:"spartan_rage"},
+  "Танос (Перчатка)":{hp:2000,  atk:36, def:32, agi:15, mag:25, int:30, ability:"snap"},
+  "Бэтмен":          {hp:300,   atk:26, def:35, agi:25, mag:5,  int:40, ability:"prepared"},
+  "Джокер":          {hp:100,   atk:22, def:18, agi:28, mag:15, int:38, ability:"madness"}
 };
 
 const ABILITY_NAMES = {
-  one_punch: "Один удар",
-  rage:      "Ярость",
-  clones:    "Клоны",
-  regen:     "Регенерация",
-  precision: "Точность",
-  speed:     "Скорость",
-  infinity:  "Бесконечность",
-  prep:      "Подготовка",
-  chaos:     "Хаос"
+  one_punch:    "Один удар",
+  kamehameha:   "Камехамеха",
+  rasengan:     "Расенган",
+  nika:         "Пятый гир — Ника",
+  asura:        "Асура",
+  ackerman:     "Вихрь Аккермана",
+  spartan_rage: "Ярость Спарты",
+  snap:         "Щелчок перчатки",
+  prepared:     "Всегда готов",
+  madness:      "Безумие"
 };
 
 const ABILITY_DESC = {
-  one_punch: "Первая атака — крит ×3",
-  rage:      "+50% атаки, если HP меньше 50%",
-  clones:    "+30% шанс уклонения",
-  regen:     "+5 HP каждый свой ход",
-  precision: "+25% шанс крита",
-  speed:     "Всегда бьёт первым",
-  infinity:  "Первый удар отнимает 30% HP врага",
-  prep:      "+30% защиты",
-  chaos:     "Враг теряет 20% атаки"
+  one_punch:    "Первая атака — 500 урона или казнь (если HP врага ≤500)",
+  kamehameha:   "Раз в 3 хода — 500 урона, −30 собственного HP",
+  rasengan:     "Раз в 3 хода — 400 урона + враг пропускает ход",
+  nika:         "При HP <50% — +50% АТК, +30% ЛОВ, урон врага −50%, +50 HP/ход",
+  asura:        "Раз в 4 хода — 3 удара по 60 (итого 180)",
+  ackerman:     "Всегда бьёт первым + 30% шанс двойного удара",
+  spartan_rage: "При HP <50% — +50% АТК и +30% ЛОВ",
+  snap:         "Раз в 5 ходов — стирает 50% текущего HP врага",
+  prepared:     "В начале боя +30% ЗАЩ, видит следующий приём врага",
+  madness:      "Раз в 4 хода — враг атакует сам себя (урон ×1.5)"
 };
 
 const CHAR_IMAGES = {
@@ -713,7 +715,8 @@ function renderSnapshot(view){
       const r = c.p >= 900 ? 'mythic' : c.p >= 750 ? 'legendary' : c.p >= 550 ? 'epic' : c.p >= 300 ? 'rare' : 'common';
       const rName = {common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[r];
       statsHtml = '<span class="rarity-badge rarity-'+r+'">'+rName+'</span>'
-        + '<div class="stats-row">'
+        + '<div class="stats-row" style="grid-template-columns:repeat(6,1fr)">'
+        + '<div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div>'
         + '<div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div>'
         + '<div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div>'
         + '<div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div>'
@@ -1127,4 +1130,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
- </html>
+                                                                                                       </html>
