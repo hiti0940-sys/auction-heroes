@@ -88,6 +88,18 @@
   .status-msg{font-size:13px;color:#aaa;text-align:center;margin-top:8px;min-height:20px}
   .status-msg.err{color:#e74c3c}
   .status-msg.ok{color:#27ae60}
+  .duel-setup-players{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .duel-player{background:#1a1a2e;border-radius:10px;padding:10px;border:2px solid rgba(243,156,18,.3)}
+  .duel-player h3{font-size:14px;color:#f39c12;margin-bottom:8px;text-align:center;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+  .mini-cards{display:flex;flex-direction:column;gap:6px;align-items:center}
+  .mini-card{width:100%;background:#0f0f1e;border-radius:8px;overflow:hidden;border:2px solid #333;text-align:center;padding-bottom:4px}
+  .mini-card img{width:100%;height:60px;object-fit:cover;object-position:center top;display:block}
+  .mini-card .mc-name{font-size:10px;padding:3px 2px;color:#ddd;font-weight:700;line-height:1.1}
+  .mini-card .mc-stats{font-size:9px;color:#f39c12;padding-bottom:2px}
+  .mini-card.rarity-mythic{border-color:#f39c12;box-shadow:0 0 8px rgba(243,156,18,.5)}
+  .mini-card.rarity-legendary{border-color:#9b59b6}
+  .mini-card.rarity-epic{border-color:#3498db}
+  .mini-card.rarity-rare{border-color:#2ecc71}
   .hidden{display:none!important}
   .mode-tabs{display:flex;gap:6px;margin-bottom:14px}
   .mode-tabs button{background:#1a1a2e;color:#aaa;border:1px solid #333;font-size:13px;padding:10px}
@@ -195,9 +207,27 @@
   <div id="duelScreen" class="hidden">
     <div class="panel">
       <h2>⚔️ РЕЖИМ ДУЭЛИ</h2>
-      <p style="color:#aaa;font-size:13px;text-align:center;margin-bottom:14px">Скоро здесь будет бой карт 1 vs 1!</p>
-      <div id="duelContent" style="text-align:center;padding:30px 10px;color:#666">
-        🚧 В разработке 🚧
+      <div id="duelSetup">
+        <label>Имя игрока 1</label>
+        <input type="text" id="duelP1Name" value="Игрок 1" maxlength="16">
+        <label style="margin-top:10px">Имя игрока 2</label>
+        <input type="text" id="duelP2Name" value="Игрок 2" maxlength="16">
+        <button class="btn-primary" id="duelStartBtn" style="margin-top:14px">🎲 РАЗДАТЬ КАРТЫ</button>
+      </div>
+      <div id="duelDecks" class="hidden">
+        <p style="color:#aaa;font-size:12px;text-align:center;margin-bottom:10px">Каждому — по 3 случайные карты</p>
+        <div class="duel-setup-players">
+          <div class="duel-player">
+            <h3 id="duelP1Title">Игрок 1</h3>
+            <div class="mini-cards" id="duelP1Cards"></div>
+          </div>
+          <div class="duel-player">
+            <h3 id="duelP2Title">Игрок 2</h3>
+            <div class="mini-cards" id="duelP2Cards"></div>
+          </div>
+        </div>
+        <button class="btn-primary" id="duelFightBtn" style="margin-top:14px;background:linear-gradient(135deg,#9b59b6,#e74c3c)">⚔️ В БОЙ!</button>
+        <button class="btn-secondary" id="duelRedrawBtn" style="margin-top:8px">🔄 Пересдать</button>
       </div>
       <button class="btn-secondary" id="backFromDuel" style="margin-top:14px">Назад</button>
     </div>
@@ -498,6 +528,56 @@ document.getElementById('backFromJoin').onclick = ()=>show('menuScreen');
 document.getElementById('backFromHs').onclick = ()=>show('menuScreen');
 document.getElementById('duelModeBtn').onclick = ()=>show('duelScreen');
 document.getElementById('backFromDuel').onclick = ()=>show('menuScreen');
+
+let duelP1Deck = [];
+let duelP2Deck = [];
+
+document.getElementById('duelStartBtn').onclick = ()=>{
+  const p1 = (document.getElementById('duelP1Name').value.trim()||'Игрок 1').slice(0,16);
+  const p2 = (document.getElementById('duelP2Name').value.trim()||'Игрок 2').slice(0,16);
+  document.getElementById('duelP1Title').textContent = p1;
+  document.getElementById('duelP2Title').textContent = p2;
+
+  const allNames = Object.keys(CHAR_STATS);
+  const shuffled = shuffle(allNames);
+  duelP1Deck = shuffled.slice(0,3);
+  duelP2Deck = shuffled.slice(3,6);
+
+  renderDuelDeck('duelP1Cards', duelP1Deck);
+  renderDuelDeck('duelP2Cards', duelP2Deck);
+
+  document.getElementById('duelSetup').classList.add('hidden');
+  document.getElementById('duelDecks').classList.remove('hidden');
+};
+
+function renderDuelDeck(containerId, deck){
+  const cont = document.getElementById(containerId);
+  cont.innerHTML = '';
+  deck.forEach(name=>{
+    const stats = CHAR_STATS[name];
+    const img = CHAR_IMAGES[name];
+    const rarity = stats.hp >= 5000 ? 'mythic' : stats.hp >= 1500 ? 'legendary' : stats.hp >= 700 ? 'epic' : stats.hp >= 250 ? 'rare' : 'common';
+    const imgHtml = img ? '<img src="'+img.file+'.png" onerror="this.onerror=null;this.src=\''+img.file+'.jpg\'" alt="">' : '<div style="height:60px;display:flex;align-items:center;justify-content:center;font-size:30px">'+(THEME_EMOJI[(CHARACTERS.find(c=>c.n===name)||{}).t]||'⭐')+'</div>';
+    const div = document.createElement('div');
+    div.className = 'mini-card rarity-'+rarity;
+    div.innerHTML = imgHtml + '<div class="mc-name">'+name+'</div><div class="mc-stats">❤️'+stats.hp+' ⚔️'+stats.atk+'</div>';
+    cont.appendChild(div);
+  });
+}
+
+document.getElementById('duelRedrawBtn').onclick = ()=>{
+  document.getElementById('duelStartBtn').click();
+};
+
+document.getElementById('duelFightBtn').onclick = ()=>{
+  alert('⚔️ Бой ещё в разработке!\n\nСледующий шаг — движок боя.');
+};
+
+document.getElementById('backFromDuel').onclick = ()=>{
+  document.getElementById('duelSetup').classList.remove('hidden');
+  document.getElementById('duelDecks').classList.add('hidden');
+  show('menuScreen');
+};
 
 document.getElementById('createConfirmBtn').onclick = createRoom;
 function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
@@ -1143,4 +1223,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
- </html>
+       </html>
