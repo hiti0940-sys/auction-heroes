@@ -649,7 +649,15 @@ function startDuelRound(){
     hp1: s1.hp, hp2: s2.hp,
     maxHp1: s1.hp, maxHp2: s2.hp,
     p1First: s1.agi >= s2.agi,
-    turn: 1
+    turn: 1,
+    abilityUsed1: false,
+    abilityUsed2: false,
+    skip1: false,
+    skip2: false,
+    nika1: false,
+    nika2: false,
+    rage1: false,
+    rage2: false
   };
 
   document.getElementById('duelRoundNum').textContent = duelState.round;
@@ -727,16 +735,162 @@ function duelAttack(){
   const defName = isP1Attacking ? cur.c2 : cur.c1;
   const atkStats = isP1Attacking ? cur.s1 : cur.s2;
   const defStats = isP1Attacking ? cur.s2 : cur.s1;
+  const ability = atkStats.ability;
 
-  const dmg = Math.max(1, atkStats.atk - defStats.def);
-
-  if(isP1Attacking){
-    cur.hp2 = Math.max(0, cur.hp2 - dmg);
-  } else {
-    cur.hp1 = Math.max(0, cur.hp1 - dmg);
+  // === НИКА (Луффи) — активация при HP < 50% ===
+  if(ability === 'nika'){
+    if(isP1Attacking && !cur.nika1 && cur.hp1 < cur.maxHp1/2){
+      cur.nika1 = true;
+      cur.s1.atk = Math.round(cur.s1.atk * 1.5);
+      cur.s1.agi = Math.round(cur.s1.agi * 1.3);
+      addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>Пятый гир — Ника!</b> +50% АТК, +30% ЛОВ', 'crit');
+    } else if(!isP1Attacking && !cur.nika2 && cur.hp2 < cur.maxHp2/2){
+      cur.nika2 = true;
+      cur.s2.atk = Math.round(cur.s2.atk * 1.5);
+      cur.s2.agi = Math.round(cur.s2.agi * 1.3);
+      addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>Пятый гир — Ника!</b> +50% АТК, +30% ЛОВ', 'crit');
+    }
   }
 
-  addBattleLog('<b>'+atkName+'</b> бьёт <b>'+defName+'</b> — <span class="dmg">−'+dmg+' HP</span>');
+  // === ЯРОСТЬ СПАРТЫ (Кратос) — активация при HP < 50% ===
+  if(ability === 'spartan_rage'){
+    if(isP1Attacking && !cur.rage1 && cur.hp1 < cur.maxHp1/2){
+      cur.rage1 = true;
+      cur.s1.atk = Math.round(cur.s1.atk * 1.5);
+      cur.s1.agi = Math.round(cur.s1.agi * 1.3);
+      addBattleLog('🔥 <b>'+atkName+'</b> в ярости! +50% АТК, +30% ЛОВ', 'crit');
+    } else if(!isP1Attacking && !cur.rage2 && cur.hp2 < cur.maxHp2/2){
+      cur.rage2 = true;
+      cur.s2.atk = Math.round(cur.s2.atk * 1.5);
+      cur.s2.agi = Math.round(cur.s2.agi * 1.3);
+      addBattleLog('🔥 <b>'+atkName+'</b> в ярости! +50% АТК, +30% ЛОВ', 'crit');
+    }
+  }
+
+  // === ПРОВЕРКА НА ПРОПУСК ХОДА (Расенган) ===
+  if(isP1Attacking && cur.skip1){
+    cur.skip1 = false;
+    addBattleLog('⏭ <b>'+atkName+'</b> пропускает ход!', 'miss');
+    cur.turn++;
+    return;
+  }
+  if(!isP1Attacking && cur.skip2){
+    cur.skip2 = false;
+    addBattleLog('⏭ <b>'+atkName+'</b> пропускает ход!', 'miss');
+    cur.turn++;
+    return;
+  }
+
+  // === ОДИН УДАР (Сайтама) ===
+  if(ability === 'one_punch' && cur.turn === 1){
+    const enemyHp = isP1Attacking ? cur.hp2 : cur.hp1;
+    const enemyMaxHp = isP1Attacking ? cur.maxHp2 : cur.maxHp1;
+    if(enemyHp <= 500){
+      addBattleLog('💥 <b>'+atkName+'</b> — <b>ОДИН УДАР!</b> Мгновенная казнь!', 'crit');
+      if(isP1Attacking){ cur.hp2 = 0; } else { cur.hp1 = 0; }
+      updateHpBars();
+      endDuelBattle();
+      return;
+    } else {
+      const dmg = 500;
+      if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - dmg); } else { cur.hp1 = Math.max(0, cur.hp1 - dmg); }
+      addBattleLog('💥 <b>'+atkName+'</b> — <b>ОДИН УДАР!</b> 500 урона!', 'crit');
+      updateHpBars();
+      if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
+      cur.turn++;
+      return;
+    }
+  }
+
+  // === КАМЕХАМЕХА (Гоку) — раз в 3 хода ===
+  if(ability === 'kamehameha' && cur.turn % 3 === 0){
+    const dmg = 500;
+    if(isP1Attacking){
+      cur.hp2 = Math.max(0, cur.hp2 - dmg);
+      cur.hp1 = Math.max(0, cur.hp1 - 30);
+    } else {
+      cur.hp1 = Math.max(0, cur.hp1 - dmg);
+      cur.hp2 = Math.max(0, cur.hp2 - 30);
+    }
+    addBattleLog('💥 <b>'+atkName+'</b> запускает <b>КАМЕХАМЕХУ!</b> 500 урона! (−30 HP себе)', 'crit');
+    updateHpBars();
+    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
+    cur.turn++;
+    return;
+  }
+
+  // === РАСЕНГАН (Наруто) — раз в 3 хода ===
+  if(ability === 'rasengan' && cur.turn % 3 === 0){
+    const dmg = 400;
+    if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - dmg); cur.skip2 = true; }
+    else { cur.hp1 = Math.max(0, cur.hp1 - dmg); cur.skip1 = true; }
+    addBattleLog('🌀 <b>'+atkName+'</b> — <b>РАСЕНГАН!</b> 400 урона + враг пропускает ход!', 'crit');
+    updateHpBars();
+    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
+    cur.turn++;
+    return;
+  }
+
+  // === АСУРА (Зоро) — раз в 4 хода ===
+  if(ability === 'asura' && cur.turn % 4 === 0){
+    let total = 0;
+    for(let i=0;i<3;i++){ total += 60; }
+    if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - total); } else { cur.hp1 = Math.max(0, cur.hp1 - total); }
+    addBattleLog('⚔️ <b>'+atkName+'</b> — <b>АСУРА!</b> 3 удара по 60 = 180 урона!', 'crit');
+    updateHpBars();
+    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
+    cur.turn++;
+    return;
+  }
+
+  // === ЩЕЛЧОК ПЕРЧАТКИ (Танос) — раз в 5 ходов ===
+  if(ability === 'snap' && cur.turn % 5 === 0){
+    if(isP1Attacking){
+      const dmg = Math.round(cur.hp2 / 2);
+      cur.hp2 = Math.max(0, cur.hp2 - dmg);
+      addBattleLog('💎 <b>'+atkName+'</b> щёлкает пальцами... <b>−'+dmg+' HP</b> врага!', 'crit');
+    } else {
+      const dmg = Math.round(cur.hp1 / 2);
+      cur.hp1 = Math.max(0, cur.hp1 - dmg);
+      addBattleLog('💎 <b>'+atkName+'</b> щёлкает пальцами... <b>−'+dmg+' HP</b> врага!', 'crit');
+    }
+    updateHpBars();
+    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
+    cur.turn++;
+    return;
+  }
+
+  // === БЕЗУМИЕ (Джокер) — раз в 4 хода враг бьёт себя ===
+  if(ability === 'madness' && cur.turn % 4 === 0){
+    const selfDmg = Math.round(atkStats.atk * 1.5);
+    if(isP1Attacking){
+      cur.hp2 = Math.max(0, cur.hp2 - selfDmg);
+      addBattleLog('🎭 <b>'+defName+'</b> в безумии бьёт сам себя! <b>−'+selfDmg+' HP</b>', 'crit');
+    } else {
+      cur.hp1 = Math.max(0, cur.hp1 - selfDmg);
+      addBattleLog('🎭 <b>'+defName+'</b> в безумии бьёт сам себя! <b>−'+selfDmg+' HP</b>', 'crit');
+    }
+    updateHpBars();
+    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
+    cur.turn++;
+    return;
+  }
+
+  // === АККЕРМАН (Леви) — 30% шанс двойного удара ===
+  let crit = false;
+  let dmg = Math.max(1, atkStats.atk - defStats.def);
+  let dbl = '';
+
+  if(ability === 'ackerman' && Math.random() < 0.3){
+    dmg = dmg * 2;
+    dbl = ' <span class="crit">×2 (Вихрь!)</span>';
+  }
+
+  // === ОБЫЧНАЯ АТАКА ===
+  if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - dmg); }
+  else { cur.hp1 = Math.max(0, cur.hp1 - dmg); }
+
+  addBattleLog('<b>'+atkName+'</b> бьёт <b>'+defName+'</b> — <span class="dmg">−'+dmg+' HP</span>'+dbl);
   updateHpBars();
 
   if(cur.hp1 <= 0 || cur.hp2 <= 0){
@@ -1465,4 +1619,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
- </html>
+     </html>
