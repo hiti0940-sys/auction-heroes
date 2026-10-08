@@ -40,6 +40,19 @@
   .char-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .char-img.contain img{object-fit:contain;object-position:center center}
   .char-img.face img{object-fit:cover;object-position:center 25%}
+  .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px auto 10px;max-width:340px}
+  .stat-box{background:rgba(0,0,0,.4);border-radius:8px;padding:6px 4px;text-align:center;border:1px solid rgba(243,156,18,.2)}
+  .stat-box .lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.5px}
+  .stat-box .val{font-size:15px;color:#f39c12;font-weight:700;margin-top:1px}
+  .rarity-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+  .rarity-common{background:#555;color:#ddd}
+  .rarity-rare{background:#2ecc71;color:#000}
+  .rarity-epic{background:#3498db;color:#fff}
+  .rarity-legendary{background:#9b59b6;color:#fff}
+  .rarity-mythic{background:linear-gradient(135deg,#f39c12,#e74c3c);color:#fff}
+  .ability-row{margin:6px auto 0;max-width:340px;background:rgba(243,156,18,.1);border:1px solid rgba(243,156,18,.3);border-radius:10px;padding:8px 10px;text-align:left}
+  .ability-row .a-name{font-size:13px;color:#f39c12;font-weight:700}
+  .ability-row .a-desc{font-size:10px;color:#bbb;margin-top:2px;line-height:1.3}
   .char-name{font-size:21px;font-weight:700;color:#f39c12;margin-bottom:3px}
   .char-source{color:#aaa;font-size:12px;margin-bottom:10px}
   .power-bar{height:12px;background:#1a1a2e;border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 5px}
@@ -694,7 +707,22 @@ function renderSnapshot(view){
     } else {
       topPart = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>';
     }
-    document.getElementById('charCard').innerHTML = topPart+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 1000</div>';
+    const stats = CHAR_STATS[c.n];
+    let statsHtml = '';
+    if(stats){
+      const r = c.p >= 900 ? 'mythic' : c.p >= 750 ? 'legendary' : c.p >= 550 ? 'epic' : c.p >= 300 ? 'rare' : 'common';
+      const rName = {common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[r];
+      statsHtml = '<span class="rarity-badge rarity-'+r+'">'+rName+'</span>'
+        + '<div class="stats-row">'
+        + '<div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div>'
+        + '<div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div>'
+        + '<div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div>'
+        + '<div class="stat-box"><div class="lbl">🔮 Маг</div><div class="val">'+stats.mag+'</div></div>'
+        + '<div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div>'
+        + '</div>'
+        + '<div class="ability-row"><div class="a-name">✨ '+(ABILITY_NAMES[stats.ability]||'?')+'</div><div class="a-desc">'+(ABILITY_DESC[stats.ability]||'')+'</div></div>';
+    }
+    document.getElementById('charCard').innerHTML = topPart+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+statsHtml+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 1000</div>';
   }
   const pl = document.getElementById('playersList');
   pl.innerHTML = '';
