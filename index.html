@@ -409,7 +409,7 @@ const ABILITY_DESC = {
   chaos:     "Враг теряет 20% атаки"
 };
 
-/* fit: "cover" — обрезать по центру, "contain" — вписать целиком, "face" — фокус на лицо */
+/* fit: "cover" — обрезать, "contain" — вписать целиком, "face" — фокус на лицо */
 const CHAR_IMAGES = {
   "Сайтама":         {file:"img/saitama",  fit:"face"},
   "Гоку":            {file:"img/goku",     fit:"contain"},
@@ -632,7 +632,7 @@ function hostNextRound(){
     }
 
     const next = pool[0];
-    consfunction renderFromRoom(room, playerList){
+    const rest = pfunction renderFromRoom(room, playerList){
   const view = {
     phase: room.phase,
     round: room.roundNumber || 0,
@@ -894,7 +894,7 @@ function renderResults(view){
     const chars = (p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
     tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
   });
-  }/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
+ }/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
 const hsLocal = {players:[], pool:[], roundNumber:0, totalRounds:0, startingMoney:0, current:null, currentBid:0, currentBidder:null, activePlayers:[], turnPointer:0, basePrice:0, phase:'lobby', log:[], firstBidderOffset:0};
 
 const hsNames = document.getElementById('hsPlayerNames');
@@ -1055,7 +1055,9 @@ function hsRenderResults(){
     tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
   });
   show('resultsScreen');
-                                              }/* Хост каждые 800 мс проверяет состояние */
+}
+
+/* Хост каждые 800 мс проверяет состояние */
 setInterval(function(){
   if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
     hostAutoCheck();
