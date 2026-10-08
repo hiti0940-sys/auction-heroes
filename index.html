@@ -104,6 +104,7 @@
         <button class="on" data-mode="online">🌐 Онлайн</button>
         <button data-mode="hotseat">📱 Локально</button>
       </div>
+      <button class="btn-primary" id="duelModeBtn" style="margin-top:10px;background:linear-gradient(135deg,#9b59b6,#e74c3c)">⚔️ ДУЭЛИ</button>
       <div id="onlineMenu">
         <button class="btn-primary" id="createRoomBtn" style="margin-bottom:8px">🎮 Создать комнату</button>
         <button class="btn-secondary" id="joinRoomBtn">🚪 Присоединиться по коду</button>
@@ -190,6 +191,16 @@
     </div>
     <button class="btn-primary" id="hsStartBtn">Начать</button>
     <button class="btn-secondary" id="backFromHs" style="margin-top:8px">Назад</button>
+  </div>
+  <div id="duelScreen" class="hidden">
+    <div class="panel">
+      <h2>⚔️ РЕЖИМ ДУЭЛИ</h2>
+      <p style="color:#aaa;font-size:13px;text-align:center;margin-bottom:14px">Скоро здесь будет бой карт 1 vs 1!</p>
+      <div id="duelContent" style="text-align:center;padding:30px 10px;color:#666">
+        🚧 В разработке 🚧
+      </div>
+      <button class="btn-secondary" id="backFromDuel" style="margin-top:14px">Назад</button>
+    </div>
   </div>
   <div id="gameScreen" class="hidden">
     <div class="topbar">
@@ -467,7 +478,7 @@ const state = {
   log:[], poolSource:[], poolSize:0
 };
 
-const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','gameScreen','resultsScreen'];
+const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','duelScreen','gameScreen','resultsScreen'];
 function show(id){screens.forEach(s=>document.getElementById(s).classList.toggle('hidden', s!==id));window.scrollTo(0,0);}
 
 document.querySelectorAll('.mode-tabs button').forEach(b=>{
@@ -485,6 +496,8 @@ document.getElementById('hotseatBtn').onclick = ()=>{renderHotseatNames();show('
 document.getElementById('backFromCreate').onclick = ()=>show('menuScreen');
 document.getElementById('backFromJoin').onclick = ()=>show('menuScreen');
 document.getElementById('backFromHs').onclick = ()=>show('menuScreen');
+document.getElementById('duelModeBtn').onclick = ()=>show('duelScreen');
+document.getElementById('backFromDuel').onclick = ()=>show('menuScreen');
 
 document.getElementById('createConfirmBtn').onclick = createRoom;
 function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
@@ -1130,4 +1143,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-                                                                                                       </html>
+ </html>
