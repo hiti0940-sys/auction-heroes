@@ -371,6 +371,44 @@ const CHARACTERS = [
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
+/* ===== ХАРАКТЕРИСТИКИ ДЛЯ ДУЭЛЕЙ (шаг 1: 10 тестовых) ===== */
+const CHAR_STATS = {
+  "Сайтама":         {atk:40, def:30, agi:15, mag:0,  int:10, ability:"one_punch"},
+  "Гоку":            {atk:35, def:28, agi:35, mag:15, int:20, ability:"rage"},
+  "Наруто (СО6П)":   {atk:30, def:22, agi:30, mag:20, int:25, ability:"clones"},
+  "Луффи (G5)":      {atk:32, def:25, agi:28, mag:5,  int:18, ability:"regen"},
+  "Зоро":            {atk:34, def:24, agi:32, mag:0,  int:22, ability:"precision"},
+  "Леви Аккерман":   {atk:28, def:20, agi:50, mag:0,  int:30, ability:"speed"},
+  "Кратос":          {atk:38, def:30, agi:18, mag:10, int:12, ability:"rage"},
+  "Танос (Перчатка)":{atk:36, def:32, agi:15, mag:25, int:30, ability:"infinity"},
+  "Бэтмен":          {atk:26, def:35, agi:25, mag:5,  int:40, ability:"prep"},
+  "Джокер":          {atk:22, def:18, agi:28, mag:15, int:38, ability:"chaos"}
+};
+
+const ABILITY_NAMES = {
+  one_punch: "Один удар",
+  rage:      "Ярость",
+  clones:    "Клоны",
+  regen:     "Регенерация",
+  precision: "Точность",
+  speed:     "Скорость",
+  infinity:  "Бесконечность",
+  prep:      "Подготовка",
+  chaos:     "Хаос"
+};
+
+const ABILITY_DESC = {
+  one_punch: "Первая атака — крит ×3",
+  rage:      "+50% атаки, если HP меньше 50%",
+  clones:    "+30% шанс уклонения",
+  regen:     "+5 HP каждый свой ход",
+  precision: "+25% шанс крита",
+  speed:     "Всегда бьёт первым",
+  infinity:  "Первый удар отнимает 30% HP врага",
+  prep:      "+30% защиты",
+  chaos:     "Враг теряет 20% атаки"
+};
+
 /* fit: "cover" — обрезать по центру, "contain" — вписать целиком, "face" — фокус на лицо */
 const CHAR_IMAGES = {
   "Сайтама":         {file:"img/saitama",  fit:"face"},
@@ -389,8 +427,8 @@ const CHAR_IMAGES = {
   "Рукия":           {file:"img/rukia",    fit:"cover"},
   "Зоро":            {file:"img/zoro",     fit:"face"},
   "Санджи":          {file:"img/sanji",    fit:"cover"},
-  "Киллуа":          {file:"img/killua",   fit:"cover"},
-  "Гон (взрослый)":  {file:"img/gon",      fit:"cover"},
+  "Киллуа":          {file:"img/killua",   fit:"contain"},
+  "Гон (взрослый)":  {file:"img/gon",      fit:"contain"},
   "Танджиро":        {file:"img/tanjiro",  fit:"contain"},
   "Недзуко":         {file:"img/nezuko",   fit:"cover"},
   "Деку (финал)":    {file:"img/deku",     fit:"contain"},
@@ -594,29 +632,7 @@ function hostNextRound(){
     }
 
     const next = pool[0];
-    const rest = pool.slice(1);
-    const roundNumber = (data.roundNumber || 0) + 1;
-
-    const playerIds = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const activeIdx = [];
-    playerIds.forEach((pid, idx) => { if(players[pid].money > 0) activeIdx.push(idx); });
-
-    const turnPointer = activeIdx.length ? ((roundNumber - 1) % activeIdx.length) : 0;
-
-    const updates = {
-      pool: rest, current: next, basePrice: 0,
-      roundNumber, currentBid: 0, currentBidder: null,
-      activePlayers: activeIdx,
-      turnPointer: turnPointer
-    };
-    const log = (data.log || []);
-    log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
-    updates.log = log.slice(-100);
-    room.update(updates);
-  });
-}
-
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}function renderFromRoom(room, playerList){
+    consfunction renderFromRoom(room, playerList){
   const view = {
     phase: room.phase,
     round: room.roundNumber || 0,
@@ -1039,9 +1055,7 @@ function hsRenderResults(){
     tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
   });
   show('resultsScreen');
-}
-
-/* Хост каждые 800 мс проверяет состояние */
+                                              }/* Хост каждые 800 мс проверяет состояние */
 setInterval(function(){
   if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
     hostAutoCheck();
