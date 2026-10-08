@@ -197,7 +197,8 @@
     <button class="btn-primary" onclick="location.reload()">Играть снова</button>
   </div>
 </div>
-<script>const firebaseConfig = {
+<script>
+const firebaseConfig = {
   apiKey: "AIzaSyCvxE90O88g_CIER2p6u66Ai80uAXzd48Y",
   authDomain: "auction-heroes-game.firebaseapp.com",
   databaseURL: "https://auction-heroes-game-default-rtdb.firebaseio.com",
@@ -371,7 +372,6 @@ const CHARACTERS = [
 const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", donghua:"🐉"};
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
-/* ===== ХАРАКТЕРИСТИКИ ДЛЯ ДУЭЛЕЙ (шаг 1: 10 тестовых) ===== */
 const CHAR_STATS = {
   "Сайтама":         {atk:40, def:30, agi:15, mag:0,  int:10, ability:"one_punch"},
   "Гоку":            {atk:35, def:28, agi:35, mag:15, int:20, ability:"rage"},
@@ -409,7 +409,6 @@ const ABILITY_DESC = {
   chaos:     "Враг теряет 20% атаки"
 };
 
-/* fit: "cover" — обрезать, "contain" — вписать целиком, "face" — фокус на лицо */
 const CHAR_IMAGES = {
   "Сайтама":         {file:"img/saitama",  fit:"face"},
   "Гоку":            {file:"img/goku",     fit:"contain"},
@@ -632,7 +631,31 @@ function hostNextRound(){
     }
 
     const next = pool[0];
-    const rest = pfunction renderFromRoom(room, playerList){
+    const rest = pool.slice(1);
+    const roundNumber = (data.roundNumber || 0) + 1;
+
+    const playerIds = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const activeIdx = [];
+    playerIds.forEach((pid, idx) => { if(players[pid].money > 0) activeIdx.push(idx); });
+
+    const turnPointer = activeIdx.length ? ((roundNumber - 1) % activeIdx.length) : 0;
+
+    const updates = {
+      pool: rest, current: next, basePrice: 0,
+      roundNumber, currentBid: 0, currentBidder: null,
+      activePlayers: activeIdx,
+      turnPointer: turnPointer
+    };
+    const log = (data.log || []);
+    log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
+    updates.log = log.slice(-100);
+    room.update(updates);
+  });
+}
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function renderFromRoom(room, playerList){
   const view = {
     phase: room.phase,
     round: room.roundNumber || 0,
@@ -894,7 +917,9 @@ function renderResults(view){
     const chars = (p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
     tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
   });
- }/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
+}
+
+/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
 const hsLocal = {players:[], pool:[], roundNumber:0, totalRounds:0, startingMoney:0, current:null, currentBid:0, currentBidder:null, activePlayers:[], turnPointer:0, basePrice:0, phase:'lobby', log:[], firstBidderOffset:0};
 
 const hsNames = document.getElementById('hsPlayerNames');
@@ -1057,7 +1082,6 @@ function hsRenderResults(){
   show('resultsScreen');
 }
 
-/* Хост каждые 800 мс проверяет состояние */
 setInterval(function(){
   if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
     hostAutoCheck();
@@ -1075,4 +1099,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>
+ </html>
