@@ -27,20 +27,22 @@
   button{padding:14px 20px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-weight:600;transition:.15s;width:100%}
   button:active:not(:disabled){transform:scale(.98)}
   button:disabled{opacity:.45;cursor:not-allowed}
-  .btn-primary{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff}
+  .btn-primary{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;box-shadow:0 4px 15px rgba(243,156,18,.3)}
   .btn-secondary{background:#333;color:#eee}
   .btn-pass{background:#7a2020;color:#fff}
   .btn-bid{background:linear-gradient(135deg,#27ae60,#229954);color:#fff}
   .btn-row{display:flex;gap:8px;margin-top:8px}
   .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:#aaa}
   .topbar b{color:#f39c12}
-  .char-card{text-align:center;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(155,89,182,.15));border:2px solid rgba(243,156,18,.4);margin-bottom:12px}
+  .char-card{text-align:center;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(155,89,182,.15));border:2px solid rgba(243,156,18,.4);margin-bottom:12px;transition:.3s}
+  .char-card.shake{animation:shake .5s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px) rotate(-1deg)}40%{transform:translateX(8px) rotate(1deg)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
   .char-emoji{font-size:42px;margin-bottom:4px}
   .char-img{width:100%;max-width:300px;height:340px;margin:0 auto 10px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);display:flex;align-items:center;justify-content:center}
   .char-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .char-img.contain img{object-fit:contain;object-position:center center}
   .char-img.face img{object-fit:cover;object-position:center 25%}
-  .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px auto 10px;max-width:340px}
+  .stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:8px auto 10px;max-width:340px}
   .stat-box{background:rgba(0,0,0,.4);border-radius:8px;padding:6px 4px;text-align:center;border:1px solid rgba(243,156,18,.2)}
   .stat-box .lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.5px}
   .stat-box .val{font-size:15px;color:#f39c12;font-weight:700;margin-top:1px}
@@ -49,7 +51,8 @@
   .rarity-rare{background:#2ecc71;color:#000}
   .rarity-epic{background:#3498db;color:#fff}
   .rarity-legendary{background:#9b59b6;color:#fff}
-  .rarity-mythic{background:linear-gradient(135deg,#f39c12,#e74c3c);color:#fff}
+  .rarity-mythic{background:linear-gradient(135deg,#f39c12,#e74c3c);color:#fff;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 5px #f39c12}50%{box-shadow:0 0 20px #f39c12}}
   .ability-row{margin:6px auto 0;max-width:340px;background:rgba(243,156,18,.1);border:1px solid rgba(243,156,18,.3);border-radius:10px;padding:8px 10px;text-align:left}
   .ability-row .a-name{font-size:13px;color:#f39c12;font-weight:700}
   .ability-row .a-desc{font-size:10px;color:#bbb;margin-top:2px;line-height:1.3}
@@ -92,19 +95,21 @@
   .duel-player{background:#1a1a2e;border-radius:10px;padding:10px;border:2px solid rgba(243,156,18,.3)}
   .duel-player h3{font-size:14px;color:#f39c12;margin-bottom:8px;text-align:center;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
   .mini-cards{display:flex;flex-direction:column;gap:6px;align-items:center}
-  .mini-card{width:100%;background:#0f0f1e;border-radius:8px;overflow:hidden;border:2px solid #333;text-align:center;padding-bottom:4px}
+  .mini-card{width:100%;background:#0f0f1e;border-radius:8px;overflow:hidden;border:2px solid #333;text-align:center;padding-bottom:4px;transition:.2s}
   .mini-card img{width:100%;height:60px;object-fit:cover;object-position:center top;display:block}
   .mini-card .mc-name{font-size:10px;padding:3px 2px;color:#ddd;font-weight:700;line-height:1.1}
   .mini-card .mc-stats{font-size:9px;color:#f39c12;padding-bottom:2px}
-  .mini-card.rarity-mythic{border-color:#f39c12;box-shadow:0 0 8px rgba(243,156,18,.5)}
-  .mini-card.rarity-legendary{border-color:#9b59b6}
-  .mini-card.rarity-epic{border-color:#3498db}
+  .mini-card.rarity-mythic{border-color:#f39c12;box-shadow:0 0 12px rgba(243,156,18,.7);animation:pulse 2s infinite}
+  .mini-card.rarity-legendary{border-color:#9b59b6;box-shadow:0 0 8px rgba(155,89,182,.5)}
+  .mini-card.rarity-epic{border-color:#3498db;box-shadow:0 0 6px rgba(52,152,219,.4)}
   .mini-card.rarity-rare{border-color:#2ecc71}
   .duel-battle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
   .duel-fighter{background:#1a1a2e;border-radius:12px;padding:10px;border:2px solid #333;text-align:center;transition:.3s}
   .duel-fighter.active{border-color:#f39c12;box-shadow:0 0 15px rgba(243,156,18,.6)}
   .duel-fighter.winner{border-color:#27ae60;box-shadow:0 0 20px rgba(39,174,96,.8)}
   .duel-fighter.loser{opacity:.4}
+  .duel-fighter.hit{animation:hit .4s}
+  @keyframes hit{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
   .duel-fighter .df-img{width:100%;height:120px;overflow:hidden;border-radius:8px;background:#0f0f1e;display:flex;align-items:center;justify-content:center}
   .duel-fighter .df-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .duel-fighter .df-img.contain img{object-fit:contain;object-position:center center}
@@ -128,8 +133,7 @@
   .mode-tabs button{background:#1a1a2e;color:#aaa;border:1px solid #333;font-size:13px;padding:10px}
   .mode-tabs button.on{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-color:transparent}
 </style>
-</head>
-<body>
+</head> <body>
 <div class="container">
   <h1>⚔️ АУКЦИОН ГЕРОЕВ ⚔️</h1>
   <div id="menuScreen">
@@ -298,8 +302,7 @@
     </div>
     <button class="btn-primary" onclick="location.reload()">Играть снова</button>
   </div>
-</div>
-<script>
+</div><script>
 const firebaseConfig = {
   apiKey: "AIzaSyCvxE90O88g_CIER2p6u66Ai80uAXzd48Y",
   authDomain: "auction-heroes-game.firebaseapp.com",
@@ -313,6 +316,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const CHARACTERS = [
+  // АНИМЕ
   {n:"Сайтама",t:"anime",p:1000,d:"One Punch Man"},
   {n:"Вис",t:"anime",p:990,d:"Dragon Ball Super"},
   {n:"Бирс",t:"anime",p:980,d:"Dragon Ball Super"},
@@ -356,13 +360,14 @@ const CHARACTERS = [
   {n:"Эдвард Элрик",t:"anime",p:550,d:"Стальной алхимик"},
   {n:"Недзуко",t:"anime",p:550,d:"Клинок, рассекающий демонов"},
   {n:"Спайк Шпигель",t:"anime",p:550,d:"Cowboy Bebop"},
-  {n:"Микаса",t:"anime",p:500,d:"Атака титанов"},
   {n:"Сакура",t:"anime",p:520,d:"Наруто"},
   {n:"Рукия",t:"anime",p:530,d:"Блич"},
+  {n:"Микаса",t:"anime",p:500,d:"Атака титанов"},
   {n:"Лелуш",t:"anime",p:250,d:"Code Geass"},
   {n:"L",t:"anime",p:150,d:"Тетрадь смерти"},
   {n:"Рейген",t:"anime",p:150,d:"Моб Психо 100"},
   {n:"Лайт Ягами",t:"anime",p:120,d:"Тетрадь смерти"},
+  // МУЛЬТИКИ
   {n:"Бен 10 (Alien X)",t:"cartoon",p:950,d:"Ben 10"},
   {n:"Багз Банни",t:"cartoon",p:900,d:"Looney Tunes"},
   {n:"Микки Маус",t:"cartoon",p:880,d:"Disney"},
@@ -388,6 +393,7 @@ const CHARACTERS = [
   {n:"Шэгги",t:"cartoon",p:400,d:"Скуби-Ду"},
   {n:"Скуби-Ду",t:"cartoon",p:300,d:"Скуби-Ду"},
   {n:"Рик Санчез",t:"cartoon",p:250,d:"Рик и Морти"},
+  // ФИЛЬМЫ
   {n:"Танос (Перчатка)",t:"movie",p:970,d:"Marvel"},
   {n:"Супермен",t:"movie",p:960,d:"DC"},
   {n:"Тор",t:"movie",p:920,d:"Marvel"},
@@ -428,6 +434,7 @@ const CHARACTERS = [
   {n:"Рокки",t:"movie",p:450,d:"Рокки"},
   {n:"Рипли",t:"movie",p:450,d:"Чужой"},
   {n:"Джокер",t:"movie",p:200,d:"DC"},
+  // ИГРЫ
   {n:"Doom Slayer",t:"game",p:920,d:"DOOM"},
   {n:"Райдэн",t:"game",p:880,d:"Mortal Kombat"},
   {n:"Сефирот",t:"game",p:880,d:"Final Fantasy VII"},
@@ -459,6 +466,7 @@ const CHARACTERS = [
   {n:"Тревор",t:"game",p:550,d:"GTA V"},
   {n:"CJ",t:"game",p:400,d:"GTA San Andreas"},
   {n:"Эш Кетчум",t:"game",p:200,d:"Pokémon"},
+  // ДУНХУА
   {n:"Ши Хао",t:"donghua",p:950,d:"Совершенный мир"},
   {n:"Ло Фэн",t:"donghua",p:920,d:"Пожиратель звёзд"},
   {n:"Хуа Чэн",t:"donghua",p:880,d:"Благословение небожителей"},
@@ -475,7 +483,7 @@ const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", do
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
 const CHAR_STATS = {
-  // === АНИМЕ (топ) ===
+  // АНИМЕ
   "Сайтама":         {hp:10000, atk:40, def:30, agi:15, mag:0,  int:10, ability:"one_punch"},
   "Вис":             {hp:10000, atk:38, def:35, agi:30, mag:40, int:20, ability:"hakai"},
   "Бирс":            {hp:10000, atk:40, def:32, agi:28, mag:38, int:18, ability:"hakai"},
@@ -519,14 +527,14 @@ const CHAR_STATS = {
   "Эдвард Элрик":    {hp:800,   atk:28, def:24, agi:26, mag:30, int:35, ability:"alchemy"},
   "Недзуко":         {hp:800,   atk:26, def:22, agi:34, mag:20, int:12, ability:"demon_regen"},
   "Спайк Шпигель":   {hp:300,   atk:26, def:20, agi:30, mag:0,  int:25, ability:"jeet_kune_do"},
-  "Микаса":          {hp:800,   atk:28, def:22, agi:34, mag:0,  int:22, ability:"ackerman"},
   "Сакура":          {hp:800,   atk:30, def:26, agi:24, mag:20, int:28, ability:"punch_heal"},
   "Рукия":           {hp:800,   atk:26, def:20, agi:30, mag:30, int:25, ability:"bankai"},
+  "Микаса":          {hp:800,   atk:28, def:22, agi:34, mag:0,  int:22, ability:"ackerman"},
   "Лелуш":           {hp:100,   atk:15, def:12, agi:20, mag:5,  int:95, ability:"geass"},
   "L":               {hp:100,   atk:10, def:10, agi:15, mag:0,  int:92, ability:"detective"},
   "Рейген":          {hp:300,   atk:22, def:18, agi:25, mag:35, int:30, ability:"psycho_burst"},
   "Лайт Ягами":      {hp:100,   atk:12, def:10, agi:18, mag:0,  int:95, ability:"death_note"},
-  // === МУЛЬТИКИ ===
+  // МУЛЬТИКИ
   "Бен 10 (Alien X)":{hp:10000, atk:40, def:38, agi:25, mag:50, int:30, ability:"reality_warp"},
   "Багз Банни":      {hp:5000,  atk:30, def:40, agi:38, mag:20, int:45, ability:"toon_force"},
   "Микки Маус":      {hp:5000,  atk:32, def:32, agi:32, mag:25, int:38, ability:"toon_force"},
@@ -552,7 +560,7 @@ const CHAR_STATS = {
   "Шэгги":           {hp:100,   atk:15, def:15, agi:25, mag:0,  int:20, ability:"eat"},
   "Скуби-Ду":        {hp:100,   atk:14, def:14, agi:28, mag:0,  int:22, ability:"sniff_out"},
   "Рик Санчез":      {hp:100,   atk:18, def:15, agi:22, mag:15, int:98, ability:"portal_gun"},
-  // === ФИЛЬМЫ ===
+  // ФИЛЬМЫ
   "Танос (Перчатка)":{hp:10000, atk:40, def:38, agi:20, mag:45, int:35, ability:"snap"},
   "Супермен":        {hp:10000, atk:40, def:38, agi:38, mag:30, int:25, ability:"super_punch"},
   "Тор":             {hp:5000,  atk:38, def:34, agi:30, mag:35, int:20, ability:"mjolnir"},
@@ -593,7 +601,7 @@ const CHAR_STATS = {
   "Рокки":           {hp:300,   atk:30, def:26, agi:20, mag:0,  int:15, ability:"never_give_up"},
   "Рипли":           {hp:100,   atk:20, def:20, agi:28, mag:5,  int:35, ability:"flamethrower"},
   "Джокер":          {hp:100,   atk:22, def:18, agi:28, mag:15, int:38, ability:"madness"},
-  // === ИГРЫ ===
+  // ИГРЫ
   "Doom Slayer":     {hp:5000,  atk:40, def:36, agi:30, mag:10, int:25, ability:"bfg"},
   "Райдэн":          {hp:5000,  atk:38, def:30, agi:38, mag:35, int:30, ability:"thunder_god"},
   "Сефирот":         {hp:5000,  atk:40, def:30, agi:34, mag:40, int:38, ability:"supernova"},
@@ -625,7 +633,7 @@ const CHAR_STATS = {
   "Тревор":          {hp:300,   atk:30, def:22, agi:26, mag:5,  int:18, ability:"rampage"},
   "CJ":              {hp:300,   atk:28, def:22, agi:28, mag:5,  int:22, ability:"drive_by"},
   "Эш Кетчум":       {hp:100,   atk:15, def:12, agi:20, mag:5,  int:15, ability:"pikachu"},
-  // === ДУНХУА ===
+  // ДУНХУА
   "Ши Хао":          {hp:10000, atk:42, def:38, agi:35, mag:48, int:38, ability:"supreme_bone"},
   "Ло Фэн":          {hp:10000, atk:40, def:36, agi:36, mag:45, int:35, ability:"star_devourer"},
   "Хуа Чэн":         {hp:5000,  atk:38, def:32, agi:40, mag:42, int:35, ability:"crimson_rain"},
@@ -636,1404 +644,980 @@ const CHAR_STATS = {
   "Се Лянь":         {hp:5000,  atk:36, def:32, agi:34, mag:35, int:38, ability:"martial_god"},
   "Лань Ванцзи":     {hp:2000,  atk:34, def:28, agi:34, mag:38, int:38, ability:"guqin"},
   "Вэй Усянь":       {hp:2000,  atk:32, def:26, agi:34, mag:42, int:40, ability:"ghost_flute"}
-};
-
-const ABILITY_NAMES = {
-  // Базовые
-  one_punch:    "Один удар",
-  kamehameha:   "Камехамеха",
-  rasengan:     "Расенган",
-  nika:         "Пятый гир — Ника",
-  asura:        "Асура",
-  ackerman:     "Вихрь Аккермана",
-  spartan_rage: "Ярость Спарты",
-  snap:         "Щелчок перчатки",
-  prepared:     "Всегда готов",
-  madness:      "Безумие",
-  // Новые — топ аниме
-  hakai:               "Разрушение (Хакай)",
-  rage_low_hp:         "Ярость",
-  final_flash:         "Финальная вспышка",
-  infinity:            "Бесконечность",
-  infinite_tsukuyomi:  "Бесконечное Цукуёми",
-  domain_expansion:    "Расширение территории",
-  death_beam:          "Луч смерти",
-  aura_strike:         "Аура-удар",
-  chidori:             "Чидори",
-  bankai:              "Банкай",
-  vampire_regen:       "Вампирская регенерация",
-  decay:               "Гниение",
-  sun_shine:           "Солнечный свет",
-  psycho_burst:        "Психо-взрыв",
-  kyoka_suigetsu:      "Кёка Суйгецу",
-  full_counter:        "Полное отражение",
-  detroit_smash:       "Детройт Смэш",
-  titan_rage:          "Ярость титана",
-  jajanken:            "Джяджянкен",
-  god_hand:            "Рука Бога",
-  bungee_gum:          "Банджи-гам",
-  diable_jambe:        "Дьябл Жамб",
-  berserker_armor:     "Броня берсерка",
-  ice_fire:            "Лёд и пламя",
-  godspeed:            "Божественная скорость",
-  black_flash:         "Чёрная вспышка",
-  hinokami:            "Танец Бога Огня",
-  flame_alchemy:       "Пламя алхимии",
-  alchemy:             "Алхимия",
-  demon_regen:         "Демоническая регенерация",
-  jeet_kune_do:        "Джит Кун До",
-  punch_heal:          "Лечебный удар",
-  geass:               "Гиасс",
-  detective:           "Дедукция",
-  death_note:          "Тетрадь смерти",
-  // Мультики
-  reality_warp:        "Искажение реальности",
-  toon_force:          "Мультяшная сила",
-  spinach_rage:        "Ярость шпината",
-  wish:                "Желание",
-  avatar_state:        "Состояние Аватара",
-  samurai_focus:       "Самурайский фокус",
-  healing_spit:        "Целебная слюна",
-  future_vision:       "Видение будущего",
-  stretch:             "Растяжение",
-  chemical_x:          "Химикат X",
-  ghost_phase:         "Призрачная фаза",
-  metal_bend:          "Магия металла",
-  evil_plan:           "Злой план",
-  water_bend:          "Магия воды",
-  fire_bend:           "Магия огня",
-  secret_agent:        "Секретный агент",
-  hero_sword:          "Геройский меч",
-  lucky_dodge:         "Счастливое уклонение",
-  acrobat:             "Акробатика",
-  scrappy:             "Драчун",
-  eat:                 "Поесть",
-  sniff_out:           "Найти по запаху",
-  portal_gun:          "Портальная пушка",
-  // Фильмы
-  super_punch:         "Супер-удар",
-  mjolnir:             "Мьёльнир",
-  speed_force:         "Сила скорости",
-  matrix:              "Матрица",
-  lasso:               "Лассо истины",
-  metal_control:       "Контроль металла",
-  force_push:          "Толчок Силы",
-  light_of_valinor:    "Свет Валинора",
-  time_stone:          "Камень времени",
-  force_lightning:     "Молния Силы",
-  elder_wand:          "Бузинная палочка",
-  force_choke:         "Удушение Силой",
-  avada_kedavra:       "Авада Кедавра",
-  cannon:              "Пушка",
-  trident:             "Трезубец",
-  heal_factor:         "Фактор healing",
-  mind_control:        "Контроль разума",
-  endoskeleton:        "Эндоскелет",
-  trickster:           "Трикстер",
-  repulsor:            "Репульсор",
-  spartan_armor:       "Спартанская броня",
-  spider_sense:        "Паучье чутьё",
-  roundhouse:          "Удар с разворота",
-  anduril:             "Андурил",
-  shield_throw:        "Бросок щита",
-  gun_fu:              "Ган-фу",
-  survivalist:         "Выживание",
-  expelliarmus:        "Экспеллиармус",
-  arrow_rain:          "Дождь стрел",
-  martini:             "Мартини",
-  whip:                "Хлыст",
-  never_give_up:       "Не сдаваться",
-  flamethrower:        "Огнемёт",
-  // Игры
-  bfg:                 "BFG-9000",
-  thunder_god:         "Бог грома",
-  supernova:           "Супернова",
-  psychic:             "Психический удар",
-  chaos_control:       "Контроль Хаоса",
-  ganon_power:         "Сила Ганона",
-  spin_dash:           "Спин-дэш",
-  raging_demon:        "Ярость демона",
-  omnislash:           "Оминислэш",
-  wave_beam:           "Волновой луч",
-  master_sword:        "Мастер-меч",
-  fire_breath:         "Огненное дыхание",
-  get_over_here:       "Иди сюда!",
-  ice_blast:           "Ледяной удар",
-  super_jump:          "Супер-прыжок",
-  punch:               "Апперкот",
-  hadouken:            "Хадукен",
-  fire_spin:           "Огненный вихрь",
-  shoryuken:           "Шорюкен",
-  witcher_signs:       "Знаки ведьмака",
-  thunderhand:         "Громовая рука",
-  thunderbolt:         "Молния",
-  pod_program:         "Программа пода",
-  final_heaven:        "Final Heaven",
-  hyakuretsukyaku:     "Молниеносный удар",
-  hidden_blade:        "Скрытый клинок",
-  eagle_vision:        "Орлиное зрение",
-  light_arrow:         "Стрела света",
-  rampage:             "Безумие",
-  drive_by:            "Стрельба с машины",
-  pikachu:             "Пикачу, я выбираю тебя!",
-  // Дунхуа
-  supreme_bone:        "Высочайшая кость",
-  star_devourer:       "Пожиратель звёзд",
-  crimson_rain:        "Багровый дождь",
-  evil_god:            "Злой бог",
-  blue_silver:         "Сине-серебряная трава",
-  immortal_path:       "Путь к бессмертию",
-  dou_qi:              "Доу Ци",
-  martial_god:         "Бог войны",
-  guqin:               "Гуцинь",
-  ghost_flute:         "Призрачная флейта"
+}; const ABILITY_NAMES = {
+  one_punch:"Один удар",kamehameha:"Камехамеха",rasengan:"Расенган",nika:"Пятый гир — Ника",
+  asura:"Асура",ackerman:"Вихрь Аккермана",spartan_rage:"Ярость Спарты",snap:"Щелчок перчатки",
+  prepared:"Всегда готов",madness:"Безумие",
+  hakai:"Разрушение (Хакай)",rage_low_hp:"Ярость",final_flash:"Финальная вспышка",infinity:"Бесконечность",
+  infinite_tsukuyomi:"Бесконечное Цукуёми",domain_expansion:"Расширение территории",death_beam:"Луч смерти",
+  aura_strike:"Аура-удар",chidori:"Чидори",bankai:"Банкай",vampire_regen:"Вампирская регенерация",
+  decay:"Гниение",sun_shine:"Солнечный свет",psycho_burst:"Психо-взрыв",kyoka_suigetsu:"Кёка Суйгецу",
+  full_counter:"Полное отражение",detroit_smash:"Детройт Смэш",titan_rage:"Ярость титана",jajanken:"Джяджянкен",
+  god_hand:"Рука Бога",bungee_gum:"Банджи-гам",diable_jambe:"Дьябл Жамб",berserker_armor:"Броня берсерка",
+  ice_fire:"Лёд и пламя",godspeed:"Божественная скорость",black_flash:"Чёрная вспышка",hinokami:"Танец Бога Огня",
+  flame_alchemy:"Пламя алхимии",alchemy:"Алхимия",demon_regen:"Демоническая регенерация",jeet_kune_do:"Джит Кун До",
+  punch_heal:"Лечебный удар",geass:"Гиасс",detective:"Дедукция",death_note:"Тетрадь смерти",
+  reality_warp:"Искажение реальности",toon_force:"Мультяшная сила",spinach_rage:"Ярость шпината",wish:"Желание",
+  avatar_state:"Состояние Аватара",samurai_focus:"Самурайский фокус",healing_spit:"Целебная слюна",
+  future_vision:"Видение будущего",stretch:"Растяжение",chemical_x:"Химикат X",ghost_phase:"Призрачная фаза",
+  metal_bend:"Магия металла",evil_plan:"Злой план",water_bend:"Магия воды",fire_bend:"Магия огня",
+  secret_agent:"Секретный агент",hero_sword:"Геройский меч",lucky_dodge:"Счастливое уклонение",acrobat:"Акробатика",
+  scrappy:"Драчун",eat:"Поесть",sniff_out:"Найти по запаху",portal_gun:"Портальная пушка",
+  super_punch:"Супер-удар",mjolnir:"Мьёльнир",speed_force:"Сила скорости",matrix:"Матрица",lasso:"Лассо истины",
+  metal_control:"Контроль металла",force_push:"Толчок Силы",light_of_valinor:"Свет Валинора",time_stone:"Камень времени",
+  force_lightning:"Молния Силы",elder_wand:"Бузинная палочка",force_choke:"Удушение Силой",avada_kedavra:"Авада Кедавра",
+  cannon:"Пушка",trident:"Трезубец",heal_factor:"Фактор исцеления",mind_control:"Контроль разума",
+  endoskeleton:"Эндоскелет",trickster:"Трикстер",repulsor:"Репульсор",spartan_armor:"Спартанская броня",
+  spider_sense:"Паучье чутьё",roundhouse:"Удар с разворота",anduril:"Андурил",shield_throw:"Бросок щита",
+  gun_fu:"Ган-фу",survivalist:"Выживание",expelliarmus:"Экспеллиармус",arrow_rain:"Дождь стрел",
+  martini:"Мартини",whip:"Хлыст",never_give_up:"Не сдаваться",flamethrower:"Огнемёт",
+  bfg:"BFG-9000",thunder_god:"Бог грома",supernova:"Супернова",psychic:"Психический удар",chaos_control:"Контроль Хаоса",
+  ganon_power:"Сила Ганона",spin_dash:"Спин-дэш",raging_demon:"Ярость демона",omnislash:"Оминислэш",wave_beam:"Волновой луч",
+  master_sword:"Мастер-меч",fire_breath:"Огненное дыхание",get_over_here:"Иди сюда!",ice_blast:"Ледяной удар",
+  super_jump:"Супер-прыжок",punch:"Апперкот",hadouken:"Хадукен",fire_spin:"Огненный вихрь",shoryuken:"Шорюкен",
+  witcher_signs:"Знаки ведьмака",thunderhand:"Громовая рука",thunderbolt:"Молния",pod_program:"Программа пода",
+  final_heaven:"Final Heaven",hyakuretsukyaku:"Молниеносный удар",hidden_blade:"Скрытый клинок",
+  eagle_vision:"Орлиное зрение",light_arrow:"Стрела света",rampage:"Безумие",drive_by:"Стрельба с машины",
+  pikachu:"Пикачу, я выбираю тебя!",
+  supreme_bone:"Высочайшая кость",star_devourer:"Пожиратель звёзд",crimson_rain:"Багровый дождь",evil_god:"Злой бог",
+  blue_silver:"Сине-серебряная трава",immortal_path:"Путь к бессмертию",dou_qi:"Доу Ци",martial_god:"Бог войны",
+  guqin:"Гуцинь",ghost_flute:"Призрачная флейта"
 };
 
 const ABILITY_DESC = {
-  // Базовые
-  one_punch:    "Первая атака — 500 урона или казнь (если HP врага ≤500)",
-  kamehameha:   "Раз в 3 хода — 500 урона, −30 собственного HP",
-  rasengan:     "Раз в 3 хода — 400 урона + враг пропускает ход",
-  nika:         "При HP <50% — +50% АТК, +30% ЛОВ, урон врага −50%",
-  asura:        "Раз в 4 хода — 3 удара по 60 (итого 180)",
-  ackerman:     "Всегда бьёт первым + 30% шанс двойного удара",
-  spartan_rage: "При HP <50% — +50% АТК и +30% ЛОВ",
-  snap:         "Раз в 5 ходов — стирает 50% текущего HP врага",
-  prepared:     "В начале боя +30% ЗАЩ",
-  madness:      "Раз в 4 хода — враг атакует сам себя (урон ×1.5)",
-  // Новые
-  hakai:               "Огромный урон (×2 от АТК), игнорирует ЗАЩ",
-  rage_low_hp:         "При HP <50% — +50% АТК",
-  final_flash:         "Раз в 3 хода — 400 урона, +50% крит",
-  infinity:            "Первые 3 хода — 100% уклонение",
-  infinite_tsukuyomi:  "Раз в 5 ходов — враг пропускает 2 хода",
-  domain_expansion:    "Раз в 4 хода — 350 урона + −20% ЗАЩ врага",
-  death_beam:          "Раз в 3 хода — 350 урона",
-  aura_strike:         "Обычная атака игнорирует 50% ЗАЩ",
-  chidori:             "Раз в 3 хода — 400 урона, +30% крит",
-  bankai:              "При HP <50% — +40% АТК и +20% ЛОВ",
-  vampire_regen:       "+30 HP каждый свой ход",
-  decay:               "Обычная атака накладывает −10% ЗАЩ врага (стакается)",
-  sun_shine:           "Первый удар — 500 урона",
-  psycho_burst:        "Раз в 4 хода — 400 урона, игнорирует ЗАЩ",
-  kyoka_suigetsu:      "Первые 2 хода — уклонение 100%",
-  full_counter:        "Отражает 30% полученного урона",
-  detroit_smash:       "Раз в 3 хода — 350 урона",
-  titan_rage:          "При HP <50% — +40% АТК",
-  jajanken:            "Раз в 3 хода — 300 урона",
-  god_hand:            "Раз в 5 хода — 450 урона",
-  bungee_gum:          "Уклонение +25%",
-  diable_jambe:        "Раз в 3 хода — 320 урона + горение",
-  berserker_armor:     "При HP <50% — +50% АТК и −20% ЗАЩ",
-  ice_fire:            "Раз в 3 хода — 280 урона + −10% АТК врага",
-  godspeed:            "Всегда бьёт первым + 25% ×2 урона",
-  black_flash:         "20% шанс мгновенной победы (если HP врага <30%)",
-  hinokami:            "Раз в 3 хода — 280 урона + восстановление 30 HP",
-  flame_alchemy:       "Раз в 3 хода — 300 урона, игнорирует 50% ЗАЩ",
-  alchemy:             "Раз в 3 хода — 250 урона",
-  demon_regen:         "+20 HP каждый ход",
-  jeet_kune_do:        "Уклонение +20%",
-  punch_heal:          "Раз в 3 хода — 200 урона + восстановление 40 HP",
-  geass:               "Раз в 5 ходов — враг пропускает ход",
-  detective:           "Уклонение +25%",
-  death_note:          "5% шанс мгновенной казни каждый ход",
-  reality_warp:        "Раз в 5 ходов — 500 урона",
-  toon_force:          "Отражает 40% урона",
-  spinach_rage:        "При HP <50% — +70% АТК",
-  wish:                "Раз в 5 ходов — 400 урона, игнорирует ЗАЩ",
-  avatar_state:        "Первые 3 хода — +50% ко всем характеристикам",
-  samurai_focus:       "20% шанс уклонения от любой атаки",
-  healing_spit:        "+40 HP каждый ход",
-  future_vision:       "Уклонение +35%",
-  stretch:             "Отражает 25% урона",
-  chemical_x:          "Раз в 3 хода — 250 урона",
-  ghost_phase:         "Первые 2 хода — уклонение 100%",
-  metal_bend:          "Раз в 3 хода — 280 урона + −20% ЗАЩ",
-  evil_plan:           "Раз в 4 хода — враг теряет 30% АТК",
-  water_bend:          "Раз в 3 хода — 250 урона",
-  fire_bend:           "Раз в 3 хода — 280 урона + горение",
-  secret_agent:        "Уклонение +30%",
-  hero_sword:          "20% шанс крита ×2",
-  lucky_dodge:         "Уклонение +40%",
-  acrobat:             "Уклонение +30%",
-  scrappy:             "Уклонение +25%",
-  eat:                 "+30 HP каждый ход",
-  sniff_out:           "Уклонение +25%",
-  portal_gun:          "Раз в 5 ходов — 450 урона",
-  super_punch:         "Первая атака — 500 урона",
-  mjolnir:             "Раз в 3 хода — 400 урона + оглушение",
-  speed_force:         "Всегда бьёт первым + 30% шанс двойного удара",
-  matrix:              "Первые 2 хода — 100% уклонение",
-  lasso:               "Раз в 3 хода — враг пропускает ход",
-  metal_control:       "Раз в 3 хода — 300 урона, игнорирует ЗАЩ",
-  force_push:          "Раз в 3 хода — 300 урона + оглушение",
-  light_of_valinor:    "Раз в 4 хода — 400 урона",
-  time_stone:          "Раз в 5 ходов — враг пропускает ход",
-  force_lightning:     "Раз в 3 хода — 350 урона",
-  elder_wand:          "Раз в 4 хода — 380 урона, игнорирует ЗАЩ",
-  force_choke:         "Раз в 4 хода — 320 урона + враг пропускает ход",
-  avada_kedavra:       "20% шанс мгновенной казни",
-  cannon:              "Раз в 3 хода — 350 урона",
-  trident:             "Раз в 3 хода — 320 урона",
-  heal_factor:         "+30 HP каждый ход",
-  mind_control:        "Раз в 5 ходов — враг атакует сам себя",
-  endoskeleton:        "Отражает 30% урона",
-  trickster:           "Уклонение +30%, 20% шанс отражения",
-  repulsor:            "Раз в 3 хода — 300 урона",
-  spartan_armor:       "+20% ЗАЩ",
-  spider_sense:        "Уклонение +35%",
-  roundhouse:          "Первая атака — 500 урона",
-  anduril:             "20% шанс крита ×2",
-  shield_throw:        "Раз в 3 хода — 280 урона, отражает 20%",
-  gun_fu:              "25% шанс двойного удара",
-  survivalist:         "+20 HP каждый ход",
-  expelliarmus:        "Раз в 3 хода — 250 урона + −10% АТК врага",
-  arrow_rain:          "Раз в 3 хода — 3 удара по 80",
-  martini:             "Уклонение +25%",
-  whip:                "Раз в 4 хода — 280 урона",
-  never_give_up:       "При HP <30% — +80% АТК",
-  flamethrower:        "Раз в 3 хода — 280 урона",
-  // Игры
-  bfg:                 "Раз в 5 ходов — 600 урона, игнорирует ЗАЩ",
-  thunder_god:         "Раз в 3 хода — 400 урона + оглушение",
-  supernova:           "Раз в 5 ходов — 550 урона, игнорирует ЗАЩ",
-  psychic:             "Раз в 3 хода — 380 урона, игнорирует 50% ЗАЩ",
-  chaos_control:       "Раз в 3 хода — враг пропускает ход",
-  ganon_power:         "При HP <50% — +50% АТК и +30% ЗАЩ",
-  spin_dash:           "25% шанс двойного удара",
-  raging_demon:        "При HP <50% — +60% АТК",
-  omnislash:           "Раз в 4 хода — 5 ударов по 80 (итого 400)",
-  wave_beam:           "Раз в 3 хода — 380 урона, игнорирует ЗАЩ",
-  master_sword:        "Раз в 3 хода — 350 урона, +30% крит",
-  fire_breath:         "Раз в 3 хода — 380 урона + горение",
-  get_over_here:       "Раз в 4 хода — 350 урона + враг пропускает ход",
-  ice_blast:           "Раз в 3 хода — 320 урона + −10% ЛОВ врага",
-  super_jump:          "Раз в 3 хода — 350 урона",
-  punch:               "20% шанс двойного удара",
-  hadouken:            "Раз в 3 хода — 320 урона, +25% крит",
-  fire_spin:           "Раз в 3 хода — 300 урона + горение",
-  shoryuken:           "Раз в 3 хода — 340 урона + оглушение",
-  witcher_signs:       "Раз в 3 хода — 280 урона, игнорирует 50% ЗАЩ",
-  thunderhand:         "Раз в 3 хода — 300 урона + оглушение",
-  thunderbolt:         "Раз в 3 хода — 350 урона, игнорирует 50% ЗАЩ",
-  pod_program:         "Раз в 3 хода — 320 урона + −10% ЗАЩ",
-  final_heaven:        "Раз в 4 хода — 380 урона",
-  hyakuretsukyaku:     "20% шанс двойного удара",
-  hidden_blade:        "25% шанс крита ×2",
-  eagle_vision:        "Уклонение +30%",
-  light_arrow:         "Раз в 3 хода — 320 урона, игнорирует 50% ЗАЩ",
-  rampage:             "При HP <30% — +60% АТК",
-  drive_by:            "20% шанс двойного удара",
-  pikachu:             "Раз в 5 ходов — 400 урона, игнорирует ЗАЩ",
-  // Дунхуа
-  supreme_bone:        "Раз в 4 хода — 500 урона, игнорирует ЗАЩ",
-  star_devourer:       "Раз в 5 ходов — 550 урона",
-  crimson_rain:        "Раз в 3 хода — 3 удара по 130 (итого 390)",
-  evil_god:            "Раз в 4 хода — 450 урона, игнорирует 50% ЗАЩ",
-  blue_silver:         "Раз в 4 хода — 400 урона + восстановление 50 HP",
-  immortal_path:       "+40 HP каждый ход",
-  dou_qi:              "Раз в 3 хода — 350 урона + горение",
-  martial_god:         "Раз в 3 хода — 400 урона, +25% крит",
-  guqin:               "Раз в 3 хода — 320 урона + враг −15% АТК",
-  ghost_flute:         "Раз в 4 хода — 380 урона + враг пропускает ход"
+  one_punch:"1-я атака: 500 урона или казнь (HP врага ≤500)",kamehameha:"Раз в 3 хода — 500 урона, −30 HP",
+  rasengan:"Раз в 3 хода — 400 урона + пропуск хода",nika:"При HP <50% — +50% АТК, +30% ЛОВ",
+  asura:"Раз в 4 хода — 3 удара по 60 (180)",ackerman:"Всегда первым + 30% ×2 удара",
+  spartan_rage:"При HP <50% — +50% АТК, +30% ЛОВ",snap:"Раз в 5 ходов — стирает 50% HP врага",
+  prepared:"+30% ЗАЩ в начале боя",madness:"Раз в 4 хода — враг бьёт себя ×1.5",
+  hakai:"Урон ×2, игнорирует ЗАЩ",rage_low_hp:"При HP <50% — +50% АТК",final_flash:"Раз в 3 — 400 урона, +50% крит",
+  infinity:"Первые 3 хода — 100% уклонение",infinite_tsukuyomi:"Раз в 5 — враг пропускает 2 хода",
+  domain_expansion:"Раз в 4 — 350 урона, −20% ЗАЩ врага",death_beam:"Раз в 3 — 350 урона",
+  aura_strike:"Обычная атака игнорирует 50% ЗАЩ",chidori:"Раз в 3 — 400, +30% крит",
+  bankai:"При HP <50% — +40% АТК, +20% ЛОВ",vampire_regen:"+30 HP каждый ход",
+  decay:"Каждый удар −10% ЗАЩ врага",sun_shine:"1-й удар — 500 урона",
+  psycho_burst:"Раз в 4 — 400, игнорирует ЗАЩ",kyoka_suigetsu:"Первые 2 хода — 100% уклонение",
+  full_counter:"Отражает 30% урона",detroit_smash:"Раз в 3 — 350 урона",
+  titan_rage:"При HP <50% — +40% АТК",jajanken:"Раз в 3 — 300 урона",god_hand:"Раз в 5 — 450 урона",
+  bungee_gum:"Уклонение +25%",diable_jambe:"Раз в 3 — 320 урона",berserker_armor:"При HP <50% — +50% АТК, −20% ЗАЩ",
+  ice_fire:"Раз в 3 — 280, −10% АТК врага",godspeed:"Первым всегда + 25% ×2 урона",
+  black_flash:"20% победа если HP врага <30%",hinokami:"Раз в 3 — 280 + 30 HP себе",
+  flame_alchemy:"Раз в 3 — 300, игнор 50% ЗАЩ",alchemy:"Раз в 3 — 250 урона",
+  demon_regen:"+20 HP каждый ход",jeet_kune_do:"Уклонение +20%",punch_heal:"Раз в 3 — 200 + 40 HP себе",
+  geass:"Раз в 5 — враг пропускает ход",detective:"Уклонение +25%",death_note:"5% шанс казни каждый ход",
+  reality_warp:"Раз в 5 — 500 урона",toon_force:"Отражает 40% урона",spinach_rage:"При HP <50% — +70% АТК",
+  wish:"Раз в 5 — 400, игнорирует ЗАЩ",avatar_state:"Первые 3 хода — +50% ко всем статам",
+  samurai_focus:"20% шанс уклонения",healing_spit:"+40 HP каждый ход",future_vision:"Уклонение +35%",
+  stretch:"Отражает 25% урона",chemical_x:"Раз в 3 — 250 урона",ghost_phase:"Первые 2 хода — 100% уклон",
+  metal_bend:"Раз в 3 — 280, −20% ЗАЩ",evil_plan:"Раз в 4 — −30% АТК врага",water_bend:"Раз в 3 — 250",
+  fire_bend:"Раз в 3 — 280 урона",secret_agent:"Уклонение +30%",hero_sword:"20% крит ×2",
+  lucky_dodge:"Уклонение +40%",acrobat:"Уклонение +30%",scrappy:"Уклонение +25%",eat:"+30 HP каждый ход",
+  sniff_out:"Уклонение +25%",portal_gun:"Раз в 5 — 450 урона",super_punch:"1-я атака — 500 урона",
+  mjolnir:"Раз в 3 — 400 + оглушение",speed_force:"Первым всегда + 30% ×2",matrix:"Первые 2 хода — 100% уклон",
+  lasso:"Раз в 3 — враг пропускает ход",metal_control:"Раз в 3 — 300, игнор ЗАЩ",force_push:"Раз в 3 — 300 + оглушение",
+  light_of_valinor:"Раз в 4 — 400 урона",time_stone:"Раз в 5 — враг пропускает ход",force_lightning:"Раз в 3 — 350 урона",
+  elder_wand:"Раз в 4 — 380, игнор ЗАЩ",force_choke:"Раз в 4 — 320 + пропуск хода",avada_kedavra:"20% шанс казни",
+  cannon:"Раз в 3 — 350 урона",trident:"Раз в 3 — 320 урона",heal_factor:"+30 HP каждый ход",
+  mind_control:"Раз в 5 — враг бьёт себя",endoskeleton:"Отражает 30% урона",
+  trickster:"Уклон +30%, 20% отражения",repulsor:"Раз в 3 — 300 урона",spartan_armor:"+20% ЗАЩ",
+  spider_sense:"Уклонение +35%",roundhouse:"1-я атака — 500 урона",anduril:"20% крит ×2",
+  shield_throw:"Раз в 3 — 280, отражает 20%",gun_fu:"25% ×2 удара",survivalist:"+20 HP каждый ход",
+  expelliarmus:"Раз в 3 — 250, −10% АТК врага",arrow_rain:"Раз в 3 — 3×80 урона",martini:"Уклонение +25%",
+  whip:"Раз в 4 — 280 урона",never_give_up:"При HP <30% — +80% АТК",flamethrower:"Раз в 3 — 280 урона",
+  bfg:"Раз в 5 — 600, игнор ЗАЩ",thunder_god:"Раз в 3 — 400 + оглушение",supernova:"Раз в 5 — 550, игнор ЗАЩ",
+  psychic:"Раз в 3 — 380, игнор 50% ЗАЩ",chaos_control:"Раз в 3 — пропуск хода",ganon_power:"При HP <50% — +50% АТК, +30% ЗАЩ",
+  spin_dash:"25% ×2 удара",raging_demon:"При HP <50% — +60% АТК",omnislash:"Раз в 4 — 5×80 (400)",
+  wave_beam:"Раз в 3 — 380, игнор ЗАЩ",master_sword:"Раз в 3 — 350, +30% крит",fire_breath:"Раз в 3 — 380 + горение",
+  get_over_here:"Раз в 4 — 350 + пропуск хода",ice_blast:"Раз в 3 — 320, −10% ЛОВ",super_jump:"Раз в 3 — 350 урона",
+  punch:"20% ×2 удара",hadouken:"Раз в 3 — 320, +25% крит",fire_spin:"Раз в 3 — 300 + горение",
+  shoryuken:"Раз в 3 — 340 + оглушение",witcher_signs:"Раз в 3 — 280, игнор 50% ЗАЩ",
+  thunderhand:"Раз в 3 — 300 + оглушение",thunderbolt:"Раз в 3 — 350, игнор 50% ЗАЩ",
+  pod_program:"Раз в 3 — 320, −10% ЗАЩ",final_heaven:"Раз в 4 — 380 урона",hyakuretsukyaku:"20% ×2 удара",
+  hidden_blade:"25% крит ×2",eagle_vision:"Уклонение +30%",light_arrow:"Раз в 3 — 320, игнор 50% ЗАЩ",
+  rampage:"При HP <30% — +60% АТК",drive_by:"20% ×2 удара",pikachu:"Раз в 5 — 400, игнор ЗАЩ",
+  supreme_bone:"Раз в 4 — 500, игнор ЗАЩ",star_devourer:"Раз в 5 — 550 урона",crimson_rain:"Раз в 3 — 3×130 (390)",
+  evil_god:"Раз в 4 — 450, игнор 50% ЗАЩ",blue_silver:"Раз в 4 — 400 + 50 HP",immortal_path:"+40 HP каждый ход",
+  dou_qi:"Раз в 3 — 350 + горение",martial_god:"Раз в 3 — 400, +25% крит",guqin:"Раз в 3 — 320, −15% АТК врага",
+  ghost_flute:"Раз в 4 — 380 + пропуск хода"
+};
+
+const ABILITY_EFFECTS = {
+  one_punch:{firstStrike:{dmg:500, execute:500}}, kamehameha:{periodic:{n:3, dmg:500, selfDmg:30}},
+  rasengan:{periodic:{n:3, dmg:400, stun:true}}, nika:{lowHpBuff:{threshold:.5, atkMult:1.5, agiMult:1.3}},
+  asura:{periodic:{n:4, dmg:180}}, ackerman:{doubleHit:{chance:.3}},
+  spartan_rage:{lowHpBuff:{threshold:.5, atkMult:1.5, agiMult:1.3}}, snap:{periodic:{n:5, percentDmg:.5}},
+  prepared:{defBuff:{mult:1.3}}, madness:{periodic:{n:4, selfAttackMult:1.5}},
+  hakai:{ignoreDef:true}, rage_low_hp:{lowHpBuff:{threshold:.5, atkMult:1.5}},
+  final_flash:{periodic:{n:3, dmg:400, critBonus:.5}}, infinity:{firstNDodge:{n:3, chance:1}},
+  infinite_tsukuyomi:{periodic:{n:5, stun:true}}, domain_expansion:{periodic:{n:4, dmg:350, defDown:.2}},
+  death_beam:{periodic:{n:3, dmg:350}}, aura_strike:{ignoreHalfDef:true},
+  chidori:{periodic:{n:3, dmg:400, critBonus:.3}}, bankai:{lowHpBuff:{threshold:.5, atkMult:1.4, agiMult:1.2}},
+  vampire_regen:{regen:{hp:30}}, decay:{decay:true}, sun_shine:{firstStrike:{dmg:500}},
+  psycho_burst:{periodic:{n:4, dmg:400, ignoreDef:true}}, kyoka_suigetsu:{firstNDodge:{n:2, chance:1}},
+  full_counter:{reflect:{chance:.3}}, detroit_smash:{periodic:{n:3, dmg:350}},
+  titan_rage:{lowHpBuff:{threshold:.5, atkMult:1.4}}, jajanken:{periodic:{n:3, dmg:300}},
+  god_hand:{periodic:{n:5, dmg:450}}, bungee_gum:{dodge:.25}, diable_jambe:{periodic:{n:3, dmg:320}},
+  berserker_armor:{lowHpBuff:{threshold:.5, atkMult:1.5, defMult:.8}},
+  ice_fire:{periodic:{n:3, dmg:280, atkDown:.1}}, godspeed:{alwaysFirst:true, doubleHit:{chance:.25}},
+  black_flash:{blackFlash:{chance:.2, hpThreshold:.3}}, hinokami:{periodic:{n:3, dmg:280, heal:30}},
+  flame_alchemy:{periodic:{n:3, dmg:300, ignoreHalfDef:true}}, alchemy:{periodic:{n:3, dmg:250}},
+  demon_regen:{regen:{hp:20}}, jeet_kune_do:{dodge:.2}, punch_heal:{periodic:{n:3, dmg:200, heal:40}},
+  geass:{periodic:{n:5, stun:true}}, detective:{dodge:.25}, death_note:{instantKill:{chance:.05}},
+  reality_warp:{periodic:{n:5, dmg:500}}, toon_force:{reflect:{chance:.4}},
+  spinach_rage:{lowHpBuff:{threshold:.5, atkMult:1.7}}, wish:{periodic:{n:5, dmg:400, ignoreDef:true}},
+  avatar_state:{avatarState:{mult:1.5}}, samurai_focus:{dodge:.2}, healing_spit:{regen:{hp:40}},
+  future_vision:{dodge:.35}, stretch:{reflect:{chance:.25}}, chemical_x:{periodic:{n:3, dmg:250}},
+  ghost_phase:{firstNDodge:{n:2, chance:1}}, metal_bend:{periodic:{n:3, dmg:280, defDown:.2}},
+  evil_plan:{periodic:{n:4, atkDown:.3}}, water_bend:{periodic:{n:3, dmg:250}}, fire_bend:{periodic:{n:3, dmg:280}},
+  secret_agent:{dodge:.3}, hero_sword:{critChance:{chance:.2, mult:2}}, lucky_dodge:{dodge:.4},
+  acrobat:{dodge:.3}, scrappy:{dodge:.25}, eat:{regen:{hp:30}}, sniff_out:{dodge:.25},
+  portal_gun:{periodic:{n:5, dmg:450}}, super_punch:{firstStrike:{dmg:500}},
+  mjolnir:{periodic:{n:3, dmg:400, stun:true}}, speed_force:{alwaysFirst:true, doubleHit:{chance:.3}},
+  matrix:{firstNDodge:{n:2, chance:1}}, lasso:{periodic:{n:3, stun:true}},
+  metal_control:{periodic:{n:3, dmg:300, ignoreDef:true}}, force_push:{periodic:{n:3, dmg:300, stun:true}},
+  light_of_valinor:{periodic:{n:4, dmg:400}}, time_stone:{periodic:{n:5, stun:true}},
+  force_lightning:{periodic:{n:3, dmg:350}}, elder_wand:{periodic:{n:4, dmg:380, ignoreDef:true}},
+  force_choke:{periodic:{n:4, dmg:320, stun:true}}, avada_kedavra:{instantKill:{chance:.2}},
+  cannon:{periodic:{n:3, dmg:350}}, trident:{periodic:{n:3, dmg:320}}, heal_factor:{regen:{hp:30}},
+  mind_control:{periodic:{n:5, selfAttackMult:1}}, endoskeleton:{reflect:{chance:.3}},
+  trickster:{dodge:.3, reflect:{chance:.2}}, repulsor:{periodic:{n:3, dmg:300}},
+  spartan_armor:{defBuff:{mult:1.2}}, spider_sense:{dodge:.35}, roundhouse:{firstStrike:{dmg:500}},
+  anduril:{critChance:{chance:.2, mult:2}}, shield_throw:{periodic:{n:3, dmg:280}, reflect:{chance:.2}},
+  gun_fu:{doubleHit:{chance:.25}}, survivalist:{regen:{hp:20}},
+  expelliarmus:{periodic:{n:3, dmg:250, atkDown:.1}}, arrow_rain:{periodic:{n:3, dmg:240}},
+  martini:{dodge:.25}, whip:{periodic:{n:4, dmg:280}}, never_give_up:{lowHpBuff:{threshold:.3, atkMult:1.8}},
+  flamethrower:{periodic:{n:3, dmg:280}},
+  bfg:{periodic:{n:5, dmg:600, ignoreDef:true}}, thunder_god:{periodic:{n:3, dmg:400, stun:true}},
+  supernova:{periodic:{n:5, dmg:550, ignoreDef:true}}, psychic:{periodic:{n:3, dmg:380, ignoreHalfDef:true}},
+  chaos_control:{periodic:{n:3, stun:true}}, ganon_power:{lowHpBuff:{threshold:.5, atkMult:1.5, defMult:1.3}},
+  spin_dash:{doubleHit:{chance:.25}}, raging_demon:{lowHpBuff:{threshold:.5, atkMult:1.6}},
+  omnislash:{periodic:{n:4, dmg:400}}, wave_beam:{periodic:{n:3, dmg:380, ignoreDef:true}},
+  master_sword:{periodic:{n:3, dmg:350, critBonus:.3}}, fire_breath:{periodic:{n:3, dmg:380}},
+  get_over_here:{periodic:{n:4, dmg:350, stun:true}}, ice_blast:{periodic:{n:3, dmg:320, agiDown:.1}},
+  super_jump:{periodic:{n:3, dmg:350}}, punch:{doubleHit:{chance:.2}},
+  hadouken:{periodic:{n:3, dmg:320, critBonus:.25}}, fire_spin:{periodic:{n:3, dmg:300}},
+  shoryuken:{periodic:{n:3, dmg:340, stun:true}}, witcher_signs:{periodic:{n:3, dmg:280, ignoreHalfDef:true}},
+  thunderhand:{periodic:{n:3, dmg:300, stun:true}}, thunderbolt:{periodic:{n:3, dmg:350, ignoreHalfDef:true}},
+  pod_program:{periodic:{n:3, dmg:320, defDown:.1}}, final_heaven:{periodic:{n:4, dmg:380}},
+  hyakuretsukyaku:{doubleHit:{chance:.2}}, hidden_blade:{critChance:{chance:.25, mult:2}},
+  eagle_vision:{dodge:.3}, light_arrow:{periodic:{n:3, dmg:320, ignoreHalfDef:true}},
+  rampage:{lowHpBuff:{threshold:.3, atkMult:1.6}}, drive_by:{doubleHit:{chance:.2}},
+  pikachu:{periodic:{n:5, dmg:400, ignoreDef:true}},
+  supreme_bone:{periodic:{n:4, dmg:500, ignoreDef:true}}, star_devourer:{periodic:{n:5, dmg:550}},
+  crimson_rain:{periodic:{n:3, dmg:390}}, evil_god:{periodic:{n:4, dmg:450, ignoreHalfDef:true}},
+  blue_silver:{periodic:{n:4, dmg:400, heal:50}}, immortal_path:{regen:{hp:40}},
+  dou_qi:{periodic:{n:3, dmg:350}}, martial_god:{periodic:{n:3, dmg:400, critBonus:.25}},
+  guqin:{periodic:{n:3, dmg:320, atkDown:.15}}, ghost_flute:{periodic:{n:4, dmg:380, stun:true}}
+};
+
+const LEGENDARY_FX = {
+  "Сайтама":"warmup","Вис":"devourer","Бирс":"vampiric","Гоку":"ssj","Танос (Перчатка)":"doubleSnap",
+  "Супермен":"sunCharge","Джирен":"painStack","Бен 10 (Alien X)":"omnitrix","Ши Хао":"absorb",
+  "Веджита":"lastStand","Сатору Годжо":"counterStrike","Ло Фэн":"stealBuff","Doom Slayer":"demonHunter",
+  "Тор":"doubleStun","Кагуя":"tsukuyomiSteal","Сукуна":"bloodFeast","Багз Банни":"cartoonRevive",
+  "Микки Маус":"disneyHeal","Алая Ведьма":"realityCancel",
+  "Фриза":"lowHpBoost","Наруто (СО6П)":"cloneDodge","Меруэм":"kingAura","Халк":"rageStack",
+  "Флэш":"doubleAttack","Нео":"chosenOne","Райдэн":"stun2x","Сефирот":"oneWingedAngel",
+  "Саске (СО6П)":"rinneganStun","Ичиго (финал)":"finalGetsuga","Луффи (G5)":"laughterHeal",
+  "Мадара (Джуби)":"meteor","Алукард":"levelOne","Шигараки (финал)":"soulDecay","Мьюту":"psyStorm",
+  "Попай":"spinachOverdose","Чудо-женщина":"athenaShield","Кратос":"spartanPlus","Хуа Чэн":"crimsonDodge",
+  "Юнь Чэ":"evilGodRage","Эсканор (The One)":"sunCross","Моб (100%)":"explosion100","Айзен (Хогёку)":"absoluteHypnosis",
+  "Мелиодас":"revengeCounter","All Might":"unitedSmash","Магнето":"magneticField","Йода":"greatForce",
+  "Гэндальф":"youShallNotPass","Шэдоу":"chaosControl","Тан Сан":"battleSpirit","Хань Ли":"immortalPeak",
+  "Кенпачи":"allOrNothing","Музан":"demonKing","Деку (финал)":"ofa100","Тимми Тёрнер":"floatingWish",
+  "Доктор Стрэндж":"fourteenMillion","Люк Скайуокер":"jediPath","Палпатин":"emperor","Дамблдор":"elderWandBonus",
+  "Гэнондорф":"triforcePower","Соник":"spinDashTurbo","Акума":"satsuiNoHado","Сяо Янь":"fireEmperor"
 };
 
 const CHAR_IMAGES = {
-  "Сайтама":         {file:"img/saitama",  fit:"face"},
-  "Гоку":            {file:"img/goku",     fit:"contain"},
-  "Наруто (СО6П)":   {file:"img/naruto",   fit:"face"},
-  "Луффи (G5)":      {file:"img/luffy",    fit:"cover"},
-  "Саске (СО6П)":    {file:"img/sasuke",   fit:"contain"},
-  "Ичиго (финал)":   {file:"img/ichigo",   fit:"contain"},
-  "Сатору Годжо":    {file:"img/gojo",     fit:"face"},
-  "Сукуна":          {file:"img/sukuna",   fit:"contain"},
-  "Юджи Итадори":    {file:"img/yuji",     fit:"cover"},
-  "Леви Аккерман":   {file:"img/levi",     fit:"face"},
-  "Эрен (Основатель)":{file:"img/eren",    fit:"face"},
-  "Микаса":          {file:"img/mikasa",   fit:"cover"},
-  "Сакура":          {file:"img/sakura",   fit:"cover"},
-  "Рукия":           {file:"img/rukia",    fit:"cover"},
-  "Зоро":            {file:"img/zoro",     fit:"face"},
-  "Санджи":          {file:"img/sanji",    fit:"cover"},
-  "Киллуа":          {file:"img/killua",   fit:"contain"},
-  "Гон (взрослый)":  {file:"img/gon",      fit:"contain"},
-  "Танджиро":        {file:"img/tanjiro",  fit:"contain"},
-  "Недзуко":         {file:"img/nezuko",   fit:"cover"},
-  "Деку (финал)":    {file:"img/deku",     fit:"contain"},
-  "Бакуго":          {file:"img/bakugo",   fit:"contain"},
-  "Тодороки":        {file:"img/todoroki", fit:"cover"},
-  "Кратос":          {file:"img/kratos",   fit:"cover"},
-  "Танос (Перчатка)":{file:"img/thanos",   fit:"face"},
-  "Тор":             {file:"img/thor",     fit:"contain"},
-  "Супермен":        {file:"img/superman", fit:"cover"},
-  "Бэтмен":          {file:"img/batman",   fit:"contain"},
-  "Джокер":          {file:"img/joker",    fit:"cover"}
-};
-
-const state = {
-  mode:null, role:null, myIdx:0,
-  roomCode:null, playerId:null,
-  roomRef:null, roomListener:null,
-  players:[], pool:[], totalRounds:0, roundNumber:0,
-  current:null, currentBid:0, currentBidder:null,
-  activePlayers:[], turnPointer:0, startingMoney:0,
-  firstBidderOffset:0, basePrice:0, phase:'lobby',
-  log:[], poolSource:[], poolSize:0
-};
+  "Сайтама":{file:"img/saitama",fit:"face"},"Гоку":{file:"img/goku",fit:"contain"},
+  "Наруто (СО6П)":{file:"img/naruto",fit:"face"},"Луффи (G5)":{file:"img/luffy",fit:"cover"},
+  "Саске (СО6П)":{file:"img/sasuke",fit:"contain"},"Ичиго (финал)":{file:"img/ichigo",fit:"contain"},
+  "Сатору Годжо":{file:"img/gojo",fit:"face"},"Сукуна":{file:"img/sukuna",fit:"contain"},
+  "Юджи Итадори":{file:"img/yuji",fit:"cover"},"Леви Аккерман":{file:"img/levi",fit:"face"},
+  "Эрен (Основатель)":{file:"img/eren",fit:"face"},"Микаса":{file:"img/mikasa",fit:"cover"},
+  "Сакура":{file:"img/sakura",fit:"cover"},"Рукия":{file:"img/rukia",fit:"cover"},
+  "Зоро":{file:"img/zoro",fit:"face"},"Санджи":{file:"img/sanji",fit:"cover"},
+  "Киллуа":{file:"img/killua",fit:"contain"},"Гон (взрослый)":{file:"img/gon",fit:"contain"},
+  "Танджиро":{file:"img/tanjiro",fit:"contain"},"Недзуко":{file:"img/nezuko",fit:"cover"},
+  "Деку (финал)":{file:"img/deku",fit:"contain"},"Бакуго":{file:"img/bakugo",fit:"contain"},
+  "Тодороки":{file:"img/todoroki",fit:"cover"},"Кратос":{file:"img/kratos",fit:"cover"},
+  "Танос (Перчатка)":{file:"img/thanos",fit:"face"},"Тор":{file:"img/thor",fit:"contain"},
+  "Супермен":{file:"img/superman",fit:"cover"},"Бэтмен":{file:"img/batman",fit:"contain"},
+  "Джокер":{file:"img/joker",fit:"cover"}
+};const state = {mode:null,role:null,myIdx:0,roomCode:null,playerId:null,roomRef:null,roomListener:null,
+  players:[],pool:[],totalRounds:0,roundNumber:0,current:null,currentBid:0,currentBidder:null,
+  activePlayers:[],turnPointer:0,startingMoney:0,firstBidderOffset:0,basePrice:0,phase:'lobby',
+  log:[],poolSource:[],poolSize:0};
 
 const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','duelScreen','duelBattleScreen','gameScreen','resultsScreen'];
 function show(id){screens.forEach(s=>document.getElementById(s).classList.toggle('hidden', s!==id));window.scrollTo(0,0);}
 
+// ===== НАВИГАЦИЯ =====
 document.querySelectorAll('.mode-tabs button').forEach(b=>{
-  b.onclick = ()=>{
+  b.onclick=()=>{
     document.querySelectorAll('.mode-tabs button').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');
-    const m = b.dataset.mode;
-    document.getElementById('onlineMenu').classList.toggle('hidden', m!=='online');
-    document.getElementById('hotseatMenu').classList.toggle('hidden', m!=='hotseat');
+    const m=b.dataset.mode;
+    document.getElementById('onlineMenu').classList.toggle('hidden',m!=='online');
+    document.getElementById('hotseatMenu').classList.toggle('hidden',m!=='hotseat');
   };
 });
-document.getElementById('createRoomBtn').onclick = ()=>show('createScreen');
-document.getElementById('joinRoomBtn').onclick = ()=>show('joinScreen');
-document.getElementById('hotseatBtn').onclick = ()=>{renderHotseatNames();show('hotseatScreen');};
-document.getElementById('backFromCreate').onclick = ()=>show('menuScreen');
-document.getElementById('backFromJoin').onclick = ()=>show('menuScreen');
-document.getElementById('backFromHs').onclick = ()=>show('menuScreen');
-document.getElementById('duelModeBtn').onclick = ()=>show('duelScreen');
-document.getElementById('backFromDuel').onclick = ()=>show('menuScreen');
+document.getElementById('createRoomBtn').onclick=()=>show('createScreen');
+document.getElementById('joinRoomBtn').onclick=()=>show('joinScreen');
+document.getElementById('hotseatBtn').onclick=()=>{renderHotseatNames();show('hotseatScreen');};
+document.getElementById('backFromCreate').onclick=()=>show('menuScreen');
+document.getElementById('backFromJoin').onclick=()=>show('menuScreen');
+document.getElementById('backFromHs').onclick=()=>show('menuScreen');
+document.getElementById('duelModeBtn').onclick=()=>show('duelScreen');
+document.getElementById('backFromDuel').onclick=()=>show('menuScreen');
 
-let duelP1Deck = [];
-let duelP2Deck = [];
+// ===== УТИЛИТЫ =====
+function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+function genId(){return Math.random().toString(36).slice(2,10);}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function setStatus(id,msg,cls){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg'+(cls?' '+cls:'');}
+function shakeCard(el){if(!el)return;el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');}
+function shakeDuel(id){const el=document.getElementById(id);if(!el)return;el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit');}
 
-document.getElementById('duelStartBtn').onclick = ()=>{
-  const p1 = (document.getElementById('duelP1Name').value.trim()||'Игрок 1').slice(0,16);
-  const p2 = (document.getElementById('duelP2Name').value.trim()||'Игрок 2').slice(0,16);
-  document.getElementById('duelP1Title').textContent = p1;
-  document.getElementById('duelP2Title').textContent = p2;
-
-  const allNames = Object.keys(CHAR_STATS);
-  const shuffled = shuffle(allNames);
-  duelP1Deck = shuffled.slice(0,3);
-  duelP2Deck = shuffled.slice(3,6);
-
-  renderDuelDeck('duelP1Cards', duelP1Deck);
-  renderDuelDeck('duelP2Cards', duelP2Deck);
-
-  document.getElementById('duelSetup').classList.add('hidden');
-  document.getElementById('duelDecks').classList.remove('hidden');
-};
-
-function renderDuelDeck(containerId, deck){
-  const cont = document.getElementById(containerId);
-  cont.innerHTML = '';
-  deck.forEach(name=>{
-    const stats = CHAR_STATS[name];
-    const img = CHAR_IMAGES[name];
-    const rarity = stats.hp >= 5000 ? 'mythic' : stats.hp >= 1500 ? 'legendary' : stats.hp >= 700 ? 'epic' : stats.hp >= 250 ? 'rare' : 'common';
-    const imgHtml = img ? '<img src="'+img.file+'.png" onerror="this.onerror=null;this.src=\''+img.file+'.jpg\'" alt="">' : '<div style="height:60px;display:flex;align-items:center;justify-content:center;font-size:30px">'+(THEME_EMOJI[(CHARACTERS.find(c=>c.n===name)||{}).t]||'⭐')+'</div>';
-    const div = document.createElement('div');
-    div.className = 'mini-card rarity-'+rarity;
-    div.innerHTML = imgHtml + '<div class="mc-name">'+name+'</div><div class="mc-stats">❤️'+stats.hp+' ⚔️'+stats.atk+'</div>';
-    cont.appendChild(div);
+// ===== АУКЦИОН ОНЛАЙН =====
+document.getElementById('createConfirmBtn').onclick=createRoom;
+function createRoom(){
+  const themes=[...document.querySelectorAll('.theme:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
+  const startMoney=Math.max(100,+document.getElementById('startMoney').value||1000);
+  const charCount=Math.max(3,Math.min(40,+document.getElementById('charCount').value||10));
+  const hostName=(document.getElementById('hostName').value.trim()||'Хост').slice(0,16);
+  const pool=CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length<charCount){alert('Только '+pool.length+' персонажей.');return;}
+  state.mode='online';state.role='host';state.myIdx=0;
+  state.startingMoney=startMoney;state.totalRounds=charCount;
+  state.poolSource=themes;state.poolSize=charCount;
+  state.playerId=genId();
+  const code=genCode();state.roomCode=code;
+  const room={code,hostId:state.playerId,phase:'lobby',totalRounds:charCount,startingMoney:startMoney,
+    poolSource:themes,poolSize:charCount,roundNumber:0,current:null,basePrice:0,currentBid:0,currentBidder:null,
+    turnPointer:0,firstBidderOffset:0,activePlayers:[],log:[],pool:[],
+    players:{[state.playerId]:{name:hostName,money:startMoney,characters:[],order:0}}};
+  state.roomRef=db.ref('rooms/'+code);
+  state.roomRef.set(room).then(()=>{
+    document.getElementById('roomCode').textContent=code;
+    show('lobbyScreen');setStatus('lobbyStatus','Комната создана. Ждём игроков...','ok');listenToRoom();
+  }).catch(err=>setStatus('lobbyStatus','Ошибка: '+err.message,'err'));
+}
+function listenToRoom(){
+  if(state.roomListener&&state.roomRef)state.roomRef.off('value',state.roomListener);
+  state.roomListener=state.roomRef.on('value',snap=>{const d=snap.val();if(!d)return;handleRoomUpdate(d);},err=>console.error(err));
+}
+function handleRoomUpdate(room){
+  const players=room.players||{};
+  const playerList=Object.keys(players).map(k=>({id:k,...players[k]})).sort((a,b)=>(a.order||0)-(b.order||0));
+  state.players=playerList;state.phase=room.phase;state.roundNumber=room.roundNumber||0;
+  state.totalRounds=room.totalRounds;state.startingMoney=room.startingMoney;state.current=room.current;
+  state.basePrice=room.basePrice||0;state.currentBid=room.currentBid||0;state.currentBidder=room.currentBidder;
+  state.turnPointer=room.turnPointer||0;state.activePlayers=room.activePlayers||[];
+  state.log=room.log||[];state.pool=room.pool||[];
+  const ids=playerList.map(p=>p.id);state.myIdx=ids.indexOf(state.playerId);
+  if(room.phase==='lobby'){
+    show('lobbyScreen');
+    document.getElementById('roomCode').textContent=room.code;
+    const list=document.getElementById('lobbyList');list.innerHTML='';
+    playerList.forEach(p=>{const li=document.createElement('li');li.textContent=p.name+(p.id===state.playerId?' (ты)':'');list.appendChild(li);});
+    document.getElementById('lobbyCount').textContent='('+playerList.length+'/6)';
+    const sBtn=document.getElementById('startOnlineBtn');
+    if(state.role==='host')sBtn.disabled=playerList.length<2;
+    else{sBtn.style.display='none';setStatus('lobbyStatus','Ожидание начала...');}
+  }else if(['playing','paused','results'].includes(room.phase)){
+    show('gameScreen');renderFromRoom(room,playerList);
+  }
+}
+document.getElementById('joinConfirmBtn').onclick=joinRoom;
+function joinRoom(){
+  const code=document.getElementById('joinCode').value.trim().toUpperCase();
+  const name=(document.getElementById('joinName').value.trim()||'Игрок').slice(0,16);
+  if(code.length<4){setStatus('joinStatus','Введи код','err');return;}
+  setStatus('joinStatus','Подключаемся...');
+  state.mode='online';state.role='client';state.roomCode=code;state.playerId=genId();
+  state.roomRef=db.ref('rooms/'+code);
+  state.roomRef.once('value').then(snap=>{
+    const room=snap.val();
+    if(!room){setStatus('joinStatus','Не найдена','err');return;}
+    if(room.phase!=='lobby'){setStatus('joinStatus','Уже началась','err');return;}
+    const cnt=Object.keys(room.players||{}).length;
+    if(cnt>=6){setStatus('joinStatus','Заполнена','err');return;}
+    let finalName=name,n=2;
+    while(Object.values(room.players||{}).some(p=>p.name===finalName)){finalName=name+' '+n;n++;if(n>20)break;}
+    state.roomRef.child('players/'+state.playerId).set({name:finalName,money:room.startingMoney,characters:[],order:cnt});
+    setStatus('joinStatus','ОК! Ждём...','ok');listenToRoom();
+  }).catch(err=>setStatus('joinStatus','Ошибка: '+err.message,'err'));
+}
+document.getElementById('startOnlineBtn').onclick=startOnlineGame;
+function startOnlineGame(){
+  if(state.role!=='host')return;
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const players=data.players||{};
+    if(Object.keys(players).length<2)return;
+    let pool=CHARACTERS.filter(c=>data.poolSource.includes(c.t));
+    pool=shuffle(pool).slice(0,data.poolSize);
+    room.child('pool').set(pool);room.child('phase').set('playing');room.child('roundNumber').set(0);
+    room.child('firstBidderOffset').set(0);room.child('log').set([]);hostNextRound();
+  });
+}
+function hostNextRound(){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const pool=data.pool||[];
+    if(pool.length===0){room.child('phase').set('results');return;}
+    const players=data.players||{};
+    const totalMoney=Object.values(players).reduce((s,p)=>s+(p.money||0),0);
+    if(totalMoney<=0){const log=data.log||[];log.push('💰 Все деньги кончились');room.update({phase:'results',log:log.slice(-100)});return;}
+    const next=pool[0];const rest=pool.slice(1);const roundNumber=(data.roundNumber||0)+1;
+    const playerIds=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const activeIdx=[];playerIds.forEach((pid,idx)=>{if(players[pid].money>0)activeIdx.push(idx);});
+    const turnPointer=activeIdx.length?((roundNumber-1)%activeIdx.length):0;
+    const updates={pool:rest,current:next,basePrice:0,roundNumber,currentBid:0,currentBidder:null,
+      activePlayers:activeIdx,turnPointer:turnPointer};
+    const log=data.log||[];log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
+    updates.log=log.slice(-100);room.update(updates);
+  });
+}
+function renderFromRoom(room,playerList){
+  const view={phase:room.phase,round:room.roundNumber||0,totalRounds:room.totalRounds,char:room.current,
+    basePrice:room.basePrice||0,players:playerList.map(p=>({name:p.name,money:p.money,characters:p.characters||[],connected:true})),
+    currentBid:room.currentBid||0,currentBidder:room.currentBidder,
+    turnIdx:(room.activePlayers&&room.activePlayers.length)?room.activePlayers[room.turnPointer]:-1,
+    activeIdx:room.activePlayers||[],log:room.log||[],poolLeft:(room.pool||[]).length};
+  renderSnapshot(view);
+}
+let lastLogCount=0;
+function renderSnapshot(view){
+  document.getElementById('roundNum').textContent=view.round;
+  document.getElementById('roundTotal').textContent=view.totalRounds;
+  document.getElementById('charRemaining').textContent='Осталось: '+view.poolLeft;
+  if(view.phase==='results'){renderResults(view);return;}
+  if(view.phase==='lobby')return;
+  show('gameScreen');
+  const c=view.char;
+  if(c){
+    const pct=Math.min(100,Math.round(c.p/10));
+    const imgInfo=CHAR_IMAGES[c.n];
+    let topPart;
+    if(imgInfo){
+      const cls=imgInfo.fit==='contain'?' contain':(imgInfo.fit==='face'?' face':'');
+      const f=imgInfo.file;
+      topPart='<div class="char-img'+cls+'"><img src="'+f+'.png" onerror="this.onerror=null;this.src=\''+f+'.jpg\'" alt="'+c.n+'"></div>';
+    }else{
+      const rar=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
+      const rarColors={common:'#555',rare:'#2ecc71',epic:'#3498db',legendary:'#9b59b6',mythic:'#f39c12'};
+      topPart='<div class="char-img contain" style="background:radial-gradient(circle,'+rarColors[rar]+'33,#0f0f1e 70%)"><div style="font-size:96px;filter:drop-shadow(0 0 20px '+rarColors[rar]+')">'+(THEME_EMOJI[c.t]||'⭐')+'</div></div>';
+    }
+    const stats=CHAR_STATS[c.n];
+    let statsHtml='';
+    if(stats){
+      const r=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
+      const rName={common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[r];
+      statsHtml='<span class="rarity-badge rarity-'+r+'">'+rName+'</span>'
+        +'<div class="stats-row" style="grid-template-columns:repeat(6,1fr)">'
+        +'<div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">🔮 Маг</div><div class="val">'+stats.mag+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div>'
+        +'</div>'
+        +'<div class="ability-row"><div class="a-name">✨ '+(ABILITY_NAMES[stats.ability]||'?')+'</div><div class="a-desc">'+(ABILITY_DESC[stats.ability]||'')+'</div></div>';
+    }
+    document.getElementById('charCard').innerHTML=topPart+'<div class="char-name">'+c.n+'</div><div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+statsHtml+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div><div class="power-value">Сила: '+c.p+' / 1000</div>';
+  }
+  const pl=document.getElementById('playersList');pl.innerHTML='';
+  view.players.forEach((p,i)=>{
+    const isActive=view.activeIdx.includes(i);
+    const isTurn=view.turnIdx===i;
+    const el=document.createElement('div');
+    el.className='player-item'+(isActive?' active':' out');
+    el.style.borderColor=isTurn?'#f39c12':(isActive?'rgba(243,156,18,.3)':'transparent');
+    const totalPower=(p.characters||[]).reduce((s,x)=>s+x.p,0);
+    const youTag=(i===state.myIdx)?' (ты)':'';
+    el.innerHTML='<div class="pn">'+(isTurn?'🎯 ':'')+p.name+youTag+'</div><div class="pm">💰 '+p.money+'</div><div class="pc">Героев: '+(p.characters||[]).length+' · Сила: '+totalPower+'</div>';
+    pl.appendChild(el);
+  });
+  const bi=document.getElementById('bidInfo');
+  if(view.currentBid===0){bi.innerHTML='<div class="bid-amount">Ставок пока нет</div><div class="bid-who">Можно ставить любую сумму</div>';}
+  else{const lName=view.players[view.currentBidder]?view.players[view.currentBidder].name:'?';
+    bi.innerHTML='<div class="bid-amount">'+view.currentBid+' 💰</div><div class="bid-who">Лидер: <b>'+lName+'</b> · минимум '+(view.currentBid+1)+'</div>';}
+  renderActionPanel(view);
+  const log=document.getElementById('log');
+  if(view.log.length!==lastLogCount){
+    log.innerHTML='';
+    view.log.slice(-30).forEach(l=>{const d=document.createElement('div');d.textContent=l;log.appendChild(d);});
+    log.scrollTop=log.scrollHeight;lastLogCount=view.log.length;
+  }
+}
+function calcMinBid(cb){return (!cb||cb===0)?1:cb+1;}
+function renderActionPanel(view){
+  const ap=document.getElementById('actionPanel');
+  if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
+  if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
+  const cName=view.players[view.turnIdx].name;
+  const isMyTurn=(state.myIdx===view.turnIdx);
+  if(!isMyTurn){ap.innerHTML='<div class="turn-name">Ход: <b>'+cName+'</b></div><div style="color:#888;font-size:13px;margin-top:6px">Ожидание...</div>';return;}
+  const player=view.players[state.myIdx];
+  const min=calcMinBid(view.currentBid);
+  const canBid=player.money>=min;
+  const defaultVal=canBid?min:1;
+  const hint=view.currentBid===0?'Можно ставить от 1':('Минимум '+min);
+  ap.innerHTML='<div class="turn-name">Твой ход · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег (нужно '+min+')</div>');
+  if(canBid)document.getElementById('bidBtn').onclick=()=>{const v=+document.getElementById('bidInput').value;submitBid(v);};
+  document.getElementById('passBtn').onclick=submitPass;
+}
+function submitBid(a){if(state.role==='host')hostHandleBid(a);else clientHandleBid(a);}
+function submitPass(){if(state.role==='host')hostHandlePass();else clientHandlePass();}
+function hostHandleBid(amount){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const min=calcMinBid(data.currentBid);amount=Math.round(amount);
+    if(amount<min)return;if(amount>players[state.playerId].money)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' ставит '+amount);
+    const tp=(data.turnPointer+1)%data.activePlayers.length;
+    room.update({currentBid:amount,currentBidder:ids.indexOf(state.playerId),turnPointer:tp,log:log.slice(-100)}).then(()=>hostAutoCheck());
+  });
+}
+function hostHandlePass(){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' пасует');
+    const newActive=data.activePlayers.slice();newActive.splice(data.turnPointer,1);
+    const tp=newActive.length?(data.turnPointer%newActive.length):0;
+    room.update({activePlayers:newActive,turnPointer:tp,log:log.slice(-100)}).then(()=>hostAutoCheck());
+  });
+}
+function clientHandleBid(amount){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data)return;const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const min=calcMinBid(data.currentBid);amount=Math.round(amount);
+    if(amount<min)return;if(amount>players[state.playerId].money)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' ставит '+amount);
+    const tp=(data.turnPointer+1)%data.activePlayers.length;
+    room.update({currentBid:amount,currentBidder:ids.indexOf(state.playerId),turnPointer:tp,log:log.slice(-100)});
+  });
+}
+function clientHandlePass(){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data)return;const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' пасует');
+    const newActive=data.activePlayers.slice();newActive.splice(data.turnPointer,1);
+    const tp=newActive.length?(data.turnPointer%newActive.length):0;
+    room.update({activePlayers:newActive,turnPointer:tp,log:log.slice(-100)});
+  });
+}
+function hostAutoCheck(){
+  if(state.role!=='host')return;const room=state.roomRef;if(!room)return;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data||data.phase!=='playing')return;if(!data.current)return;
+    const ap=data.activePlayers||[];
+    if(ap.length===0){hostFinishRound(null);return;}
+    if(ap.length===1){const last=ap[0];
+      if(data.currentBidder===last)hostFinishRound(last);
+      else if(data.turnPointer!==0)room.child('turnPointer').set(0);}
+  }).catch(e=>console.error(e));
+}
+function hostFinishRound(winnerIdx){
+  const room=state.roomRef;if(!room)return;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data)return;if(data.phase!=='playing')return;if(!data.current)return;
+    const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const log=data.log||[];let updates={phase:'paused'};
+    if(winnerIdx!==null&&winnerIdx!==undefined){
+      const wPid=ids[winnerIdx];
+      const newMoney=players[wPid].money-data.currentBid;
+      const chars=(players[wPid].characters||[]).slice();chars.push(data.current);
+      updates['players/'+wPid+'/money']=newMoney;updates['players/'+wPid+'/characters']=chars;
+      log.push('✅ '+players[wPid].name+' купил «'+data.current.n+'» за '+data.currentBid);
+    }else log.push('❌ «'+data.current.n+'» не куплен');
+    updates.log=log.slice(-100);
+    room.update(updates).then(()=>{
+      setTimeout(()=>{
+        room.once('value').then(s2=>{
+          const d2=s2.val();if(!d2)return;
+          const totalMoney=Object.values(d2.players||{}).reduce((s,p)=>s+(p.money||0),0);
+          if((d2.pool||[]).length===0||totalMoney<=0){
+            if(totalMoney<=0&&(d2.pool||[]).length>0){
+              const l2=d2.log||[];l2.push('💰 Все деньги кончились');
+              room.update({phase:'results',log:l2.slice(-100)});
+            }else room.child('phase').set('results');
+          }else{room.child('phase').set('playing');hostNextRound();}
+        });
+      },1800);
+    });
+  });
+}
+function renderResults(view){
+  show('resultsScreen');
+  const sorted=[...view.players].map(p=>({name:p.name,money:p.money,characters:p.characters||[],totalPower:(p.characters||[]).reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
+  const w=sorted[0];
+  document.getElementById('winnerText').textContent='🏆 '+w.name+' — сила '+w.totalPower+'!';
+  const tbl=document.getElementById('resultsTable');
+  tbl.innerHTML='<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
+  sorted.forEach((p,i)=>{
+    const chars=(p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
+    tbl.innerHTML+='<tr><td>'+(i+1)+'</td><td>'+p.name+'</td><td><b style="color:#f39c12">'+p.totalPower+'</b></td><td class="chars-inline">'+chars+'</td><td>'+p.money+'</td></tr>';
   });
 }
 
-document.getElementById('duelRedrawBtn').onclick = ()=>{
-  document.getElementById('duelStartBtn').click();
+// ===== ЛОКАЛЬНЫЙ РЕЖИМ =====
+const hsLocal={players:[],pool:[],roundNumber:0,totalRounds:0,startingMoney:0,current:null,currentBid:0,
+  currentBidder:null,activePlayers:[],turnPointer:0,basePrice:0,phase:'lobby',log:[],firstBidderOffset:0};
+const hsNames=document.getElementById('hsPlayerNames');
+document.getElementById('hsPlayerCount').addEventListener('input',renderHotseatNames);
+function renderHotseatNames(){
+  const n=Math.max(2,Math.min(6,+document.getElementById('hsPlayerCount').value||2));
+  const old=[...hsNames.querySelectorAll('input')].map(i=>i.value);
+  hsNames.innerHTML='';
+  for(let i=0;i<n;i++){const inp=document.createElement('input');inp.type='text';inp.value=old[i]||('Игрок '+(i+1));inp.maxLength=16;hsNames.appendChild(inp);}
+}
+renderHotseatNames();
+document.getElementById('hsStartBtn').onclick=()=>{
+  const themes=[...document.querySelectorAll('.theme2:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери тематику!');return;}
+  const startMoney=Math.max(100,+document.getElementById('hsStartMoney').value||1000);
+  const charCount=Math.max(3,Math.min(40,+document.getElementById('hsCharCount').value||10));
+  const names=[...hsNames.querySelectorAll('input')].map(i=>i.value.trim()||'Игрок');
+  let pool=CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length<charCount){alert('Только '+pool.length);return;}
+  pool=shuffle(pool).slice(0,charCount);
+  state.mode='hotseat';state.role='host';state.myIdx=-1;
+  hsLocal.players=names.map(n=>({name:n,money:startMoney,characters:[]}));
+  hsLocal.pool=pool;hsLocal.totalRounds=charCount;hsLocal.roundNumber=0;hsLocal.startingMoney=startMoney;
+  hsLocal.firstBidderOffset=0;hsLocal.log=[];hsLocal.phase='playing';lastLogCount=0;
+  show('gameScreen');hsNextRound();
 };
+function hsNextRound(){
+  if(hsLocal.pool.length===0){hsRenderResults();return;}
+  const totalMoney=hsLocal.players.reduce((s,p)=>s+(p.money||0),0);
+  if(totalMoney<=0){hsLocal.log.push('💰 Деньги кончились');hsRenderResults();return;}
+  hsLocal.roundNumber++;hsLocal.current=hsLocal.pool.shift();hsLocal.basePrice=0;hsLocal.currentBid=0;hsLocal.currentBidder=null;
+  hsLocal.activePlayers=hsLocal.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
+  if(hsLocal.activePlayers.length===0){hsFinishRound(null);return;}
+  hsLocal.turnPointer=((hsLocal.roundNumber-1)%hsLocal.activePlayers.length);
+  hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+')');
+  hsRender();
+}
+function hsRender(){
+  const view={phase:hsLocal.phase,round:hsLocal.roundNumber,totalRounds:hsLocal.totalRounds,char:hsLocal.current,
+    basePrice:hsLocal.basePrice,players:hsLocal.players,currentBid:hsLocal.currentBid,currentBidder:hsLocal.currentBidder,
+    turnIdx:hsLocal.activePlayers.length?hsLocal.activePlayers[hsLocal.turnPointer]:-1,activeIdx:hsLocal.activePlayers,
+    log:hsLocal.log,poolLeft:hsLocal.pool.length};
+  renderSnapshot(view);
+}
+const origRenderActionPanel=renderActionPanel;
+renderActionPanel=function(view){
+  const ap=document.getElementById('actionPanel');
+  if(state.mode!=='hotseat'){origRenderActionPanel(view);return;}
+  if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
+  if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
+  const player=view.players[view.turnIdx];
+  const min=calcMinBid(view.currentBid);
+  const canBid=player.money>=min;
+  const defaultVal=canBid?min:1;
+  const hint=view.currentBid===0?'Можно ставить от 1':('Минимум '+min);
+  ap.innerHTML='<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег</div>');
+  if(canBid)document.getElementById('bidBtn').onclick=()=>{const v=+document.getElementById('bidInput').value;hsBid(hsLocal.activePlayers[hsLocal.turnPointer],v);};
+  document.getElementById('passBtn').onclick=()=>hsPass(hsLocal.activePlayers[hsLocal.turnPointer]);
+};
+function hsBid(pidx,amount){
+  const p=hsLocal.players[pidx];const min=calcMinBid(hsLocal.currentBid);amount=Math.round(amount);
+  if(amount<min)return;if(amount>p.money)return;
+  hsLocal.currentBid=amount;hsLocal.currentBidder=pidx;hsLocal.log.push(p.name+' ставит '+amount);
+  hsLocal.turnPointer=(hsLocal.turnPointer+1)%hsLocal.activePlayers.length;hsCheckEnd();
+}
+function hsPass(pidx){
+  const p=hsLocal.players[pidx];hsLocal.log.push(p.name+' пасует');
+  hsLocal.activePlayers.splice(hsLocal.turnPointer,1);
+  if(hsLocal.turnPointer>=hsLocal.activePlayers.length)hsLocal.turnPointer=0;
+  hsCheckEnd();
+}
+function hsCheckEnd(){
+  if(hsLocal.activePlayers.length===0){hsFinishRound(null);return;}
+  if(hsLocal.activePlayers.length===1){
+    const last=hsLocal.activePlayers[0];
+    if(hsLocal.currentBidder===last){hsFinishRound(last);return;}
+    else{hsLocal.turnPointer=0;hsRender();return;}
+  }
+  hsRender();
+}
+function hsFinishRound(winnerIdx){
+  if(winnerIdx!==null){
+    const p=hsLocal.players[winnerIdx];
+    p.money-=hsLocal.currentBid;p.characters.push(hsLocal.current);
+    hsLocal.log.push('✅ '+p.name+' купил «'+hsLocal.current.n+'» за '+hsLocal.currentBid);
+  }else hsLocal.log.push('❌ «'+hsLocal.current.n+'» не куплен');
+  hsLocal.phase='paused';hsRender();
+  setTimeout(()=>{hsLocal.phase='playing';hsNextRound();},1800);
+}
+function hsRenderResults(){
+  const sorted=hsLocal.players.map(p=>({name:p.name,money:p.money,characters:p.characters,totalPower:p.characters.reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
+  const w=sorted[0];
+  document.getElementById('winnerText').textContent='🏆 '+w.name+' — сила '+w.totalPower+'!';
+  const tbl=document.getElementById('resultsTable');
+  tbl.innerHTML='<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
+  sorted.forEach((p,i)=>{
+    const chars=p.characters.slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
+    tbl.innerHTML+='<tr><td>'+(i+1)+'</td><td>'+p.name+'</td><td><b style="color:#f39c12">'+p.totalPower+'</b></td><td class="chars-inline">'+chars+'</td><td>'+p.money+'</td></tr>';
+  });
+  show('resultsScreen');
+}
 
-let duelState = null;
-
-document.getElementById('duelFightBtn').onclick = ()=>{
-  duelState = {
-    p1Name: document.getElementById('duelP1Name').value.trim()||'Игрок 1',
-    p2Name: document.getElementById('duelP2Name').value.trim()||'Игрок 2',
-    p1Deck: [...duelP1Deck],
-    p2Deck: [...duelP2Deck],
-    p1Index: 0, p2Index: 0,
-    p1Wins: 0, p2Wins: 0,
-    p1CardsWon: [], p2CardsWon: [],
-    round: 1
-  };
+// ===== ДУЭЛИ =====
+let duelP1Deck=[],duelP2Deck=[],duelState=null;
+document.getElementById('duelStartBtn').onclick=()=>{
+  const p1=(document.getElementById('duelP1Name').value.trim()||'Игрок 1').slice(0,16);
+  const p2=(document.getElementById('duelP2Name').value.trim()||'Игрок 2').slice(0,16);
+  document.getElementById('duelP1Title').textContent=p1;
+  document.getElementById('duelP2Title').textContent=p2;
+  const allNames=Object.keys(CHAR_STATS);
+  const shuffled=shuffle(allNames);
+  duelP1Deck=shuffled.slice(0,3);duelP2Deck=shuffled.slice(3,6);
+  renderDuelDeck('duelP1Cards',duelP1Deck);renderDuelDeck('duelP2Cards',duelP2Deck);
+  document.getElementById('duelSetup').classList.add('hidden');
+  document.getElementById('duelDecks').classList.remove('hidden');
+};
+function renderDuelDeck(cid,deck){
+  const cont=document.getElementById(cid);cont.innerHTML='';
+  deck.forEach(name=>{
+    const stats=CHAR_STATS[name];const img=CHAR_IMAGES[name];
+    const rarity=stats.hp>=5000?'mythic':stats.hp>=1500?'legendary':stats.hp>=700?'epic':stats.hp>=250?'rare':'common';
+    const imgHtml=img?'<img src="'+img.file+'.png" onerror="this.onerror=null;this.src=\''+img.file+'.jpg\'" alt="">':'<div style="height:60px;display:flex;align-items:center;justify-content:center;font-size:30px;filter:drop-shadow(0 0 8px #f39c12)">'+(THEME_EMOJI[(CHARACTERS.find(c=>c.n===name)||{}).t]||'⭐')+'</div>';
+    const div=document.createElement('div');div.className='mini-card rarity-'+rarity;
+    div.innerHTML=imgHtml+'<div class="mc-name">'+name+'</div><div class="mc-stats">❤️'+stats.hp+' ⚔️'+stats.atk+'</div>';
+    cont.appendChild(div);
+  });
+}
+document.getElementById('duelRedrawBtn').onclick=()=>document.getElementById('duelStartBtn').click();
+document.getElementById('duelFightBtn').onclick=()=>{
+  duelState={p1Name:document.getElementById('duelP1Name').value.trim()||'Игрок 1',
+    p2Name:document.getElementById('duelP2Name').value.trim()||'Игрок 2',
+    p1Deck:[...duelP1Deck],p2Deck:[...duelP2Deck],p1Index:0,p2Index:0,p1Wins:0,p2Wins:0,round:1};
   startDuelRound();
 };
-
 function startDuelRound(){
-  if(duelState.p1Index >= duelState.p1Deck.length || duelState.p2Index >= duelState.p2Deck.length){
-    endDuelMatch();
-    return;
-  }
-  const c1Name = duelState.p1Deck[duelState.p1Index];
-  const c2Name = duelState.p2Deck[duelState.p2Index];
-  const s1 = CHAR_STATS[c1Name];
-  const s2 = CHAR_STATS[c2Name];
-
-  duelState.current = {
-    c1: c1Name, c2: c2Name,
-    s1: {...s1}, s2: {...s2},
-    hp1: s1.hp, hp2: s2.hp,
-    maxHp1: s1.hp, maxHp2: s2.hp,
-    p1First: s1.agi >= s2.agi,
-    turn: 1,
-    atk1: 0, atk2: 0,
-    abilityUsed1: false,
-    abilityUsed2: false,
-    skip1: false,
-    skip2: false,
-    nika1: false,
-    nika2: false,
-    rage1: false,
-    rage2: false
-  };
-
-  document.getElementById('duelRoundNum').textContent = duelState.round;
-  document.getElementById('duelVsText').textContent = duelState.p1Name+' vs '+duelState.p2Name;
-  document.getElementById('duelF1Name').textContent = c1Name;
-  document.getElementById('duelF2Name').textContent = c2Name;
-  document.getElementById('duelF1Atk').textContent = s1.atk;
-  document.getElementById('duelF1Def').textContent = s1.def;
-  document.getElementById('duelF2Atk').textContent = s2.atk;
-  document.getElementById('duelF2Def').textContent = s2.def;
-
-  renderDuelFighterImage('duelF1Img', c1Name);
-  renderDuelFighterImage('duelF2Img', c2Name);
-
-  updateHpBars();
-  document.getElementById('battleLog').innerHTML = '';
-  addBattleLog('— Раунд '+duelState.round+': '+c1Name+' vs '+c2Name+' —', 'round-title');
-  addBattleLog((duelState.current.p1First ? c1Name : c2Name)+' бьёт первым (Ловкость)', 'round-title');
-
+  if(duelState.p1Index>=duelState.p1Deck.length||duelState.p2Index>=duelState.p2Deck.length){endDuelMatch();return;}
+  const c1Name=duelState.p1Deck[duelState.p1Index];
+  const c2Name=duelState.p2Deck[duelState.p2Index];
+  const s1=CHAR_STATS[c1Name],s2=CHAR_STATS[c2Name];
+  const fx1=ABILITY_EFFECTS[s1.ability]||{},fx2=ABILITY_EFFECTS[s2.ability]||{};
+  let p1First;
+  if(fx1.alwaysFirst&&!fx2.alwaysFirst)p1First=true;
+  else if(fx2.alwaysFirst&&!fx1.alwaysFirst)p1First=false;
+  else p1First=s1.agi>=s2.agi;
+  const st1={...s1},st2={...s2};
+  if(fx1.defBuff)st1.def=Math.round(st1.def*fx1.defBuff.mult);
+  if(fx2.defBuff)st2.def=Math.round(st2.def*fx2.defBuff.mult);
+  duelState.current={c1:c1Name,c2:c2Name,s1:st1,s2:st2,hp1:st1.hp,hp2:st2.hp,maxHp1:st1.hp,maxHp2:st2.hp,
+    p1First:p1First,turn:1,atk1:0,atk2:0,skip1:false,skip2:false,
+    legWarmup1:false,legWarmup2:false,legDevourer1:false,legDevourer2:false,
+    legSsj1:false,legSsj2:false,legSunCharge1:false,legSunCharge2:false,
+    legPainStack1:0,legPainStack2:0,legOmni1:0,legOmni2:0,legAbsorb1:0,legAbsorb2:0,
+    legLastStand1:false,legLastStand2:false,legDodgeStreak1:0,legDodgeStreak2:0,
+    legSteal1:false,legSteal2:false,legDemon1:0,legDemon2:0,legStun2x1:false,legStun2x2:false,
+    legTsuk1:false,legTsuk2:false,legFeast1:false,legFeast2:false,
+    legRevive1:false,legRevive2:false,legDisney1:false,legDisney2:false,legCancel1:false,legCancel2:false,
+    revengeCount1:0,revengeCount2:0,rageStack1:0,rageStack2:0,burn1:0,burn2:0};
+  document.getElementById('duelRoundNum').textContent=duelState.round;
+  document.getElementById('duelVsText').textContent=duelState.p1Name+' vs '+duelState.p2Name;
+  document.getElementById('duelF1Name').textContent=c1Name;document.getElementById('duelF2Name').textContent=c2Name;
+  document.getElementById('duelF1Atk').textContent=st1.atk;document.getElementById('duelF1Def').textContent=st1.def;
+  document.getElementById('duelF2Atk').textContent=st2.atk;document.getElementById('duelF2Def').textContent=st2.def;
+  renderDuelFighterImage('duelF1Img',c1Name);renderDuelFighterImage('duelF2Img',c2Name);
+  updateHpBars();document.getElementById('battleLog').innerHTML='';
+  addBattleLog('— Раунд '+duelState.round+': '+c1Name+' vs '+c2Name+' —','round-title');
+  addBattleLog((p1First?c1Name:c2Name)+' бьёт первым','round-title');
   document.getElementById('duelF1').classList.remove('winner','loser');
   document.getElementById('duelF2').classList.remove('winner','loser');
-  document.getElementById('duelF1').classList.add('active');
-  document.getElementById('duelF2').classList.add('active');
-  document.getElementById('duelAttackBtn').style.display = '';
-  document.getElementById('duelAttackBtn').disabled = false;
-
+  document.getElementById('duelF1').classList.add('active');document.getElementById('duelF2').classList.add('active');
+  document.getElementById('duelAttackBtn').style.display='';document.getElementById('duelAttackBtn').disabled=false;
   show('duelBattleScreen');
 }
-
-function renderDuelFighterImage(id, name){
-  const img = CHAR_IMAGES[name];
-  const el = document.getElementById(id);
-  el.className = 'df-img';
-  if(img){
-    if(img.fit==='contain') el.classList.add('contain');
-    if(img.fit==='face') el.classList.add('face');
-    el.innerHTML = '<img src="'+img.file+'.png" onerror="this.onerror=null;this.src=\''+img.file+'.jpg\'" alt="'+name+'">';
-  } else {
-    const ch = CHARACTERS.find(c=>c.n===name) || {};
-    el.innerHTML = '<div style="font-size:50px">'+(THEME_EMOJI[ch.t]||'⭐')+'</div>';
-  }
+function renderDuelFighterImage(id,name){
+  const img=CHAR_IMAGES[name];const el=document.getElementById(id);el.className='df-img';
+  if(img){if(img.fit==='contain')el.classList.add('contain');if(img.fit==='face')el.classList.add('face');
+    el.innerHTML='<img src="'+img.file+'.png" onerror="this.onerror=null;this.src=\''+img.file+'.jpg\'" alt="'+name+'">';
+  }else{const ch=CHARACTERS.find(x=>x.n===name)||{};
+    el.innerHTML='<div style="font-size:50px;filter:drop-shadow(0 0 10px #f39c12)">'+(THEME_EMOJI[ch.t]||'⭐')+'</div>';}
 }
-
 function updateHpBars(){
-  const cur = duelState.current;
-  const pct1 = Math.max(0, Math.round(cur.hp1 / cur.maxHp1 * 100));
-  const pct2 = Math.max(0, Math.round(cur.hp2 / cur.maxHp2 * 100));
-  const f1 = document.getElementById('duelF1HpFill');
-  const f2 = document.getElementById('duelF2HpFill');
-  f1.style.width = pct1+'%';
-  f2.style.width = pct2+'%';
-  f1.classList.toggle('low', pct1 < 40);
-  f2.classList.toggle('low', pct2 < 40);
-  document.getElementById('duelF1HpText').textContent = cur.hp1+'/'+cur.maxHp1;
-  document.getElementById('duelF2HpText').textContent = cur.hp2+'/'+cur.maxHp2;
+  const cur=duelState.current;
+  const p1=Math.max(0,Math.round(cur.hp1/cur.maxHp1*100));
+  const p2=Math.max(0,Math.round(cur.hp2/cur.maxHp2*100));
+  const f1=document.getElementById('duelF1HpFill'),f2=document.getElementById('duelF2HpFill');
+  f1.style.width=p1+'%';f2.style.width=p2+'%';
+  f1.classList.toggle('low',p1<40);f2.classList.toggle('low',p2<40);
+  document.getElementById('duelF1HpText').textContent=cur.hp1+'/'+cur.maxHp1;
+  document.getElementById('duelF2HpText').textContent=cur.hp2+'/'+cur.maxHp2;
 }
+function addBattleLog(t,cls){const log=document.getElementById('battleLog');const d=document.createElement('div');if(cls)d.className=cls;d.innerHTML=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
 
-function addBattleLog(text, cls){
-  const log = document.getElementById('battleLog');
-  const d = document.createElement('div');
-  if(cls) d.className = cls;
-  d.innerHTML = text;
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
+function applyLegendaryPreHit(cur,atkP,defP,atkName,defName){
+  const key=LEGENDARY_FX[atkName];
+  if(!key)return{dmgMult:1,extraLog:''};
+  const myHp=cur['hp'+atkP],myMaxHp=cur['maxHp'+atkP],enemyHp=cur['hp'+defP];
+  let dmgMult=1,extraLog='';
+  const atkObj=cur['s'+atkP];
+
+  if(key==='warmup'&&!cur['legWarmup'+atkP]&&enemyHp>500){
+    cur['legWarmup'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);
+    extraLog='🔥 <b>'+atkName+'</b> размялся! +100% АТК';
+  }
+  if(key==='vampiric'){cur['legVampiricActive'+atkP]=true;}
+  if(key==='ssj'&&!cur['legSsj'+atkP]&&(cur['atk'+atkP]||0)>=5){
+    cur['legSsj'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);
+    cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.5));
+    extraLog='⚡ <b>'+atkName+'</b> — <b>SSJ!</b> +100% АТК, +50% HP';
+  }
+  if(key==='sunCharge'){cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.05));}
+  if(key==='omnitrix'){cur['legOmni'+atkP]=(cur['legOmni'+atkP]||0)+1;
+    if(cur['legOmni'+atkP]%3===0){atkObj.atk=Math.round(atkObj.atk*1.4);extraLog='⌚ <b>'+atkName+'</b> — +40% АТК!';}}
+  if(key==='lastStand'&&!cur['legLastStand'+atkP]&&myHp>0&&myHp<myMaxHp*0.3){
+    cur['legLastStand'+atkP]=true;dmgMult=3;extraLog='💥 <b>'+atkName+'</b> — <b>ПОСЛЕДНИЙ РЫВОК ×3!</b>';
+  }
+  if(key==='stealBuff'&&!cur['legSteal'+atkP]){
+    const eAtk=cur['s'+defP].atk;
+    if(eAtk>atkObj.atk){cur['legSteal'+atkP]=true;
+      const diff=Math.round((eAtk-atkObj.atk)*0.5);atkObj.atk+=diff;
+      extraLog='🌟 <b>'+atkName+'</b> крадёт +'+diff+' АТК';}
+  }
+  if(key==='tsukuyomiSteal'&&!cur['legTsuk'+atkP]&&(cur['atk'+atkP]||0)>=5){
+    cur['legTsuk'+atkP]=true;const steal=Math.round(enemyHp*0.25);
+    cur['hp'+defP]=Math.max(0,enemyHp-steal);cur['hp'+atkP]=Math.min(myMaxHp,myHp+steal);
+    extraLog='🌙 <b>'+atkName+'</b> — Цукуёми крадёт '+steal+' HP!';
+  }
+  if(key==='bloodFeast'&&!cur['legFeast'+atkP]){
+    cur['legFeast'+atkP]=true;const bonus=Math.round(atkObj.atk*1.5);
+    cur['hp'+defP]=Math.max(0,enemyHp-bonus);
+    extraLog='🩸 <b>'+atkName+'</b> — <b>Кровавый пир!</b> +'+bonus+' урона';
+  }
+  if(key==='disneyHeal'&&!cur['legDisney'+atkP]&&myHp<myMaxHp*0.5){
+    cur['legDisney'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+100);
+    extraLog='✨ <b>'+atkName+'</b> — <b>Волшебство Disney!</b> +100 HP';
+  }
+  if(key==='lowHpBoost'&&myHp<myMaxHp*0.5&&(cur['atk'+atkP]||0)%3===0){dmgMult=2;extraLog='❄️ <b>'+atkName+'</b> — Луч ×2!';}
+  if(key==='rageStack'){const st=cur['rageStack'+atkP]||0;if(st>0){dmgMult*=(1+0.08*st);extraLog='💚 <b>'+atkName+'</b> ярость +'+Math.round(st*8)+'%';}}
+  if(key==='chosenOne'&&!cur['chosen'+atkP]&&myHp<myMaxHp*0.3){cur['chosen'+atkP]=true;cur['skip'+defP]=true;extraLog='🕶 <b>'+atkName+'</b> — Избранный! Враг пропуск';}
+  if(key==='oneWingedAngel'&&!cur['angel'+atkP]&&myHp<myMaxHp*0.3){cur['angel'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.5);atkObj.mag=Math.round(atkObj.mag*1.5);extraLog='🖤 <b>'+atkName+'</b> — One-Winged Angel!';}
+  if(key==='finalGetsuga'&&!cur['getsuga'+atkP]&&myHp<myMaxHp*0.2){cur['getsuga'+atkP]=true;cur['hp'+defP]=Math.max(0,enemyHp-800);extraLog='⚔️ <b>'+atkName+'</b> — <b>ФИНАЛЬНЫЙ ГЕТСУГА!</b> 800';}
+  if(key==='laughterHeal'&&!cur['laughter'+atkP]&&myHp<myMaxHp*0.5){cur['laughter'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.2));extraLog='😂 <b>'+atkName+'</b> смех +20% HP';}
+  if(key==='meteor'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);extraLog='☄️ <b>'+atkName+'</b> — <b>МЕТЕОРИТ!</b> 400';}
+  if(key==='levelOne'&&!cur['lvl1'+atkP]){cur['lvl1'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);atkObj.agi=Math.round(atkObj.agi*1.5);extraLog='🦇 <b>'+atkName+'</b> — Ограничитель снят!';}
+  if(key==='soulDecay'){cur['s'+defP].def=Math.round(cur['s'+defP].def*0.85);}
+  if(key==='psyStorm'&&(cur['atk'+atkP]||0)%3===0){cur['hp'+defP]=Math.max(0,enemyHp-380);extraLog='🧠 <b>'+atkName+'</b> — ПСИ-ШТОРМ 380';}
+  if(key==='spinachOverdose'&&!cur['spinach'+atkP]&&myHp<myMaxHp*0.4){cur['spinach'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);atkObj.def=Math.round(atkObj.def*1.3);extraLog='💪 <b>'+atkName+'</b> передозировка шпината!';}
+  if(key==='spartanPlus'&&!cur['spartanPlus'+atkP]&&myHp<myMaxHp*0.5){cur['spartanPlus'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.6);atkObj.def=Math.round(atkObj.def*1.4);extraLog='🪓 <b>'+atkName+'</b> — Ярость+!';}
+  if(key==='evilGodRage'&&!cur['evilGod'+atkP]&&myHp<myMaxHp*0.5){cur['evilGod'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.4);extraLog='😈 <b>'+atkName+'</b> — Злой бог +40%';}
+  if(key==='sunCross'&&(cur['atk'+atkP]||0)===1){if(enemyHp<=600){cur['hp'+defP]=0;extraLog='☀️ <b>'+atkName+'</b> — СОЛНЕЧНЫЙ КРЕСТ! Казнь';}else{cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='☀️ <b>'+atkName+'</b> — Солнечный крест 500';}}
+  if(key==='explosion100'&&!cur['mob100'+atkP]&&myHp<myMaxHp*0.4){cur['mob100'+atkP]=true;cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='💥 <b>'+atkName+'</b> — <b>ВЗРЫВ 100%!</b> 500';}
+  if(key==='absoluteHypnosis'&&!cur['hypnosis'+atkP]){cur['hypnosis'+atkP]=true;const sd=Math.round(atkObj.atk*1.5);cur['hp'+defP]=Math.max(0,enemyHp-sd);extraLog='👁 <b>'+atkName+'</b> — Кёка Суйгецу! Враг '+sd;}
+  if(key==='unitedSmash'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);cur['skip'+defP]=true;extraLog='💪 <b>'+atkName+'</b> — United States of Smash! 400';}
+  if(key==='greatForce'&&!cur['yoda'+atkP]){cur['yoda'+atkP]=true;cur['skip'+defP]=true;extraLog='🟢 <b>'+atkName+'</b> — Сила великая!';}
+  if(key==='youShallNotPass'&&Math.random()<0.25){cur['skip'+defP]=true;extraLog='🧙 <b>'+atkName+'</b> — Ты не пройдёшь!';}
+  if(key==='chaosControl'&&!cur['chaos'+atkP]){cur['chaos'+atkP]=true;cur['skip'+defP]=true;extraLog='⚫ <b>'+atkName+'</b> — Chaos Control!';}
+  if(key==='battleSpirit'&&(cur['atk'+atkP]||0)%3===0){cur['hp'+defP]=Math.max(0,enemyHp-300);cur['hp'+atkP]=Math.min(myMaxHp,myHp+30);extraLog='🌿 <b>'+atkName+'</b> — Боевой дух! 300+30';}
+  if(key==='immortalPeak'&&!cur['immortal'+atkP]&&myHp<myMaxHp*0.3){cur['immortal'+atkP]=true;cur['skip'+defP]=true;extraLog='⛰ <b>'+atkName+'</b> — Бессмертный пик!';}
+  if(key==='allOrNothing'&&myHp<myMaxHp*0.25){dmgMult*=2;extraLog='⚔️ <b>'+atkName+'</b> — Всё или ничего!';}
+  if(key==='ofa100'&&!cur['ofa'+atkP]&&myHp<myMaxHp*0.3){cur['ofa'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.8);atkObj.agi=Math.round(atkObj.agi*1.5);extraLog='💥 <b>'+atkName+'</b> — OFA 100%!';}
+  if(key==='floatingWish'&&!cur['wish'+atkP]){cur['wish'+atkP]=true;cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='🌟 <b>'+atkName+'</b> — Желание! 500 игнор ЗАЩ';}
+  if(key==='fourteenMillion'&&!cur['strange'+atkP]&&myHp<myMaxHp*0.2){cur['strange'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+500);extraLog='🔮 <b>'+atkName+'</b> — 14 млн вариантов! +500';}
+  if(key==='jediPath'&&Math.random()<0.3){dmgMult*=2;extraLog='⚔️ <b>'+atkName+'</b> — Путь джедая! КРИТ';}
+  if(key==='emperor'&&(cur['atk'+atkP]||0)%3===0){dmgMult*=2;extraLog='⚡ <b>'+atkName+'</b> — Молния Силы ×2!';}
+  if(key==='elderWandBonus'&&(cur['atk'+atkP]||0)%3===0){dmgMult*=1.5;extraLog='🪄 <b>'+atkName+'</b> — Бузинная палочка!';}
+  if(key==='triforcePower'&&!cur['triforce'+atkP]&&myHp<myMaxHp*0.5){cur['triforce'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.5);atkObj.def=Math.round(atkObj.def*1.3);extraLog='🔺 <b>'+atkName+'</b> — Трифорс!';}
+  if(key==='spinDashTurbo'&&Math.random()<0.3){dmgMult*=2;cur['skip'+defP]=true;extraLog='💙 <b>'+atkName+'</b> — Spin Dash Turbo!';}
+  if(key==='satsuiNoHado'&&!cur['satsui'+atkP]&&myHp<myMaxHp*0.3){cur['satsui'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.8);extraLog='🔥 <b>'+atkName+'</b> — Satsui no Hado +80%';}
+  if(key==='fireEmperor'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);cur['burn'+defP]=3;extraLog='🔥 <b>'+atkName+'</b> — Огненный император! 400 + поджог';}
+  if(key==='doubleStun'&&(cur['atk'+atkP]||0)%3===0){cur['skip'+defP]=true;}
+  if(key==='demonKing'&&myHp<=0&&!cur['demonKingUsed'+atkP]){cur['demonKingUsed'+atkP]=true;cur['hp'+atkP]=Math.round(myMaxHp*0.3);extraLog='👹 <b>'+atkName+'</b> — Демон-король! Воскрес';}
+  if(key==='horcrux'&&myHp<=0&&!cur['horcrux'+atkP]){cur['horcrux'+atkP]=true;cur['hp'+atkP]=Math.round(myMaxHp*0.4);extraLog='🐍 <b>'+atkName+'</b> — Крестраж! Воскрес';}
+
+  return{dmgMult,extraLog};
 }
 
 function duelAttack(){
-  const cur = duelState.current;
-  if(!cur || cur.hp1 <= 0 || cur.hp2 <= 0) return;
-
-  const attackerFirst = (cur.turn % 2 === 1) === cur.p1First;
-  const isP1Attacking = attackerFirst;
-
-  // Счётчик атак каждого персонажа
-  if(isP1Attacking){ cur.atk1 = (cur.atk1 || 0) + 1; }
-  else { cur.atk2 = (cur.atk2 || 0) + 1; }
-  const myAtk = isP1Attacking ? cur.atk1 : cur.atk2;
-
-  const atkName = isP1Attacking ? cur.c1 : cur.c2;
-  const defName = isP1Attacking ? cur.c2 : cur.c1;
-  const atkStats = isP1Attacking ? cur.s1 : cur.s2;
-  const defStats = isP1Attacking ? cur.s2 : cur.s1;
-  const ability = atkStats.ability;
-
-  // === НИКА (Луффи) — при HP < 50% ===
-  if(ability === 'nika'){
-    if(isP1Attacking && !cur.nika1 && cur.hp1 < cur.maxHp1/2){
-      cur.nika1 = true;
-      cur.s1.atk = Math.round(cur.s1.atk * 1.5);
-      cur.s1.agi = Math.round(cur.s1.agi * 1.3);
-      addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>Пятый гир — Ника!</b> +50% АТК, +30% ЛОВ', 'crit');
-    } else if(!isP1Attacking && !cur.nika2 && cur.hp2 < cur.maxHp2/2){
-      cur.nika2 = true;
-      cur.s2.atk = Math.round(cur.s2.atk * 1.5);
-      cur.s2.agi = Math.round(cur.s2.agi * 1.3);
-      addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>Пятый гир — Ника!</b> +50% АТК, +30% ЛОВ', 'crit');
+  const cur=duelState.current;
+  if(!cur||cur.hp1<=0||cur.hp2<=0)return;
+  const isP1=((cur.turn%2===1)===cur.p1First);
+  const atkP=isP1?'1':'2',defP=isP1?'2':'1';
+  cur['atk'+atkP]=(cur['atk'+atkP]||0)+1;
+  const myAtk=cur['atk'+atkP];
+  const defTurns=cur['atk'+defP]||0;
+  const atkStats=cur['s'+atkP],defStats=cur['s'+defP];
+  const atkName=isP1?cur.c1:cur.c2,defName=isP1?cur.c2:cur.c1;
+  const ability=atkStats.ability,defAbility=defStats.ability;
+  const fx=ABILITY_EFFECTS[ability]||{},defFx=ABILITY_EFFECTS[defAbility]||{};
+  if(fx.regen){cur['hp'+atkP]=Math.min(cur['maxHp'+atkP],cur['hp'+atkP]+fx.regen.hp);addBattleLog('💚 <b>'+atkName+'</b> +'+fx.regen.hp+' HP','heal');updateHpBars();}
+  const buffKey='lowbuff_'+ability+atkP;
+  if(fx.lowHpBuff&&!cur[buffKey]&&cur['hp'+atkP]<cur['maxHp'+atkP]*fx.lowHpBuff.threshold){
+    cur[buffKey]=true;
+    if(fx.lowHpBuff.atkMult)atkStats.atk=Math.round(atkStats.atk*fx.lowHpBuff.atkMult);
+    if(fx.lowHpBuff.agiMult)atkStats.agi=Math.round(atkStats.agi*fx.lowHpBuff.agiMult);
+    if(fx.lowHpBuff.defMult)atkStats.def=Math.round(atkStats.def*fx.lowHpBuff.defMult);
+    addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>'+(ABILITY_NAMES[ability]||'?')+'</b>!','crit');
+    shakeCard(document.getElementById(isP1?'duelF1':'duelF2'));
+  }
+  const avKey='avatar_'+atkP;
+  if(fx.avatarState&&!cur[avKey]){cur[avKey]=true;
+    atkStats.atk=Math.round(atkStats.atk*fx.avatarState.mult);
+    atkStats.def=Math.round(atkStats.def*fx.avatarState.mult);
+    atkStats.agi=Math.round(atkStats.agi*fx.avatarState.mult);
+    addBattleLog('✨ <b>'+atkName+'</b> — Состояние Аватара!','crit');}
+  if(cur['skip'+atkP]){cur['skip'+atkP]=false;addBattleLog('⏭ <b>'+atkName+'</b> пропуск','miss');cur.turn++;return;}
+  let dodgeChance=defFx.dodge||0;
+  if(defFx.firstNDodge&&defTurns<defFx.firstNDodge.n)dodgeChance=Math.max(dodgeChance,defFx.firstNDodge.chance);
+  if(LEGENDARY_FX[defName]==='cloneDodge')dodgeChance=Math.max(dodgeChance,0.3);
+  if(LEGENDARY_FX[defName]==='crimsonDodge')dodgeChance=Math.max(dodgeChance,0.3);
+  if(LEGENDARY_FX[defName]==='realityCancel'&&!cur['legCancel'+defP]&&Math.random()<0.3){
+    addBattleLog('✨ <b>'+defName+'</b> — <b>Отмена реальности!</b>','crit');cur.turn++;return;}
+  if(dodgeChance>0&&Math.random()<dodgeChance){
+    addBattleLog('💨 <b>'+defName+'</b> уклоняется!','miss');
+    if(LEGENDARY_FX[defName]==='counterStrike'){
+      cur['legDodgeStreak'+defP]=(cur['legDodgeStreak'+defP]||0)+1;
+      if(cur['legDodgeStreak'+defP]>=3){cur['legDodgeStreak'+defP]=0;
+        cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-300);
+        addBattleLog('🔵 <b>'+defName+'</b> — <b>Контр-атака!</b> 300','crit');shakeDuel(isP1?'duelF1':'duelF2');updateHpBars();}
     }
-  }
-
-  // === ЯРОСТЬ СПАРТЫ (Кратос) — при HP < 50% ===
-  if(ability === 'spartan_rage'){
-    if(isP1Attacking && !cur.rage1 && cur.hp1 < cur.maxHp1/2){
-      cur.rage1 = true;
-      cur.s1.atk = Math.round(cur.s1.atk * 1.5);
-      cur.s1.agi = Math.round(cur.s1.agi * 1.3);
-      addBattleLog('🔥 <b>'+atkName+'</b> в ярости! +50% АТК, +30% ЛОВ', 'crit');
-    } else if(!isP1Attacking && !cur.rage2 && cur.hp2 < cur.maxHp2/2){
-      cur.rage2 = true;
-      cur.s2.atk = Math.round(cur.s2.atk * 1.5);
-      cur.s2.agi = Math.round(cur.s2.agi * 1.3);
-      addBattleLog('🔥 <b>'+atkName+'</b> в ярости! +50% АТК, +30% ЛОВ', 'crit');
+    if(LEGENDARY_FX[defName]==='crimsonDodge'){
+      const cnt=Math.round(defStats.atk*0.8);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-cnt);
+      addBattleLog('🌺 <b>'+defName+'</b> — Багровый дождь! '+cnt,'crit');updateHpBars();
     }
+    cur.turn++;return;
   }
-
-  // === ПРОПУСК ХОДА ===
-  if(isP1Attacking && cur.skip1){
-    cur.skip1 = false;
-    addBattleLog('⏭ <b>'+atkName+'</b> пропускает ход!', 'miss');
-    cur.turn++;
-    return;
+  if(fx.instantKill&&Math.random()<fx.instantKill.chance){
+    addBattleLog('☠️ <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! Казнь','crit');
+    cur['hp'+defP]=0;updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');endDuelBattle();return;}
+  if(fx.blackFlash&&cur['hp'+defP]<cur['maxHp'+defP]*fx.blackFlash.hpThreshold&&Math.random()<fx.blackFlash.chance){
+    addBattleLog('⚡ <b>'+atkName+'</b> — Чёрная вспышка!','crit');
+    cur['hp'+defP]=0;updateHpBars();endDuelBattle();return;}
+  if(fx.firstStrike&&myAtk===1){
+    const enemyHp=cur['hp'+defP];
+    if(fx.firstStrike.execute&&enemyHp<=fx.firstStrike.execute){
+      addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! Казнь','crit');
+      cur['hp'+defP]=0;updateHpBars();endDuelBattle();return;}
+    const dmg=fx.firstStrike.dmg;cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);
+    addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! '+dmg,'crit');
+    updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');
+    if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;
   }
-  if(!isP1Attacking && cur.skip2){
-    cur.skip2 = false;
-    addBattleLog('⏭ <b>'+atkName+'</b> пропускает ход!', 'miss');
-    cur.turn++;
-    return;
+  if(fx.periodic&&myAtk%fx.periodic.n===0){
+    const p=fx.periodic;let dmg=0,extra='';
+    if(p.percentDmg){dmg=Math.round(cur['hp'+defP]*p.percentDmg);extra=' −'+dmg+' HP';}
+    else if(p.selfAttackMult){dmg=Math.round(atkStats.atk*p.selfAttackMult);
+      addBattleLog('🎭 <b>'+defName+'</b> бьёт себя — '+dmg,'crit');
+      cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);updateHpBars();
+      if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;}
+    else{dmg=p.dmg||0;extra=' — <b>−'+dmg+'</b>';}
+    if(p.stun)cur['skip'+defP]=true;
+    if(p.atkDown)defStats.atk=Math.round(defStats.atk*(1-p.atkDown));
+    if(p.defDown)defStats.def=Math.round(defStats.def*(1-p.defDown));
+    if(p.agiDown)defStats.agi=Math.round(defStats.agi*(1-p.agiDown));
+    if(p.heal)cur['hp'+atkP]=Math.min(cur['maxHp'+atkP],cur['hp'+atkP]+p.heal);
+    if(p.selfDmg)cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-p.selfDmg);
+    cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);
+    addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'!'+extra,'crit');
+    updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');
+    if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;
   }
-
-  // === ОДИН УДАР (Сайтама) — на 1-й атаке ===
-  if(ability === 'one_punch' && myAtk === 1){
-    const enemyHp = isP1Attacking ? cur.hp2 : cur.hp1;
-    if(enemyHp <= 500){
-      addBattleLog('💥 <b>'+atkName+'</b> — <b>ОДИН УДАР!</b> Мгновенная казнь!', 'crit');
-      if(isP1Attacking){ cur.hp2 = 0; } else { cur.hp1 = 0; }
-      updateHpBars();
-      endDuelBattle();
-      return;
-    } else {
-      const dmg = 500;
-      if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - dmg); } else { cur.hp1 = Math.max(0, cur.hp1 - dmg); }
-      addBattleLog('💥 <b>'+atkName+'</b> — <b>ОДИН УДАР!</b> 500 урона!', 'crit');
-      updateHpBars();
-      if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
-      cur.turn++;
-      return;
-    }
+  const leg=applyLegendaryPreHit(cur,atkP,defP,atkName,defName);
+  if(leg.extraLog){addBattleLog(leg.extraLog,'crit');shakeDuel(isP1?'duelF1':'duelF2');}
+  let dmg;
+  if(fx.ignoreDef)dmg=Math.round(atkStats.atk*2);
+  else if(fx.ignoreHalfDef)dmg=Math.max(1,atkStats.atk-Math.round(defStats.def*0.5));
+  else dmg=Math.max(1,atkStats.atk-defStats.def);
+  if(fx.decay)defStats.def=Math.round(defStats.def*0.9);
+  let extra='';
+  if(fx.doubleHit&&Math.random()<fx.doubleHit.chance){dmg*=2;extra=' ×2!';}
+  if(fx.critChance&&Math.random()<fx.critChance.chance){dmg=Math.round(dmg*(fx.critChance.mult||2));extra=' КРИТ!';}
+  dmg=Math.round(dmg*leg.dmgMult);
+  cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);
+  if(cur['legVampiricActive'+atkP]){const st=Math.round(dmg*0.2);cur['hp'+atkP]=Math.min(cur['maxHp'+atkP],cur['hp'+atkP]+st);extra+=' +'+st+' HP';}
+  if(LEGENDARY_FX[defName]==='rageStack'){cur['rageStack'+defP]=(cur['rageStack'+defP]||0)+1;}
+  addBattleLog('<b>'+atkName+'</b> бьёт <b>'+defName+'</b> — <span class="dmg">−'+dmg+'</span>'+extra);
+  updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');
+  if(defFx.reflect&&Math.random()<defFx.reflect.chance){
+    const ref=Math.round(dmg*defFx.reflect.chance);
+    cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);
+    addBattleLog('🛡 <b>'+defName+'</b> отражает '+ref,'crit');updateHpBars();
   }
-
-  // === КАМЕХАМЕХА (Гоку) — каждая 3-я атака ===
-  if(ability === 'kamehameha' && myAtk % 3 === 0){
-    const dmg = 500;
-    if(isP1Attacking){
-      cur.hp2 = Math.max(0, cur.hp2 - dmg);
-      cur.hp1 = Math.max(0, cur.hp1 - 30);
-    } else {
-      cur.hp1 = Math.max(0, cur.hp1 - dmg);
-      cur.hp2 = Math.max(0, cur.hp2 - 30);
-    }
-    addBattleLog('💥 <b>'+atkName+'</b> запускает <b>КАМЕХАМЕХУ!</b> 500 урона! (−30 HP себе)', 'crit');
-    updateHpBars();
-    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
-    cur.turn++;
-    return;
+  if(LEGENDARY_FX[defName]==='athenaShield'){const ref=Math.round(dmg*0.4);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('🛡 <b>'+defName+'</b> — Щит Афины '+ref,'crit');updateHpBars();}
+  if(LEGENDARY_FX[defName]==='spikedShell'){const ref=Math.round(dmg*0.4);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('🐢 <b>'+defName+'</b> — Панцирь '+ref,'crit');updateHpBars();}
+  if(LEGENDARY_FX[defName]==='diamondShield'){const ref=Math.round(dmg*0.4);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('💎 <b>'+defName+'</b> — Алмазный щит '+ref,'crit');updateHpBars();}
+  if(LEGENDARY_FX[defName]==='revengeCounter'){
+    cur['revengeCount'+defP]=(cur['revengeCount'+defP]||0)+1;
+    if(cur['revengeCount'+defP]%2===0){const ref=Math.round(dmg*0.5);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('💢 <b>'+defName+'</b> — Revenge Counter '+ref,'crit');updateHpBars();}
   }
-
-  // === РАСЕНГАН (Наруто) — каждая 3-я атака ===
-  if(ability === 'rasengan' && myAtk % 3 === 0){
-    const dmg = 400;
-    if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - dmg); cur.skip2 = true; }
-    else { cur.hp1 = Math.max(0, cur.hp1 - dmg); cur.skip1 = true; }
-    addBattleLog('🌀 <b>'+atkName+'</b> — <b>РАСЕНГАН!</b> 400 урона + враг пропускает ход!', 'crit');
-    updateHpBars();
-    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
-    cur.turn++;
-    return;
-  }
-
-  // === АСУРА (Зоро) — каждая 4-я атака ===
-  if(ability === 'asura' && myAtk % 4 === 0){
-    const total = 180;
-    if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - total); } else { cur.hp1 = Math.max(0, cur.hp1 - total); }
-    addBattleLog('⚔️ <b>'+atkName+'</b> — <b>АСУРА!</b> 3 удара по 60 = 180 урона!', 'crit');
-    updateHpBars();
-    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
-    cur.turn++;
-    return;
-  }
-
-  // === ЩЕЛЧОК ПЕРЧАТКИ (Танос) — каждая 5-я атака ===
-  if(ability === 'snap' && myAtk % 5 === 0){
-    if(isP1Attacking){
-      const dmg = Math.round(cur.hp2 / 2);
-      cur.hp2 = Math.max(0, cur.hp2 - dmg);
-      addBattleLog('💎 <b>'+atkName+'</b> щёлкает пальцами... <b>−'+dmg+' HP</b> врага!', 'crit');
-    } else {
-      const dmg = Math.round(cur.hp1 / 2);
-      cur.hp1 = Math.max(0, cur.hp1 - dmg);
-      addBattleLog('💎 <b>'+atkName+'</b> щёлкает пальцами... <b>−'+dmg+' HP</b> врага!', 'crit');
-    }
-    updateHpBars();
-    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
-    cur.turn++;
-    return;
-  }
-
-  // === БЕЗУМИЕ (Джокер) — каждая 4-я атака ===
-  if(ability === 'madness' && myAtk % 4 === 0){
-    const selfDmg = Math.round(atkStats.atk * 1.5);
-    if(isP1Attacking){
-      cur.hp2 = Math.max(0, cur.hp2 - selfDmg);
-      addBattleLog('🎭 <b>'+defName+'</b> в безумии бьёт сам себя! <b>−'+selfDmg+' HP</b>', 'crit');
-    } else {
-      cur.hp1 = Math.max(0, cur.hp1 - selfDmg);
-      addBattleLog('🎭 <b>'+defName+'</b> в безумии бьёт сам себя! <b>−'+selfDmg+' HP</b>', 'crit');
-    }
-    updateHpBars();
-    if(cur.hp1 <= 0 || cur.hp2 <= 0){ endDuelBattle(); return; }
-    cur.turn++;
-    return;
-  }
-
-  // === ВИХРЬ АККЕРМАНА (Леви) — 30% ×2 ===
-  let dmg = Math.max(1, atkStats.atk - defStats.def);
-  let dbl = '';
-  if(ability === 'ackerman' && Math.random() < 0.3){
-    dmg = dmg * 2;
-    dbl = ' <span class="crit">×2 (Вихрь!)</span>';
-  }
-
-  // === ОБЫЧНАЯ АТАКА ===
-  if(isP1Attacking){ cur.hp2 = Math.max(0, cur.hp2 - dmg); }
-  else { cur.hp1 = Math.max(0, cur.hp1 - dmg); }
-
-  addBattleLog('<b>'+atkName+'</b> бьёт <b>'+defName+'</b> — <span class="dmg">−'+dmg+' HP</span>'+dbl);
-  updateHpBars();
-
-  if(cur.hp1 <= 0 || cur.hp2 <= 0){
-    endDuelBattle();
-    return;
-  }
+  if(cur['burn'+atkP]>0){cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-30);cur['burn'+atkP]--;addBattleLog('🔥 <b>'+atkName+'</b> горит −30','dmg');updateHpBars();}
+  if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}
   cur.turn++;
 }
 
 function endDuelBattle(){
-  const cur = duelState.current;
-  const btn = document.getElementById('duelAttackBtn');
-  btn.disabled = true;
-
-  let winner, loser, winnerIsP1;
-  if(cur.hp1 <= 0 && cur.hp2 <= 0){ winner = null; }
-  else if(cur.hp2 <= 0){ winner = cur.c1; winnerIsP1 = true; }
-  else { winner = cur.c2; winnerIsP1 = false; }
-
-  if(winner === null){
-    addBattleLog('— Ничья! —', 'finish');
-  } else {
-    if(winnerIsP1){
-      duelState.p1Wins++;
-      duelState.p1CardsWon.push(cur.c2);
-      document.getElementById('duelF1').classList.add('winner');
-      document.getElementById('duelF2').classList.add('loser');
-      addBattleLog('🏆 <b>'+duelState.p1Name+'</b> побеждает! '+winner+' забирает '+cur.c2, 'finish');
-    } else {
-      duelState.p2Wins++;
-      duelState.p2CardsWon.push(cur.c1);
-      document.getElementById('duelF2').classList.add('winner');
-      document.getElementById('duelF1').classList.add('loser');
-      addBattleLog('🏆 <b>'+duelState.p2Name+'</b> побеждает! '+winner+' забирает '+cur.c1, 'finish');
+  const cur=duelState.current;
+  for(const p of ['1','2']){
+    const nm=p==='1'?cur.c1:cur.c2;
+    if(LEGENDARY_FX[nm]==='cartoonRevive'&&!cur['legRevive'+p]&&cur['hp'+p]<=0){
+      cur['legRevive'+p]=true;cur['hp'+p]=Math.round(cur['maxHp'+p]*0.5);
+      addBattleLog('🐰 <b>'+nm+'</b> — Мультяшное бессмертие! Воскрес','crit');updateHpBars();
     }
   }
-
-  duelState.p1Index++;
-  duelState.p2Index++;
-  duelState.round++;
-
+  const btn=document.getElementById('duelAttackBtn');btn.disabled=true;
+  let winner,winnerIsP1;
+  if(cur.hp1<=0&&cur.hp2<=0)winner=null;
+  else if(cur.hp2<=0){winner=cur.c1;winnerIsP1=true;}
+  else{winner=cur.c2;winnerIsP1=false;}
+  if(winner===null){addBattleLog('— Ничья! —','finish');}
+  else{
+    if(winnerIsP1){duelState.p1Wins++;document.getElementById('duelF1').classList.add('winner');document.getElementById('duelF2').classList.add('loser');
+      addBattleLog('🏆 <b>'+duelState.p1Name+'</b> побеждает!','finish');
+    }else{duelState.p2Wins++;document.getElementById('duelF2').classList.add('winner');document.getElementById('duelF1').classList.add('loser');
+      addBattleLog('🏆 <b>'+duelState.p2Name+'</b> побеждает!','finish');}
+  }
+  duelState.p1Index++;duelState.p2Index++;duelState.round++;
   setTimeout(()=>{
-    if(duelState.p1Index >= duelState.p1Deck.length || duelState.p2Index >= duelState.p2Deck.length){
-      endDuelMatch();
-    } else {
-      startDuelRound();
-    }
-  }, 2200);
+    if(duelState.p1Index>=duelState.p1Deck.length||duelState.p2Index>=duelState.p2Deck.length)endDuelMatch();
+    else startDuelRound();
+  },2200);
 }
-
 function endDuelMatch(){
-  let winnerName, result;
-  if(duelState.p1Wins > duelState.p2Wins){
-    winnerName = duelState.p1Name;
-    result = duelState.p1Name+' победил в матче: '+duelState.p1Wins+' : '+duelState.p2Wins;
-  } else if(duelState.p2Wins > duelState.p1Wins){
-    winnerName = duelState.p2Name;
-    result = duelState.p2Name+' победил в матче: '+duelState.p2Wins+' : '+duelState.p1Wins;
-  } else {
-    winnerName = null;
-    result = 'Ничья в матче: '+duelState.p1Wins+' : '+duelState.p2Wins;
-  }
-  alert('🏆 Матч завершён!\n\n'+result+'\n\nСыграно раундов: '+(duelState.round-1));
+  let result;
+  if(duelState.p1Wins>duelState.p2Wins)result=duelState.p1Name+' победил: '+duelState.p1Wins+' : '+duelState.p2Wins;
+  else if(duelState.p2Wins>duelState.p1Wins)result=duelState.p2Name+' победил: '+duelState.p2Wins+' : '+duelState.p1Wins;
+  else result='Ничья: '+duelState.p1Wins+' : '+duelState.p2Wins;
+  alert('🏆 Матч завершён!\n\n'+result);
   show('duelScreen');
   document.getElementById('duelSetup').classList.remove('hidden');
   document.getElementById('duelDecks').classList.add('hidden');
 }
-
-document.getElementById('duelAttackBtn').onclick = duelAttack;
-
-document.getElementById('duelFinishBtn').onclick = ()=>{
-  if(confirm('Завершить дуэль? Прогресс не сохранится.')){
-    show('duelScreen');
-    document.getElementById('duelSetup').classList.remove('hidden');
-    document.getElementById('duelDecks').classList.add('hidden');
-  }
+document.getElementById('duelAttackBtn').onclick=duelAttack;
+document.getElementById('duelFinishBtn').onclick=()=>{
+  if(confirm('Завершить?')){show('duelScreen');document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');}
 };
+document.getElementById('backFromDuel').onclick=()=>{document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');show('menuScreen');};
 
-document.getElementById('backFromDuel').onclick = ()=>{
-  document.getElementById('duelSetup').classList.remove('hidden');
-  document.getElementById('duelDecks').classList.add('hidden');
-  show('menuScreen');
-};
-
-document.getElementById('createConfirmBtn').onclick = createRoom;
-function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
-function genId(){return Math.random().toString(36).slice(2,10);}
-
-function createRoom(){
-  const themes = [...document.querySelectorAll('.theme:checked')].map(el=>el.value);
-  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
-  const startMoney = Math.max(100, +document.getElementById('startMoney').value||1000);
-  const charCount = Math.max(3, Math.min(40, +document.getElementById('charCount').value||10));
-  const hostName = (document.getElementById('hostName').value.trim()||'Хост').slice(0,16);
-  const pool = CHARACTERS.filter(c=>themes.includes(c.t));
-  if(pool.length < charCount){alert('В тематиках только '+pool.length+' персонажей.');return;}
-
-  state.mode='online'; state.role='host'; state.myIdx=0;
-  state.startingMoney=startMoney; state.totalRounds=charCount;
-  state.poolSource=themes; state.poolSize=charCount;
-  state.playerId = genId();
-
-  const code = genCode();
-  state.roomCode = code;
-
-  const room = {
-    code, hostId: state.playerId, phase: 'lobby',
-    totalRounds: charCount, startingMoney: startMoney,
-    poolSource: themes, poolSize: charCount,
-    roundNumber: 0, current: null, basePrice: 0,
-    currentBid: 0, currentBidder: null, turnPointer: 0, firstBidderOffset: 0,
-    activePlayers: [], log: [], pool: [],
-    players: { [state.playerId]: { name: hostName, money: startMoney, characters: [], order: 0 } }
-  };
-
-  state.roomRef = db.ref('rooms/'+code);
-  state.roomRef.set(room).then(()=>{
-    document.getElementById('roomCode').textContent = code;
-    show('lobbyScreen');
-    setStatus('lobbyStatus','Комната создана. Ждём игроков...','ok');
-    listenToRoom();
-  }).catch(err=>{
-    setStatus('lobbyStatus','Ошибка: '+err.message,'err');
-  });
-}
-
-function listenToRoom(){
-  if(state.roomListener && state.roomRef) state.roomRef.off('value', state.roomListener);
-  state.roomListener = state.roomRef.on('value', snapshot => {
-    const data = snapshot.val();
-    if(!data) return;
-    handleRoomUpdate(data);
-  }, err => { console.error(err); });
-}
-
-function handleRoomUpdate(room){
-  const players = room.players || {};
-  const playerList = Object.keys(players)
-    .map(k=>({id:k, ...players[k]}))
-    .sort((a,b)=>(a.order||0)-(b.order||0));
-
-  state.players = playerList;
-  state.phase = room.phase;
-  state.roundNumber = room.roundNumber || 0;
-  state.totalRounds = room.totalRounds;
-  state.startingMoney = room.startingMoney;
-  state.current = room.current;
-  state.basePrice = room.basePrice || 0;
-  state.currentBid = room.currentBid || 0;
-  state.currentBidder = room.currentBidder;
-  state.turnPointer = room.turnPointer || 0;
-  state.activePlayers = room.activePlayers || [];
-  state.log = room.log || [];
-  state.pool = room.pool || [];
-
-  const ids = playerList.map(p=>p.id);
-  state.myIdx = ids.indexOf(state.playerId);
-
-  if(room.phase === 'lobby'){
-    show('lobbyScreen');
-    document.getElementById('roomCode').textContent = room.code;
-    const list = document.getElementById('lobbyList');
-    list.innerHTML = '';
-    playerList.forEach(p=>{
-      const li = document.createElement('li');
-      li.textContent = p.name + (p.id === state.playerId ? ' (ты)' : '');
-      list.appendChild(li);
-    });
-    document.getElementById('lobbyCount').textContent = '('+playerList.length+'/6)';
-    const startBtn = document.getElementById('startOnlineBtn');
-    if(state.role === 'host') startBtn.disabled = playerList.length < 2;
-    else { startBtn.style.display = 'none'; setStatus('lobbyStatus','Ожидание начала игры хостом...'); }
-  } else if(room.phase === 'playing' || room.phase === 'paused' || room.phase === 'results'){
-    show('gameScreen');
-    renderFromRoom(room, playerList);
-  }
-}
-
-function setStatus(id,msg,cls){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg'+(cls?' '+cls:'');}
-
-document.getElementById('joinConfirmBtn').onclick = joinRoom;
-function joinRoom(){
-  const code = document.getElementById('joinCode').value.trim().toUpperCase();
-  const name = (document.getElementById('joinName').value.trim()||'Игрок').slice(0,16);
-  if(code.length < 4){setStatus('joinStatus','Введи код комнаты','err');return;}
-  setStatus('joinStatus','Подключаемся...');
-
-  state.mode='online'; state.role='client'; state.roomCode=code;
-  state.playerId = genId();
-
-  state.roomRef = db.ref('rooms/'+code);
-  state.roomRef.once('value').then(snap=>{
-    const room = snap.val();
-    if(!room){setStatus('joinStatus','Комната не найдена','err');return;}
-    if(room.phase !== 'lobby'){setStatus('joinStatus','Игра уже началась','err');return;}
-    const cnt = Object.keys(room.players||{}).length;
-    if(cnt >= 6){setStatus('joinStatus','Комната заполнена (6)','err');return;}
-    let finalName = name; let n=2;
-    while(Object.values(room.players||{}).some(p=>p.name===finalName)){finalName = name+' '+n; n++; if(n>20)break;}
-    state.roomRef.child('players/'+state.playerId).set({name:finalName, money:room.startingMoney, characters:[], order: cnt});
-    setStatus('joinStatus','Успешно! Ждём старта...','ok');
-    listenToRoom();
-  }).catch(err=>{
-    setStatus('joinStatus','Ошибка: '+err.message,'err');
-  });
-}
-
-document.getElementById('startOnlineBtn').onclick = startOnlineGame;
-
-function startOnlineGame(){
-  if(state.role !== 'host') return;
-  const room = state.roomRef;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    const players = data.players || {};
-    if(Object.keys(players).length < 2) return;
-    let pool = CHARACTERS.filter(c=>data.poolSource.includes(c.t));
-    pool = shuffle(pool).slice(0, data.poolSize);
-    room.child('pool').set(pool);
-    room.child('phase').set('playing');
-    room.child('roundNumber').set(0);
-    room.child('firstBidderOffset').set(0);
-    room.child('log').set([]);
-    hostNextRound();
-  });
-}
-
-function hostNextRound(){
-  const room = state.roomRef;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    const pool = data.pool || [];
-    if(pool.length === 0){ room.child('phase').set('results'); return; }
-
-    const players = data.players || {};
-    const totalMoney = Object.values(players).reduce((s,p)=>s+(p.money||0),0);
-    if(totalMoney <= 0){
-      const log = (data.log||[]);
-      log.push('💰 У всех закончились деньги — конец игры!');
-      room.update({ phase:'results', log: log.slice(-100) });
-      return;
-    }
-
-    const next = pool[0];
-    const rest = pool.slice(1);
-    const roundNumber = (data.roundNumber || 0) + 1;
-
-    const playerIds = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const activeIdx = [];
-    playerIds.forEach((pid, idx) => { if(players[pid].money > 0) activeIdx.push(idx); });
-
-    const turnPointer = activeIdx.length ? ((roundNumber - 1) % activeIdx.length) : 0;
-
-    const updates = {
-      pool: rest, current: next, basePrice: 0,
-      roundNumber, currentBid: 0, currentBidder: null,
-      activePlayers: activeIdx,
-      turnPointer: turnPointer
-    };
-    const log = (data.log || []);
-    log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
-    updates.log = log.slice(-100);
-    room.update(updates);
-  });
-}
-
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-function renderFromRoom(room, playerList){
-  const view = {
-    phase: room.phase,
-    round: room.roundNumber || 0,
-    totalRounds: room.totalRounds,
-    char: room.current,
-    basePrice: room.basePrice || 0,
-    players: playerList.map(p=>({name:p.name, money:p.money, characters:p.characters || [], connected:true})),
-    currentBid: room.currentBid || 0,
-    currentBidder: room.currentBidder,
-    turnIdx: (room.activePlayers && room.activePlayers.length) ? room.activePlayers[room.turnPointer] : -1,
-    activeIdx: room.activePlayers || [],
-    log: room.log || [],
-    poolLeft: (room.pool || []).length
-  };
-  renderSnapshot(view);
-}
-
-let lastLogCount = 0;
-
-function renderSnapshot(view){
-  document.getElementById('roundNum').textContent = view.round;
-  document.getElementById('roundTotal').textContent = view.totalRounds;
-  document.getElementById('charRemaining').textContent = 'Осталось: '+view.poolLeft;
-  if(view.phase==='results'){renderResults(view);return;}
-  if(view.phase==='lobby'){return;}
-  show('gameScreen');
-  const c = view.char;
-  if(c){
-    const pct = Math.min(100, Math.round(c.p/10));
-    const imgInfo = CHAR_IMAGES[c.n];
-    let topPart;
-    if(imgInfo){
-      const cls = imgInfo.fit==='contain' ? ' contain' : (imgInfo.fit==='face' ? ' face' : '');
-      const f = imgInfo.file;
-      topPart = '<div class="char-img'+cls+'"><img src="'+f+'.png" onerror="this.onerror=null;this.src=\''+f+'.jpg\'" alt="'+c.n+'"></div>';
-    } else {
-      topPart = '<div class="char-emoji">'+(THEME_EMOJI[c.t]||'⭐')+'</div>';
-    }
-    const stats = CHAR_STATS[c.n];
-    let statsHtml = '';
-    if(stats){
-      const r = c.p >= 900 ? 'mythic' : c.p >= 750 ? 'legendary' : c.p >= 550 ? 'epic' : c.p >= 300 ? 'rare' : 'common';
-      const rName = {common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[r];
-      statsHtml = '<span class="rarity-badge rarity-'+r+'">'+rName+'</span>'
-        + '<div class="stats-row" style="grid-template-columns:repeat(6,1fr)">'
-        + '<div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div>'
-        + '<div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div>'
-        + '<div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div>'
-        + '<div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div>'
-        + '<div class="stat-box"><div class="lbl">🔮 Маг</div><div class="val">'+stats.mag+'</div></div>'
-        + '<div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div>'
-        + '</div>'
-        + '<div class="ability-row"><div class="a-name">✨ '+(ABILITY_NAMES[stats.ability]||'?')+'</div><div class="a-desc">'+(ABILITY_DESC[stats.ability]||'')+'</div></div>';
-    }
-    document.getElementById('charCard').innerHTML = topPart+'<div class="char-name">'+c.n+'</div>'+'<div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+statsHtml+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div>'+'<div class="power-value">Сила: '+c.p+' / 1000</div>';
-  }
-  const pl = document.getElementById('playersList');
-  pl.innerHTML = '';
-  view.players.forEach((p,i)=>{
-    const isActive = view.activeIdx.includes(i);
-    const isTurn = view.turnIdx===i;
-    const el = document.createElement('div');
-    el.className = 'player-item'+(isActive?' active':' out');
-    el.style.borderColor = isTurn?'#f39c12':(isActive?'rgba(243,156,18,.3)':'transparent');
-    const totalPower = (p.characters||[]).reduce((s,x)=>s+x.p,0);
-    const youTag = (i===state.myIdx)?' (ты)':'';
-    el.innerHTML = '<div class="pn">'+(isTurn?'🎯 ':'')+p.name+youTag+'</div>'+'<div class="pm">💰 '+p.money+'</div>'+'<div class="pc">Героев: '+(p.characters||[]).length+' · Сила: '+totalPower+'</div>';
-    pl.appendChild(el);
-  });
-  const bi = document.getElementById('bidInfo');
-  if(view.currentBid===0){
-    bi.innerHTML = '<div class="bid-amount">Ставок пока нет</div>'+'<div class="bid-who">Можно ставить любую сумму</div>';
-  } else {
-    const leaderName = view.players[view.currentBidder]?view.players[view.currentBidder].name:'?';
-    bi.innerHTML = '<div class="bid-amount">'+view.currentBid+' 💰</div>'+'<div class="bid-who">Лидер: <b>'+leaderName+'</b> · следующая минимум '+(view.currentBid+1)+'</div>';
-  }
-  renderActionPanel(view);
-  const log = document.getElementById('log');
-  if(view.log.length!==lastLogCount){
-    log.innerHTML = '';
-    view.log.slice(-30).forEach(l=>{const d=document.createElement('div');d.textContent=l;log.appendChild(d);});
-    log.scrollTop = log.scrollHeight;
-    lastLogCount = view.log.length;
-  }
-}
-
-function calcMinBid(currentBid){
-  if(!currentBid || currentBid === 0) return 1;
-  return currentBid + 1;
-}
-
-function renderActionPanel(view){
-  const ap = document.getElementById('actionPanel');
-  if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
-  if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
-  const currentPlayerName = view.players[view.turnIdx].name;
-  const isMyTurn = (state.myIdx === view.turnIdx);
-  if(!isMyTurn){
-    ap.innerHTML = '<div class="turn-name">Ход: <b>'+currentPlayerName+'</b></div>'+'<div style="color:#888;font-size:13px;margin-top:6px">Ожидание ставки...</div>';
-    return;
-  }
-  const player = view.players[state.myIdx];
-  const min = calcMinBid(view.currentBid);
-  const canBid = player.money >= min;
-  const defaultVal = canBid ? min : 1;
-  const hint = view.currentBid === 0 ? 'Можно ставить любую сумму (от 1)' : ('Нужно больше: минимум '+min);
-  ap.innerHTML = '<div class="turn-name">Твой ход · 💰 '+player.money+'</div>'+'<div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(!canBid?'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег (нужно '+min+')</div>':'');
-  if(canBid){
-    document.getElementById('bidBtn').onclick = ()=>{ const v=+document.getElementById('bidInput').value; submitBid(v); };
-  }
-  document.getElementById('passBtn').onclick = submitPass;
-}
-
-function submitBid(amount){
-  if(state.role === 'host') hostHandleBid(amount);
-  else clientHandleBid(amount);
-}
-function submitPass(){
-  if(state.role === 'host') hostHandlePass();
-  else clientHandlePass();
-}
-
-function hostHandleBid(amount){
-  const room = state.roomRef;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    const players = data.players || {};
-    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const turnPid = ids[data.activePlayers[data.turnPointer]];
-    if(turnPid !== state.playerId) return;
-    const min = calcMinBid(data.currentBid);
-    amount = Math.round(amount);
-    if(amount < min) return;
-    if(amount > players[state.playerId].money) return;
-    const log = (data.log||[]);
-    log.push(players[state.playerId].name+' ставит '+amount);
-    const tp = (data.turnPointer+1) % data.activePlayers.length;
-    const updates = { currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) };
-    room.update(updates).then(()=>hostAutoCheck());
-  });
-}
-
-function hostHandlePass(){
-  const room = state.roomRef;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    const players = data.players || {};
-    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const turnPid = ids[data.activePlayers[data.turnPointer]];
-    if(turnPid !== state.playerId) return;
-    const log = (data.log||[]);
-    log.push(players[state.playerId].name+' пасует');
-    const newActive = data.activePlayers.slice();
-    newActive.splice(data.turnPointer, 1);
-    const tp = newActive.length ? (data.turnPointer % newActive.length) : 0;
-    room.update({ activePlayers: newActive, turnPointer: tp, log: log.slice(-100) }).then(()=>hostAutoCheck());
-  });
-}
-
-function clientHandleBid(amount){
-  const room = state.roomRef;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    if(!data) return;
-    const players = data.players || {};
-    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const turnPid = ids[data.activePlayers[data.turnPointer]];
-    if(turnPid !== state.playerId) return;
-    const min = calcMinBid(data.currentBid);
-    amount = Math.round(amount);
-    if(amount < min) return;
-    if(amount > players[state.playerId].money) return;
-    const log = (data.log||[]);
-    log.push(players[state.playerId].name+' ставит '+amount);
-    const tp = (data.turnPointer+1) % data.activePlayers.length;
-    room.update({ currentBid: amount, currentBidder: ids.indexOf(state.playerId), turnPointer: tp, log: log.slice(-100) });
-  });
-}
-
-function clientHandlePass(){
-  const room = state.roomRef;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    if(!data) return;
-    const players = data.players || {};
-    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const turnPid = ids[data.activePlayers[data.turnPointer]];
-    if(turnPid !== state.playerId) return;
-    const log = (data.log||[]);
-    log.push(players[state.playerId].name+' пасует');
-    const newActive = data.activePlayers.slice();
-    newActive.splice(data.turnPointer, 1);
-    const tp = newActive.length ? (data.turnPointer % newActive.length) : 0;
-    room.update({ activePlayers: newActive, turnPointer: tp, log: log.slice(-100) });
-  });
-}
-
-function hostAutoCheck(){
-  if(state.role !== 'host') return;
-  const room = state.roomRef;
-  if(!room) return;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    if(!data || data.phase !== 'playing') return;
-    if(!data.current) return;
-    const ap = data.activePlayers || [];
-    if(ap.length === 0){ hostFinishRound(null); return; }
-    if(ap.length === 1){
-      const last = ap[0];
-      if(data.currentBidder === last){
-        hostFinishRound(last);
-      } else {
-        if(data.turnPointer !== 0){
-          room.child('turnPointer').set(0);
-        }
-      }
-    }
-  }).catch(e=>console.error('autoCheck:', e));
-}
-
-function hostFinishRound(winnerIdx){
-  const room = state.roomRef;
-  if(!room) return;
-  room.once('value').then(snap=>{
-    const data = snap.val();
-    if(!data) return;
-    if(data.phase !== 'playing') return;
-    if(!data.current) return;
-    const players = data.players || {};
-    const ids = Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
-    const log = (data.log||[]);
-    let updates = { phase: 'paused' };
-    if(winnerIdx !== null && winnerIdx !== undefined){
-      const winnerPid = ids[winnerIdx];
-      const newMoney = players[winnerPid].money - data.currentBid;
-      const chars = (players[winnerPid].characters || []).slice();
-      chars.push(data.current);
-      updates['players/'+winnerPid+'/money'] = newMoney;
-      updates['players/'+winnerPid+'/characters'] = chars;
-      log.push('✅ '+players[winnerPid].name+' купил «'+data.current.n+'» за '+data.currentBid);
-    } else {
-      log.push('❌ «'+data.current.n+'» не куплен');
-    }
-    updates.log = log.slice(-100);
-    room.update(updates).then(()=>{
-      setTimeout(()=>{
-        room.once('value').then(s2=>{
-          const d2 = s2.val();
-          if(!d2) return;
-          const totalMoney = Object.values(d2.players||{}).reduce((s,p)=>s+(p.money||0),0);
-          if((d2.pool||[]).length === 0 || totalMoney <= 0){
-            if(totalMoney <= 0 && (d2.pool||[]).length > 0){
-              const log2 = (d2.log||[]);
-              log2.push('💰 У всех закончились деньги — конец игры!');
-              room.update({ phase:'results', log: log2.slice(-100) });
-            } else {
-              room.child('phase').set('results');
-            }
-          }
-          else { room.child('phase').set('playing'); hostNextRound(); }
-        });
-      }, 1800);
-    });
-  });
-}
-
-function renderResults(view){
-  show('resultsScreen');
-  const sorted = [...view.players].map((p)=>({name:p.name,money:p.money,characters:p.characters||[],totalPower:(p.characters||[]).reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
-  const w = sorted[0];
-  document.getElementById('winnerText').textContent = '🏆 '+w.name+' — сила '+w.totalPower+'!';
-  const tbl = document.getElementById('resultsTable');
-  tbl.innerHTML = '<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
-  sorted.forEach((p,i)=>{
-    const chars = (p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
-    tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
-  });
-}
-
-/* ============ ЛОКАЛЬНЫЙ РЕЖИМ (hotseat) ============ */
-const hsLocal = {players:[], pool:[], roundNumber:0, totalRounds:0, startingMoney:0, current:null, currentBid:0, currentBidder:null, activePlayers:[], turnPointer:0, basePrice:0, phase:'lobby', log:[], firstBidderOffset:0};
-
-const hsNames = document.getElementById('hsPlayerNames');
-document.getElementById('hsPlayerCount').addEventListener('input',renderHotseatNames);
-function renderHotseatNames(){
-  const n = Math.max(2,Math.min(6,+document.getElementById('hsPlayerCount').value||2));
-  const old = [...hsNames.querySelectorAll('input')].map(i=>i.value);
-  hsNames.innerHTML = '';
-  for(let i=0;i<n;i++){
-    const inp = document.createElement('input');
-    inp.type = 'text';
-    inp.value = old[i]||('Игрок '+(i+1));
-    inp.maxLength = 16;
-    hsNames.appendChild(inp);
-  }
-}
-renderHotseatNames();
-
-document.getElementById('hsStartBtn').onclick = ()=>{
-  const themes = [...document.querySelectorAll('.theme2:checked')].map(el=>el.value);
-  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
-  const startMoney = Math.max(100,+document.getElementById('hsStartMoney').value||1000);
-  const charCount = Math.max(3,Math.min(40,+document.getElementById('hsCharCount').value||10));
-  const names = [...hsNames.querySelectorAll('input')].map(i=>i.value.trim()||'Игрок');
-  let pool = CHARACTERS.filter(c=>themes.includes(c.t));
-  if(pool.length<charCount){alert('В тематиках только '+pool.length+' персонажей.');return;}
-  pool = shuffle(pool).slice(0,charCount);
-
-  state.mode = 'hotseat'; state.role = 'host'; state.myIdx = -1;
-  hsLocal.players = names.map(n=>({name:n,money:startMoney,characters:[]}));
-  hsLocal.pool = pool;
-  hsLocal.totalRounds = charCount;
-  hsLocal.roundNumber = 0;
-  hsLocal.startingMoney = startMoney;
-  hsLocal.firstBidderOffset = 0;
-  hsLocal.log = [];
-  hsLocal.phase = 'playing';
-  lastLogCount = 0;
-  show('gameScreen');
-  hsNextRound();
-};
-
-function hsNextRound(){
-  if(hsLocal.pool.length === 0){ hsRenderResults(); return; }
-  const totalMoney = hsLocal.players.reduce((s,p)=>s+(p.money||0),0);
-  if(totalMoney <= 0){
-    hsLocal.log.push('💰 У всех закончились деньги — конец игры!');
-    hsRenderResults();
-    return;
-  }
-  hsLocal.roundNumber++;
-  hsLocal.current = hsLocal.pool.shift();
-  hsLocal.basePrice = 0;
-  hsLocal.currentBid = 0;
-  hsLocal.currentBidder = null;
-  hsLocal.activePlayers = hsLocal.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
-  if(hsLocal.activePlayers.length === 0){ hsFinishRound(null); return; }
-  hsLocal.turnPointer = ((hsLocal.roundNumber - 1) % hsLocal.activePlayers.length);
-  hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+')');
-  hsRender();
-}
-
-function hsRender(){
-  const view = {
-    phase: hsLocal.phase,
-    round: hsLocal.roundNumber,
-    totalRounds: hsLocal.totalRounds,
-    char: hsLocal.current,
-    basePrice: hsLocal.basePrice,
-    players: hsLocal.players,
-    currentBid: hsLocal.currentBid,
-    currentBidder: hsLocal.currentBidder,
-    turnIdx: hsLocal.activePlayers.length ? hsLocal.activePlayers[hsLocal.turnPointer] : -1,
-    activeIdx: hsLocal.activePlayers,
-    log: hsLocal.log,
-    poolLeft: hsLocal.pool.length
-  };
-  renderSnapshot(view);
-}
-
-const origRenderActionPanel = renderActionPanel;
-renderActionPanel = function(view){
-  const ap = document.getElementById('actionPanel');
-  if(state.mode !== 'hotseat'){ origRenderActionPanel(view); return; }
-  if(view.phase==='paused'){ ap.innerHTML='<div class="turn-name">Раунд завершён...</div>'; return; }
-  if(view.turnIdx === -1){ ap.innerHTML='<div class="turn-name">Ждём...</div>'; return; }
-  const player = view.players[view.turnIdx];
-  const min = calcMinBid(view.currentBid);
-  const canBid = player.money >= min;
-  const defaultVal = canBid ? min : 1;
-  const hint = view.currentBid === 0 ? 'Можно ставить любую сумму (от 1)' : ('Нужно больше: минимум '+min);
-  ap.innerHTML = '<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div>'+'<div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div>'+'<div class="bid-controls">'+'<input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'>'+'<button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button>'+'<button class="btn-pass" id="passBtn">Пас</button>'+'</div>'+(!canBid?'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Недостаточно денег (нужно '+min+')</div>':'');
-  if(canBid){
-    document.getElementById('bidBtn').onclick = ()=>{
-      const v = +document.getElementById('bidInput').value;
-      hsBid(hsLocal.activePlayers[hsLocal.turnPointer], v);
-    };
-  }
-  document.getElementById('passBtn').onclick = ()=>hsPass(hsLocal.activePlayers[hsLocal.turnPointer]);
-};
-
-function hsBid(pidx, amount){
-  const p = hsLocal.players[pidx];
-  const min = calcMinBid(hsLocal.currentBid);
-  amount = Math.round(amount);
-  if(amount < min) return;
-  if(amount > p.money) return;
-  hsLocal.currentBid = amount;
-  hsLocal.currentBidder = pidx;
-  hsLocal.log.push(p.name+' ставит '+amount);
-  hsLocal.turnPointer = (hsLocal.turnPointer+1) % hsLocal.activePlayers.length;
-  hsCheckEnd();
-}
-
-function hsPass(pidx){
-  const p = hsLocal.players[pidx];
-  hsLocal.log.push(p.name+' пасует');
-  hsLocal.activePlayers.splice(hsLocal.turnPointer, 1);
-  if(hsLocal.turnPointer >= hsLocal.activePlayers.length) hsLocal.turnPointer = 0;
-  hsCheckEnd();
-}
-
-function hsCheckEnd(){
-  if(hsLocal.activePlayers.length === 0){ hsFinishRound(null); return; }
-  if(hsLocal.activePlayers.length === 1){
-    const last = hsLocal.activePlayers[0];
-    if(hsLocal.currentBidder === last){ hsFinishRound(last); return; }
-    else { hsLocal.turnPointer = 0; hsRender(); return; }
-  }
-  hsRender();
-}
-
-function hsFinishRound(winnerIdx){
-  if(winnerIdx !== null){
-    const p = hsLocal.players[winnerIdx];
-    p.money -= hsLocal.currentBid;
-    p.characters.push(hsLocal.current);
-    hsLocal.log.push('✅ '+p.name+' купил «'+hsLocal.current.n+'» за '+hsLocal.currentBid);
-  } else {
-    hsLocal.log.push('❌ «'+hsLocal.current.n+'» не куплен');
-  }
-  hsLocal.phase = 'paused';
-  hsRender();
-  setTimeout(()=>{
-    hsLocal.phase = 'playing';
-    hsNextRound();
-  }, 1800);
-}
-
-function hsRenderResults(){
-  const sorted = hsLocal.players.map(p=>({name:p.name,money:p.money,characters:p.characters,totalPower:p.characters.reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
-  const w = sorted[0];
-  document.getElementById('winnerText').textContent = '🏆 '+w.name+' — сила '+w.totalPower+'!';
-  const tbl = document.getElementById('resultsTable');
-  tbl.innerHTML = '<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
-  sorted.forEach((p,i)=>{
-    const chars = p.characters.slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
-    tbl.innerHTML += '<tr>'+'<td>'+(i+1)+'</td>'+'<td>'+p.name+'</td>'+'<td><b style="color:#f39c12">'+p.totalPower+'</b></td>'+'<td class="chars-inline">'+chars+'</td>'+'<td>'+p.money+'</td>'+'</tr>';
-  });
-  show('resultsScreen');
-}
-
-setInterval(function(){
-  if(state.role === 'host' && state.phase === 'playing' && state.roomRef){
-    hostAutoCheck();
-  }
-}, 800);
+setInterval(function(){if(state.role==='host'&&state.phase==='playing'&&state.roomRef)hostAutoCheck();},800);
 
 show('menuScreen');
 </script>
@@ -2046,4 +1630,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
- </html>
+</html>
