@@ -11,131 +11,168 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{overscroll-behavior:none}
-  body{font-family:system-ui,-apple-system,sans-serif;background:radial-gradient(circle at top,#2a1a4e,#0f0f1e 70%);color:#eaeaea;min-height:100vh;padding:12px;font-size:15px}
+  body{font-family:system-ui,-apple-system,sans-serif;background:radial-gradient(ellipse at top,#1a0d2e 0%,#0a0a14 60%,#050510 100%);color:#eaeaea;min-height:100vh;padding:14px;font-size:15px}
   .container{max-width:640px;margin:0 auto}
-  h1{text-align:center;color:#f39c12;margin-bottom:14px;font-size:22px;letter-spacing:1px}
-  h2{color:#f39c12;font-size:16px;margin-bottom:8px}
-  .panel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:12px}
-  label{display:block;margin-bottom:6px;color:#bbb;font-size:13px}
-  input[type=text],input[type=number]{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#1a1a2e;color:#eee;font-size:16px;outline:none}
-  input:focus{border-color:#f39c12}
-  .row{display:flex;gap:8px;flex-wrap:wrap}
+  h1{text-align:center;background:linear-gradient(135deg,#f5b800,#e74c3c,#9b59b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:18px;font-size:26px;letter-spacing:2px;font-weight:900;filter:drop-shadow(0 0 12px rgba(243,156,18,.5))}
+  h2{color:#f5b800;font-size:16px;margin-bottom:8px;letter-spacing:.5px}
+  .panel{background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(243,156,18,.15);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+  label{display:block;margin-bottom:6px;color:#aaa;font-size:13px;font-weight:500}
+  input[type=text],input[type=number]{width:100%;padding:13px 14px;border-radius:11px;border:1.5px solid rgba(243,156,18,.25);background:rgba(20,20,40,.7);color:#eee;font-size:16px;outline:none;transition:.2s}
+  input:focus{border-color:#f5b800;box-shadow:0 0 0 3px rgba(243,156,18,.15)}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
   .row>*{flex:1;min-width:100px}
-  .themes{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-  .themes label{display:inline-flex;align-items:center;gap:5px;margin:0;padding:8px 12px;border-radius:20px;background:#1a1a2e;border:1px solid #333;font-size:13px;cursor:pointer}
-  .themes input{accent-color:#f39c12}
-  button{padding:14px 20px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-weight:600;transition:.15s;width:100%}
-  button:active:not(:disabled){transform:scale(.98)}
-  button:disabled{opacity:.45;cursor:not-allowed}
-  .btn-primary{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;box-shadow:0 4px 15px rgba(243,156,18,.3)}
-  .btn-secondary{background:#333;color:#eee}
-  .btn-pass{background:#7a2020;color:#fff}
-  .btn-bid{background:linear-gradient(135deg,#27ae60,#229954);color:#fff}
-  .btn-row{display:flex;gap:8px;margin-top:8px}
-  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:#aaa}
-  .topbar b{color:#f39c12}
-  .char-card{text-align:center;padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(155,89,182,.15));border:2px solid rgba(243,156,18,.4);margin-bottom:12px;transition:.3s}
+  .themes{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .themes label{display:inline-flex;align-items:center;gap:6px;margin:0;padding:9px 14px;border-radius:20px;background:rgba(26,26,46,.8);border:1.5px solid rgba(243,156,18,.2);font-size:13px;cursor:pointer;transition:.2s;color:#ccc;font-weight:500}
+  .themes label:hover{border-color:rgba(243,156,18,.5);background:rgba(243,156,18,.08)}
+  .themes input{accent-color:#f5b800}
+  button{padding:15px 22px;border-radius:14px;border:none;cursor:pointer;font-size:15px;font-weight:700;letter-spacing:.3px;transition:.2s cubic-bezier(.34,1.56,.64,1);width:100%;position:relative;overflow:hidden}
+  button:active:not(:disabled){transform:scale(.96)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .btn-primary{background:linear-gradient(135deg,#f5b800 0%,#e67e22 50%,#c0392b 100%);color:#fff;box-shadow:0 6px 20px rgba(243,156,18,.35),inset 0 1px 0 rgba(255,255,255,.3)}
+  .btn-primary:hover:not(:disabled){box-shadow:0 8px 28px rgba(243,156,18,.5),inset 0 1px 0 rgba(255,255,255,.3);transform:translateY(-2px)}
+  .btn-secondary{background:linear-gradient(135deg,#2a2a3e,#1a1a2e);border:1.5px solid rgba(243,156,18,.2);color:#ddd;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  .btn-secondary:hover:not(:disabled){border-color:rgba(243,156,18,.5);color:#f5b800}
+  .btn-pass{background:linear-gradient(135deg,#7a2020,#5a1515);color:#fff;box-shadow:0 4px 14px rgba(122,32,32,.4)}
+  .btn-bid{background:linear-gradient(135deg,#27ae60,#1e7a42);color:#fff;box-shadow:0 4px 14px rgba(39,174,96,.4)}
+  .btn-row{display:flex;gap:10px;margin-top:10px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;color:#aaa}
+  .topbar b{color:#f5b800;font-weight:700}
+  .char-card{text-align:center;padding:18px;border-radius:20px;background:linear-gradient(135deg,rgba(243,156,18,.12),rgba(155,89,182,.12));border:2px solid rgba(243,156,18,.4);margin-bottom:14px;transition:.3s;position:relative;animation:cardAppear .5s cubic-bezier(.34,1.56,.64,1)}
+  @keyframes cardAppear{0%{opacity:0;transform:scale(.85) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
   .char-card.shake{animation:shake .5s}
-  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px) rotate(-1deg)}40%{transform:translateX(8px) rotate(1deg)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px) rotate(-1.5deg)}40%{transform:translateX(10px) rotate(1.5deg)}60%{transform:translateX(-7px)}80%{transform:translateX(7px)}}
   .char-emoji{font-size:42px;margin-bottom:4px}
-  .char-img{width:100%;max-width:300px;height:340px;margin:0 auto 10px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);display:flex;align-items:center;justify-content:center}
-  .char-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .char-img{width:100%;max-width:300px;height:340px;margin:0 auto 12px;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);display:flex;align-items:center;justify-content:center;transition:.4s;position:relative}
+  .char-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:.4s}
   .char-img.contain img{object-fit:contain;object-position:center center}
   .char-img.face img{object-fit:cover;object-position:center 25%}
-  .stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:8px auto 10px;max-width:340px}
-  .stat-box{background:rgba(0,0,0,.4);border-radius:8px;padding:6px 4px;text-align:center;border:1px solid rgba(243,156,18,.2)}
+  .char-img.rarity-common{border:2px solid rgba(120,120,120,.6);box-shadow:0 0 20px rgba(120,120,120,.5),inset 0 0 15px rgba(120,120,120,.1)}
+  .char-img.rarity-rare{border:2px solid transparent;background-image:linear-gradient(#0f0f1e,#1a1a2e),linear-gradient(135deg,#2ecc71,#27ae60,#1abc9c,#2ecc71);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 0 25px rgba(46,204,113,.8),0 0 45px rgba(26,188,156,.4),inset 0 0 25px rgba(46,204,113,.15);animation:auraRare 3s ease-in-out infinite}
+  @keyframes auraRare{0%,100%{box-shadow:0 0 25px rgba(46,204,113,.8),0 0 45px rgba(26,188,156,.4),inset 0 0 25px rgba(46,204,113,.15);filter:brightness(1)}50%{box-shadow:0 0 40px rgba(46,204,113,1),0 0 70px rgba(26,188,156,.6),inset 0 0 35px rgba(46,204,113,.3);filter:brightness(1.08)}}
+  .char-img.rarity-epic{border:2px solid transparent;background-image:linear-gradient(#0f0f1e,#1a1a2e),linear-gradient(135deg,#3498db,#2980b9,#8e44ad,#3498db);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 0 30px rgba(52,152,219,.9),0 0 55px rgba(142,68,173,.5),inset 0 0 25px rgba(52,152,219,.15);animation:auraEpic 3s ease-in-out infinite}
+  @keyframes auraEpic{0%,100%{box-shadow:0 0 30px rgba(52,152,219,.9),0 0 55px rgba(142,68,173,.5),inset 0 0 25px rgba(52,152,219,.15);filter:brightness(1)}50%{box-shadow:0 0 50px rgba(52,152,219,1),0 0 90px rgba(142,68,173,.7),inset 0 0 40px rgba(52,152,219,.3);filter:brightness(1.1)}}
+  .char-img.rarity-legendary{border:2px solid transparent;background-image:linear-gradient(#0f0f1e,#1a1a2e),linear-gradient(135deg,#9b59b6,#e74c3c,#8e44ad,#f39c12,#9b59b6);background-origin:border-box;background-clip:padding-box,border-box;background-size:100%,300% 300%;box-shadow:0 0 40px rgba(155,89,182,1),0 0 75px rgba(231,76,60,.6),0 0 110px rgba(142,68,173,.4),inset 0 0 30px rgba(155,89,182,.25);animation:auraLegendary 3s ease-in-out infinite,rainbowShift 5s linear infinite}
+  @keyframes auraLegendary{0%,100%{box-shadow:0 0 40px rgba(155,89,182,1),0 0 75px rgba(231,76,60,.6),0 0 110px rgba(142,68,173,.4),inset 0 0 30px rgba(155,89,182,.25);filter:brightness(1)}50%{box-shadow:0 0 65px rgba(155,89,182,1),0 0 120px rgba(231,76,60,.8),0 0 160px rgba(142,68,173,.6),inset 0 0 50px rgba(155,89,182,.45);filter:brightness(1.15)}}
+  @keyframes rainbowShift{0%{background-position:0 0,0% 50%}50%{background-position:0 0,100% 50%}100%{background-position:0 0,0% 50%}}
+  .char-img.rarity-mythic{border:3px solid transparent;background-image:linear-gradient(#0f0f1e,#1a1a2e),conic-gradient(from 0deg,#f39c12,#e74c3c,#9b59b6,#3498db,#2ecc71,#f39c12);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 0 60px rgba(243,156,18,1),0 0 110px rgba(231,76,60,.8),0 0 170px rgba(155,89,182,.6),inset 0 0 40px rgba(243,156,18,.35);animation:auraMythic 2s ease-in-out infinite,mythicSpin 6s linear infinite}
+  @keyframes auraMythic{0%,100%{box-shadow:0 0 60px rgba(243,156,18,1),0 0 110px rgba(231,76,60,.8),0 0 170px rgba(155,89,182,.6),inset 0 0 40px rgba(243,156,18,.35);filter:brightness(1)}50%{box-shadow:0 0 100px rgba(243,156,18,1),0 0 180px rgba(231,76,60,1),0 0 250px rgba(155,89,182,.8),inset 0 0 60px rgba(243,156,18,.6);filter:brightness(1.25)}}
+  @keyframes mythicSpin{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+  .stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:10px auto;max-width:340px}
+  .stat-box{background:linear-gradient(135deg,rgba(0,0,0,.5),rgba(20,20,40,.5));border-radius:9px;padding:7px 4px;text-align:center;border:1px solid rgba(243,156,18,.2);transition:.2s}
+  .stat-box:hover{border-color:rgba(243,156,18,.5);transform:translateY(-2px)}
   .stat-box .lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.5px}
-  .stat-box .val{font-size:15px;color:#f39c12;font-weight:700;margin-top:1px}
-  .rarity-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
-  .rarity-common{background:#555;color:#ddd}
-  .rarity-rare{background:#2ecc71;color:#000}
-  .rarity-epic{background:#3498db;color:#fff}
-  .rarity-legendary{background:#9b59b6;color:#fff}
-  .rarity-mythic{background:linear-gradient(135deg,#f39c12,#e74c3c);color:#fff;animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 5px #f39c12}50%{box-shadow:0 0 20px #f39c12}}
-  .ability-row{margin:6px auto 0;max-width:340px;background:rgba(243,156,18,.1);border:1px solid rgba(243,156,18,.3);border-radius:10px;padding:8px 10px;text-align:left}
-  .ability-row .a-name{font-size:13px;color:#f39c12;font-weight:700}
-  .ability-row .a-desc{font-size:10px;color:#bbb;margin-top:2px;line-height:1.3}
-  .char-name{font-size:21px;font-weight:700;color:#f39c12;margin-bottom:3px}
-  .char-source{color:#aaa;font-size:12px;margin-bottom:10px}
-  .power-bar{height:12px;background:#1a1a2e;border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 5px}
-  .power-fill{height:100%;background:linear-gradient(90deg,#e74c3c,#f39c12);transition:width .4s}
-  .power-value{font-size:14px;color:#f39c12;font-weight:700}
+  .stat-box .val{font-size:15px;color:#f5b800;font-weight:800;margin-top:1px}
+  .rarity-badge{display:inline-block;padding:4px 12px;border-radius:12px;font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+  .rarity-common{background:linear-gradient(135deg,#555,#333);color:#ddd}
+  .rarity-rare{background:linear-gradient(135deg,#2ecc71,#229954);color:#000;box-shadow:0 0 14px rgba(46,204,113,.5)}
+  .rarity-epic{background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;box-shadow:0 0 14px rgba(52,152,219,.6)}
+  .rarity-legendary{background:linear-gradient(135deg,#9b59b6,#8e44ad);color:#fff;box-shadow:0 0 18px rgba(155,89,182,.7);animation:pulseBadge 2.5s infinite}
+  .rarity-mythic{background:linear-gradient(135deg,#f5b800,#e74c3c);color:#fff;box-shadow:0 0 22px rgba(243,156,18,.9);animation:pulseBadge 1.8s infinite}
+  @keyframes pulseBadge{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.05);filter:brightness(1.2)}}
+  .ability-row{margin:8px auto 0;max-width:340px;background:linear-gradient(135deg,rgba(243,156,18,.12),rgba(155,89,182,.08));border:1px solid rgba(243,156,18,.35);border-radius:12px;padding:10px 12px;text-align:left;position:relative;overflow:hidden}
+  .ability-row::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(243,156,18,.15),transparent);animation:shimmer 3s infinite}
+  @keyframes shimmer{0%{left:-100%}100%{left:100%}}
+  .ability-row .a-name{font-size:13px;color:#f5b800;font-weight:800;letter-spacing:.3px}
+  .ability-row .a-desc{font-size:10.5px;color:#bbb;margin-top:3px;line-height:1.35}
+  .char-name{font-size:22px;font-weight:800;color:#f5b800;margin-bottom:3px;letter-spacing:.3px;text-shadow:0 2px 8px rgba(243,156,18,.3)}
+  .char-source{color:#888;font-size:12px;margin-bottom:10px}
+  .power-bar{height:14px;background:rgba(0,0,0,.5);border-radius:8px;overflow:hidden;max-width:340px;margin:0 auto 6px;box-shadow:inset 0 2px 4px rgba(0,0,0,.5)}
+  .power-fill{height:100%;background:linear-gradient(90deg,#e74c3c,#f5b800,#f39c12);transition:width .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 14px rgba(243,156,18,.7);position:relative}
+  .power-fill::after{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);border-radius:8px 8px 0 0}
+  .power-value{font-size:14px;color:#f5b800;font-weight:800}
   .players-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
-  .player-item{background:#1a1a2e;border-radius:10px;padding:10px;border:2px solid transparent;font-size:13px}
-  .player-item.active{border-color:#f39c12}
-  .player-item.out{opacity:.4}
+  .player-item{background:linear-gradient(135deg,rgba(26,26,46,.9),rgba(20,20,36,.9));border-radius:12px;padding:11px;border:2px solid transparent;font-size:13px;transition:.2s}
+  .player-item.active{border-color:#f5b800;box-shadow:0 0 16px rgba(243,156,18,.4)}
+  .player-item.out{opacity:.35}
   .player-item .pn{font-weight:700;margin-bottom:3px;font-size:14px}
-  .player-item .pm{color:#27ae60;font-weight:600}
+  .player-item .pm{color:#27ae60;font-weight:700}
   .player-item .pc{color:#888;font-size:11px;margin-top:2px}
-  .bid-info{background:#1a1a2e;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center}
-  .bid-info .bid-amount{font-size:20px;color:#f39c12;font-weight:700}
+  .bid-info{background:rgba(20,20,40,.8);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center;border:1px solid rgba(243,156,18,.2)}
+  .bid-info .bid-amount{font-size:22px;color:#f5b800;font-weight:800;text-shadow:0 0 12px rgba(243,156,18,.5)}
   .bid-info .bid-who{color:#aaa;font-size:13px;margin-top:3px}
   .action-panel{text-align:center;margin-bottom:10px}
   .action-panel .turn-name{font-size:15px;margin-bottom:10px}
-  .turn-name b{color:#f39c12}
+  .turn-name b{color:#f5b800}
   .bid-controls{display:flex;gap:8px;align-items:center}
   .bid-controls input{flex:1;min-width:0}
-  .bid-controls button{flex:0 0 auto;width:auto;padding:12px 18px}
-  .log{max-height:110px;overflow-y:auto;font-size:12px;color:#888;background:#141428;border-radius:8px;padding:8px;margin-top:8px}
-  .log div{margin-bottom:2px}
+  .bid-controls button{flex:0 0 auto;width:auto;padding:12px 20px}
+  .log{max-height:110px;overflow-y:auto;font-size:12px;color:#888;background:rgba(15,15,25,.7);border-radius:10px;padding:10px;margin-top:8px;border:1px solid rgba(255,255,255,.05)}
+  .log div{margin-bottom:3px}
   .results-table{width:100%;border-collapse:collapse;font-size:13px}
-  .results-table th,.results-table td{padding:8px 6px;text-align:left;border-bottom:1px solid #333;vertical-align:top}
-  .results-table th{color:#f39c12;font-size:12px}
-  .winner{color:#f39c12;font-weight:700;font-size:17px;text-align:center;margin-bottom:12px}
-  .chars-inline{color:#aaa;font-size:11px;line-height:1.4}
-  .room-code{font-size:34px;font-weight:800;letter-spacing:8px;text-align:center;color:#f39c12;padding:16px;background:#141428;border-radius:14px;border:2px dashed rgba(243,156,18,.4);margin:10px 0;font-family:'Courier New',monospace}
+  .results-table th,.results-table td{padding:9px 6px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+  .results-table th{color:#f5b800;font-size:12px;font-weight:800;letter-spacing:.5px}
+  .winner{color:#f5b800;font-weight:800;font-size:18px;text-align:center;margin-bottom:14px;text-shadow:0 0 20px rgba(243,156,18,.6)}
+  .chars-inline{color:#aaa;font-size:11px;line-height:1.45}
+  .room-code{font-size:36px;font-weight:900;letter-spacing:9px;text-align:center;color:#f5b800;padding:18px;background:rgba(15,15,25,.7);border-radius:16px;border:2px dashed rgba(243,156,18,.5);margin:10px 0;font-family:'Courier New',monospace;text-shadow:0 0 20px rgba(243,156,18,.6);animation:pulseBadge 3s infinite}
   .lobby-players{list-style:none;margin:10px 0}
-  .lobby-players li{padding:10px;background:#1a1a2e;border-radius:8px;margin-bottom:6px;font-size:14px}
+  .lobby-players li{padding:11px;background:rgba(26,26,46,.7);border-radius:10px;margin-bottom:6px;font-size:14px;border-left:3px solid #f5b800}
   .lobby-players li::before{content:"👤 ";margin-right:4px}
   .status-msg{font-size:13px;color:#aaa;text-align:center;margin-top:8px;min-height:20px}
   .status-msg.err{color:#e74c3c}
   .status-msg.ok{color:#27ae60}
   .duel-setup-players{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-  .duel-player{background:#1a1a2e;border-radius:10px;padding:10px;border:2px solid rgba(243,156,18,.3)}
-  .duel-player h3{font-size:14px;color:#f39c12;margin-bottom:8px;text-align:center;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-  .mini-cards{display:flex;flex-direction:column;gap:6px;align-items:center}
-  .mini-card{width:100%;background:#0f0f1e;border-radius:8px;overflow:hidden;border:2px solid #333;text-align:center;padding-bottom:4px;transition:.2s}
-  .mini-card img{width:100%;height:60px;object-fit:cover;object-position:center top;display:block}
+  .duel-player{background:rgba(20,20,36,.8);border-radius:12px;padding:11px;border:2px solid rgba(243,156,18,.3)}
+  .duel-player h3{font-size:14px;color:#f5b800;margin-bottom:8px;text-align:center;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+  .mini-cards{display:flex;flex-direction:column;gap:7px;align-items:center}
+  .mini-card{width:100%;background:linear-gradient(180deg,#0f0f1e,#141428);border-radius:10px;overflow:hidden;border:2px solid #333;text-align:center;padding-bottom:5px;transition:.3s;animation:cardAppear .4s cubic-bezier(.34,1.56,.64,1) backwards}
+  .mini-card:nth-child(2){animation-delay:.1s}
+  .mini-card:nth-child(3){animation-delay:.2s}
+  .mini-card img{width:100%;height:62px;object-fit:cover;object-position:center top;display:block}
   .mini-card .mc-name{font-size:10px;padding:3px 2px;color:#ddd;font-weight:700;line-height:1.1}
-  .mini-card .mc-stats{font-size:9px;color:#f39c12;padding-bottom:2px}
-  .mini-card.rarity-mythic{border-color:#f39c12;box-shadow:0 0 12px rgba(243,156,18,.7);animation:pulse 2s infinite}
-  .mini-card.rarity-legendary{border-color:#9b59b6;box-shadow:0 0 8px rgba(155,89,182,.5)}
-  .mini-card.rarity-epic{border-color:#3498db;box-shadow:0 0 6px rgba(52,152,219,.4)}
-  .mini-card.rarity-rare{border-color:#2ecc71}
-  .duel-battle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-  .duel-fighter{background:#1a1a2e;border-radius:12px;padding:10px;border:2px solid #333;text-align:center;transition:.3s}
-  .duel-fighter.active{border-color:#f39c12;box-shadow:0 0 15px rgba(243,156,18,.6)}
-  .duel-fighter.winner{border-color:#27ae60;box-shadow:0 0 20px rgba(39,174,96,.8)}
-  .duel-fighter.loser{opacity:.4}
-  .duel-fighter.hit{animation:hit .4s}
-  @keyframes hit{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-  .duel-fighter .df-img{width:100%;height:120px;overflow:hidden;border-radius:8px;background:#0f0f1e;display:flex;align-items:center;justify-content:center}
+  .mini-card .mc-stats{font-size:9px;color:#f5b800;padding-bottom:2px}
+  .mini-card.rarity-mythic{border-color:#f5b800;box-shadow:0 0 18px rgba(243,156,18,.9),0 0 30px rgba(231,76,60,.4);animation:auraMythic 2s infinite,cardAppear .4s}
+  .mini-card.rarity-legendary{border-color:#9b59b6;box-shadow:0 0 14px rgba(155,89,182,.7)}
+  .mini-card.rarity-epic{border-color:#3498db;box-shadow:0 0 10px rgba(52,152,219,.5)}
+  .mini-card.rarity-rare{border-color:#2ecc71;box-shadow:0 0 8px rgba(46,204,113,.4)}
+  .duel-battle{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;margin-bottom:14px;align-items:center}
+  .duel-fighter{background:linear-gradient(135deg,rgba(20,20,36,.95),rgba(15,15,25,.95));border-radius:14px;padding:11px;border:2px solid #333;text-align:center;transition:.3s cubic-bezier(.34,1.56,.64,1);position:relative}
+  .duel-fighter.rarity-common{box-shadow:0 0 18px rgba(120,120,120,.5);border-color:rgba(120,120,120,.7)}
+  .duel-fighter.rarity-rare{box-shadow:0 0 28px rgba(46,204,113,.9),0 0 50px rgba(26,188,156,.5);border-color:#2ecc71;animation:auraRare 3s ease-in-out infinite}
+  .duel-fighter.rarity-epic{box-shadow:0 0 32px rgba(52,152,219,.9),0 0 60px rgba(142,68,173,.6);border-color:#3498db;animation:auraEpic 3s ease-in-out infinite}
+  .duel-fighter.rarity-legendary{box-shadow:0 0 42px rgba(155,89,182,1),0 0 80px rgba(231,76,60,.7);border-color:#9b59b6;animation:auraLegendary 3s ease-in-out infinite}
+  .duel-fighter.rarity-mythic{box-shadow:0 0 55px rgba(243,156,18,1),0 0 100px rgba(231,76,60,.9),0 0 140px rgba(155,89,182,.6);border-color:#f5b800;animation:auraMythic 2s ease-in-out infinite}
+  .duel-fighter.active{transform:scale(1.02);filter:brightness(1.1)}
+  .duel-fighter.winner{animation:winnerPulse 1s infinite;border-color:#27ae60!important}
+  @keyframes winnerPulse{0%,100%{box-shadow:0 0 25px rgba(39,174,96,.8);transform:scale(1)}50%{box-shadow:0 0 45px rgba(39,174,96,1);transform:scale(1.03)}}
+  .duel-fighter.loser{opacity:.35;filter:grayscale(.8)}
+  .duel-fighter.hit{animation:hitShake .5s}
+  @keyframes hitShake{0%{transform:translateX(0)}15%{transform:translateX(-12px) rotate(-2deg);filter:brightness(1.5)}30%{transform:translateX(12px) rotate(2deg)}45%{transform:translateX(-8px)}60%{transform:translateX(8px)}100%{transform:translateX(0)}}
+  .duel-fighter .df-img{width:100%;height:120px;overflow:hidden;border-radius:10px;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);display:flex;align-items:center;justify-content:center}
   .duel-fighter .df-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .duel-fighter .df-img.contain img{object-fit:contain;object-position:center center}
   .duel-fighter .df-img.face img{object-fit:cover;object-position:center 25%}
-  .duel-fighter .df-name{font-size:13px;font-weight:700;color:#f39c12;margin-top:6px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .hp-bar{height:18px;background:#1a1a2e;border-radius:9px;overflow:hidden;margin:6px 0 3px;position:relative;border:1px solid #333}
-  .hp-fill{height:100%;background:linear-gradient(90deg,#27ae60,#2ecc71);transition:width .5s}
-  .hp-fill.low{background:linear-gradient(90deg,#e74c3c,#f39c12)}
-  .hp-text{font-size:11px;color:#fff;position:absolute;top:0;left:0;right:0;line-height:18px;text-align:center;font-weight:700;text-shadow:0 0 4px #000}
-  .battle-log{max-height:140px;overflow-y:auto;font-size:12px;background:#141428;border-radius:8px;padding:8px;margin-bottom:10px}
-  .battle-log div{padding:3px 0;border-bottom:1px solid #222;color:#ccc}
+  .duel-fighter .df-name{font-size:13px;font-weight:700;color:#f5b800;margin-top:6px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .attack-beam{width:24px;height:100%;display:flex;align-items:center;justify-content:center;position:relative;font-size:26px;color:#f5b800;opacity:.3;transition:.3s}
+  .attack-beam.flash{animation:beamFlash .5s}
+  @keyframes beamFlash{0%{opacity:.3;transform:scale(1)}40%{opacity:1;transform:scale(1.5);filter:drop-shadow(0 0 20px #f39c12) drop-shadow(0 0 40px #e74c3c)}100%{opacity:.3;transform:scale(1)}}
+  .hp-bar{height:20px;background:rgba(0,0,0,.6);border-radius:10px;overflow:hidden;margin:7px 0 4px;position:relative;border:1px solid rgba(255,255,255,.1)}
+  .hp-fill{height:100%;background:linear-gradient(90deg,#27ae60,#2ecc71);transition:width .5s cubic-bezier(.34,1.56,.64,1);position:relative}
+  .hp-fill::after{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(180deg,rgba(255,255,255,.25),transparent)}
+  .hp-fill.low{background:linear-gradient(90deg,#e74c3c,#f5b800);animation:hpDanger 1s infinite}
+  @keyframes hpDanger{0%,100%{box-shadow:0 0 0 rgba(231,76,60,0)}50%{box-shadow:0 0 15px rgba(231,76,60,.8)}}
+  .hp-text{font-size:11px;color:#fff;position:absolute;top:0;left:0;right:0;line-height:20px;text-align:center;font-weight:800;text-shadow:0 0 6px #000}
+  .battle-log{max-height:150px;overflow-y:auto;font-size:12px;background:rgba(15,15,25,.85);border-radius:10px;padding:10px;margin-bottom:10px;border:1px solid rgba(255,255,255,.05)}
+  .battle-log div{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);color:#ccc;animation:logAppear .3s}
+  @keyframes logAppear{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
   .battle-log div:last-child{border:none}
-  .battle-log .dmg{color:#e74c3c;font-weight:700}
-  .battle-log .heal{color:#2ecc71;font-weight:700}
-  .battle-log .crit{color:#f39c12;font-weight:700}
+  .battle-log .dmg{color:#e74c3c;font-weight:800}
+  .battle-log .heal{color:#2ecc71;font-weight:800}
+  .battle-log .crit{color:#f5b800;font-weight:800;text-shadow:0 0 8px rgba(243,156,18,.5)}
   .battle-log .miss{color:#888;font-style:italic}
-  .battle-log .round-title{color:#f39c12;font-weight:700;text-align:center;font-style:italic}
-  .battle-log .finish{color:#f39c12;font-weight:700;font-size:14px;text-align:center;padding:6px 0}
+  .battle-log .round-title{color:#f5b800;font-weight:800;text-align:center;font-style:italic;letter-spacing:.5px}
+  .battle-log .finish{color:#f5b800;font-weight:800;font-size:14px;text-align:center;padding:8px 0}
   .hidden{display:none!important}
-  .mode-tabs{display:flex;gap:6px;margin-bottom:14px}
-  .mode-tabs button{background:#1a1a2e;color:#aaa;border:1px solid #333;font-size:13px;padding:10px}
-  .mode-tabs button.on{background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-color:transparent}
+  .mode-tabs{display:flex;gap:8px;margin-bottom:14px}
+  .mode-tabs button{background:linear-gradient(135deg,#1a1a2e,#141428);color:#aaa;border:1.5px solid rgba(255,255,255,.1);font-size:13px;padding:11px;border-radius:12px;font-weight:600}
+  .mode-tabs button.on{background:linear-gradient(135deg,#f5b800,#e67e22);color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(243,156,18,.4)}
+  .bracket-panel{background:linear-gradient(135deg,rgba(243,156,18,.08),rgba(155,89,182,.05));border:2px solid rgba(243,156,18,.3);border-radius:14px;padding:14px;margin-bottom:12px}
+  .bracket-panel h3{color:#f5b800;font-size:14px;margin-bottom:10px;text-align:center;letter-spacing:.5px}
+  .auto-battle-banner{text-align:center;padding:14px;margin-bottom:10px;background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(231,76,60,.15));border:1.5px solid rgba(243,156,18,.45);border-radius:14px;font-weight:800;color:#f5b800;font-size:14px;letter-spacing:1px;animation:pulseBadge 1.8s infinite;text-shadow:0 0 12px rgba(243,156,18,.6)}
 </style>
-</head> <body>
+</head><body>
 <div class="container">
   <h1>⚔️ АУКЦИОН ГЕРОЕВ ⚔️</h1>
+
   <div id="menuScreen">
     <div class="panel">
       <h2>Режим игры</h2>
@@ -144,15 +181,17 @@
         <button data-mode="hotseat">📱 Локально</button>
       </div>
       <button class="btn-primary" id="duelModeBtn" style="margin-top:10px;background:linear-gradient(135deg,#9b59b6,#e74c3c)">⚔️ ДУЭЛИ</button>
+      <button class="btn-primary" id="tournamentBtn" style="margin-top:8px;background:linear-gradient(135deg,#e67e22,#c0392b)">🏆 ТУРНИР</button>
       <div id="onlineMenu">
-        <button class="btn-primary" id="createRoomBtn" style="margin-bottom:8px">🎮 Создать комнату</button>
+        <button class="btn-primary" id="createRoomBtn" style="margin-top:8px;margin-bottom:8px">🎮 Создать комнату</button>
         <button class="btn-secondary" id="joinRoomBtn">🚪 Присоединиться по коду</button>
       </div>
       <div id="hotseatMenu" class="hidden">
-        <button class="btn-primary" id="hotseatBtn">Начать локальную игру</button>
+        <button class="btn-primary" id="hotseatBtn" style="margin-top:8px">Начать локальную игру</button>
       </div>
     </div>
   </div>
+
   <div id="createScreen" class="hidden">
     <div class="panel">
       <h2>Настройки игры</h2>
@@ -178,6 +217,7 @@
     <button class="btn-primary" id="createConfirmBtn">Создать комнату</button>
     <button class="btn-secondary" id="backFromCreate" style="margin-top:8px">Назад</button>
   </div>
+
   <div id="lobbyScreen" class="hidden">
     <div class="panel">
       <h2>Код комнаты</h2>
@@ -191,6 +231,7 @@
       <div class="status-msg" id="lobbyStatus"></div>
     </div>
   </div>
+
   <div id="joinScreen" class="hidden">
     <div class="panel">
       <h2>Присоединиться к игре</h2>
@@ -205,6 +246,7 @@
       <div class="status-msg" id="joinStatus"></div>
     </div>
   </div>
+
   <div id="hotseatScreen" class="hidden">
     <div class="panel">
       <h2>Настройки (локально)</h2>
@@ -231,6 +273,7 @@
     <button class="btn-primary" id="hsStartBtn">Начать</button>
     <button class="btn-secondary" id="backFromHs" style="margin-top:8px">Назад</button>
   </div>
+
   <div id="duelScreen" class="hidden">
     <div class="panel">
       <h2>⚔️ РЕЖИМ ДУЭЛИ</h2>
@@ -239,6 +282,14 @@
         <input type="text" id="duelP1Name" value="Игрок 1" maxlength="16">
         <label style="margin-top:10px">Имя игрока 2</label>
         <input type="text" id="duelP2Name" value="Игрок 2" maxlength="16">
+        <label style="margin-top:14px">🤖 Сложность бота (если Игрок 2 — бот)</label>
+        <div class="themes" id="botLevelBox" style="justify-content:center">
+          <label><input type="radio" name="botLvl" value="off" checked> ❌ Игрок 2 — человек</label>
+          <label><input type="radio" name="botLvl" value="easy"> 🟢 Лёгкий</label>
+          <label><input type="radio" name="botLvl" value="medium"> 🟡 Средний</label>
+          <label><input type="radio" name="botLvl" value="hard"> 🟠 Сложный</label>
+          <label><input type="radio" name="botLvl" value="nightmare"> 🔴 Хардкор</label>
+        </div>
         <button class="btn-primary" id="duelStartBtn" style="margin-top:14px">🎲 РАЗДАТЬ КАРТЫ</button>
       </div>
       <div id="duelDecks" class="hidden">
@@ -259,6 +310,7 @@
       <button class="btn-secondary" id="backFromDuel" style="margin-top:14px">Назад</button>
     </div>
   </div>
+
   <div id="duelBattleScreen" class="hidden">
     <div class="panel">
       <div class="topbar">
@@ -272,6 +324,7 @@
           <div class="hp-bar"><div class="hp-fill" id="duelF1HpFill" style="width:100%"></div><div class="hp-text" id="duelF1HpText">100/100</div></div>
           <div style="font-size:10px;color:#aaa">⚔️ <span id="duelF1Atk">0</span> · 🛡 <span id="duelF1Def">0</span></div>
         </div>
+        <div class="attack-beam" id="attackBeam">⚡</div>
         <div class="duel-fighter" id="duelF2">
           <div class="df-img" id="duelF2Img"></div>
           <div class="df-name" id="duelF2Name">—</div>
@@ -280,10 +333,69 @@
         </div>
       </div>
       <div class="battle-log" id="battleLog"></div>
-      <button class="btn-primary" id="duelAttackBtn" style="background:linear-gradient(135deg,#e74c3c,#c0392b)">⚔️ АТАКОВАТЬ</button>
-      <button class="btn-secondary" id="duelFinishBtn" style="margin-top:8px">Завершить дуэль</button>
+      <div class="auto-battle-banner" id="autoBattleBanner">⚔️ АВТО-БОЙ ИДЁТ...</div>
+      <button class="btn-secondary" id="duelFinishBtn">Завершить дуэль</button>
     </div>
   </div>
+
+  <div id="tournamentScreen" class="hidden">
+    <div class="panel">
+      <h2>🏆 ТУРНИР</h2>
+      <p style="color:#aaa;font-size:13px;text-align:center;margin-bottom:14px">Аукцион 4 участников → сетка дуэлей на выбывание</p>
+      <label>Твоё имя</label>
+      <input type="text" id="tourPlayerName" value="Ты" maxlength="16">
+      <label style="margin-top:10px">Тематики</label>
+      <div class="themes" id="tourThemes">
+        <label><input type="checkbox" class="tourTheme" value="anime" checked> Аниме</label>
+        <label><input type="checkbox" class="tourTheme" value="cartoon"> Мультики</label>
+        <label><input type="checkbox" class="tourTheme" value="movie"> Фильмы</label>
+        <label><input type="checkbox" class="tourTheme" value="game"> Игры</label>
+        <label><input type="checkbox" class="tourTheme" value="donghua"> Дунхуа</label>
+      </div>
+      <label style="margin-top:10px">Сложность ботов</label>
+      <div class="themes" id="tourBotLevel">
+        <label><input type="radio" name="tourBotLvl" value="easy"> 🟢 Лёгкий</label>
+        <label><input type="radio" name="tourBotLvl" value="medium" checked> 🟡 Средний</label>
+        <label><input type="radio" name="tourBotLvl" value="hard"> 🟠 Сложный</label>
+        <label><input type="radio" name="tourBotLvl" value="nightmare"> 🔴 Хардкор</label>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div><label>💰 Стартовые деньги</label><input type="number" id="tourStartMoney" value="1000" step="100" min="300"></div>
+        <div><label>🃏 Карт на аукционе</label><input type="number" id="tourCardCount" value="12" min="4" max="30"></div>
+      </div>
+      <button class="btn-primary" id="tourStartBtn" style="margin-top:14px">🚀 НАЧАТЬ ТУРНИР</button>
+      <button class="btn-secondary" id="backFromTour" style="margin-top:8px">Назад</button>
+    </div>
+  </div>
+
+  <div id="tournamentAuctionScreen" class="hidden">
+    <div class="topbar">
+      <span>🎯 Аукцион <b id="tourAucRound">1</b>/<b id="tourAucTotal">12</b></span>
+      <span id="tourAucRemain"></span>
+    </div>
+    <div id="tourAucCard"></div>
+    <div class="players-list" id="tourAucPlayers"></div>
+    <div class="bid-info" id="tourAucBid"></div>
+    <div class="panel action-panel" id="tourAucAction"></div>
+    <div class="log" id="tourAucLog"></div>
+  </div>
+
+  <div id="tournamentBracketScreen" class="hidden">
+    <div class="panel">
+      <h2>🏆 СЕТКА ТУРНИРА</h2>
+      <div id="tourBracketContent"></div>
+      <button class="btn-primary" id="tourNextMatchBtn" style="margin-top:14px">▶️ СЛЕДУЮЩИЙ МАТЧ</button>
+    </div>
+  </div>
+
+  <div id="tournamentResultsScreen" class="hidden">
+    <div class="panel">
+      <div class="winner" id="tourWinnerText"></div>
+      <table class="results-table" id="tourResultsTable"></table>
+    </div>
+    <button class="btn-primary" onclick="location.reload()">Играть снова</button>
+  </div>
+
   <div id="gameScreen" class="hidden">
     <div class="topbar">
       <span>Раунд <b id="roundNum">1</b>/<b id="roundTotal">10</b></span>
@@ -295,6 +407,7 @@
     <div class="panel action-panel" id="actionPanel"></div>
     <div class="log" id="log"></div>
   </div>
+
   <div id="resultsScreen" class="hidden">
     <div class="panel">
       <div class="winner" id="winnerText"></div>
@@ -302,7 +415,9 @@
     </div>
     <button class="btn-primary" onclick="location.reload()">Играть снова</button>
   </div>
-</div><script>
+</div>
+
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyCvxE90O88g_CIER2p6u66Ai80uAXzd48Y",
   authDomain: "auction-heroes-game.firebaseapp.com",
@@ -316,7 +431,6 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const CHARACTERS = [
-  // АНИМЕ
   {n:"Сайтама",t:"anime",p:1000,d:"One Punch Man"},
   {n:"Вис",t:"anime",p:990,d:"Dragon Ball Super"},
   {n:"Бирс",t:"anime",p:980,d:"Dragon Ball Super"},
@@ -367,7 +481,6 @@ const CHARACTERS = [
   {n:"L",t:"anime",p:150,d:"Тетрадь смерти"},
   {n:"Рейген",t:"anime",p:150,d:"Моб Психо 100"},
   {n:"Лайт Ягами",t:"anime",p:120,d:"Тетрадь смерти"},
-  // МУЛЬТИКИ
   {n:"Бен 10 (Alien X)",t:"cartoon",p:950,d:"Ben 10"},
   {n:"Багз Банни",t:"cartoon",p:900,d:"Looney Tunes"},
   {n:"Микки Маус",t:"cartoon",p:880,d:"Disney"},
@@ -393,7 +506,6 @@ const CHARACTERS = [
   {n:"Шэгги",t:"cartoon",p:400,d:"Скуби-Ду"},
   {n:"Скуби-Ду",t:"cartoon",p:300,d:"Скуби-Ду"},
   {n:"Рик Санчез",t:"cartoon",p:250,d:"Рик и Морти"},
-  // ФИЛЬМЫ
   {n:"Танос (Перчатка)",t:"movie",p:970,d:"Marvel"},
   {n:"Супермен",t:"movie",p:960,d:"DC"},
   {n:"Тор",t:"movie",p:920,d:"Marvel"},
@@ -434,7 +546,6 @@ const CHARACTERS = [
   {n:"Рокки",t:"movie",p:450,d:"Рокки"},
   {n:"Рипли",t:"movie",p:450,d:"Чужой"},
   {n:"Джокер",t:"movie",p:200,d:"DC"},
-  // ИГРЫ
   {n:"Doom Slayer",t:"game",p:920,d:"DOOM"},
   {n:"Райдэн",t:"game",p:880,d:"Mortal Kombat"},
   {n:"Сефирот",t:"game",p:880,d:"Final Fantasy VII"},
@@ -466,7 +577,6 @@ const CHARACTERS = [
   {n:"Тревор",t:"game",p:550,d:"GTA V"},
   {n:"CJ",t:"game",p:400,d:"GTA San Andreas"},
   {n:"Эш Кетчум",t:"game",p:200,d:"Pokémon"},
-  // ДУНХУА
   {n:"Ши Хао",t:"donghua",p:950,d:"Совершенный мир"},
   {n:"Ло Фэн",t:"donghua",p:920,d:"Пожиратель звёзд"},
   {n:"Хуа Чэн",t:"donghua",p:880,d:"Благословение небожителей"},
@@ -483,7 +593,6 @@ const THEME_EMOJI = {anime:"🌸", cartoon:"🎨", movie:"🎬", game:"🎮", do
 const THEME_NAME  = {anime:"Аниме", cartoon:"Мультики", movie:"Фильмы", game:"Игры", donghua:"Дунхуа"};
 
 const CHAR_STATS = {
-  // АНИМЕ
   "Сайтама":         {hp:10000, atk:40, def:30, agi:15, mag:0,  int:10, ability:"one_punch"},
   "Вис":             {hp:10000, atk:38, def:35, agi:30, mag:40, int:20, ability:"hakai"},
   "Бирс":            {hp:10000, atk:40, def:32, agi:28, mag:38, int:18, ability:"hakai"},
@@ -534,7 +643,6 @@ const CHAR_STATS = {
   "L":               {hp:100,   atk:10, def:10, agi:15, mag:0,  int:92, ability:"detective"},
   "Рейген":          {hp:300,   atk:22, def:18, agi:25, mag:35, int:30, ability:"psycho_burst"},
   "Лайт Ягами":      {hp:100,   atk:12, def:10, agi:18, mag:0,  int:95, ability:"death_note"},
-  // МУЛЬТИКИ
   "Бен 10 (Alien X)":{hp:10000, atk:40, def:38, agi:25, mag:50, int:30, ability:"reality_warp"},
   "Багз Банни":      {hp:5000,  atk:30, def:40, agi:38, mag:20, int:45, ability:"toon_force"},
   "Микки Маус":      {hp:5000,  atk:32, def:32, agi:32, mag:25, int:38, ability:"toon_force"},
@@ -560,7 +668,6 @@ const CHAR_STATS = {
   "Шэгги":           {hp:100,   atk:15, def:15, agi:25, mag:0,  int:20, ability:"eat"},
   "Скуби-Ду":        {hp:100,   atk:14, def:14, agi:28, mag:0,  int:22, ability:"sniff_out"},
   "Рик Санчез":      {hp:100,   atk:18, def:15, agi:22, mag:15, int:98, ability:"portal_gun"},
-  // ФИЛЬМЫ
   "Танос (Перчатка)":{hp:10000, atk:40, def:38, agi:20, mag:45, int:35, ability:"snap"},
   "Супермен":        {hp:10000, atk:40, def:38, agi:38, mag:30, int:25, ability:"super_punch"},
   "Тор":             {hp:5000,  atk:38, def:34, agi:30, mag:35, int:20, ability:"mjolnir"},
@@ -601,7 +708,6 @@ const CHAR_STATS = {
   "Рокки":           {hp:300,   atk:30, def:26, agi:20, mag:0,  int:15, ability:"never_give_up"},
   "Рипли":           {hp:100,   atk:20, def:20, agi:28, mag:5,  int:35, ability:"flamethrower"},
   "Джокер":          {hp:100,   atk:22, def:18, agi:28, mag:15, int:38, ability:"madness"},
-  // ИГРЫ
   "Doom Slayer":     {hp:5000,  atk:40, def:36, agi:30, mag:10, int:25, ability:"bfg"},
   "Райдэн":          {hp:5000,  atk:38, def:30, agi:38, mag:35, int:30, ability:"thunder_god"},
   "Сефирот":         {hp:5000,  atk:40, def:30, agi:34, mag:40, int:38, ability:"supernova"},
@@ -633,7 +739,6 @@ const CHAR_STATS = {
   "Тревор":          {hp:300,   atk:30, def:22, agi:26, mag:5,  int:18, ability:"rampage"},
   "CJ":              {hp:300,   atk:28, def:22, agi:28, mag:5,  int:22, ability:"drive_by"},
   "Эш Кетчум":       {hp:100,   atk:15, def:12, agi:20, mag:5,  int:15, ability:"pikachu"},
-  // ДУНХУА
   "Ши Хао":          {hp:10000, atk:42, def:38, agi:35, mag:48, int:38, ability:"supreme_bone"},
   "Ло Фэн":          {hp:10000, atk:40, def:36, agi:36, mag:45, int:35, ability:"star_devourer"},
   "Хуа Чэн":         {hp:5000,  atk:38, def:32, agi:40, mag:42, int:35, ability:"crimson_rain"},
@@ -644,7 +749,9 @@ const CHAR_STATS = {
   "Се Лянь":         {hp:5000,  atk:36, def:32, agi:34, mag:35, int:38, ability:"martial_god"},
   "Лань Ванцзи":     {hp:2000,  atk:34, def:28, agi:34, mag:38, int:38, ability:"guqin"},
   "Вэй Усянь":       {hp:2000,  atk:32, def:26, agi:34, mag:42, int:40, ability:"ghost_flute"}
-}; const ABILITY_NAMES = {
+};
+
+const ABILITY_NAMES = {
   one_punch:"Один удар",kamehameha:"Камехамеха",rasengan:"Расенган",nika:"Пятый гир — Ника",
   asura:"Асура",ackerman:"Вихрь Аккермана",spartan_rage:"Ярость Спарты",snap:"Щелчок перчатки",
   prepared:"Всегда готов",madness:"Безумие",
@@ -826,7 +933,11 @@ const LEGENDARY_FX = {
   "Гэндальф":"youShallNotPass","Шэдоу":"chaosControl","Тан Сан":"battleSpirit","Хань Ли":"immortalPeak",
   "Кенпачи":"allOrNothing","Музан":"demonKing","Деку (финал)":"ofa100","Тимми Тёрнер":"floatingWish",
   "Доктор Стрэндж":"fourteenMillion","Люк Скайуокер":"jediPath","Палпатин":"emperor","Дамблдор":"elderWandBonus",
-  "Гэнондорф":"triforcePower","Соник":"spinDashTurbo","Акума":"satsuiNoHado","Сяо Янь":"fireEmperor"
+  "Гэнондорф":"triforcePower","Соник":"spinDashTurbo","Акума":"satsuiNoHado","Сяо Янь":"fireEmperor",
+  "Эрен (Основатель)":"titanFounder","Гон (взрослый)":"adultGon","Аанг (Avatar State)":"avatarMaster",
+  "Самурай Джек":"eternalFocus","Стивен Юниверс":"diamondShield","Дарт Вейдер":"darkSide",
+  "Волан-де-Морт":"horcrux","Киборг":"victorStone","Клауд Страйф":"limitBreak","Самус Аран":"metroidArmor",
+  "Линк":"triforceCourage","Боузер":"spikedShell","Се Лянь":"cursedScrap"
 };
 
 const CHAR_IMAGES = {
@@ -845,15 +956,18 @@ const CHAR_IMAGES = {
   "Танос (Перчатка)":{file:"img/thanos",fit:"face"},"Тор":{file:"img/thor",fit:"contain"},
   "Супермен":{file:"img/superman",fit:"cover"},"Бэтмен":{file:"img/batman",fit:"contain"},
   "Джокер":{file:"img/joker",fit:"cover"}
-};const state = {mode:null,role:null,myIdx:0,roomCode:null,playerId:null,roomRef:null,roomListener:null,
+};
+
+// ============ STATE ============
+const state = {mode:null,role:null,myIdx:0,roomCode:null,playerId:null,roomRef:null,roomListener:null,
   players:[],pool:[],totalRounds:0,roundNumber:0,current:null,currentBid:0,currentBidder:null,
   activePlayers:[],turnPointer:0,startingMoney:0,firstBidderOffset:0,basePrice:0,phase:'lobby',
   log:[],poolSource:[],poolSize:0};
 
-const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','duelScreen','duelBattleScreen','gameScreen','resultsScreen'];
-function show(id){screens.forEach(s=>document.getElementById(s).classList.toggle('hidden', s!==id));window.scrollTo(0,0);}
+const screens = ['menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen','duelScreen','duelBattleScreen','tournamentScreen','tournamentAuctionScreen','tournamentBracketScreen','tournamentResultsScreen','gameScreen','resultsScreen'];
+function show(id){screens.forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));window.scrollTo(0,0);}
 
-// ===== НАВИГАЦИЯ =====
+// ============ НАВИГАЦИЯ ============
 document.querySelectorAll('.mode-tabs button').forEach(b=>{
   b.onclick=()=>{
     document.querySelectorAll('.mode-tabs button').forEach(x=>x.classList.remove('on'));
@@ -870,17 +984,19 @@ document.getElementById('backFromCreate').onclick=()=>show('menuScreen');
 document.getElementById('backFromJoin').onclick=()=>show('menuScreen');
 document.getElementById('backFromHs').onclick=()=>show('menuScreen');
 document.getElementById('duelModeBtn').onclick=()=>show('duelScreen');
-document.getElementById('backFromDuel').onclick=()=>show('menuScreen');
+document.getElementById('tournamentBtn').onclick=()=>show('tournamentScreen');
+document.getElementById('backFromTour').onclick=()=>show('menuScreen');
+document.getElementById('backFromDuel').onclick=()=>{stopAutoBattle();botEnabled=false;document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');show('menuScreen');};
 
-// ===== УТИЛИТЫ =====
+// ============ УТИЛИТЫ ============
 function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
 function genId(){return Math.random().toString(36).slice(2,10);}
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function setStatus(id,msg,cls){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg'+(cls?' '+cls:'');}
+function setStatus(id,msg,cls){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='status-msg'+(cls?' '+cls:'');}
 function shakeCard(el){if(!el)return;el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');}
 function shakeDuel(id){const el=document.getElementById(id);if(!el)return;el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit');}
 
-// ===== АУКЦИОН ОНЛАЙН =====
+// ============ АУКЦИОН ОНЛАЙН ============
 document.getElementById('createConfirmBtn').onclick=createRoom;
 function createRoom(){
   const themes=[...document.querySelectorAll('.theme:checked')].map(el=>el.value);
@@ -976,8 +1092,7 @@ function hostNextRound(){
     const playerIds=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
     const activeIdx=[];playerIds.forEach((pid,idx)=>{if(players[pid].money>0)activeIdx.push(idx);});
     const turnPointer=activeIdx.length?((roundNumber-1)%activeIdx.length):0;
-    const updates={pool:rest,current:next,basePrice:0,roundNumber,currentBid:0,currentBidder:null,
-      activePlayers:activeIdx,turnPointer:turnPointer};
+    const updates={pool:rest,current:next,basePrice:0,roundNumber,currentBid:0,currentBidder:null,activePlayers:activeIdx,turnPointer:turnPointer};
     const log=data.log||[];log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
     updates.log=log.slice(-100);room.update(updates);
   });
@@ -1002,30 +1117,27 @@ function renderSnapshot(view){
   if(c){
     const pct=Math.min(100,Math.round(c.p/10));
     const imgInfo=CHAR_IMAGES[c.n];
+    const rar=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
     let topPart;
     if(imgInfo){
       const cls=imgInfo.fit==='contain'?' contain':(imgInfo.fit==='face'?' face':'');
       const f=imgInfo.file;
-      topPart='<div class="char-img'+cls+'"><img src="'+f+'.png" onerror="this.onerror=null;this.src=\''+f+'.jpg\'" alt="'+c.n+'"></div>';
+      topPart='<div class="char-img rarity-'+rar+cls+'"><img src="'+f+'.png" onerror="this.onerror=null;this.src=\''+f+'.jpg\'" alt="'+c.n+'"></div>';
     }else{
-      const rar=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
       const rarColors={common:'#555',rare:'#2ecc71',epic:'#3498db',legendary:'#9b59b6',mythic:'#f39c12'};
-      topPart='<div class="char-img contain" style="background:radial-gradient(circle,'+rarColors[rar]+'33,#0f0f1e 70%)"><div style="font-size:96px;filter:drop-shadow(0 0 20px '+rarColors[rar]+')">'+(THEME_EMOJI[c.t]||'⭐')+'</div></div>';
+      topPart='<div class="char-img rarity-'+rar+' contain" style="background:radial-gradient(circle,'+rarColors[rar]+'33,#0f0f1e 70%)"><div style="font-size:96px;filter:drop-shadow(0 0 20px '+rarColors[rar]+')">'+(THEME_EMOJI[c.t]||'⭐')+'</div></div>';
     }
     const stats=CHAR_STATS[c.n];
     let statsHtml='';
     if(stats){
-      const r=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
-      const rName={common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[r];
-      statsHtml='<span class="rarity-badge rarity-'+r+'">'+rName+'</span>'
-        +'<div class="stats-row" style="grid-template-columns:repeat(6,1fr)">'
-        +'<div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div>'
+      const rName={common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[rar];
+      statsHtml='<span class="rarity-badge rarity-'+rar+'">'+rName+'</span>'
+        +'<div class="stats-row"><div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div>'
         +'<div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div>'
         +'<div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div>'
         +'<div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div>'
         +'<div class="stat-box"><div class="lbl">🔮 Маг</div><div class="val">'+stats.mag+'</div></div>'
-        +'<div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div>'
-        +'</div>'
+        +'<div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div></div>'
         +'<div class="ability-row"><div class="a-name">✨ '+(ABILITY_NAMES[stats.ability]||'?')+'</div><div class="a-desc">'+(ABILITY_DESC[stats.ability]||'')+'</div></div>';
     }
     document.getElementById('charCard').innerHTML=topPart+'<div class="char-name">'+c.n+'</div><div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+statsHtml+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div><div class="power-value">Сила: '+c.p+' / 1000</div>';
@@ -1054,7 +1166,7 @@ function renderSnapshot(view){
     log.scrollTop=log.scrollHeight;lastLogCount=view.log.length;
   }
 }
-function calcMinBid(cb){return (!cb||cb===0)?1:cb+1;}
+function calcMinBid(cb){return(!cb||cb===0)?1:cb+1;}
 function renderActionPanel(view){
   const ap=document.getElementById('actionPanel');
   if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
@@ -1066,8 +1178,8 @@ function renderActionPanel(view){
   const min=calcMinBid(view.currentBid);
   const canBid=player.money>=min;
   const defaultVal=canBid?min:1;
-  const hint=view.currentBid===0?'Можно ставить от 1':('Минимум '+min);
-  ap.innerHTML='<div class="turn-name">Твой ход · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег (нужно '+min+')</div>');
+  const hint=view.currentBid===0?'Можно от 1':('Минимум '+min);
+  ap.innerHTML='<div class="turn-name">Твой ход · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег</div>');
   if(canBid)document.getElementById('bidBtn').onclick=()=>{const v=+document.getElementById('bidInput').value;submitBid(v);};
   document.getElementById('passBtn').onclick=submitPass;
 }
@@ -1182,9 +1294,8 @@ function renderResults(view){
   });
 }
 
-// ===== ЛОКАЛЬНЫЙ РЕЖИМ =====
-const hsLocal={players:[],pool:[],roundNumber:0,totalRounds:0,startingMoney:0,current:null,currentBid:0,
-  currentBidder:null,activePlayers:[],turnPointer:0,basePrice:0,phase:'lobby',log:[],firstBidderOffset:0};
+// ============ ЛОКАЛЬНЫЙ РЕЖИМ ============
+const hsLocal={players:[],pool:[],roundNumber:0,totalRounds:0,startingMoney:0,current:null,currentBid:0,currentBidder:null,activePlayers:[],turnPointer:0,basePrice:0,phase:'lobby',log:[],firstBidderOffset:0};
 const hsNames=document.getElementById('hsPlayerNames');
 document.getElementById('hsPlayerCount').addEventListener('input',renderHotseatNames);
 function renderHotseatNames(){
@@ -1237,7 +1348,7 @@ renderActionPanel=function(view){
   const min=calcMinBid(view.currentBid);
   const canBid=player.money>=min;
   const defaultVal=canBid?min:1;
-  const hint=view.currentBid===0?'Можно ставить от 1':('Минимум '+min);
+  const hint=view.currentBid===0?'Можно от 1':('Минимум '+min);
   ap.innerHTML='<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег</div>');
   if(canBid)document.getElementById('bidBtn').onclick=()=>{const v=+document.getElementById('bidInput').value;hsBid(hsLocal.activePlayers[hsLocal.turnPointer],v);};
   document.getElementById('passBtn').onclick=()=>hsPass(hsLocal.activePlayers[hsLocal.turnPointer]);
@@ -1265,8 +1376,7 @@ function hsCheckEnd(){
 }
 function hsFinishRound(winnerIdx){
   if(winnerIdx!==null){
-    const p=hsLocal.players[winnerIdx];
-    p.money-=hsLocal.currentBid;p.characters.push(hsLocal.current);
+    const p=hsLocal.players[winnerIdx];p.money-=hsLocal.currentBid;p.characters.push(hsLocal.current);
     hsLocal.log.push('✅ '+p.name+' купил «'+hsLocal.current.n+'» за '+hsLocal.currentBid);
   }else hsLocal.log.push('❌ «'+hsLocal.current.n+'» не куплен');
   hsLocal.phase='paused';hsRender();
@@ -1285,8 +1395,22 @@ function hsRenderResults(){
   show('resultsScreen');
 }
 
-// ===== ДУЭЛИ =====
-let duelP1Deck=[],duelP2Deck=[],duelState=null;
+// ============ ДУЭЛИ + АВТО-БОЙ ============
+let autoBattleTimer=null;
+const AUTO_BATTLE_INTERVAL=1600;
+function startAutoBattle(){
+  stopAutoBattle();
+  autoBattleTimer=setInterval(()=>{
+    const cur=duelState&&duelState.current;
+    if(!cur||cur.hp1<=0||cur.hp2<=0){stopAutoBattle();return;}
+    duelAttack();
+  },AUTO_BATTLE_INTERVAL);
+}
+function stopAutoBattle(){
+  if(autoBattleTimer){clearInterval(autoBattleTimer);autoBattleTimer=null;}
+}
+
+let duelP1Deck=[],duelP2Deck=[],duelState=null,botEnabled=false,botLevel='off';
 document.getElementById('duelStartBtn').onclick=()=>{
   const p1=(document.getElementById('duelP1Name').value.trim()||'Игрок 1').slice(0,16);
   const p2=(document.getElementById('duelP2Name').value.trim()||'Игрок 2').slice(0,16);
@@ -1312,9 +1436,16 @@ function renderDuelDeck(cid,deck){
 }
 document.getElementById('duelRedrawBtn').onclick=()=>document.getElementById('duelStartBtn').click();
 document.getElementById('duelFightBtn').onclick=()=>{
-  duelState={p1Name:document.getElementById('duelP1Name').value.trim()||'Игрок 1',
-    p2Name:document.getElementById('duelP2Name').value.trim()||'Игрок 2',
-    p1Deck:[...duelP1Deck],p2Deck:[...duelP2Deck],p1Index:0,p2Index:0,p1Wins:0,p2Wins:0,round:1};
+  botLevel=document.querySelector('input[name="botLvl"]:checked')?.value||'off';
+  botEnabled=(botLevel!=='off');
+  let p2Name=document.getElementById('duelP2Name').value.trim()||'Игрок 2';
+  if(botEnabled){
+    const lvlNames={easy:'🤖 Лёгкий',medium:'🤖 Средний',hard:'🤖 Сложный',nightmare:'🤖 ХАРДКОР'};
+    p2Name=lvlNames[botLevel]||'🤖 Бот';
+  }
+  duelState={p1Name:document.getElementById('duelP1Name').value.trim()||'Игрок 1',p2Name:p2Name,
+    p1Deck:[...duelP1Deck],p2Deck:[...duelP2Deck],p1Index:0,p2Index:0,p1Wins:0,p2Wins:0,round:1,
+    p1IsBot:false,p2IsBot:botEnabled};
   startDuelRound();
 };
 function startDuelRound(){
@@ -1330,15 +1461,19 @@ function startDuelRound(){
   const st1={...s1},st2={...s2};
   if(fx1.defBuff)st1.def=Math.round(st1.def*fx1.defBuff.mult);
   if(fx2.defBuff)st2.def=Math.round(st2.def*fx2.defBuff.mult);
+  if(botEnabled){
+    const hpMult={easy:0.6,medium:1.0,hard:1.3,nightmare:1.6}[botLevel]||1.0;
+    const atkMult={easy:0.85,medium:1.0,hard:1.15,nightmare:1.3}[botLevel]||1.0;
+    st2.hp=Math.round(st2.hp*hpMult);st2.atk=Math.round(st2.atk*atkMult);
+  }
   duelState.current={c1:c1Name,c2:c2Name,s1:st1,s2:st2,hp1:st1.hp,hp2:st2.hp,maxHp1:st1.hp,maxHp2:st2.hp,
     p1First:p1First,turn:1,atk1:0,atk2:0,skip1:false,skip2:false,
-    legWarmup1:false,legWarmup2:false,legDevourer1:false,legDevourer2:false,
-    legSsj1:false,legSsj2:false,legSunCharge1:false,legSunCharge2:false,
-    legPainStack1:0,legPainStack2:0,legOmni1:0,legOmni2:0,legAbsorb1:0,legAbsorb2:0,
-    legLastStand1:false,legLastStand2:false,legDodgeStreak1:0,legDodgeStreak2:0,
+    legWarmup1:false,legWarmup2:false,legDevourer1:false,legDevourer2:false,legSsj1:false,legSsj2:false,
+    legSunCharge1:false,legSunCharge2:false,legPainStack1:0,legPainStack2:0,legOmni1:0,legOmni2:0,
+    legAbsorb1:0,legAbsorb2:0,legLastStand1:false,legLastStand2:false,legDodgeStreak1:0,legDodgeStreak2:0,
     legSteal1:false,legSteal2:false,legDemon1:0,legDemon2:0,legStun2x1:false,legStun2x2:false,
-    legTsuk1:false,legTsuk2:false,legFeast1:false,legFeast2:false,
-    legRevive1:false,legRevive2:false,legDisney1:false,legDisney2:false,legCancel1:false,legCancel2:false,
+    legTsuk1:false,legTsuk2:false,legFeast1:false,legFeast2:false,legRevive1:false,legRevive2:false,
+    legDisney1:false,legDisney2:false,legCancel1:false,legCancel2:false,
     revengeCount1:0,revengeCount2:0,rageStack1:0,rageStack2:0,burn1:0,burn2:0};
   document.getElementById('duelRoundNum').textContent=duelState.round;
   document.getElementById('duelVsText').textContent=duelState.p1Name+' vs '+duelState.p2Name;
@@ -1346,14 +1481,21 @@ function startDuelRound(){
   document.getElementById('duelF1Atk').textContent=st1.atk;document.getElementById('duelF1Def').textContent=st1.def;
   document.getElementById('duelF2Atk').textContent=st2.atk;document.getElementById('duelF2Def').textContent=st2.def;
   renderDuelFighterImage('duelF1Img',c1Name);renderDuelFighterImage('duelF2Img',c2Name);
+  const rar1=st1.hp>=5000?'mythic':st1.hp>=1500?'legendary':st1.hp>=700?'epic':st1.hp>=250?'rare':'common';
+  const rar2=st2.hp>=5000?'mythic':st2.hp>=1500?'legendary':st2.hp>=700?'epic':st2.hp>=250?'rare':'common';
+  ['duelF1','duelF2'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('rarity-common','rarity-rare','rarity-epic','rarity-legendary','rarity-mythic','hit');});
+  document.getElementById('duelF1').classList.add('rarity-'+rar1);
+  document.getElementById('duelF2').classList.add('rarity-'+rar2);
   updateHpBars();document.getElementById('battleLog').innerHTML='';
   addBattleLog('— Раунд '+duelState.round+': '+c1Name+' vs '+c2Name+' —','round-title');
   addBattleLog((p1First?c1Name:c2Name)+' бьёт первым','round-title');
   document.getElementById('duelF1').classList.remove('winner','loser');
   document.getElementById('duelF2').classList.remove('winner','loser');
   document.getElementById('duelF1').classList.add('active');document.getElementById('duelF2').classList.add('active');
-  document.getElementById('duelAttackBtn').style.display='';document.getElementById('duelAttackBtn').disabled=false;
+  const banner=document.getElementById('autoBattleBanner');
+  if(banner)banner.textContent='⚔️ АВТО-БОЙ ИДЁТ... РАУНД '+duelState.round;
   show('duelBattleScreen');
+  startAutoBattle();
 }
 function renderDuelFighterImage(id,name){
   const img=CHAR_IMAGES[name];const el=document.getElementById(id);el.className='df-img';
@@ -1374,92 +1516,78 @@ function updateHpBars(){
 }
 function addBattleLog(t,cls){const log=document.getElementById('battleLog');const d=document.createElement('div');if(cls)d.className=cls;d.innerHTML=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
 
+// ============ ФИШКИ ============
 function applyLegendaryPreHit(cur,atkP,defP,atkName,defName){
   const key=LEGENDARY_FX[atkName];
   if(!key)return{dmgMult:1,extraLog:''};
   const myHp=cur['hp'+atkP],myMaxHp=cur['maxHp'+atkP],enemyHp=cur['hp'+defP];
   let dmgMult=1,extraLog='';
   const atkObj=cur['s'+atkP];
-
-  if(key==='warmup'&&!cur['legWarmup'+atkP]&&enemyHp>500){
-    cur['legWarmup'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);
-    extraLog='🔥 <b>'+atkName+'</b> размялся! +100% АТК';
-  }
-  if(key==='vampiric'){cur['legVampiricActive'+atkP]=true;}
-  if(key==='ssj'&&!cur['legSsj'+atkP]&&(cur['atk'+atkP]||0)>=5){
-    cur['legSsj'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);
-    cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.5));
-    extraLog='⚡ <b>'+atkName+'</b> — <b>SSJ!</b> +100% АТК, +50% HP';
-  }
-  if(key==='sunCharge'){cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.05));}
-  if(key==='omnitrix'){cur['legOmni'+atkP]=(cur['legOmni'+atkP]||0)+1;
-    if(cur['legOmni'+atkP]%3===0){atkObj.atk=Math.round(atkObj.atk*1.4);extraLog='⌚ <b>'+atkName+'</b> — +40% АТК!';}}
-  if(key==='lastStand'&&!cur['legLastStand'+atkP]&&myHp>0&&myHp<myMaxHp*0.3){
-    cur['legLastStand'+atkP]=true;dmgMult=3;extraLog='💥 <b>'+atkName+'</b> — <b>ПОСЛЕДНИЙ РЫВОК ×3!</b>';
-  }
-  if(key==='stealBuff'&&!cur['legSteal'+atkP]){
-    const eAtk=cur['s'+defP].atk;
-    if(eAtk>atkObj.atk){cur['legSteal'+atkP]=true;
-      const diff=Math.round((eAtk-atkObj.atk)*0.5);atkObj.atk+=diff;
-      extraLog='🌟 <b>'+atkName+'</b> крадёт +'+diff+' АТК';}
-  }
-  if(key==='tsukuyomiSteal'&&!cur['legTsuk'+atkP]&&(cur['atk'+atkP]||0)>=5){
-    cur['legTsuk'+atkP]=true;const steal=Math.round(enemyHp*0.25);
-    cur['hp'+defP]=Math.max(0,enemyHp-steal);cur['hp'+atkP]=Math.min(myMaxHp,myHp+steal);
-    extraLog='🌙 <b>'+atkName+'</b> — Цукуёми крадёт '+steal+' HP!';
-  }
-  if(key==='bloodFeast'&&!cur['legFeast'+atkP]){
-    cur['legFeast'+atkP]=true;const bonus=Math.round(atkObj.atk*1.5);
-    cur['hp'+defP]=Math.max(0,enemyHp-bonus);
-    extraLog='🩸 <b>'+atkName+'</b> — <b>Кровавый пир!</b> +'+bonus+' урона';
-  }
-  if(key==='disneyHeal'&&!cur['legDisney'+atkP]&&myHp<myMaxHp*0.5){
-    cur['legDisney'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+100);
-    extraLog='✨ <b>'+atkName+'</b> — <b>Волшебство Disney!</b> +100 HP';
-  }
+  if(key==='warmup'&&!cur['legWarmup'+atkP]&&enemyHp>500){cur['legWarmup'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);extraLog='🔥 <b>'+atkName+'</b> размялся! +100% АТК';}
+  if(key==='vampiric')cur['legVampiricActive'+atkP]=true;
+  if(key==='ssj'&&!cur['legSsj'+atkP]&&(cur['atk'+atkP]||0)>=5){cur['legSsj'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.5));extraLog='⚡ <b>'+atkName+'</b> — <b>SSJ!</b> +100% АТК, +50% HP';}
+  if(key==='sunCharge')cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.05));
+  if(key==='omnitrix'){cur['legOmni'+atkP]=(cur['legOmni'+atkP]||0)+1;if(cur['legOmni'+atkP]%3===0){atkObj.atk=Math.round(atkObj.atk*1.4);extraLog='⌚ <b>'+atkName+'</b> — +40% АТК!';}}
+  if(key==='lastStand'&&!cur['legLastStand'+atkP]&&myHp>0&&myHp<myMaxHp*0.3){cur['legLastStand'+atkP]=true;dmgMult=3;extraLog='💥 <b>'+atkName+'</b> — <b>ПОСЛЕДНИЙ РЫВОК ×3!</b>';}
+  if(key==='stealBuff'&&!cur['legSteal'+atkP]){const eAtk=cur['s'+defP].atk;if(eAtk>atkObj.atk){cur['legSteal'+atkP]=true;const diff=Math.round((eAtk-atkObj.atk)*0.5);atkObj.atk+=diff;extraLog='🌟 <b>'+atkName+'</b> крадёт +'+diff+' АТК';}}
+  if(key==='tsukuyomiSteal'&&!cur['legTsuk'+atkP]&&(cur['atk'+atkP]||0)>=5){cur['legTsuk'+atkP]=true;const steal=Math.round(enemyHp*0.25);cur['hp'+defP]=Math.max(0,enemyHp-steal);cur['hp'+atkP]=Math.min(myMaxHp,myHp+steal);extraLog='🌙 <b>'+atkName+'</b> — Цукуёми крадёт '+steal+' HP!';}
+  if(key==='bloodFeast'&&!cur['legFeast'+atkP]){cur['legFeast'+atkP]=true;const bonus=Math.round(atkObj.atk*1.5);cur['hp'+defP]=Math.max(0,enemyHp-bonus);extraLog='🩸 <b>'+atkName+'</b> — <b>Кровавый пир!</b> +'+bonus;}
+  if(key==='disneyHeal'&&!cur['legDisney'+atkP]&&myHp<myMaxHp*0.5){cur['legDisney'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+100);extraLog='✨ <b>'+atkName+'</b> — <b>Волшебство Disney!</b> +100 HP';}
   if(key==='lowHpBoost'&&myHp<myMaxHp*0.5&&(cur['atk'+atkP]||0)%3===0){dmgMult=2;extraLog='❄️ <b>'+atkName+'</b> — Луч ×2!';}
   if(key==='rageStack'){const st=cur['rageStack'+atkP]||0;if(st>0){dmgMult*=(1+0.08*st);extraLog='💚 <b>'+atkName+'</b> ярость +'+Math.round(st*8)+'%';}}
-  if(key==='chosenOne'&&!cur['chosen'+atkP]&&myHp<myMaxHp*0.3){cur['chosen'+atkP]=true;cur['skip'+defP]=true;extraLog='🕶 <b>'+atkName+'</b> — Избранный! Враг пропуск';}
+  if(key==='chosenOne'&&!cur['chosen'+atkP]&&myHp<myMaxHp*0.3){cur['chosen'+atkP]=true;cur['skip'+defP]=true;extraLog='🕶 <b>'+atkName+'</b> — Избранный!';}
   if(key==='oneWingedAngel'&&!cur['angel'+atkP]&&myHp<myMaxHp*0.3){cur['angel'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.5);atkObj.mag=Math.round(atkObj.mag*1.5);extraLog='🖤 <b>'+atkName+'</b> — One-Winged Angel!';}
   if(key==='finalGetsuga'&&!cur['getsuga'+atkP]&&myHp<myMaxHp*0.2){cur['getsuga'+atkP]=true;cur['hp'+defP]=Math.max(0,enemyHp-800);extraLog='⚔️ <b>'+atkName+'</b> — <b>ФИНАЛЬНЫЙ ГЕТСУГА!</b> 800';}
   if(key==='laughterHeal'&&!cur['laughter'+atkP]&&myHp<myMaxHp*0.5){cur['laughter'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+Math.round(myMaxHp*0.2));extraLog='😂 <b>'+atkName+'</b> смех +20% HP';}
   if(key==='meteor'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);extraLog='☄️ <b>'+atkName+'</b> — <b>МЕТЕОРИТ!</b> 400';}
   if(key==='levelOne'&&!cur['lvl1'+atkP]){cur['lvl1'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);atkObj.agi=Math.round(atkObj.agi*1.5);extraLog='🦇 <b>'+atkName+'</b> — Ограничитель снят!';}
-  if(key==='soulDecay'){cur['s'+defP].def=Math.round(cur['s'+defP].def*0.85);}
+  if(key==='soulDecay')cur['s'+defP].def=Math.round(cur['s'+defP].def*0.85);
   if(key==='psyStorm'&&(cur['atk'+atkP]||0)%3===0){cur['hp'+defP]=Math.max(0,enemyHp-380);extraLog='🧠 <b>'+atkName+'</b> — ПСИ-ШТОРМ 380';}
   if(key==='spinachOverdose'&&!cur['spinach'+atkP]&&myHp<myMaxHp*0.4){cur['spinach'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2);atkObj.def=Math.round(atkObj.def*1.3);extraLog='💪 <b>'+atkName+'</b> передозировка шпината!';}
   if(key==='spartanPlus'&&!cur['spartanPlus'+atkP]&&myHp<myMaxHp*0.5){cur['spartanPlus'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.6);atkObj.def=Math.round(atkObj.def*1.4);extraLog='🪓 <b>'+atkName+'</b> — Ярость+!';}
   if(key==='evilGodRage'&&!cur['evilGod'+atkP]&&myHp<myMaxHp*0.5){cur['evilGod'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.4);extraLog='😈 <b>'+atkName+'</b> — Злой бог +40%';}
   if(key==='sunCross'&&(cur['atk'+atkP]||0)===1){if(enemyHp<=600){cur['hp'+defP]=0;extraLog='☀️ <b>'+atkName+'</b> — СОЛНЕЧНЫЙ КРЕСТ! Казнь';}else{cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='☀️ <b>'+atkName+'</b> — Солнечный крест 500';}}
   if(key==='explosion100'&&!cur['mob100'+atkP]&&myHp<myMaxHp*0.4){cur['mob100'+atkP]=true;cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='💥 <b>'+atkName+'</b> — <b>ВЗРЫВ 100%!</b> 500';}
-  if(key==='absoluteHypnosis'&&!cur['hypnosis'+atkP]){cur['hypnosis'+atkP]=true;const sd=Math.round(atkObj.atk*1.5);cur['hp'+defP]=Math.max(0,enemyHp-sd);extraLog='👁 <b>'+atkName+'</b> — Кёка Суйгецу! Враг '+sd;}
-  if(key==='unitedSmash'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);cur['skip'+defP]=true;extraLog='💪 <b>'+atkName+'</b> — United States of Smash! 400';}
+  if(key==='absoluteHypnosis'&&!cur['hypnosis'+atkP]){cur['hypnosis'+atkP]=true;const sd=Math.round(atkObj.atk*1.5);cur['hp'+defP]=Math.max(0,enemyHp-sd);extraLog='👁 <b>'+atkName+'</b> — Кёка Суйгецу! '+sd;}
+  if(key==='unitedSmash'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);cur['skip'+defP]=true;extraLog='💪 <b>'+atkName+'</b> — United States of Smash!';}
   if(key==='greatForce'&&!cur['yoda'+atkP]){cur['yoda'+atkP]=true;cur['skip'+defP]=true;extraLog='🟢 <b>'+atkName+'</b> — Сила великая!';}
   if(key==='youShallNotPass'&&Math.random()<0.25){cur['skip'+defP]=true;extraLog='🧙 <b>'+atkName+'</b> — Ты не пройдёшь!';}
   if(key==='chaosControl'&&!cur['chaos'+atkP]){cur['chaos'+atkP]=true;cur['skip'+defP]=true;extraLog='⚫ <b>'+atkName+'</b> — Chaos Control!';}
-  if(key==='battleSpirit'&&(cur['atk'+atkP]||0)%3===0){cur['hp'+defP]=Math.max(0,enemyHp-300);cur['hp'+atkP]=Math.min(myMaxHp,myHp+30);extraLog='🌿 <b>'+atkName+'</b> — Боевой дух! 300+30';}
+  if(key==='battleSpirit'&&(cur['atk'+atkP]||0)%3===0){cur['hp'+defP]=Math.max(0,enemyHp-300);cur['hp'+atkP]=Math.min(myMaxHp,myHp+30);extraLog='🌿 <b>'+atkName+'</b> — Боевой дух!';}
   if(key==='immortalPeak'&&!cur['immortal'+atkP]&&myHp<myMaxHp*0.3){cur['immortal'+atkP]=true;cur['skip'+defP]=true;extraLog='⛰ <b>'+atkName+'</b> — Бессмертный пик!';}
   if(key==='allOrNothing'&&myHp<myMaxHp*0.25){dmgMult*=2;extraLog='⚔️ <b>'+atkName+'</b> — Всё или ничего!';}
   if(key==='ofa100'&&!cur['ofa'+atkP]&&myHp<myMaxHp*0.3){cur['ofa'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.8);atkObj.agi=Math.round(atkObj.agi*1.5);extraLog='💥 <b>'+atkName+'</b> — OFA 100%!';}
   if(key==='floatingWish'&&!cur['wish'+atkP]){cur['wish'+atkP]=true;cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='🌟 <b>'+atkName+'</b> — Желание! 500 игнор ЗАЩ';}
-  if(key==='fourteenMillion'&&!cur['strange'+atkP]&&myHp<myMaxHp*0.2){cur['strange'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+500);extraLog='🔮 <b>'+atkName+'</b> — 14 млн вариантов! +500';}
+  if(key==='fourteenMillion'&&!cur['strange'+atkP]&&myHp<myMaxHp*0.2){cur['strange'+atkP]=true;cur['hp'+atkP]=Math.min(myMaxHp,myHp+500);extraLog='🔮 <b>'+atkName+'</b> — 14 млн! +500';}
   if(key==='jediPath'&&Math.random()<0.3){dmgMult*=2;extraLog='⚔️ <b>'+atkName+'</b> — Путь джедая! КРИТ';}
   if(key==='emperor'&&(cur['atk'+atkP]||0)%3===0){dmgMult*=2;extraLog='⚡ <b>'+atkName+'</b> — Молния Силы ×2!';}
   if(key==='elderWandBonus'&&(cur['atk'+atkP]||0)%3===0){dmgMult*=1.5;extraLog='🪄 <b>'+atkName+'</b> — Бузинная палочка!';}
   if(key==='triforcePower'&&!cur['triforce'+atkP]&&myHp<myMaxHp*0.5){cur['triforce'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.5);atkObj.def=Math.round(atkObj.def*1.3);extraLog='🔺 <b>'+atkName+'</b> — Трифорс!';}
   if(key==='spinDashTurbo'&&Math.random()<0.3){dmgMult*=2;cur['skip'+defP]=true;extraLog='💙 <b>'+atkName+'</b> — Spin Dash Turbo!';}
   if(key==='satsuiNoHado'&&!cur['satsui'+atkP]&&myHp<myMaxHp*0.3){cur['satsui'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.8);extraLog='🔥 <b>'+atkName+'</b> — Satsui no Hado +80%';}
-  if(key==='fireEmperor'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);cur['burn'+defP]=3;extraLog='🔥 <b>'+atkName+'</b> — Огненный император! 400 + поджог';}
-  if(key==='doubleStun'&&(cur['atk'+atkP]||0)%3===0){cur['skip'+defP]=true;}
-  if(key==='demonKing'&&myHp<=0&&!cur['demonKingUsed'+atkP]){cur['demonKingUsed'+atkP]=true;cur['hp'+atkP]=Math.round(myMaxHp*0.3);extraLog='👹 <b>'+atkName+'</b> — Демон-король! Воскрес';}
-  if(key==='horcrux'&&myHp<=0&&!cur['horcrux'+atkP]){cur['horcrux'+atkP]=true;cur['hp'+atkP]=Math.round(myMaxHp*0.4);extraLog='🐍 <b>'+atkName+'</b> — Крестраж! Воскрес';}
-
+  if(key==='fireEmperor'&&(cur['atk'+atkP]||0)%4===0){cur['hp'+defP]=Math.max(0,enemyHp-400);cur['burn'+defP]=3;extraLog='🔥 <b>'+atkName+'</b> — Огненный император!';}
+  if(key==='doubleStun'&&(cur['atk'+atkP]||0)%3===0)cur['skip'+defP]=true;
+  if(key==='demonKing'&&myHp<=0&&!cur['demonKingUsed'+atkP]){cur['demonKingUsed'+atkP]=true;cur['hp'+atkP]=Math.round(myMaxHp*0.3);extraLog='👹 <b>'+atkName+'</b> — Демон-король!';}
+  if(key==='horcrux'&&myHp<=0&&!cur['horcrux'+atkP]){cur['horcrux'+atkP]=true;cur['hp'+atkP]=Math.round(myMaxHp*0.4);extraLog='🐍 <b>'+atkName+'</b> — Крестраж!';}
+  if(key==='titanFounder'&&!cur['titan'+atkP]&&myHp<myMaxHp*0.5){cur['titan'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.5);atkObj.def=Math.round(atkObj.def*1.3);extraLog='🗿 <b>'+atkName+'</b> — Основатель!';}
+  if(key==='adultGon'&&!cur['adultGon'+atkP]&&myHp<myMaxHp*0.3){cur['adultGon'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*2.5);extraLog='💥 <b>'+atkName+'</b> — Взрослый Гон!';}
+  if(key==='avatarMaster'&&!cur['aang'+atkP]&&myHp<myMaxHp*0.4){cur['aang'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.6);atkObj.mag=Math.round(atkObj.mag*1.6);atkObj.agi=Math.round(atkObj.agi*1.4);extraLog='🌊 <b>'+atkName+'</b> — Аватар Мастер!';}
+  if(key==='eternalFocus'&&(cur['atk'+atkP]||0)%2===0){dmgMult*=1.5;extraLog='⚔️ <b>'+atkName+'</b> — Вечный фокус!';}
+  if(key==='diamondShield'&&!cur['steven'+atkP]){cur['steven'+atkP]=true;extraLog='💎 <b>'+atkName+'</b> — Алмазный щит!';}
+  if(key==='darkSide'&&!cur['vader'+atkP]&&myHp<myMaxHp*0.5){cur['vader'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.5);atkObj.mag=Math.round(atkObj.mag*1.4);extraLog='🌑 <b>'+atkName+'</b> — Тёмная сторона!';}
+  if(key==='victorStone'&&(cur['atk'+atkP]||0)===1){cur['hp'+defP]=Math.max(0,enemyHp-500);extraLog='🤖 <b>'+atkName+'</b> — Пушка! 500';}
+  if(key==='limitBreak'&&(cur['atk'+atkP]||0)%5===0){cur['hp'+defP]=Math.max(0,enemyHp-450);extraLog='🗡 <b>'+atkName+'</b> — Limit Break! 450';}
+  if(key==='metroidArmor'&&!cur['samus'+atkP]){cur['samus'+atkP]=true;atkObj.def=Math.round(atkObj.def*1.2);extraLog='🛡 <b>'+atkName+'</b> — +20% ЗАЩ';}
+  if(key==='triforceCourage'&&!cur['link'+atkP]&&myHp<myMaxHp*0.3){cur['link'+atkP]=true;atkObj.atk=Math.round(atkObj.atk*1.6);atkObj.def=Math.round(atkObj.def*1.4);extraLog='🔺 <b>'+atkName+'</b> — Трифорс Храбрости!';}
+  if(key==='spikedShell'&&!cur['bowser'+atkP]){cur['bowser'+atkP]=true;extraLog='🐢 <b>'+atkName+'</b> — Шипастый панцирь!';}
+  if(key==='cursedScrap'&&!cur['xielian'+atkP]){cur['xielian'+atkP]=true;cur['s'+defP].atk=Math.round(cur['s'+defP].atk*0.5);extraLog='🎭 <b>'+atkName+'</b> — Проклятая рухлядь!';}
   return{dmgMult,extraLog};
 }
 
+// ============ АТАКА (АВТО-БОЙ) ============
 function duelAttack(){
   const cur=duelState.current;
-  if(!cur||cur.hp1<=0||cur.hp2<=0)return;
+  if(!cur||cur.hp1<=0||cur.hp2<=0){stopAutoBattle();return;}
   const isP1=((cur.turn%2===1)===cur.p1First);
   const atkP=isP1?'1':'2',defP=isP1?'2':'1';
   cur['atk'+atkP]=(cur['atk'+atkP]||0)+1;
@@ -1471,64 +1599,37 @@ function duelAttack(){
   const fx=ABILITY_EFFECTS[ability]||{},defFx=ABILITY_EFFECTS[defAbility]||{};
   if(fx.regen){cur['hp'+atkP]=Math.min(cur['maxHp'+atkP],cur['hp'+atkP]+fx.regen.hp);addBattleLog('💚 <b>'+atkName+'</b> +'+fx.regen.hp+' HP','heal');updateHpBars();}
   const buffKey='lowbuff_'+ability+atkP;
-  if(fx.lowHpBuff&&!cur[buffKey]&&cur['hp'+atkP]<cur['maxHp'+atkP]*fx.lowHpBuff.threshold){
-    cur[buffKey]=true;
-    if(fx.lowHpBuff.atkMult)atkStats.atk=Math.round(atkStats.atk*fx.lowHpBuff.atkMult);
-    if(fx.lowHpBuff.agiMult)atkStats.agi=Math.round(atkStats.agi*fx.lowHpBuff.agiMult);
-    if(fx.lowHpBuff.defMult)atkStats.def=Math.round(atkStats.def*fx.lowHpBuff.defMult);
-    addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>'+(ABILITY_NAMES[ability]||'?')+'</b>!','crit');
-    shakeCard(document.getElementById(isP1?'duelF1':'duelF2'));
-  }
+  if(fx.lowHpBuff&&!cur[buffKey]&&cur['hp'+atkP]<cur['maxHp'+atkP]*fx.lowHpBuff.threshold){cur[buffKey]=true;if(fx.lowHpBuff.atkMult)atkStats.atk=Math.round(atkStats.atk*fx.lowHpBuff.atkMult);if(fx.lowHpBuff.agiMult)atkStats.agi=Math.round(atkStats.agi*fx.lowHpBuff.agiMult);if(fx.lowHpBuff.defMult)atkStats.def=Math.round(atkStats.def*fx.lowHpBuff.defMult);addBattleLog('🔥 <b>'+atkName+'</b> активирует <b>'+(ABILITY_NAMES[ability]||'?')+'</b>!','crit');shakeCard(document.getElementById(isP1?'duelF1':'duelF2'));}
   const avKey='avatar_'+atkP;
-  if(fx.avatarState&&!cur[avKey]){cur[avKey]=true;
-    atkStats.atk=Math.round(atkStats.atk*fx.avatarState.mult);
-    atkStats.def=Math.round(atkStats.def*fx.avatarState.mult);
-    atkStats.agi=Math.round(atkStats.agi*fx.avatarState.mult);
-    addBattleLog('✨ <b>'+atkName+'</b> — Состояние Аватара!','crit');}
+  if(fx.avatarState&&!cur[avKey]){cur[avKey]=true;atkStats.atk=Math.round(atkStats.atk*fx.avatarState.mult);atkStats.def=Math.round(atkStats.def*fx.avatarState.mult);atkStats.agi=Math.round(atkStats.agi*fx.avatarState.mult);addBattleLog('✨ <b>'+atkName+'</b> — Состояние Аватара!','crit');}
   if(cur['skip'+atkP]){cur['skip'+atkP]=false;addBattleLog('⏭ <b>'+atkName+'</b> пропуск','miss');cur.turn++;return;}
   let dodgeChance=defFx.dodge||0;
   if(defFx.firstNDodge&&defTurns<defFx.firstNDodge.n)dodgeChance=Math.max(dodgeChance,defFx.firstNDodge.chance);
   if(LEGENDARY_FX[defName]==='cloneDodge')dodgeChance=Math.max(dodgeChance,0.3);
   if(LEGENDARY_FX[defName]==='crimsonDodge')dodgeChance=Math.max(dodgeChance,0.3);
-  if(LEGENDARY_FX[defName]==='realityCancel'&&!cur['legCancel'+defP]&&Math.random()<0.3){
-    addBattleLog('✨ <b>'+defName+'</b> — <b>Отмена реальности!</b>','crit');cur.turn++;return;}
+  if(LEGENDARY_FX[defName]==='realityCancel'&&!cur['legCancel'+defP]&&Math.random()<0.3){addBattleLog('✨ <b>'+defName+'</b> — <b>Отмена реальности!</b>','crit');cur.turn++;return;}
   if(dodgeChance>0&&Math.random()<dodgeChance){
     addBattleLog('💨 <b>'+defName+'</b> уклоняется!','miss');
-    if(LEGENDARY_FX[defName]==='counterStrike'){
-      cur['legDodgeStreak'+defP]=(cur['legDodgeStreak'+defP]||0)+1;
-      if(cur['legDodgeStreak'+defP]>=3){cur['legDodgeStreak'+defP]=0;
-        cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-300);
-        addBattleLog('🔵 <b>'+defName+'</b> — <b>Контр-атака!</b> 300','crit');shakeDuel(isP1?'duelF1':'duelF2');updateHpBars();}
-    }
-    if(LEGENDARY_FX[defName]==='crimsonDodge'){
-      const cnt=Math.round(defStats.atk*0.8);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-cnt);
-      addBattleLog('🌺 <b>'+defName+'</b> — Багровый дождь! '+cnt,'crit');updateHpBars();
-    }
+    if(LEGENDARY_FX[defName]==='counterStrike'){cur['legDodgeStreak'+defP]=(cur['legDodgeStreak'+defP]||0)+1;if(cur['legDodgeStreak'+defP]>=3){cur['legDodgeStreak'+defP]=0;cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-300);addBattleLog('🔵 <b>'+defName+'</b> — <b>Контр-атака!</b> 300','crit');shakeDuel(isP1?'duelF1':'duelF2');updateHpBars();}}
+    if(LEGENDARY_FX[defName]==='crimsonDodge'){const cnt=Math.round(defStats.atk*0.8);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-cnt);addBattleLog('🌺 <b>'+defName+'</b> — Багровый дождь! '+cnt,'crit');updateHpBars();}
     cur.turn++;return;
   }
-  if(fx.instantKill&&Math.random()<fx.instantKill.chance){
-    addBattleLog('☠️ <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! Казнь','crit');
-    cur['hp'+defP]=0;updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');endDuelBattle();return;}
-  if(fx.blackFlash&&cur['hp'+defP]<cur['maxHp'+defP]*fx.blackFlash.hpThreshold&&Math.random()<fx.blackFlash.chance){
-    addBattleLog('⚡ <b>'+atkName+'</b> — Чёрная вспышка!','crit');
-    cur['hp'+defP]=0;updateHpBars();endDuelBattle();return;}
+  if(fx.instantKill&&Math.random()<fx.instantKill.chance){addBattleLog('☠️ <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! Казнь','crit');cur['hp'+defP]=0;updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');endDuelBattle();return;}
+  if(fx.blackFlash&&cur['hp'+defP]<cur['maxHp'+defP]*fx.blackFlash.hpThreshold&&Math.random()<fx.blackFlash.chance){addBattleLog('⚡ <b>'+atkName+'</b> — Чёрная вспышка!','crit');cur['hp'+defP]=0;updateHpBars();endDuelBattle();return;}
   if(fx.firstStrike&&myAtk===1){
     const enemyHp=cur['hp'+defP];
-    if(fx.firstStrike.execute&&enemyHp<=fx.firstStrike.execute){
-      addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! Казнь','crit');
-      cur['hp'+defP]=0;updateHpBars();endDuelBattle();return;}
+    if(fx.firstStrike.execute&&enemyHp<=fx.firstStrike.execute){addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! Казнь','crit');cur['hp'+defP]=0;updateHpBars();endDuelBattle();return;}
     const dmg=fx.firstStrike.dmg;cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);
     addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'! '+dmg,'crit');
+    const beam=document.getElementById('attackBeam');if(beam){beam.classList.remove('flash');void beam.offsetWidth;beam.classList.add('flash');}
     updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');
-    if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;
+    if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}
+    cur.turn++;return;
   }
   if(fx.periodic&&myAtk%fx.periodic.n===0){
     const p=fx.periodic;let dmg=0,extra='';
     if(p.percentDmg){dmg=Math.round(cur['hp'+defP]*p.percentDmg);extra=' −'+dmg+' HP';}
-    else if(p.selfAttackMult){dmg=Math.round(atkStats.atk*p.selfAttackMult);
-      addBattleLog('🎭 <b>'+defName+'</b> бьёт себя — '+dmg,'crit');
-      cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);updateHpBars();
-      if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;}
+    else if(p.selfAttackMult){dmg=Math.round(atkStats.atk*p.selfAttackMult);addBattleLog('🎭 <b>'+defName+'</b> бьёт себя — '+dmg,'crit');cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);updateHpBars();if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;}
     else{dmg=p.dmg||0;extra=' — <b>−'+dmg+'</b>';}
     if(p.stun)cur['skip'+defP]=true;
     if(p.atkDown)defStats.atk=Math.round(defStats.atk*(1-p.atkDown));
@@ -1538,8 +1639,10 @@ function duelAttack(){
     if(p.selfDmg)cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-p.selfDmg);
     cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);
     addBattleLog('💥 <b>'+atkName+'</b> — '+(ABILITY_NAMES[ability]||'?')+'!'+extra,'crit');
+    const beam=document.getElementById('attackBeam');if(beam){beam.classList.remove('flash');void beam.offsetWidth;beam.classList.add('flash');}
     updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');
-    if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}cur.turn++;return;
+    if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}
+    cur.turn++;return;
   }
   const leg=applyLegendaryPreHit(cur,atkP,defP,atkName,defName);
   if(leg.extraLog){addBattleLog(leg.extraLog,'crit');shakeDuel(isP1?'duelF1':'duelF2');}
@@ -1553,48 +1656,37 @@ function duelAttack(){
   if(fx.critChance&&Math.random()<fx.critChance.chance){dmg=Math.round(dmg*(fx.critChance.mult||2));extra=' КРИТ!';}
   dmg=Math.round(dmg*leg.dmgMult);
   cur['hp'+defP]=Math.max(0,cur['hp'+defP]-dmg);
+  const beam=document.getElementById('attackBeam');if(beam){beam.classList.remove('flash');void beam.offsetWidth;beam.classList.add('flash');}
   if(cur['legVampiricActive'+atkP]){const st=Math.round(dmg*0.2);cur['hp'+atkP]=Math.min(cur['maxHp'+atkP],cur['hp'+atkP]+st);extra+=' +'+st+' HP';}
-  if(LEGENDARY_FX[defName]==='rageStack'){cur['rageStack'+defP]=(cur['rageStack'+defP]||0)+1;}
+  if(LEGENDARY_FX[defName]==='rageStack')cur['rageStack'+defP]=(cur['rageStack'+defP]||0)+1;
   addBattleLog('<b>'+atkName+'</b> бьёт <b>'+defName+'</b> — <span class="dmg">−'+dmg+'</span>'+extra);
   updateHpBars();shakeDuel(isP1?'duelF2':'duelF1');
-  if(defFx.reflect&&Math.random()<defFx.reflect.chance){
-    const ref=Math.round(dmg*defFx.reflect.chance);
-    cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);
-    addBattleLog('🛡 <b>'+defName+'</b> отражает '+ref,'crit');updateHpBars();
-  }
+  if(defFx.reflect&&Math.random()<defFx.reflect.chance){const ref=Math.round(dmg*defFx.reflect.chance);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('🛡 <b>'+defName+'</b> отражает '+ref,'crit');updateHpBars();}
   if(LEGENDARY_FX[defName]==='athenaShield'){const ref=Math.round(dmg*0.4);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('🛡 <b>'+defName+'</b> — Щит Афины '+ref,'crit');updateHpBars();}
   if(LEGENDARY_FX[defName]==='spikedShell'){const ref=Math.round(dmg*0.4);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('🐢 <b>'+defName+'</b> — Панцирь '+ref,'crit');updateHpBars();}
   if(LEGENDARY_FX[defName]==='diamondShield'){const ref=Math.round(dmg*0.4);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('💎 <b>'+defName+'</b> — Алмазный щит '+ref,'crit');updateHpBars();}
-  if(LEGENDARY_FX[defName]==='revengeCounter'){
-    cur['revengeCount'+defP]=(cur['revengeCount'+defP]||0)+1;
-    if(cur['revengeCount'+defP]%2===0){const ref=Math.round(dmg*0.5);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('💢 <b>'+defName+'</b> — Revenge Counter '+ref,'crit');updateHpBars();}
-  }
+  if(LEGENDARY_FX[defName]==='revengeCounter'){cur['revengeCount'+defP]=(cur['revengeCount'+defP]||0)+1;if(cur['revengeCount'+defP]%2===0){const ref=Math.round(dmg*0.5);cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-ref);addBattleLog('💢 <b>'+defName+'</b> — Revenge Counter '+ref,'crit');updateHpBars();}}
   if(cur['burn'+atkP]>0){cur['hp'+atkP]=Math.max(0,cur['hp'+atkP]-30);cur['burn'+atkP]--;addBattleLog('🔥 <b>'+atkName+'</b> горит −30','dmg');updateHpBars();}
   if(cur.hp1<=0||cur.hp2<=0){endDuelBattle();return;}
   cur.turn++;
 }
 
 function endDuelBattle(){
+  stopAutoBattle();
   const cur=duelState.current;
-  for(const p of ['1','2']){
-    const nm=p==='1'?cur.c1:cur.c2;
-    if(LEGENDARY_FX[nm]==='cartoonRevive'&&!cur['legRevive'+p]&&cur['hp'+p]<=0){
-      cur['legRevive'+p]=true;cur['hp'+p]=Math.round(cur['maxHp'+p]*0.5);
-      addBattleLog('🐰 <b>'+nm+'</b> — Мультяшное бессмертие! Воскрес','crit');updateHpBars();
-    }
-  }
-  const btn=document.getElementById('duelAttackBtn');btn.disabled=true;
+  for(const p of ['1','2']){const nm=p==='1'?cur.c1:cur.c2;
+    if(LEGENDARY_FX[nm]==='cartoonRevive'&&!cur['legRevive'+p]&&cur['hp'+p]<=0){cur['legRevive'+p]=true;cur['hp'+p]=Math.round(cur['maxHp'+p]*0.5);addBattleLog('🐰 <b>'+nm+'</b> — Мультяшное бессмертие!','crit');updateHpBars();}}
   let winner,winnerIsP1;
   if(cur.hp1<=0&&cur.hp2<=0)winner=null;
   else if(cur.hp2<=0){winner=cur.c1;winnerIsP1=true;}
   else{winner=cur.c2;winnerIsP1=false;}
   if(winner===null){addBattleLog('— Ничья! —','finish');}
   else{
-    if(winnerIsP1){duelState.p1Wins++;document.getElementById('duelF1').classList.add('winner');document.getElementById('duelF2').classList.add('loser');
-      addBattleLog('🏆 <b>'+duelState.p1Name+'</b> побеждает!','finish');
-    }else{duelState.p2Wins++;document.getElementById('duelF2').classList.add('winner');document.getElementById('duelF1').classList.add('loser');
-      addBattleLog('🏆 <b>'+duelState.p2Name+'</b> побеждает!','finish');}
+    if(winnerIsP1){duelState.p1Wins++;document.getElementById('duelF1').classList.add('winner');document.getElementById('duelF2').classList.add('loser');addBattleLog('🏆 <b>'+duelState.p1Name+'</b> побеждает!','finish');}
+    else{duelState.p2Wins++;document.getElementById('duelF2').classList.add('winner');document.getElementById('duelF1').classList.add('loser');addBattleLog('🏆 <b>'+duelState.p2Name+'</b> побеждает!','finish');}
   }
+  const banner=document.getElementById('autoBattleBanner');
+  if(banner)banner.textContent='✅ РАУНД ЗАВЕРШЁН';
   duelState.p1Index++;duelState.p2Index++;duelState.round++;
   setTimeout(()=>{
     if(duelState.p1Index>=duelState.p1Deck.length||duelState.p2Index>=duelState.p2Deck.length)endDuelMatch();
@@ -1602,6 +1694,22 @@ function endDuelBattle(){
   },2200);
 }
 function endDuelMatch(){
+  stopAutoBattle();
+  if(duelState&&duelState.tournamentStage){
+    const stage=duelState.tournamentStage;
+    let winner;
+    if(duelState.p1Wins>duelState.p2Wins)winner=duelState.tournamentP1Idx;
+    else if(duelState.p2Wins>duelState.p1Wins)winner=duelState.tournamentP2Idx;
+    else winner=Math.random()<0.5?duelState.tournamentP1Idx:duelState.tournamentP2Idx;
+    tournament.bracket[stage].winner=winner;
+    tournament.log.push('🏆 '+tournament.players[winner].name+' побеждает!');
+    if(stage==='semifinal1')tournament.bracket.stage='semifinal2';
+    else if(stage==='semifinal2'){tournament.bracket.stage='final';tournament.bracket.final.p1=tournament.bracket.semifinal1.winner;tournament.bracket.final.p2=tournament.bracket.semifinal2.winner;}
+    duelState.tournamentStage=null;botEnabled=false;
+    setTimeout(()=>{show('tournamentBracketScreen');tourRenderBracket();},800);
+    return;
+  }
+  botEnabled=false;
   let result;
   if(duelState.p1Wins>duelState.p2Wins)result=duelState.p1Name+' победил: '+duelState.p1Wins+' : '+duelState.p2Wins;
   else if(duelState.p2Wins>duelState.p1Wins)result=duelState.p2Name+' победил: '+duelState.p2Wins+' : '+duelState.p1Wins;
@@ -1611,14 +1719,256 @@ function endDuelMatch(){
   document.getElementById('duelSetup').classList.remove('hidden');
   document.getElementById('duelDecks').classList.add('hidden');
 }
-document.getElementById('duelAttackBtn').onclick=duelAttack;
-document.getElementById('duelFinishBtn').onclick=()=>{
-  if(confirm('Завершить?')){show('duelScreen');document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');}
+document.getElementById('duelFinishBtn').onclick=()=>{if(confirm('Завершить?')){stopAutoBattle();botEnabled=false;show('duelScreen');document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');}};
+
+// ============ ТУРНИР ============
+const tournament={players:[],pool:[],currentCard:null,currentBid:0,currentBidder:null,activePlayers:[],
+  turnPointer:0,roundNumber:0,totalCards:12,startMoney:1000,botLevel:'medium',phase:'setup',bracket:[],matchNumber:0,log:[]};
+
+document.getElementById('tourStartBtn').onclick=()=>{
+  const themes=[...document.querySelectorAll('.tourTheme:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
+  const playerName=(document.getElementById('tourPlayerName').value.trim()||'Ты').slice(0,16);
+  const startMoney=Math.max(300,+document.getElementById('tourStartMoney').value||1000);
+  const cardCount=Math.max(4,Math.min(30,+document.getElementById('tourCardCount').value||12));
+  const botLevel=document.querySelector('input[name="tourBotLvl"]:checked')?.value||'medium';
+  let pool=CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length<cardCount){alert('Только '+pool.length+' карт');return;}
+  pool=shuffle(pool).slice(0,cardCount);
+  const botNames={easy:['Новичок','Простак','Малыш'],medium:['Страж','Охотник','Мудрец'],hard:['Мастер','Лорд','Титан'],nightmare:['Смерть','Разрушитель','Кошмар']}[botLevel];
+  tournament.players=[
+    {name:playerName,money:startMoney,cards:[],isBot:false,bracketPos:0},
+    {name:'🤖 '+botNames[0],money:startMoney,cards:[],isBot:true,bracketPos:1},
+    {name:'🤖 '+botNames[1],money:startMoney,cards:[],isBot:true,bracketPos:2},
+    {name:'🤖 '+botNames[2],money:startMoney,cards:[],isBot:true,bracketPos:3}
+  ];
+  tournament.pool=pool;tournament.totalCards=cardCount;tournament.startMoney=startMoney;
+  tournament.botLevel=botLevel;tournament.roundNumber=0;tournament.log=[];tournament.phase='auction';tournament.bracket=[];
+  show('tournamentAuctionScreen');
+  tourNextAuctionRound();
 };
-document.getElementById('backFromDuel').onclick=()=>{document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');show('menuScreen');};
+function tourNextAuctionRound(){
+  const totalMoney=tournament.players.reduce((s,p)=>s+p.money,0);
+  if(tournament.pool.length===0||totalMoney<=0){tourStartBracket();return;}
+  tournament.roundNumber++;tournament.currentCard=tournament.pool.shift();
+  tournament.currentBid=0;tournament.currentBidder=null;
+  tournament.activePlayers=tournament.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
+  if(tournament.activePlayers.length===0){tourStartBracket();return;}
+  tournament.turnPointer=(tournament.roundNumber-1)%tournament.activePlayers.length;
+  tournament.log.push('— Карта '+tournament.roundNumber+': «'+tournament.currentCard.n+'» (сила '+tournament.currentCard.p+')');
+  tourRenderAuction();tourScheduleBotBid();
+}
+function tourRenderAuction(){
+  document.getElementById('tourAucRound').textContent=tournament.roundNumber;
+  document.getElementById('tourAucTotal').textContent=tournament.totalCards;
+  document.getElementById('tourAucRemain').textContent='Осталось: '+tournament.pool.length;
+  const c=tournament.currentCard;
+  const pct=Math.min(100,Math.round(c.p/10));
+  const imgInfo=CHAR_IMAGES[c.n];
+  const rar=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
+  let topPart;
+  if(imgInfo){const cls=imgInfo.fit==='contain'?' contain':(imgInfo.fit==='face'?' face':'');topPart='<div class="char-img rarity-'+rar+cls+'"><img src="'+imgInfo.file+'.png" onerror="this.onerror=null;this.src=\''+imgInfo.file+'.jpg\'"></div>';}
+  else{const rarColors={common:'#555',rare:'#2ecc71',epic:'#3498db',legendary:'#9b59b6',mythic:'#f39c12'};topPart='<div class="char-img rarity-'+rar+' contain" style="background:radial-gradient(circle,'+rarColors[rar]+'33,#0f0f1e 70%)"><div style="font-size:96px;filter:drop-shadow(0 0 20px '+rarColors[rar]+')">'+(THEME_EMOJI[c.t]||'⭐')+'</div></div>';}
+  const rName={common:'Обычный',rare:'Редкий',epic:'Эпический',legendary:'Легендарный',mythic:'Мифический'}[rar];
+  const stats=CHAR_STATS[c.n];
+  let statsHtml='<span class="rarity-badge rarity-'+rar+'">'+rName+'</span>';
+  if(stats){statsHtml+='<div class="stats-row"><div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div><div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div><div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div><div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div><div class="stat-box"><div class="lbl">🔮 Маг</div><div class="val">'+stats.mag+'</div></div><div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div></div><div class="ability-row"><div class="a-name">✨ '+(ABILITY_NAMES[stats.ability]||'?')+'</div><div class="a-desc">'+(ABILITY_DESC[stats.ability]||'')+'</div></div>';}
+  document.getElementById('tourAucCard').innerHTML='<div class="char-card" style="padding:14px">'+topPart+'<div class="char-name">'+c.n+'</div><div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+statsHtml+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div><div class="power-value">Сила: '+c.p+' / 1000</div></div>';
+  const pl=document.getElementById('tourAucPlayers');pl.innerHTML='';
+  const currentTurnIdx=tournament.activePlayers.length?tournament.activePlayers[tournament.turnPointer]:-1;
+  tournament.players.forEach((p,i)=>{
+    const isActive=tournament.activePlayers.includes(i);
+    const isTurn=i===currentTurnIdx;
+    const el=document.createElement('div');
+    el.className='player-item'+(isActive?' active':' out');
+    if(isTurn)el.style.borderColor='#f39c12';
+    const totalPower=p.cards.reduce((s,x)=>s+x.p,0);
+    el.innerHTML='<div class="pn">'+(isTurn?'🎯 ':'')+p.name+'</div><div class="pm">💰 '+p.money+'</div><div class="pc">Карт: '+p.cards.length+' · Сила: '+totalPower+'</div>';
+    pl.appendChild(el);
+  });
+  const bi=document.getElementById('tourAucBid');
+  if(tournament.currentBid===0)bi.innerHTML='<div class="bid-amount">Ставок нет</div><div class="bid-who">Стартовая: 1 💰</div>';
+  else{const leader=tournament.players[tournament.currentBidder];bi.innerHTML='<div class="bid-amount">'+tournament.currentBid+' 💰</div><div class="bid-who">Лидер: <b>'+leader.name+'</b> · минимум '+(tournament.currentBid+1)+'</div>';}
+  const ap=document.getElementById('tourAucAction');
+  if(currentTurnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
+  const curPlayer=tournament.players[currentTurnIdx];
+  if(curPlayer.isBot){ap.innerHTML='<div class="turn-name">🤖 Ход: <b>'+curPlayer.name+'</b></div><div style="color:#888;font-size:13px;margin-top:6px">Думает...</div>';return;}
+  const min=Math.max(1,tournament.currentBid+1);
+  const canBid=curPlayer.money>=min;
+  const def=canBid?min:1;
+  ap.innerHTML='<div class="turn-name">Твой ход · 💰 '+curPlayer.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+(tournament.currentBid===0?'Можно от 1':'Минимум '+min)+'</div><div class="bid-controls"><input type="number" id="tourBidInput" min="'+min+'" max="'+curPlayer.money+'" value="'+def+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="tourBidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="tourPassBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег</div>');
+  if(canBid)document.getElementById('tourBidBtn').onclick=()=>{const v=Math.round(+document.getElementById('tourBidInput').value);if(v<min||v>curPlayer.money)return;tourPlayerBid(currentTurnIdx,v);};
+  document.getElementById('tourPassBtn').onclick=()=>tourPlayerPass(currentTurnIdx);
+  const lg=document.getElementById('tourAucLog');lg.innerHTML='';
+  tournament.log.slice(-20).forEach(l=>{const d=document.createElement('div');d.textContent=l;lg.appendChild(d);});
+  lg.scrollTop=lg.scrollHeight;
+}
+function tourScheduleBotBid(){
+  if(tournament.phase!=='auction')return;
+  const currentIdx=tournament.activePlayers[tournament.turnPointer];
+  if(currentIdx===undefined)return;
+  const bot=tournament.players[currentIdx];
+  if(!bot.isBot)return;
+  const delay=700+Math.random()*900;
+  setTimeout(()=>{
+    if(tournament.phase!=='auction')return;
+    const stillCur=tournament.activePlayers[tournament.turnPointer];
+    if(stillCur!==currentIdx)return;
+    tourBotBid(currentIdx);
+  },delay);
+}
+function tourBotBid(idx){
+  const bot=tournament.players[idx];
+  const card=tournament.currentCard;
+  const min=Math.max(1,tournament.currentBid+1);
+  if(bot.money<min){tourPass(idx);return;}
+  const powerRatio=card.p/1000;
+  const baseValue=Math.round(bot.money*powerRatio*0.7);
+  const alreadyHas=bot.cards.some(c=>c.n===card.n);
+  const duplicatePenalty=alreadyHas?0.4:1;
+  const aggression={easy:0.6,medium:0.85,hard:1.1,nightmare:1.4}[tournament.botLevel]||0.85;
+  const chaos=0.8+Math.random()*0.4;
+  let maxWilling=Math.round(baseValue*aggression*duplicatePenalty*chaos);
+  maxWilling=Math.max(min,maxWilling);
+  if(maxWilling>bot.money)maxWilling=bot.money;
+  let nextBid;
+  switch(tournament.botLevel){
+    case 'easy':nextBid=min+(Math.random()<0.2?Math.round(Math.random()*20):0);if(nextBid>maxWilling)nextBid=min;break;
+    case 'medium':nextBid=Math.min(maxWilling,min+Math.round(10+Math.random()*20));break;
+    case 'hard':nextBid=Math.min(maxWilling,min+Math.round(30+Math.random()*50));break;
+    case 'nightmare':nextBid=Math.min(maxWilling,min+Math.round(50+Math.random()*100));break;
+  }
+  if(nextBid<min||maxWilling<min){tourPass(idx);return;}
+  if(tournament.currentBid>=maxWilling&&tournament.currentBidder!==idx){tourPass(idx);return;}
+  tournament.currentBid=nextBid;tournament.currentBidder=idx;
+  tournament.log.push(bot.name+' ставит '+nextBid);tourAdvanceTurn();
+}
+function tourPlayerBid(idx,amount){
+  if(tournament.phase!=='auction')return;
+  const currentIdx=tournament.activePlayers[tournament.turnPointer];
+  if(currentIdx!==idx)return;
+  const min=Math.max(1,tournament.currentBid+1);
+  if(amount<min||amount>tournament.players[idx].money)return;
+  tournament.currentBid=amount;tournament.currentBidder=idx;
+  tournament.log.push(tournament.players[idx].name+' ставит '+amount);tourAdvanceTurn();
+}
+function tourPlayerPass(idx){
+  if(tournament.phase!=='auction')return;
+  const currentIdx=tournament.activePlayers[tournament.turnPointer];
+  if(currentIdx!==idx)return;
+  tourPass(idx);
+}
+function tourPass(idx){
+  tournament.log.push(tournament.players[idx].name+' пасует');
+  const pos=tournament.activePlayers.indexOf(idx);
+  if(pos>=0)tournament.activePlayers.splice(pos,1);
+  if(tournament.turnPointer>=tournament.activePlayers.length)tournament.turnPointer=0;
+  tourCheckAuctionEnd();
+}
+function tourAdvanceTurn(){
+  if(tournament.activePlayers.length===0){tourCheckAuctionEnd();return;}
+  if(tournament.activePlayers.length===1){
+    const last=tournament.activePlayers[0];
+    if(tournament.currentBidder===last){tourFinishCard(last);return;}
+    tournament.turnPointer=0;tourCheckAuctionEnd();return;
+  }
+  tournament.turnPointer=(tournament.turnPointer+1)%tournament.activePlayers.length;
+  tourRenderAuction();tourScheduleBotBid();
+}
+function tourCheckAuctionEnd(){
+  const ap=tournament.activePlayers;
+  if(ap.length===0){tournament.log.push('❌ «'+tournament.currentCard.n+'» не куплен');tourNextAuctionRound();return;}
+  if(ap.length===1){
+    const last=ap[0];
+    if(tournament.currentBidder===last){tourFinishCard(last);return;}
+    const min=Math.max(1,tournament.currentBid+1);
+    const p=tournament.players[last];
+    if(p.money>=min){tournament.currentBid=min;tournament.currentBidder=last;tournament.log.push(p.name+' ставит '+min+' (последний)');tourFinishCard(last);return;}
+    tourFinishCard(null);return;
+  }
+  tourRenderAuction();tourScheduleBotBid();
+}
+function tourFinishCard(winnerIdx){
+  if(winnerIdx!==null&&winnerIdx!==undefined){
+    const w=tournament.players[winnerIdx];
+    if(w.money>=tournament.currentBid){w.money-=tournament.currentBid;w.cards.push(tournament.currentCard);tournament.log.push('✅ '+w.name+' купил «'+tournament.currentCard.n+'» за '+tournament.currentBid);}
+    else tournament.log.push('⚠️ '+w.name+' не хватило денег');
+  }else tournament.log.push('❌ «'+tournament.currentCard.n+'» не куплен');
+  tournament.phase='paused';tourRenderAuction();
+  setTimeout(()=>{tournament.phase='auction';tourNextAuctionRound();},1500);
+}
+function tourStartBracket(){
+  tournament.phase='bracket';tournament.log.push('— Аукцион завершён! —');
+  const sorted=[...tournament.players].map((p,i)=>({idx:i,name:p.name,cards:p.cards,power:p.cards.reduce((s,c)=>s+c.p,0)})).sort((a,b)=>b.power-a.power);
+  tournament.bracket={semifinal1:{p1:sorted[0].idx,p2:sorted[3].idx,winner:null},semifinal2:{p1:sorted[1].idx,p2:sorted[2].idx,winner:null},final:{p1:null,p2:null,winner:null},stage:'semifinal1'};
+  tournament.matchNumber=0;
+  show('tournamentBracketScreen');tourRenderBracket();
+}
+function tourRenderBracket(){
+  const b=tournament.bracket;
+  const getP=(idx)=>idx!==null?tournament.players[idx]:null;
+  let html='<div style="display:grid;gap:14px">';
+  const s1p1=getP(b.semifinal1.p1),s1p2=getP(b.semifinal1.p2);
+  html+='<div class="bracket-panel" style="border-color:'+(b.semifinal1.winner!==null?'#27ae60':b.stage==='semifinal1'?'#f39c12':'#333')+'"><h3>⚔️ Полуфинал 1</h3>';
+  html+='<div style="font-size:14px;margin-top:8px">'+tourPlayerLine(s1p1)+'</div><div style="text-align:center;color:#f39c12;margin:6px 0;font-weight:700">vs</div><div style="font-size:14px">'+tourPlayerLine(s1p2)+'</div>';
+  if(b.semifinal1.winner!==null)html+='<div style="margin-top:10px;color:#27ae60;font-weight:700;text-align:center">🏆 '+tournament.players[b.semifinal1.winner].name+'</div>';
+  html+='</div>';
+  const s2p1=getP(b.semifinal2.p1),s2p2=getP(b.semifinal2.p2);
+  html+='<div class="bracket-panel" style="border-color:'+(b.semifinal2.winner!==null?'#27ae60':b.stage==='semifinal2'?'#f39c12':'#333')+'"><h3>⚔️ Полуфинал 2</h3>';
+  html+='<div style="font-size:14px;margin-top:8px">'+tourPlayerLine(s2p1)+'</div><div style="text-align:center;color:#f39c12;margin:6px 0;font-weight:700">vs</div><div style="font-size:14px">'+tourPlayerLine(s2p2)+'</div>';
+  if(b.semifinal2.winner!==null)html+='<div style="margin-top:10px;color:#27ae60;font-weight:700;text-align:center">🏆 '+tournament.players[b.semifinal2.winner].name+'</div>';
+  html+='</div>';
+  const fp1=getP(b.final.p1),fp2=getP(b.final.p2);
+  html+='<div class="bracket-panel" style="background:linear-gradient(135deg,rgba(243,156,18,.15),rgba(231,76,60,.1));border-color:'+(b.final.winner!==null?'#27ae60':b.stage==='final'?'#e74c3c':'#333')+'"><h3>👑 ФИНАЛ</h3>';
+  if(fp1&&fp2){html+='<div style="font-size:14px;margin-top:8px">'+tourPlayerLine(fp1)+'</div><div style="text-align:center;color:#e74c3c;margin:6px 0;font-weight:700">vs</div><div style="font-size:14px">'+tourPlayerLine(fp2)+'</div>';}
+  else html+='<div style="color:#888;text-align:center;padding:12px">Победители полуфиналов</div>';
+  if(b.final.winner!==null)html+='<div style="margin-top:10px;color:#f5b800;font-weight:800;text-align:center;font-size:16px">👑 ЧЕМПИОН: '+tournament.players[b.final.winner].name+'</div>';
+  html+='</div></div>';
+  document.getElementById('tourBracketContent').innerHTML=html;
+  const btn=document.getElementById('tourNextMatchBtn');
+  if(b.final.winner!==null){btn.textContent='🏆 ПОКАЗАТЬ РЕЗУЛЬТАТЫ';btn.onclick=()=>tourShowResults();}
+  else if(b.semifinal1.winner===null){btn.textContent='▶️ НАЧАТЬ ПОЛУФИНАЛ 1';btn.onclick=()=>tourStartMatch(b.semifinal1.p1,b.semifinal1.p2,'semifinal1');}
+  else if(b.semifinal2.winner===null){btn.textContent='▶️ НАЧАТЬ ПОЛУФИНАЛ 2';btn.onclick=()=>tourStartMatch(b.semifinal2.p1,b.semifinal2.p2,'semifinal2');}
+  else if(b.final.p1!==null&&b.final.p2!==null){btn.textContent='👑 НАЧАТЬ ФИНАЛ';btn.onclick=()=>tourStartMatch(b.final.p1,b.final.p2,'final');}
+}
+function tourPlayerLine(p){
+  if(!p)return '<span style="color:#666">—</span>';
+  const power=p.cards.reduce((s,c)=>s+c.p,0);
+  return '<b style="color:#f5b800">'+p.name+'</b>'+(p.isBot?' 🤖':' 👤')+' · карт '+p.cards.length+' · сила <b>'+power+'</b>';
+}
+function tourStartMatch(p1Idx,p2Idx,stageKey){
+  const p1=tournament.players[p1Idx],p2=tournament.players[p2Idx];
+  const deck1=p1.cards.slice(0,3).map(c=>c.n);
+  const deck2=p2.cards.slice(0,3).map(c=>c.n);
+  if(deck1.length===0||deck2.length===0){
+    const winner=deck1.length>=deck2.length?p1Idx:p2Idx;
+    tournament.bracket[stageKey].winner=winner;
+    tournament.log.push('⚠️ '+tournament.players[winner].name+' прошёл без боя');
+    tourRenderBracket();return;
+  }
+  botLevel=tournament.botLevel;
+  botEnabled=p1.isBot||p2.isBot;
+  duelState={p1Name:p1.name,p2Name:p2.name,p1Deck:deck1,p2Deck:deck2,p1Index:0,p2Index:0,p1Wins:0,p2Wins:0,round:1,
+    p1IsBot:p1.isBot,p2IsBot:p2.isBot,
+    tournamentStage:stageKey,tournamentP1Idx:p1Idx,tournamentP2Idx:p2Idx};
+  startDuelRound();
+}
+function tourShowResults(){
+  const champion=tournament.players[tournament.bracket.final.winner];
+  document.getElementById('tourWinnerText').textContent='🏆 '+champion.name+' — ЧЕМПИОН!';
+  const tbl=document.getElementById('tourResultsTable');
+  const sorted=[...tournament.players].map(p=>({name:p.name,money:p.money,cards:p.cards,totalPower:p.cards.reduce((s,c)=>s+c.p,0),isChampion:p===champion})).sort((a,b)=>b.totalPower-a.totalPower);
+  tbl.innerHTML='<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Карт</th><th>💰</th></tr>';
+  sorted.forEach((p,i)=>{
+    const crown=p.isChampion?'👑 ':'';
+    const chars=p.cards.slice().sort((a,b)=>b.p-a.p).map(c=>c.n).join(', ')||'—';
+    tbl.innerHTML+='<tr><td>'+(i+1)+'</td><td>'+crown+p.name+'</td><td><b style="color:#f39c12">'+p.totalPower+'</b></td><td class="chars-inline">'+chars+'</td><td>'+p.money+'</td></tr>';
+  });
+  show('tournamentResultsScreen');
+}
 
+// ============ СТАРТ ============
 setInterval(function(){if(state.role==='host'&&state.phase==='playing'&&state.roomRef)hostAutoCheck();},800);
-
 show('menuScreen');
 </script>
 
@@ -1630,4 +1980,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>
+     </html>
