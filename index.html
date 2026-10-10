@@ -1259,8 +1259,8 @@ const firebaseConfig = {
   appId: "1:379468915340:web:dbda45048541d96e7451a9"
 };
 firebase.initializeApp(firebaseConfig);
+firebase.auth().signInAnonymously().catch(e => console.warn('auth', e));
 const db = firebase.database();
-
 const CHARACTERS = [
   {n:"Сайтама",t:"anime",p:1000,d:"One Punch Man"},
   {n:"Вис",t:"anime",p:990,d:"Dragon Ball Super"},
