@@ -635,7 +635,7 @@
   .live-player-row .lp-screen{font-size:9px;color:#888;margin-top:2px}
   .god-badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;background:linear-gradient(135deg,#8b0000,#f5b800);color:#fff;animation:pulseBadge 1.5s infinite;margin-left:6px}
 </style>
- </head> <body>
+  </head><body>
 
 <div class="user-badge hidden" id="userBadge" title="Нажми чтобы открыть профиль">👤 <span id="userBadgeName">Гость</span></div>
 
@@ -1380,7 +1380,7 @@
     <input type="text" id="chatInput" maxlength="200" placeholder="Написать сообщение...">
     <button id="chatSendBtn">➤</button>
   </div>
-         </div><script>
+  </div><script>
 // ============================================================
 // FIREBASE INIT
 // ============================================================
@@ -2655,83 +2655,6 @@ document.getElementById('backFromDuel').onclick=()=>{
   document.getElementById('duelDecks').classList.add('hidden');
   show('offlineMenuScreen');
 };
-
-// ============================================================
-// ЗАПУСК ПЕРВИЧНОЙ ЛОГИКИ (boot)
-// ============================================================
-(async function boot(){
-  loadCollection();
-  loadAchData();
-  loadTitle();
-  loadProfileLocal();
-  loadMyTitles();
-  loadCustomTitles();
-  loadMyFrames();
-  loadGoldLocal();
-  const hasSession=loadSession();
-  if(hasSession&&session.playerId){
-    if(session.isGuest){
-      updateUserBadgeWithTitle();
-      updateAchBadge();
-      show('menuScreen');
-      checkAdminStatus();
-      setTimeout(showReconnectBanner,800);
-    }else{
-      const banned=await checkIfBanned(session.playerId);
-      if(banned){
-        alert('❌ Твой аккаунт забанен.');
-        clearSession();
-        updateUserBadgeWithTitle();
-        show('loginScreen');
-      }else{
-        updateUserBadgeWithTitle();
-        updateAchBadge();
-        show('menuScreen');
-        checkAdminStatus();
-        loadAchFromFirebase();
-        loadProfileFromFirebase().then(()=>updateUserBadgeWithTitle());
-        loadCrystalsFromFirebase().then(()=>{});
-        if(typeof loadGoldFromFirebase==='function')loadGoldFromFirebase();
-        if(typeof loadPetStateFromFirebase==='function')loadPetStateFromFirebase();
-        if(typeof loadTowerFromFirebase==='function')loadTowerFromFirebase();
-        loadTitleFromFirebase().then(()=>{
-          loadTitle();
-          if(session.username&&session.username.toLowerCase()==='admin'&&myTitle==='novice'){
-            saveTitle('dev');
-            loadMyTitles();myUnlockedTitles['dev']=Date.now();saveMyTitles();
-            if(session.playerId)db.ref('users/'+session.playerId+'/title').set('dev').catch(()=>{});
-          }
-          updateUserBadgeWithTitle();
-        });
-        setTimeout(showReconnectBanner,800);
-      }
-    }
-  }else{
-    updateUserBadgeWithTitle();
-    show('loginScreen');
-  }
-  setInterval(()=>{forceLogoutIfBanned();},30000);
-  setInterval(()=>{updateAchBadge();},5000);
-  setInterval(()=>{if(state.role==='host'&&state.phase==='playing'&&state.roomRef)hostAutoCheck();},800);
-  startBroadcastListener();
-  setTimeout(()=>{
-    if(typeof loadBossStateFromFirebase==='function'&&!session.isGuest){
-      loadBossStateFromFirebase().then(()=>{if(typeof renderBossHomeBadge==='function')renderBossHomeBadge();});
-    }
-  },1500);
-  setTimeout(()=>{
-    if(typeof startKickWatcher==='function')startKickWatcher();
-    if(typeof checkPendingGift==='function')checkPendingGift();
-    if(typeof loadRewardMultiplier==='function')loadRewardMultiplier();
-    if(typeof processPendingPetHatches==='function')processPendingPetHatches();
-    if(typeof processPendingFood==='function')processPendingFood();
-    if(typeof addPetsButton==='function')addPetsButton();
-    if(typeof addTowerButton==='function')addTowerButton();
-    if(typeof addMarketButton==='function')addMarketButton();
-    if(typeof addGoldBadgeToMenu==='function')addGoldBadgeToMenu();
-    if(typeof tickPassiveIncome==='function')tickPassiveIncome();
-  },2500);
-})();
 </script><script>
 // ============================================================
 // ОНЛАЙН-АУКЦИОН
@@ -5313,7 +5236,7 @@ document.getElementById('chatCloseBtn').onclick=()=>{
 };
 document.getElementById('chatSendBtn').onclick=sendChat;
 document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
- </script><script>
+  </script><script>
 // ============================================================
 // АЧИВКИ
 // ============================================================
@@ -5871,7 +5794,7 @@ document.getElementById('profileSaveBtn').onclick=async()=>{
 };
 document.getElementById('backFromProfileEdit').onclick=()=>openProfile(session.playerId);
 document.getElementById('profileBtn').onclick=()=>openProfile(session.playerId);
- </script><script>
+  </script><script>
 // ============================================================
 // КЕЙСЫ
 // ============================================================
@@ -6435,12 +6358,89 @@ async function devRenderPromoList(){
       const p=data[c];
       const el=document.createElement('div');
       el.style.cssText='font-size:11px;padding:6px;background:rgba(0,0,0,.3);border-radius:6px;margin-bottom:4px;cursor:pointer';
-      const reward=p.reward==='crystals'?('💎 '+p.value):(p.reward==='gold'?('🪙 '+p.value):(p.reward==='title'?'🎖 '+p.value:(p.reward==='hero'?'🎴 '+p.value:(p.reward==='helper'?'🃏 '+p.value:(p.reward==='pet'?'🥚 '+p.value:(p.reward==='food'?'🍖 '+p.value:(p.reward==='bundle'?'📦 Набор':'✏️ '+(p.value?.name||'?')))))));
-      el.textContent=c+' → '+reward+' · used '+((p.used||0))+(p.limit?'/'+p.limit:'');
+      let rewardTxt='?';
+      if(p.reward==='crystals') rewardTxt='💎 '+p.value;
+      else if(p.reward==='gold') rewardTxt='🪙 '+p.value;
+      else if(p.reward==='title') rewardTxt='🎖 '+p.value;
+      else if(p.reward==='hero') rewardTxt='🎴 '+p.value;
+      else if(p.reward==='helper') rewardTxt='🃏 '+p.value;
+      else if(p.reward==='pet') rewardTxt='🥚 '+p.value;
+      else if(p.reward==='food') rewardTxt='🍖 '+p.value;
+      else if(p.reward==='bundle') rewardTxt='📦 Набор';
+      else if(p.reward==='custom_title') rewardTxt='✏️ '+((p.value&&p.value.name)||'?');
+      el.textContent=c+' → '+rewardTxt+' · used '+((p.used||0))+(p.limit?'/'+p.limit:'');
       el.onclick=()=>{document.getElementById('promoCodeInput').value=c;};
       list.appendChild(el);
     });
   }catch(e){list.innerHTML='<div style="color:#e74c3c;font-size:11px">Ошибка: '+e.message+'</div>';}
+}
+
+// ============ АДМИН: БАЗОВАЯ КАРТОЧКА ИГРОКА ============
+async function openPlayerAdminCard(pid){
+  const p=adminAllPlayers.find(x=>x.id===pid);
+  if(!p)return;
+  const modal=document.createElement('div');
+  modal.className='admin-modal';
+  modal.innerHTML='<div class="am-inner" style="max-width:520px;position:relative">'
+    +'<button style="position:absolute;top:10px;right:10px;width:32px;height:32px;padding:0!important;border-radius:50%;background:rgba(120,30,30,.7);color:#fff;font-size:16px" id="pcClose">✕</button>'
+    +'<h3>👤 '+escapeHtml(p.username||'?')+'</h3>'
+    +'<div class="dev-stat">'
+    +'<div class="dev-stat-item"><div class="ds-l">ID</div><div class="ds-v" style="font-size:10px;word-break:break-all">'+p.id+'</div></div>'
+    +'<div class="dev-stat-item"><div class="ds-l">Рег.</div><div class="ds-v" style="font-size:11px">'+new Date(p.createdAt||0).toLocaleDateString('ru')+'</div></div>'
+    +'<div class="dev-stat-item"><div class="ds-l">Вход</div><div class="ds-v" style="font-size:10px">'+(p.lastLogin?new Date(p.lastLogin).toLocaleDateString('ru'):'—')+'</div></div>'
+    +'<div class="dev-stat-item"><div class="ds-l">Статус</div><div class="ds-v" style="font-size:11px;color:'+(p.banned?'#e74c3c':'#27ae60')+'">'+(p.banned?'🚫 Бан':'✅ OK')+'</div></div>'
+    +'</div>'
+    +'<div class="dev-section"><h4>💰 Действия</h4>'
+    +'<div class="dev-row">'
+    +'<button class="btn-dev" id="pcGive1000Coins">🪙 +1000 золота</button>'
+    +'<button class="btn-dev" id="pcGive500Cr">💎 +500 кристаллов</button>'
+    +'</div>'
+    +'<div class="dev-row">'
+    +'<button class="btn-dev" id="pcSetTitleBtn">🎖 Дать титул</button>'
+    +'<button class="btn-dev" id="pcResetStats">📉 Сбросить статистику</button>'
+    +'</div>'
+    +'<div class="dev-row">'
+    +'<button class="btn-dev-danger" id="pcBanToggle">'+(p.banned?'✅ Разбан':'🚫 Забанить')+'</button>'
+    +'</div>'
+    +'</div>'
+    +'</div>';
+  document.body.appendChild(modal);
+  modal.querySelector('#pcClose').onclick=()=>modal.remove();
+  modal.querySelector('#pcBanToggle').onclick=async()=>{
+    if(p.id===session.playerId){alert('Себя нельзя');return;}
+    await adminToggleBan(p.id,p.banned?'unban':'ban');
+    modal.remove();
+  };
+  modal.querySelector('#pcGive500Cr').onclick=async()=>{
+    try{
+      const s=await db.ref('users/'+p.id+'/crystals').once('value');
+      await db.ref('users/'+p.id+'/crystals').set((s.val()||0)+500);
+      showToast('💎 +500 кристаллов');
+    }catch(e){showToast('❌ '+e.message);}
+  };
+  modal.querySelector('#pcGive1000Coins').onclick=async()=>{
+    try{
+      const s=await db.ref('users/'+p.id+'/gold').once('value');
+      await db.ref('users/'+p.id+'/gold').set((s.val()||0)+1000);
+      showToast('🪙 +1000 золота');
+    }catch(e){showToast('❌ '+e.message);}
+  };
+  modal.querySelector('#pcSetTitleBtn').onclick=async()=>{
+    const all=getAllTitles().map(t=>t.id).join(', ');
+    const id=prompt('ID титула:\n'+all,'champion');
+    if(!id)return;
+    try{await db.ref('users/'+p.id+'/title').set(id);showToast('🎖 Титул выдан');}catch(e){showToast('❌ '+e.message);}
+  };
+  modal.querySelector('#pcResetStats').onclick=async()=>{
+    if(!confirm('Сбросить статистику?'))return;
+    try{
+      await db.ref('achievements/'+p.id).remove();
+      await db.ref('leaderboard/auction/'+p.id).remove();
+      await db.ref('leaderboard/duel/'+p.id).remove();
+      await db.ref('leaderboard/duel_helpers/'+p.id).remove();
+      showToast('📉 Сброшено');
+    }catch(e){showToast('❌ '+e.message);}
+  };
 }
 
 // ============================================================
@@ -6460,7 +6460,7 @@ function startBroadcastListener(){
     showToast('📢 '+v.text);
   });
 }
- </script> <script>
+  </script><script>
 // ============================================================
 // ЗОЛОТО (3-я валюта)
 // ============================================================
@@ -6826,7 +6826,7 @@ function renderBossHomeBadge(){
     badge.style.background='#e74c3c';
   }
 }
- </script><script>
+  </script><script>
 // ============================================================
 // ПИТОМЦЫ (25 штук + уровни + пассивный доход)
 // ============================================================
@@ -7836,7 +7836,7 @@ setInterval(()=>{
 }, 1000);
 
 console.log('✅ Часть 8b загружена: питомцы + умения + башня + рынок + еда');
- </script> <script>
+  </script> <script>
 // ============================================================
 // ПРИЁМ ПОДАРКОВ (питомцы / еда / золото / кристаллы)
 // ============================================================
@@ -8051,7 +8051,7 @@ async function adminSetPetLevelOfPlayer(pid, petName, level){
       '<button class="btn-dev" id="devResetTowerSelf">🗼 Сброс башни</button>' +
     '</div>' +
     '<div class="dev-row">' +
-      '<button class="btn-dev" id="devGodAll" style="background:linear-gradient(135deg,#8b0000,#f5b800)!important;background-size:200% 200%!important;animation:gradientShift 2s ease infinite;grid-column:1/-1;padding:15px!important;font-size:14px!important">👑 ВЫДАТЬ ВСЁ СЕБЕ (БОГ)</button>' +
+      '<button class="btn-dev" id="devGodAll" style="background:linear-gradient(135deg,#8b0000,#f5b800)!important;background-size:200% 200%!important;animation:gradientShift 2s ease infinite;grid-column:1/-1;padding:15px!important;font-size:14px!important">👑 ВЫДАТЬ ВСЁ СЕБЕ (КОРОЛЬ)</button>' +
     '</div>';
   const h3 = inner.querySelector('h3');
   if(h3 && h3.nextSibling) inner.insertBefore(section, h3.nextSibling);
@@ -8175,7 +8175,7 @@ async function adminSetPetLevelOfPlayer(pid, petName, level){
     saveAchData();
     updateAchBadge();
     updateCurrencyBadges();
-    showToast('👑 ТЫ — БОГ!');
+    showToast('👑 ТЫ — КОРОЛЬ!');
   };
 })();
 
@@ -8256,7 +8256,7 @@ function openGodAdminPanel(){
   modal.style.zIndex = 400;
   modal.innerHTML = '<div class="am-inner" style="max-width:780px">'
     + '<button id="godClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;padding:0!important;border-radius:50%;background:rgba(120,30,30,.7);color:#fff;font-size:16px">✕</button>'
-    + '<h3>👑 БОГ-АДМИНКА <span class="god-badge">∞</span></h3>'
+    + '<h3>👑 КОРОЛЬ-АДМИНКА <span class="god-badge">∞</span></h3>'
     + '<div class="admin-god-tab">'
       + '<button data-god="live" class="on">📡 ЖИВЫЕ</button>'
       + '<button data-god="mass">🌍 МАССОВО</button>'
@@ -8638,7 +8638,7 @@ async function renderGodLogs(){
 
 function renderGodSelf(){
   const c = document.getElementById('godSelfSection');
-  c.innerHTML = '<div class="dev-section"><h4>💎 РЕЖИМ БОГА</h4>'
+  c.innerHTML = '<div class="dev-section"><h4>💎 РЕЖИМ КОРОЛЯ</h4>'
     + '<div class="dev-row">'
     + '<button class="btn-dev" id="sfGodCrystals">💎 +1 000 000 кристаллов</button>'
     + '<button class="btn-dev" id="sfGodGold">🪙 +1 000 000 золота</button>'
@@ -8660,7 +8660,7 @@ function renderGodSelf(){
     + '<button class="btn-dev" id="sfGodAch">🏅 Все ачивки</button>'
     + '</div>'
     + '<div class="dev-row">'
-    + '<button class="btn-dev" id="sfGodEverything" style="grid-column:1/-1;font-size:14px;padding:15px!important;background:linear-gradient(135deg,#8b0000,#f5b800,#8b0000)!important;background-size:200% 200%!important;animation:gradientShift 2s ease infinite">👑 ВЫДАТЬ ВСЁ (БОГ)</button>'
+    + '<button class="btn-dev" id="sfGodEverything" style="grid-column:1/-1;font-size:14px;padding:15px!important;background:linear-gradient(135deg,#8b0000,#f5b800,#8b0000)!important;background-size:200% 200%!important;animation:gradientShift 2s ease infinite">👑 ВЫДАТЬ ВСЁ (КОРОЛЬ)</button>'
     + '</div>'
     + '</div>';
   const $ = s => document.getElementById(s);
@@ -8744,7 +8744,7 @@ function renderGodSelf(){
     achData.games=99999;achData.wins=99999;
     saveAchData();
     updateAchBadge();updateCurrencyBadges();
-    showToast('👑 ТЫ — БОГ!');
+    showToast('👑 ТЫ — КОРОЛЬ!');
   };
 }
 
@@ -8758,7 +8758,7 @@ function renderGodSelf(){
   btn.className = 'menu-btn';
   btn.id = 'godAdminBtn';
   btn.style.cssText = 'background:linear-gradient(135deg,#8b0000,#f5b800)!important;color:#fff!important;border:none!important;background-size:200% 200%!important;animation:gradientShift 4s ease infinite';
-  btn.innerHTML = '<span class="mb-icon">👑</span><span class="mb-title">БОГ-АДМИНКА</span><span class="mb-sub">мега-возможности</span>';
+  btn.innerHTML = '<span class="mb-icon">👑</span><span class="mb-title">КОРОЛЬ-АДМИНКА</span><span class="mb-sub">мега-возможности</span>';
   btn.onclick = openGodAdminPanel;
   grid.appendChild(btn);
 })();
@@ -8981,7 +8981,7 @@ setTimeout(()=>{
 }, 3000);
 
 console.log('✅ ЧАСТЬ 9 загружена: бог-админка + оркестратор + хуки');
- </script><!-- ============================================================
+  </script><!-- ============================================================
      ФИНАЛЬНЫЙ ОРКЕСТРАТОР + ЗАКРЫТИЕ ДОКУМЕНТА
      ============================================================ -->
 <script>
@@ -9106,6 +9106,84 @@ if('serviceWorker' in navigator){
 }
 
 console.log('✅ ЧАСТЬ 10 загружена: финал + ServiceWorker + проверки');
+
+// ============================================================
+// BOOT (перенесён из Части 4)
+// ============================================================
+(async function boot(){
+  loadCollection();
+  loadAchData();
+  loadTitle();
+  loadProfileLocal();
+  loadMyTitles();
+  loadCustomTitles();
+  loadMyFrames();
+  loadGoldLocal();
+  const hasSession=loadSession();
+  if(hasSession && session.playerId){
+    if(session.isGuest){
+      updateUserBadgeWithTitle();
+      updateAchBadge();
+      show('menuScreen');
+      checkAdminStatus();
+      setTimeout(showReconnectBanner,800);
+    }else{
+      const banned=await checkIfBanned(session.playerId);
+      if(banned){
+        alert('❌ Твой аккаунт забанен.');
+        clearSession();
+        updateUserBadgeWithTitle();
+        show('loginScreen');
+      }else{
+        updateUserBadgeWithTitle();
+        updateAchBadge();
+        show('menuScreen');
+        checkAdminStatus();
+        loadAchFromFirebase();
+        loadProfileFromFirebase().then(()=>updateUserBadgeWithTitle());
+        loadCrystalsFromFirebase().then(()=>{});
+        if(typeof loadGoldFromFirebase==='function') loadGoldFromFirebase();
+        if(typeof loadPetStateFromFirebase==='function') loadPetStateFromFirebase();
+        if(typeof loadTowerFromFirebase==='function') loadTowerFromFirebase();
+        loadTitleFromFirebase().then(()=>{
+          loadTitle();
+          if(session.username && session.username.toLowerCase()==='admin' && myTitle==='novice'){
+            saveTitle('dev');
+            loadMyTitles(); myUnlockedTitles['dev']=Date.now(); saveMyTitles();
+            if(session.playerId) db.ref('users/'+session.playerId+'/title').set('dev').catch(()=>{});
+          }
+          updateUserBadgeWithTitle();
+        });
+        setTimeout(showReconnectBanner,800);
+      }
+    }
+  }else{
+    updateUserBadgeWithTitle();
+    show('loginScreen');
+  }
+  setInterval(()=>{forceLogoutIfBanned();},30000);
+  setInterval(()=>{updateAchBadge();},5000);
+  setInterval(()=>{ if(state.role==='host' && state.phase==='playing' && state.roomRef) hostAutoCheck(); },800);
+  if(typeof startBroadcastListener==='function') startBroadcastListener();
+  setTimeout(()=>{
+    if(typeof loadBossStateFromFirebase==='function' && !session.isGuest){
+      loadBossStateFromFirebase().then(()=>{ if(typeof renderBossHomeBadge==='function') renderBossHomeBadge(); });
+    }
+  },1500);
+  setTimeout(()=>{
+    if(typeof startKickWatcher==='function') startKickWatcher();
+    if(typeof checkPendingGift==='function') checkPendingGift();
+    if(typeof processPendingCoins==='function') processPendingCoins();
+    if(typeof loadRewardMultiplier==='function') loadRewardMultiplier();
+    if(typeof processPendingPetHatches==='function') processPendingPetHatches();
+    if(typeof processPendingFood==='function') processPendingFood();
+    if(typeof addPetsButton==='function') addPetsButton();
+    if(typeof addTowerButton==='function') addTowerButton();
+    if(typeof addMarketButton==='function') addMarketButton();
+    if(typeof addGodButton==='function') addGodButton();
+    if(typeof tickPassiveIncome==='function') tickPassiveIncome();
+  },2500);
+})();
 </script>
 
 </body>
