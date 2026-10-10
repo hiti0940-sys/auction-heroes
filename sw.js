@@ -1,4 +1,4 @@
-const CACHE = 'auction-heroes-v43';
+const CACHE = 'auction-heroes-v44';
 const ASSETS = [
   './',
   './index.html',
