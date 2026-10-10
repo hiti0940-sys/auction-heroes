@@ -635,7 +635,7 @@
   .live-player-row .lp-screen{font-size:9px;color:#888;margin-top:2px}
   .god-badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;background:linear-gradient(135deg,#8b0000,#f5b800);color:#fff;animation:pulseBadge 1.5s infinite;margin-left:6px}
 </style>
-  </head><body>
+</head><body>
 
 <div class="user-badge hidden" id="userBadge" title="Нажми чтобы открыть профиль">👤 <span id="userBadgeName">Гость</span></div>
 
@@ -1380,7 +1380,7 @@
     <input type="text" id="chatInput" maxlength="200" placeholder="Написать сообщение...">
     <button id="chatSendBtn">➤</button>
   </div>
-  </div><script>
+    </div><script>
 // ============================================================
 // FIREBASE INIT
 // ============================================================
@@ -7837,6 +7837,11 @@ setInterval(()=>{
 
 console.log('✅ Часть 8b загружена: питомцы + умения + башня + рынок + еда');
   </script> <script>
+// Защита: алиас для обратной совместимости
+if(typeof window.openPlayerAdminCardExtended !== 'function'){
+  window.openPlayerAdminCardExtended = window.openPlayerAdminCard;
+}
+
 // ============================================================
 // ПРИЁМ ПОДАРКОВ (питомцы / еда / золото / кристаллы)
 // ============================================================
@@ -8180,9 +8185,9 @@ async function adminSetPetLevelOfPlayer(pid, petName, level){
 })();
 
 // Карточка игрока: расширение секцией питомцев
-const _origOpenPlayerAdminCardExtended = openPlayerAdminCardExtended;
-openPlayerAdminCardExtended = async function(pid){
-  await _origOpenPlayerAdminCardExtended(pid);
+const _origOpenPlayerAdminCardBase = openPlayerAdminCard;
+openPlayerAdminCard = async function(pid){
+  await _origOpenPlayerAdminCardBase(pid);
   const allModals = document.querySelectorAll('.admin-modal');
   const modal = allModals[allModals.length - 1];
   if(!modal) return;
@@ -8339,7 +8344,7 @@ async function renderGodLive(){
               showToast('💬 Отправлено');
             }
           } else if(act === 'view'){
-            await openPlayerAdminCardExtended(pid);
+            await openPlayerAdminCard(pid);
           }
         };
       });
