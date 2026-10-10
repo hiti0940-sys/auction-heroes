@@ -1247,7 +1247,7 @@
     <input type="text" id="chatInput" maxlength="200" placeholder="Написать сообщение...">
     <button id="chatSendBtn">➤</button>
   </div>
- </div><script>
+                                                                                                                                 </div><script>
 const firebaseConfig = {
   apiKey: "AIzaSyCvxE90O88g_CIER2p6u66Ai80uAXzd48Y",
   authDomain: "auction-heroes-game.firebaseapp.com",
@@ -1711,7 +1711,7 @@ const ABILITY_EFFECTS = {
   portal_gun:{periodic:{n:5, dmg:450}}, super_punch:{firstStrike:{dmg:500}},
   mjolnir:{periodic:{n:3, dmg:400, stun:true}}, speed_force:{alwaysFirst:true, doubleHit:{chance:.3}},
   matrix:{firstNDodge:{n:2, chance:1}}, lasso:{periodic:{n:3, stun:true}},
-  metal_control:{periodic:{n:3, dmg:300, ignoreDef:true}}, force_push:{periodic:{n:3, dmg:300, stun:t'Никt'Ник},
+  metal_control:{periodic:{n:3, dmg:300, ignoreDef:true}}, force_push:{periodic:{n:3, dmg:300, stun:true}},
   light_of_valinor:{periodic:{n:4, dmg:400}}, time_stone:{periodic:{n:5, stun:true}},
   force_lightning:{periodic:{n:3, dmg:350}}, elder_wand:{periodic:{n:4, dmg:380, ignoreDef:true}},
   force_choke:{periodic:{n:4, dmg:320, stun:true}}, avada_kedavra:{instantKill:{chance:.2}},
@@ -1882,7 +1882,7 @@ const BOSSES = [
 const BOSS_REWARDS = 50;
 const BOSS_TOTAL_REWARD = 1000;
 const BOSS_COOLDOWN = 24*60*60*1000;
- </script> <script>
+       </script> <script>
 // ============ ПЕРЕМЕННЫЕ, НУЖНЫЕ РАНЬШЕ ============
 let myTitle='novice';
 
@@ -2808,7 +2808,7 @@ function hsRenderResults(){
   bumpAch('games');
   if(w.name===getMyName())bumpAch('wins');
 }
- </script><script>
+       </script><script>
 // ============ ОБЩИЕ ПЕРЕМЕННЫЕ ============
 let chatRef=null,chatQuery=null,chatListener=null,chatMessages=[],chatLastCount=0,chatUnreadCount=0,chatOpen=false;
 let achData=null,achFilter='all';
@@ -3721,7 +3721,7 @@ function tourShowResults(){
     if(typeof grantCrystals==='function')grantCrystals(4,false);
   }
 }
- </script> <script>
+       </script> <script>
 // ============ РЕКОННЕКТ ============
 function saveActiveGame(info){
   try{localStorage.setItem('ah_active_game',JSON.stringify(info));}catch(e){}
@@ -6898,6 +6898,570 @@ setInterval(()=>{
 console.log('✅ PART 9 загружен: финальные хуки (рамки, бейджи, тюнинг ботов)');
  </script> <script>
 // ============================================================
+// РАСШИРЕННАЯ АДМИНКА: карточка игрока (фичи 1-30) + сигналы игроку
+// ============================================================
+
+/* ---------- 1. СИГНАЛЫ ИГРОКУ: кик / логаут / мут / подарки / множитель ---------- */
+
+// Проверка временного бана при логине
+const _origLoginUserExtended = loginUser;
+loginUser = async function(username, password){
+  const r = await _origLoginUserExtended(username, password);
+  const snap = await db.ref('users/' + r.playerId).once('value');
+  const u = snap.val();
+  if(u && u.bannedUntil && Date.now() < u.bannedUntil){
+    const left = Math.ceil((u.bannedUntil - Date.now()) / 60000);
+    throw new Error('⛔ Временный бан. Осталось ' + left + ' мин');
+  }
+  if(u && u.bannedUntil && Date.now() >= u.bannedUntil){
+    await db.ref('users/' + r.playerId + '/bannedUntil').remove();
+    await db.ref('users/' + r.playerId + '/banned').set(false);
+  }
+  if(u && u.frozen){
+    setTimeout(()=>showToast('🧊 Твой аккаунт заморожен администратором'), 800);
+  }
+  return r;
+};
+
+// Теневой бан — не пишем в рейтинг
+const _origSubmitRatingExtended = submitRating;
+submitRating = function(mode, place, total, extra){
+  if(session.playerId){
+    db.ref('users/' + session.playerId + '/shadowBanned').once('value').then(s=>{
+      if(!s.val()) _origSubmitRatingExtended(mode, place, total, extra);
+    });
+  } else {
+    _origSubmitRatingExtended(mode, place, total, extra);
+  }
+};
+
+// Мут в чате
+const _origSendChatExtended = sendChat;
+sendChat = function(){
+  if(session.playerId){
+    db.ref('users/' + session.playerId + '/mutedUntil').once('value').then(s=>{
+      const until = s.val() || 0;
+      if(until > Date.now()){
+        const left = Math.ceil((until - Date.now()) / 60000);
+        showToast('🔇 Ты в муте ещё ' + left + ' мин');
+        return;
+      }
+      _origSendChatExtended();
+    });
+  } else {
+    _origSendChatExtended();
+  }
+};
+
+// Кик-сигнал + logout-сигнал
+let kickWatcherStarted = false;
+function startKickWatcher(){
+  if(kickWatcherStarted || !session.playerId || session.isGuest) return;
+  kickWatcherStarted = true;
+  db.ref('users/' + session.playerId + '/kickSignal').on('value', snap => {
+    const v = snap.val();
+    if(!v || !v.ts) return;
+    if(Date.now() - v.ts > 60000) return;
+    db.ref('users/' + session.playerId + '/kickSignal').remove();
+    alert('🚪 Тебя кикнул админ.\nПричина: ' + (v.reason || 'не указана'));
+    cleanupAllRoomsExtended();
+    clearSession();
+    location.reload();
+  });
+  db.ref('users/' + session.playerId + '/logoutSignal').on('value', snap => {
+    const v = snap.val();
+    if(!v || !v.ts) return;
+    if(Date.now() - v.ts > 60000) return;
+    db.ref('users/' + session.playerId + '/logoutSignal').remove();
+    alert('⛔ Сессия сброшена администратором. Зайди снова.');
+    cleanupAllRoomsExtended();
+    clearSession();
+    location.reload();
+  });
+}
+function cleanupAllRoomsExtended(){
+  try{
+    if(typeof state!=='undefined'&&state.roomRef&&state.playerId)state.roomRef.child('players/'+state.playerId).remove();
+    if(typeof otRoomRef!=='undefined'&&otRoomRef&&typeof otMyId!=='undefined'&&otMyId)otRoomRef.child('players/'+otMyId).remove();
+    if(typeof odRoomRef!=='undefined'&&odRoomRef&&typeof odMyId!=='undefined'&&odMyId)odRoomRef.child('players/'+odMyId).remove();
+    if(typeof detachChat==='function')detachChat();
+    if(typeof clearActiveGame==='function')clearActiveGame();
+  }catch(e){}
+}
+
+// Подарки при входе
+async function checkPendingGift(){
+  if(!session.playerId || session.isGuest) return;
+  try{
+    const s = await db.ref('users/' + session.playerId + '/pendingGift').once('value');
+    const g = s.val();
+    if(!g) return;
+    await db.ref('users/' + session.playerId + '/pendingGift').remove();
+    let text = '🎁 Подарок от админа:\n';
+    if(g.crystals){ if(typeof grantCrystals==='function')grantCrystals(g.crystals, false); text += '💎 +' + g.crystals + ' кристаллов\n';}
+    if(g.coins){ await db.ref('users/' + session.playerId + '/pendingCoins').set(g.coins); text += '💰 +' + g.coins + ' монет\n';}
+    if(g.text) text += '\n"' + g.text + '"';
+    setTimeout(()=>alert(text), 1000);
+  }catch(e){}
+}
+
+// Множитель наград
+let rewardMultiplier = 1;
+async function loadRewardMultiplier(){
+  if(!session.playerId || session.isGuest) return;
+  try{
+    const s = await db.ref('users/' + session.playerId + '/rewardMultiplier').once('value');
+    const v = s.val();
+    if(v && v.value && v.expiresAt > Date.now()){
+      rewardMultiplier = v.value;
+      showToast('⚡ Множитель x' + v.value + ' активен');
+    } else {
+      rewardMultiplier = 1;
+    }
+  }catch(e){}
+}
+const _origGrantCrystalsExtended = grantCrystals;
+grantCrystals = function(amount, onlyHard){
+  const boost = rewardMultiplier > 1 ? Math.round(amount * rewardMultiplier) : amount;
+  _origGrantCrystalsExtended(boost, onlyHard);
+};
+
+// Запись текущего экрана и ping
+const _origShowForWatchExtended = show;
+show = function(id){
+  _origShowForWatchExtended(id);
+  if(session.playerId && !session.isGuest){
+    try{
+      db.ref('users/' + session.playerId + '/currentScreen').set(id);
+      db.ref('users/' + session.playerId + '/lastPing').set(Date.now());
+    }catch(e){}
+  }
+};
+setInterval(()=>{
+  if(session.playerId && !session.isGuest){
+    db.ref('users/' + session.playerId + '/lastPing').set(Date.now()).catch(()=>{});
+  }
+}, 30000);
+
+// Автозапуск слушателей (после boot)
+setTimeout(()=>{
+  startKickWatcher();
+  checkPendingGift();
+  loadRewardMultiplier();
+}, 3000);
+
+/* ---------- 2. МЕГА-КАРТОЧКА ИГРОКА (фичи 1-30) ---------- */
+
+async function openPlayerAdminCardExtended(pid){
+  const p = adminAllPlayers.find(x => x.id === pid);
+  if(!p) return;
+
+  let extra = {};
+  try{
+    const s = await db.ref('users/' + pid).once('value');
+    extra = s.val() || {};
+  }catch(e){}
+
+  const role = extra.role || 'user';
+  const isVIP = role === 'vip';
+  const isMod = role === 'moderator';
+  const shadow = !!extra.shadowBanned;
+  const frozen = !!extra.frozen;
+  const bannedUntil = extra.bannedUntil || 0;
+  const mutedUntil = extra.mutedUntil || 0;
+  const now = Date.now();
+
+  const modal = document.createElement('div');
+  modal.className = 'admin-modal';
+  modal.innerHTML =
+    '<div class="am-inner" style="max-width:680px">' +
+    '<button style="position:absolute;top:10px;right:10px;width:32px;height:32px;padding:0!important;border-radius:50%;background:rgba(120,30,30,.7);color:#fff;font-size:16px" id="pcClose">✕</button>' +
+    '<h3>👤 ' + escapeHtml(p.username || '?') + (isVIP?' 💎':'') + (isMod?' 🛡':'') + '</h3>' +
+
+    '<div class="dev-stat">' +
+      '<div class="dev-stat-item"><div class="ds-l">ID</div><div class="ds-v" style="font-size:9px;word-break:break-all">'+p.id+'</div></div>' +
+      '<div class="dev-stat-item"><div class="ds-l">Роль</div><div class="ds-v" style="font-size:11px">'+role+'</div></div>' +
+      '<div class="dev-stat-item"><div class="ds-l">Статус</div><div class="ds-v" style="font-size:11px;color:'+(p.banned?'#e74c3c':'#27ae60')+'">'+(p.banned?'🚫 Бан':(bannedUntil>now?'⏱ Врем.бан':'✅ OK'))+'</div></div>' +
+      '<div class="dev-stat-item"><div class="ds-l">Теневой</div><div class="ds-v" style="font-size:11px;color:'+(shadow?'#e74c3c':'#27ae60')+'">'+(shadow?'👻 Вкл':'✅ Нет')+'</div></div>' +
+      '<div class="dev-stat-item"><div class="ds-l">Мут</div><div class="ds-v" style="font-size:11px">'+(mutedUntil>now?Math.ceil((mutedUntil-now)/60000)+' мин':'—')+'</div></div>' +
+      '<div class="dev-stat-item"><div class="ds-l">Заморозка</div><div class="ds-v" style="font-size:11px">'+(frozen?'🧊 Да':'—')+'</div></div>' +
+    '</div>' +
+
+    /* Титулы и статусы */
+    '<div class="dev-section"><h4>🎖 Титулы и статусы</h4>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaGiveTitle">🎖 Выдать титул</button>' +
+        '<button class="btn-dev" id="megaLockTitle">🔒 Закрепить титул</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaUnlockTitle">🔓 Снять закреп</button>' +
+        '<button class="btn-dev-danger" id="megaClearTitles">♻️ Снять все титулы</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaCustomTitle">👑 Кастомный титул</button>' +
+        '<button class="btn-dev" id="megaClearCustom">🗑 Убрать кастом</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaToggleVIP">' + (isVIP?'💎 Снять VIP':'💎 Дать VIP') + '</button>' +
+        '<button class="btn-dev" id="megaToggleMod">' + (isMod?'🛡 Снять модера':'🛡 Сделать модератором') + '</button>' +
+      '</div>' +
+    '</div>' +
+
+    /* Сессия / модерация */
+    '<div class="dev-section"><h4>🚪 Сессия и модерация</h4>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev-danger" id="megaKick">🚪 Кикнуть из игры</button>' +
+        '<button class="btn-dev-danger" id="megaLogout">⛔ Принудительный logout</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaMute1h">🔇 Мут 1 час</button>' +
+        '<button class="btn-dev" id="megaMute1d">🔇 Мут 1 день</button>' +
+        '<button class="btn-dev" id="megaMuteClear">🔊 Снять мут</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaBan1h">⏱ Бан 1ч</button>' +
+        '<button class="btn-dev" id="megaBan1d">📅 Бан 1д</button>' +
+        '<button class="btn-dev" id="megaBan7d">📆 Бан 7д</button>' +
+        '<button class="btn-dev-danger" id="megaBanPerm">♾ Перм.бан</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaShadow">' + (shadow?'👻 Снять теневой':'👻 Теневой бан') + '</button>' +
+        '<button class="btn-dev" id="megaFreeze">' + (frozen?'🔥 Разморозить':'🧊 Заморозить') + '</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaUnban">✅ Снять бан</button>' +
+        '<button class="btn-dev" id="megaWatch">👁 Где сейчас</button>' +
+        '<button class="btn-dev" id="megaRooms">🔍 Его комнаты</button>' +
+      '</div>' +
+    '</div>' +
+
+    /* Валюта */
+    '<div class="dev-section"><h4>💰 Валюта и награды</h4>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaGiveCoinsExact">💰 Монеты (точно)</button>' +
+        '<button class="btn-dev" id="megaGiveCrExact">💎 Кристаллы (точно)</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaGift">🎁 Отправить подарок</button>' +
+        '<button class="btn-dev" id="megaResetDaily">⏱ Сбросить daily</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaMultiplier">⚡ Множитель x2/x5</button>' +
+        '<button class="btn-dev" id="megaClearMult">🔄 Снять множитель</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaResetCr">♻️ Обнулить 💎</button>' +
+        '<button class="btn-dev" id="megaResetCoins">♻️ Обнулить монеты</button>' +
+      '</div>' +
+    '</div>' +
+
+    /* Коллекция */
+    '<div class="dev-section"><h4>🎴 Коллекция</h4>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaHeroGive">🎴 Выдать героя</button>' +
+        '<button class="btn-dev" id="megaHeroTake">🗑 Убрать героя</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaThemeAnime">🌸 Все Аниме</button>' +
+        '<button class="btn-dev" id="megaThemeCartoon">🎨 Все Мультики</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaThemeMovie">🎬 Все Фильмы</button>' +
+        '<button class="btn-dev" id="megaThemeGame">🎮 Все Игры</button>' +
+        '<button class="btn-dev" id="megaThemeDonghua">🐉 Все Дунхуа</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaHelpersAll">🃏 Все помощники</button>' +
+        '<button class="btn-dev" id="megaFreeCases">🎁 Бесплатные кейсы</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev-danger" id="megaClearColl">🗑 Очистить всю коллекцию</button>' +
+      '</div>' +
+    '</div>' +
+
+    /* Боссы */
+    '<div class="dev-section"><h4>👹 Боссы</h4>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaBossResetTimer">⏱ Сбросить таймер</button>' +
+        '<button class="btn-dev" id="megaBossFullReset">🔄 Полный сброс</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaBossSkipN">👑 Пропустить N боссов</button>' +
+        '<button class="btn-dev" id="megaBossAllDefeated">👑 Отметить всех</button>' +
+      '</div>' +
+      '<div class="dev-row">' +
+        '<button class="btn-dev" id="megaBossReward">💎 Дать награду 1000💎</button>' +
+        '<button class="btn-dev" id="megaBossUnlockAll">🔓 Убрать кулдаун</button>' +
+      '</div>' +
+    '</div>' +
+
+    '</div>';
+  document.body.appendChild(modal);
+
+  const $ = s => modal.querySelector(s);
+  const uid = '/users/' + p.id + '/';
+  const logAction = (action) => {
+    try{ db.ref('adminLog/' + (session.playerId||'?') + '/' + Date.now()).set({action, target:p.id, ts:Date.now(), admin:session.username}); }catch(e){}
+  };
+
+  $('#pcClose').onclick = () => modal.remove();
+
+  /* --- Титулы --- */
+  $('#megaGiveTitle').onclick = async () => {
+    const all = getAllTitles().map(t=>t.id).join(', ');
+    const id = prompt('ID титула:\n' + all, 'champion');
+    if(!id) return;
+    await db.ref(uid + 'title').set(id);
+    await db.ref(uid + 'unlockedTitles/' + id).set(Date.now());
+    logAction('give_title:'+id);
+    showToast('🎖 Титул выдан');
+  };
+  $('#megaLockTitle').onclick = async () => {
+    const all = getAllTitles().map(t=>t.id).join(', ');
+    const id = prompt('Закрепить титул (ID):\n' + all, 'moderator');
+    if(!id) return;
+    await db.ref(uid + 'lockedTitles/' + id).set(true);
+    await db.ref(uid + 'unlockedTitles/' + id).set(Date.now());
+    logAction('lock_title:'+id);
+    showToast('🔒 Титул закреплён — игрок не сможет снять');
+  };
+  $('#megaUnlockTitle').onclick = async () => {
+    const all = getAllTitles().map(t=>t.id).join(', ');
+    const id = prompt('Снять закреп (ID):\n' + all, 'moderator');
+    if(!id) return;
+    await db.ref(uid + 'lockedTitles/' + id).remove();
+    showToast('🔓 Закреп снят');
+  };
+  $('#megaClearTitles').onclick = async () => {
+    if(!confirm('Снять ВСЕ титулы игрока?')) return;
+    await db.ref(uid + 'lockedTitles').remove();
+    await db.ref(uid + 'unlockedTitles').remove();
+    await db.ref(uid + 'customTitle').remove();
+    await db.ref(uid + 'title').set('novice');
+    showToast('♻️ Все титулы сняты');
+  };
+  $('#megaCustomTitle').onclick = async () => {
+    const icon = prompt('Иконка (эмодзи):', '🎖') || '🎖';
+    const name = prompt('Название титула:', '');
+    if(!name) return;
+    const color = prompt('Цвет (hex):', '#f5b800') || '#f5b800';
+    await db.ref(uid + 'customTitle').set({icon, name, color});
+    const id = 'custom_mine';
+    await db.ref(uid + 'unlockedTitles/' + id).set(Date.now());
+    await db.ref(uid + 'title').set(id);
+    showToast('👑 Кастомный титул установлен');
+  };
+  $('#megaClearCustom').onclick = async () => {
+    await db.ref(uid + 'customTitle').remove();
+    showToast('🗑 Убран');
+  };
+  $('#megaToggleVIP').onclick = async () => {
+    const newRole = isVIP ? 'user' : 'vip';
+    await db.ref(uid + 'role').set(newRole);
+    if(!isVIP){
+      await db.ref(uid + 'lockedTitles/vip').set(true);
+      await db.ref(uid + 'unlockedTitles/vip').set(Date.now());
+      await db.ref(uid + 'title').set('vip');
+      showToast('💎 VIP присвоен');
+    } else {
+      await db.ref(uid + 'lockedTitles/vip').remove();
+      showToast('💎 VIP снят');
+    }
+    modal.remove();
+  };
+  $('#megaToggleMod').onclick = async () => {
+    const newRole = isMod ? 'user' : 'moderator';
+    await db.ref(uid + 'role').set(newRole);
+    if(!isMod){
+      await db.ref(uid + 'lockedTitles/moderator').set(true);
+      await db.ref(uid + 'unlockedTitles/moderator').set(Date.now());
+      showToast('🛡 Модератор присвоен');
+    } else {
+      await db.ref(uid + 'lockedTitles/moderator').remove();
+      showToast('🛡 Снят');
+    }
+    modal.remove();
+  };
+
+  /* --- Сессия --- */
+  $('#megaKick').onclick = async () => {
+    const reason = prompt('Причина кика:', 'Нарушение правил') || 'не указана';
+    await db.ref(uid + 'kickSignal').set({ts:Date.now(), reason});
+    logAction('kick:'+reason);
+    showToast('🚪 Кикнут');
+  };
+  $('#megaLogout').onclick = async () => {
+    if(!confirm('Сбросить сессию игрока?')) return;
+    await db.ref(uid + 'logoutSignal').set({ts:Date.now()});
+    logAction('logout');
+    showToast('⛔ Сессия сброшена');
+  };
+  $('#megaMute1h').onclick = async () => { await db.ref(uid + 'mutedUntil').set(Date.now()+3600000); logAction('mute:1h'); showToast('🔇 Мут 1ч'); };
+  $('#megaMute1d').onclick = async () => { await db.ref(uid + 'mutedUntil').set(Date.now()+86400000); logAction('mute:1d'); showToast('🔇 Мут 1д'); };
+  $('#megaMuteClear').onclick = async () => { await db.ref(uid + 'mutedUntil').remove(); showToast('🔊 Мут снят'); };
+  $('#megaBan1h').onclick = async () => { await db.ref(uid + 'bannedUntil').set(Date.now()+3600000); logAction('ban:1h'); showToast('⏱ Бан 1ч'); };
+  $('#megaBan1d').onclick = async () => { await db.ref(uid + 'bannedUntil').set(Date.now()+86400000); logAction('ban:1d'); showToast('📅 Бан 1д'); };
+  $('#megaBan7d').onclick = async () => { await db.ref(uid + 'bannedUntil').set(Date.now()+7*86400000); logAction('ban:7d'); showToast('📆 Бан 7д'); };
+  $('#megaBanPerm').onclick = async () => { await db.ref(uid + 'banned').set(true); logAction('ban:perm'); showToast('♾ Перм.бан'); };
+  $('#megaUnban').onclick = async () => { await db.ref(uid + 'banned').set(false); await db.ref(uid + 'bannedUntil').remove(); logAction('unban'); showToast('✅ Бан снят'); };
+  $('#megaShadow').onclick = async () => { await db.ref(uid + 'shadowBanned').set(!shadow); logAction('shadow:'+(!shadow)); showToast(shadow?'👻 Снят теневой':'👻 Теневой вкл'); };
+  $('#megaFreeze').onclick = async () => { await db.ref(uid + 'frozen').set(!frozen); showToast(frozen?'🔥 Разморожен':'🧊 Заморожен'); };
+  $('#megaWatch').onclick = async () => {
+    const s = await db.ref(uid + 'currentScreen').once('value');
+    const cur = s.val() || 'не в сети';
+    const ping = await db.ref(uid + 'lastPing').once('value');
+    const last = ping.val();
+    const ago = last ? Math.round((Date.now()-last)/1000) + 'с назад' : 'нет данных';
+    alert('👁 Экран: ' + cur + '\nПоследний ping: ' + ago);
+  };
+  $('#megaRooms').onclick = async () => {
+    const list = [];
+    for(const path of ['rooms','tourRooms','duelRooms']){
+      try{
+        const s = await db.ref(path).once('value');
+        const data = s.val() || {};
+        for(const code of Object.keys(data)){
+          const r = data[code];
+          if(r.players && r.players[p.id]) list.push(path + ' / ' + code + ' (phase: ' + r.phase + ')');
+          if(r.hostId === p.id) list.push(path + ' / ' + code + ' (ХОСТ)');
+        }
+      }catch(e){}
+    }
+    alert(list.length ? list.join('\n') : 'Не в комнатах');
+  };
+
+  /* --- Валюта --- */
+  $('#megaGiveCoinsExact').onclick = async () => {
+    const n = parseInt(prompt('Сколько монет:', '500'), 10);
+    if(!n || n <= 0) return;
+    await db.ref(uid + 'pendingCoins').set(n);
+    logAction('give_coins:'+n);
+    showToast('💰 +' + n + ' монет');
+  };
+  $('#megaGiveCrExact').onclick = async () => {
+    const n = parseInt(prompt('Сколько кристаллов:', '100'), 10);
+    if(!n || n <= 0) return;
+    const s = await db.ref(uid + 'crystals').once('value');
+    await db.ref(uid + 'crystals').set((s.val()||0) + n);
+    logAction('give_crystals:'+n);
+    showToast('💎 +' + n + ' кристаллов');
+  };
+  $('#megaGift').onclick = async () => {
+    const cr = parseInt(prompt('Кристаллы (0 = нет):', '100'), 10) || 0;
+    const co = parseInt(prompt('Монеты (0 = нет):', '0'), 10) || 0;
+    const txt = prompt('Текст подарка:', 'От админа ❤️') || '';
+    await db.ref(uid + 'pendingGift').set({crystals:cr, coins:co, text:txt, ts:Date.now()});
+    showToast('🎁 Подарок отправлен');
+  };
+  $('#megaResetDaily').onclick = async () => {
+    await db.ref(uid + 'resetDaily').set(true);
+    showToast('⏱ Бонус сброшен');
+  };
+  $('#megaMultiplier').onclick = async () => {
+    const v = parseInt(prompt('Множитель (2 или 5):', '2'), 10);
+    if(![2,5].includes(v)) return;
+    const hours = parseInt(prompt('На сколько часов:', '24'), 10) || 24;
+    await db.ref(uid + 'rewardMultiplier').set({value:v, expiresAt:Date.now() + hours*3600000});
+    showToast('⚡ x' + v + ' на ' + hours + 'ч');
+  };
+  $('#megaClearMult').onclick = async () => { await db.ref(uid + 'rewardMultiplier').remove(); showToast('🔄 Снят'); };
+  $('#megaResetCr').onclick = async () => { if(confirm('Обнулить кристаллы?')){ await db.ref(uid + 'crystals').set(0); showToast('♻️ 0💎'); } };
+  $('#megaResetCoins').onclick = async () => { if(confirm('Обнулить монеты?')){ await db.ref(uid + 'pendingCoins').set(0); showToast('♻️ 0 монет'); } };
+
+  /* --- Коллекция --- */
+  const collRef = db.ref('collections/' + p.id + '/heroes');
+  $('#megaHeroGive').onclick = async () => {
+    const name = prompt('Имя героя:', '');
+    if(!name) return;
+    if(!CHARACTERS.find(c=>c.n===name)){alert('Не найден');return;}
+    const s = await collRef.once('value');
+    const c = s.val() || {};
+    c[name] = (c[name]||0) + 1;
+    await collRef.set(c);
+    logAction('give_hero:'+name);
+    showToast('🎴 ' + name + ' выдан');
+  };
+  $('#megaHeroTake').onclick = async () => {
+    const name = prompt('Кого убрать:', '');
+    if(!name) return;
+    await db.ref('collections/' + p.id + '/heroes/' + name).remove();
+    showToast('🗑 Убран');
+  };
+  const giveTheme = async (theme, emoji) => {
+    if(!confirm('Выдать всех героев темы ' + emoji + '?')) return;
+    const s = await collRef.once('value');
+    const c = s.val() || {};
+    CHARACTERS.filter(x=>x.t===theme).forEach(x => c[x.n] = Math.max(c[x.n]||0, 1));
+    await collRef.set(c);
+    showToast(emoji + ' Все выданы');
+  };
+  $('#megaThemeAnime').onclick = () => giveTheme('anime','🌸');
+  $('#megaThemeCartoon').onclick = () => giveTheme('cartoon','🎨');
+  $('#megaThemeMovie').onclick = () => giveTheme('movie','🎬');
+  $('#megaThemeGame').onclick = () => giveTheme('game','🎮');
+  $('#megaThemeDonghua').onclick = () => giveTheme('donghua','🐉');
+  $('#megaHelpersAll').onclick = async () => {
+    const c = {};
+    HELPER_CARDS.forEach(h => c[h.n] = 1);
+    await db.ref('collections/' + p.id + '/helpers').set(c);
+    showToast('🃏 Все 25 выданы');
+  };
+  $('#megaFreeCases').onclick = async () => {
+    const hours = parseInt(prompt('Бесплатные кейсы на сколько часов:', '24'), 10) || 24;
+    await db.ref(uid + 'freeCasesUntil').set(Date.now() + hours*3600000);
+    showToast('🎁 Бесплатные кейсы на ' + hours + 'ч');
+  };
+  $('#megaClearColl').onclick = async () => {
+    if(!confirm('УДАЛИТЬ ВСЮ коллекцию игрока?')) return;
+    if(!confirm('Точно?')) return;
+    await db.ref('collections/' + p.id).remove();
+    showToast('🗑 Очищено');
+  };
+
+  /* --- Боссы --- */
+  const bpRef = db.ref('bossProgress/' + p.id);
+  $('#megaBossResetTimer').onclick = async () => {
+    const s = await bpRef.once('value');
+    const bp = s.val() || {};
+    bp.lastReset = Date.now();
+    await bpRef.set(bp);
+    showToast('⏱ Таймер сброшен');
+  };
+  $('#megaBossFullReset').onclick = async () => {
+    if(!confirm('Полный сброс боссов?')) return;
+    await bpRef.set({currentBoss:0, defeated:[], lastReset:Date.now()});
+    showToast('🔄 Сброшено');
+  };
+  $('#megaBossSkipN').onclick = async () => {
+    const n = parseInt(prompt('Сколько боссов пропустить (0-15):', '5'), 10);
+    if(isNaN(n) || n < 0 || n > 15) return;
+    const defeated = [];
+    for(let i=0;i<n;i++) defeated.push(i);
+    await bpRef.set({currentBoss:n, defeated, lastReset:Date.now()});
+    showToast('👑 Пропущено ' + n + ' боссов');
+  };
+  $('#megaBossAllDefeated').onclick = async () => {
+    if(!confirm('Отметить ВСЕХ боссов побеждёнными?')) return;
+    await bpRef.set({currentBoss:15, defeated:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], lastReset:Date.now()});
+    showToast('👑 Все отмечены');
+  };
+  $('#megaBossReward').onclick = async () => {
+    const s = await db.ref(uid + 'crystals').once('value');
+    await db.ref(uid + 'crystals').set((s.val()||0) + 1000);
+    showToast('💎 +1000 бонус за боссов');
+  };
+  $('#megaBossUnlockAll').onclick = async () => {
+    await db.ref(uid + 'bossNoCooldown').set(true);
+    showToast('🔓 Кулдаун убран');
+  };
+}
+
+// Подмена базовой карточки на расширенную
+openPlayerAdminCard = openPlayerAdminCardExtended;
+
+console.log('✅ PART 10 загружен: мега-карточка игрока (фичи 1-30) + сигналы');
+ </script> <script>
+// ============================================================
 // РАСШИРЕННАЯ АДМИНКА: глобалка 31-48
 // ============================================================
 
@@ -7288,7 +7852,7 @@ if(session.playerId && !session.isGuest){
 }
 
 console.log('✅ PART 11 загружен: глобалка + промо + модерация + косметика (31-48)');
- </script> <script>
+ </script><script>
 // ============================================================
 // ФИНАЛЬНЫЙ ОРКЕСТРАТОР: страховки, автосинхронизация, диагностика
 // ============================================================
