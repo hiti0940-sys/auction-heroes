@@ -46,7 +46,6 @@
   @keyframes cardAppear{0%{opacity:0;transform:scale(.85) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
   .char-card.shake{animation:shake .5s}
   @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px) rotate(-1.5deg)}40%{transform:translateX(10px) rotate(1.5deg)}60%{transform:translateX(-7px)}80%{transform:translateX(7px)}}
-  .char-emoji{font-size:42px;margin-bottom:4px}
   .char-img{width:100%;max-width:300px;height:340px;margin:0 auto 12px;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);display:flex;align-items:center;justify-content:center;transition:.4s;position:relative}
   .char-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:.4s}
   .char-img.contain img{object-fit:contain;object-position:center center}
@@ -157,8 +156,6 @@
   .hp-fill::after{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(180deg,rgba(255,255,255,.25),transparent)}
   .hp-fill.low{background:linear-gradient(90deg,#e74c3c,#f5b800);animation:hpDanger 1s infinite}
   @keyframes hpDanger{0%,100%{box-shadow:0 0 0 rgba(231,76,60,0)}50%{box-shadow:0 0 15px rgba(231,76,60,.8)}}
-  .hp-fill.damage-flash::after{background:linear-gradient(90deg,transparent,rgba(255,60,60,.7),transparent);animation:hpDamageWave .4s ease-out}
-  @keyframes hpDamageWave{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
   .hp-text{font-size:11px;color:#fff;position:absolute;top:0;left:0;right:0;line-height:20px;text-align:center;font-weight:800;text-shadow:0 0 6px #000}
   .battle-log{max-height:150px;overflow-y:auto;font-size:12px;background:rgba(15,15,25,.85);border-radius:10px;padding:10px;margin-bottom:10px;border:1px solid rgba(255,255,255,.05)}
   .battle-log div{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);color:#ccc;animation:logAppear .3s}
@@ -202,10 +199,6 @@
   .turn-timer-fill{height:100%;background:linear-gradient(90deg,#27ae60,#f5b800,#e74c3c);transition:width .95s linear}
   .turn-timer-text{font-size:11px;color:#aaa;text-align:center;margin-bottom:6px;font-weight:700}
   .turn-timer-text.urgent{color:#e74c3c;animation:pulseBadge .8s infinite}
-  .connection-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;background:#27ae60}
-  .connection-dot.warn{background:#f5b800;animation:pulseBadge 1s infinite}
-  .connection-dot.dead{background:#e74c3c}
-  .host-crown{color:#f5b800;font-size:11px;margin-left:4px}
   .ach-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
   .ach-tabs button{flex:1;min-width:80px;background:linear-gradient(135deg,#1a1a2e,#141428);color:#aaa;border:1.5px solid rgba(255,255,255,.1);font-size:12px;padding:9px;border-radius:10px;font-weight:600}
   .ach-tabs button.on{background:linear-gradient(135deg,#f5b800,#e67e22);color:#fff;border-color:transparent}
@@ -260,7 +253,6 @@
   .title-card .tc-req{font-size:11px;color:#888}
   .title-card.locked .tc-req{color:#666}
   .title-card .tc-active-tag{font-size:10px;color:#27ae60;font-weight:800;letter-spacing:1px}
-  .title-card .tc-share{font-size:10px;color:#f5b800;font-weight:700;margin-top:2px}
   .chat-toggle-btn{position:fixed;bottom:14px;right:14px;z-index:85;width:56px!important;height:56px;padding:0!important;border-radius:50%!important;background:linear-gradient(135deg,#16a085,#8e44ad);color:#fff;font-size:24px;box-shadow:0 4px 20px rgba(22,160,133,.6);display:flex;align-items:center;justify-content:center}
   .chat-toggle-btn:hover{transform:scale(1.08)}
   .chat-toggle-btn .chat-unread{position:absolute;top:-2px;right:-2px;background:#e74c3c;color:#fff;font-size:10px;font-weight:900;padding:3px 6px;border-radius:10px;min-width:20px;text-align:center;box-shadow:0 2px 6px rgba(231,76,60,.6)}
@@ -295,7 +287,6 @@
   .ot-match-line .otp.win{color:#27ae60;font-weight:800}
   .ot-match-line .otp.lose{color:#666;text-decoration:line-through}
   .ot-match-line .otp.playing{color:#f5b800;font-weight:800}
-  .ot-intent-hint{font-size:11px;color:#888;text-align:center;font-style:italic;margin-top:6px}
   .battle-fx-overlay{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
   .fly-card{position:fixed;width:80px;height:110px;border-radius:10px;background:linear-gradient(180deg,#0f0f1e,#1a1a2e);border:2px solid #f5b800;box-shadow:0 0 30px rgba(243,156,18,.9),0 0 60px rgba(231,76,60,.5);overflow:hidden;pointer-events:none;will-change:transform,opacity;z-index:55}
   .fly-card img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
@@ -339,8 +330,6 @@
   .screen-flash.purple{background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.9),rgba(155,89,182,.7) 30%,transparent 70%)}
   .duel-fighter.hit-flash::before{content:"";position:absolute;inset:-4px;border-radius:18px;background:transparent;box-shadow:0 0 40px rgba(231,76,60,1),0 0 60px rgba(243,156,18,.6);animation:hitFlash 400ms ease-out forwards;pointer-events:none;z-index:5}
   @keyframes hitFlash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
-
-  /* ===== DEV PANEL ===== */
   .dev-section{margin-bottom:18px;padding:14px;background:linear-gradient(135deg,rgba(22,160,133,.08),rgba(142,68,173,.05));border:1px solid rgba(22,160,133,.3);border-radius:12px}
   .dev-section h4{color:#16a085;font-size:13px;margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase;font-weight:800}
   .dev-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -353,8 +342,6 @@
   .dev-stat-item .ds-v{font-size:15px;font-weight:800;color:#16a085;margin-top:2px}
   .btn-dev{background:linear-gradient(135deg,#16a085,#0e6b5a)!important;color:#fff!important;border:none!important}
   .btn-dev-danger{background:linear-gradient(135deg,#c0392b,#7a2020)!important;color:#fff!important;border:none!important}
-
-  /* ===== HERO BOOK ===== */
   .hero-book-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
   .hero-book-filters button{padding:8px 12px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#1a1a2e,#141428);color:#aaa;border:1.5px solid rgba(255,255,255,.1);font-weight:700;flex:0 0 auto;width:auto;min-width:0}
   .hero-book-filters button.on{background:linear-gradient(135deg,#16a085,#27ae60);color:#fff;border-color:transparent}
@@ -373,8 +360,6 @@
   .hero-book-card .hb-owned{position:absolute;top:5px;right:5px;background:#27ae60;color:#fff;font-size:9px;font-weight:900;padding:2px 6px;border-radius:8px}
   .hero-book-card.locked{opacity:.45;filter:grayscale(.5)}
   .hero-book-count{font-size:12px;color:#aaa;text-align:center;margin-bottom:10px}
-
-  /* ===== RATING ===== */
   .rating-table{width:100%;border-collapse:collapse;font-size:13px}
   .rating-table th,.rating-table td{padding:10px 6px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06)}
   .rating-table th{color:#f5b800;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
@@ -383,13 +368,9 @@
   .rating-table tr.clickable:hover{background:rgba(255,255,255,.04)}
   .rating-table .rate-pos{color:#f5b800;font-weight:900;font-size:15px;text-align:center;width:34px}
   .rating-empty{text-align:center;color:#888;padding:30px;font-size:13px}
-
-  /* ===== SPEED CONTROL ===== */
   .speed-row{display:flex;gap:6px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}
   .speed-row button{padding:8px 16px;font-size:12px;border-radius:10px;background:linear-gradient(135deg,#1a1a2e,#141428);color:#aaa;border:1.5px solid rgba(255,255,255,.1);width:auto;min-width:60px;font-weight:700}
   .speed-row button.on{background:linear-gradient(135deg,#16a085,#27ae60);color:#fff;border-color:transparent}
-
-  /* ===== ПРОФИЛЬ (редактор) ===== */
   .profile-card{background:linear-gradient(135deg,rgba(26,26,46,.98),rgba(20,20,36,.98));border-radius:20px;padding:22px;text-align:center;position:relative;border:2px solid rgba(243,156,18,.3);margin-bottom:14px}
   .profile-avatar{width:110px;height:110px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#2a2a3e,#1a1a2e);display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden;transition:.3s}
   .profile-avatar img{width:100%;height:100%;object-fit:cover}
@@ -412,14 +393,10 @@
   .avatar-option{aspect-ratio:1;border-radius:12px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(20,20,40,.8);border:1.5px solid rgba(255,255,255,.08)}
   .avatar-option:hover{transform:scale(1.1);border-color:#f5b800}
   .avatar-option.active{border-color:#f5b800;box-shadow:0 0 14px rgba(243,156,18,.6)}
-
-  /* ===== ПРОМОКОДЫ ===== */
   .promo-input{width:100%;padding:16px;border-radius:14px;text-align:center;font-size:20px;font-weight:800;letter-spacing:3px;text-transform:uppercase;background:rgba(20,20,40,.85);border:2px dashed rgba(243,156,18,.5);color:#f5b800;outline:none;font-family:'Courier New',monospace;transition:.2s;margin-bottom:12px}
   .promo-input:focus{border-color:#f5b800;border-style:solid;box-shadow:0 0 20px rgba(243,156,18,.4)}
   .promo-success{text-align:center;padding:20px;background:linear-gradient(135deg,rgba(39,174,96,.2),rgba(22,160,133,.15));border:2px solid rgba(39,174,96,.5);border-radius:14px;animation:cardAppear .5s cubic-bezier(.34,1.56,.64,1)}
   .promo-error{text-align:center;padding:16px;background:linear-gradient(135deg,rgba(231,76,60,.2),rgba(192,57,43,.15));border:2px solid rgba(231,76,60,.5);border-radius:14px}
-
-  /* ===== КЕЙСЫ ===== */
   .case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
   .case-card{background:linear-gradient(135deg,rgba(20,20,36,.95),rgba(15,15,25,.95));border-radius:14px;padding:14px;text-align:center;cursor:pointer;transition:.25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.08)}
   .case-card:hover{transform:translateY(-4px)}
@@ -437,14 +414,10 @@
   @keyframes caseShake{0%{transform:scale(.5) rotate(-15deg);opacity:0}40%{transform:scale(1.1) rotate(5deg);opacity:1}60%{transform:scale(.95) rotate(-3deg)}80%{transform:scale(1.02) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
   .case-card-reveal{animation:cardReveal 1s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(0 0 30px rgba(243,156,18,1))}
   @keyframes cardReveal{0%{transform:scale(0) rotateY(720deg);opacity:0}60%{transform:scale(1.2) rotateY(0);opacity:1}100%{transform:scale(1);opacity:1}}
-
-  /* ===== МАГАЗИН ===== */
   .shop-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
   .shop-tabs button{flex:1;min-width:100px;background:linear-gradient(135deg,#1a1a2e,#141428);color:#aaa;border:1.5px solid rgba(255,255,255,.1);font-size:12px;padding:10px;border-radius:10px;font-weight:700}
   .shop-tabs button.on{background:linear-gradient(135deg,#f5b800,#e67e22);color:#fff;border-color:transparent}
   .crystals-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#3498db,#8e44ad);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:900;box-shadow:0 3px 10px rgba(52,152,219,.4);margin-left:6px}
-
-  /* ===== CARD HELPERS ===== */
   .helper-cards-bar{display:flex;gap:6px;justify-content:center;margin:8px 0;flex-wrap:wrap}
   .helper-card-chip{background:linear-gradient(135deg,rgba(155,89,182,.2),rgba(243,156,18,.15));border:1.5px solid rgba(243,156,18,.4);border-radius:10px;padding:6px 10px;font-size:11px;font-weight:800;color:#f5b800;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px}
   .helper-card-chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(243,156,18,.4)}
@@ -462,8 +435,6 @@
   .helper-modal-inner .hm-name{font-size:18px;font-weight:900;color:#f5b800;margin-bottom:4px}
   .helper-modal-inner .hm-desc{font-size:12px;color:#bbb;margin-bottom:10px;line-height:1.4}
   .helper-modal-inner .hm-count{font-size:11px;color:#888;margin-bottom:12px}
-
-  /* ===== БЛОК КНОПОК МЕНЮ ===== */
   .menu-group{margin-bottom:14px}
   .menu-group-title{font-size:11px;color:#888;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-bottom:8px;padding-left:4px}
   .menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
@@ -480,17 +451,72 @@
   .menu-btn.mb-orange{background:linear-gradient(135deg,#e67e22,#c0392b)!important;color:#fff!important;border:none!important}
   .menu-btn.mb-green{background:linear-gradient(135deg,#27ae60,#16a085)!important;color:#fff!important;border:none!important}
   .menu-btn.mb-dark{background:linear-gradient(135deg,#2a2a3e,#1a1a2e)!important;color:#ddd!important;border:1.5px solid rgba(243,156,18,.2)!important}
-
-  /* ===== АНИМИРОВАННЫЙ ФОН ===== */
+  .menu-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  @media(max-width:520px){.menu-grid-3{grid-template-columns:1fr}}
   body::before{content:"";position:fixed;inset:-20%;z-index:-2;pointer-events:none;background:radial-gradient(circle at 20% 20%,rgba(142,68,173,.18),transparent 40%),radial-gradient(circle at 80% 60%,rgba(231,76,60,.14),transparent 45%),radial-gradient(circle at 40% 85%,rgba(22,160,133,.12),transparent 40%);animation:auroraMove 24s ease-in-out infinite alternate;filter:blur(60px)}
   @keyframes auroraMove{0%{transform:translate(0,0) scale(1)}33%{transform:translate(3%,-2%) scale(1.06)}66%{transform:translate(-2%,3%) scale(.98)}100%{transform:translate(2%,-3%) scale(1.04)}}
   .bg-particles{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
   .bg-particle{position:absolute;width:3px;height:3px;border-radius:50%;background:radial-gradient(circle,#f5b800,transparent 70%);box-shadow:0 0 8px rgba(243,156,18,.6);opacity:.5;animation:particleFloat linear infinite}
   @keyframes particleFloat{from{transform:translateY(105vh) translateX(0);opacity:0}10%{opacity:.6}90%{opacity:.6}to{transform:translateY(-10vh) translateX(var(--drift,20px));opacity:0}}
-  .shake-error{animation:shakeError .4s}
-  @keyframes shakeError{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+  /* ===== РАМКИ-АУРЫ ===== */
+  .profile-avatar.frame_default{box-shadow:0 0 14px rgba(150,150,150,.5);border:3px solid #666}
+  .profile-avatar.frame_wood{box-shadow:0 0 18px rgba(139,90,43,.7);border:3px solid #8b5a2b;background:radial-gradient(circle,rgba(139,90,43,.2),transparent 70%)}
+  .profile-avatar.frame_stone{box-shadow:0 0 18px rgba(128,128,128,.6);border:3px solid #808080;background:radial-gradient(circle,rgba(128,128,128,.15),transparent 70%)}
+  .profile-avatar.frame_iron{box-shadow:0 0 20px rgba(160,160,180,.7);border:3px solid #a0a0b4;background:radial-gradient(circle,rgba(160,160,180,.2),transparent 70%)}
+  .profile-avatar.frame_bronze{box-shadow:0 0 22px rgba(205,127,50,.8);border:3px solid #cd7f32;background:radial-gradient(circle,rgba(205,127,50,.2),transparent 70%)}
+  .profile-avatar.frame_silver{box-shadow:0 0 26px rgba(192,192,200,.9),0 0 40px rgba(255,255,255,.3);border:3px solid #c0c0c8;background:radial-gradient(circle,rgba(255,255,255,.2),transparent 70%);animation:framePulse 3s ease-in-out infinite}
+  .profile-avatar.frame_gold{box-shadow:0 0 30px rgba(255,215,0,1),0 0 55px rgba(255,215,0,.5);border:3px solid #ffd700;background:radial-gradient(circle,rgba(255,215,0,.25),transparent 70%);animation:framePulse 2.5s ease-in-out infinite}
+  .profile-avatar.frame_platinum{box-shadow:0 0 34px rgba(229,228,226,1),0 0 60px rgba(150,200,255,.7);border:3px solid #e5e4e2;animation:framePulse 2s ease-in-out infinite,frameRotate 6s linear infinite}
+  .profile-avatar.frame_emerald{box-shadow:0 0 28px rgba(46,204,113,1);border:3px solid #2ecc71;background:radial-gradient(circle,rgba(46,204,113,.25),transparent 70%);animation:framePulse 2.5s ease-in-out infinite}
+  .profile-avatar.frame_ruby{box-shadow:0 0 32px rgba(231,76,60,1);border:3px solid #e74c3c;background:radial-gradient(circle,rgba(231,76,60,.25),transparent 70%);animation:framePulse 2s ease-in-out infinite}
+  .profile-avatar.frame_sapphire{box-shadow:0 0 32px rgba(52,152,219,1);border:3px solid #3498db;background:radial-gradient(circle,rgba(52,152,219,.25),transparent 70%);animation:framePulse 2s ease-in-out infinite}
+  .profile-avatar.frame_obsidian{box-shadow:0 0 34px rgba(0,0,0,1),0 0 60px rgba(155,89,182,.7);border:3px solid #1a1a1a;background:radial-gradient(circle,rgba(155,89,182,.3),transparent 70%);animation:framePulse 2s ease-in-out infinite}
+  .profile-avatar.frame_diamond{box-shadow:0 0 40px #fff,0 0 80px rgba(180,220,255,.8);border:3px solid #fff;background:radial-gradient(circle,rgba(255,255,255,.3),transparent 70%);animation:frameDiamond 1.5s ease-in-out infinite,frameRotate 4s linear infinite}
+  .profile-avatar.frame_dev{box-shadow:0 0 40px rgba(243,156,18,1),0 0 80px rgba(231,76,60,.8);border:3px solid #f5b800;background:radial-gradient(circle,rgba(243,156,18,.3),transparent 70%);animation:frameRotate 3s linear infinite}
+  .profile-avatar.frame_creator{box-shadow:0 0 40px rgba(231,76,60,1),0 0 80px rgba(243,156,18,.8);border:3px solid #e74c3c;background:radial-gradient(circle,rgba(231,76,60,.35),rgba(243,156,18,.2),transparent 70%);animation:frameFire 1.2s ease-in-out infinite}
+  .profile-avatar.frame_admin_gold{box-shadow:0 0 40px rgba(255,215,0,1),0 0 80px rgba(255,140,0,.8);border:3px solid #ffd700;animation:framePulse 1.5s infinite}
+  .profile-avatar.frame_admin_blood{box-shadow:0 0 40px rgba(200,0,0,1),0 0 80px rgba(80,0,0,1);border:3px solid #8b0000;animation:framePulse 1.2s infinite}
+  .profile-avatar.frame_admin_void{box-shadow:0 0 40px #000,0 0 80px rgba(100,50,200,.9);border:3px solid #2a0a3a;animation:frameRotate 4s infinite}
+  .profile-avatar.frame_admin_rainbow{box-shadow:0 0 40px #f5b800,0 0 80px #e74c3c,0 0 120px #9b59b6;border:3px solid #fff;animation:frameRotate 2.5s infinite}
+  .profile-avatar.frame_admin_lightning{box-shadow:0 0 40px #3498db,0 0 80px #fff;border:3px solid #fff;animation:frameLightning .8s infinite}
+  @keyframes framePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.03);filter:brightness(1.15)}}
+  @keyframes frameRotate{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+  @keyframes frameDiamond{0%,100%{filter:brightness(1)}50%{filter:brightness(1.4) saturate(1.3)}}
+  @keyframes frameFire{0%,100%{box-shadow:0 0 40px rgba(231,76,60,1),0 0 80px rgba(243,156,18,.8)}50%{box-shadow:0 0 60px rgba(243,156,18,1),0 0 120px rgba(231,76,60,1)}}
+  @keyframes frameLightning{0%,100%{filter:brightness(1)}50%{filter:brightness(1.8) drop-shadow(0 0 20px #fff)}}
+
+  .duel-fighter.frame_gold{box-shadow:0 0 30px rgba(255,215,0,.9),0 0 55px rgba(255,215,0,.5)!important;border-color:#ffd700!important}
+  .duel-fighter.frame_silver{box-shadow:0 0 24px rgba(192,192,200,.9)!important}
+  .duel-fighter.frame_platinum{box-shadow:0 0 34px rgba(229,228,226,1)!important}
+  .duel-fighter.frame_emerald{box-shadow:0 0 28px rgba(46,204,113,1)!important;border-color:#2ecc71!important}
+  .duel-fighter.frame_ruby{box-shadow:0 0 32px rgba(231,76,60,1)!important;border-color:#e74c3c!important}
+  .duel-fighter.frame_sapphire{box-shadow:0 0 32px rgba(52,152,219,1)!important;border-color:#3498db!important}
+  .duel-fighter.frame_obsidian{box-shadow:0 0 34px rgba(0,0,0,1),0 0 60px rgba(155,89,182,.7)!important;border-color:#1a1a1a!important}
+  .duel-fighter.frame_diamond{box-shadow:0 0 40px #fff,0 0 80px rgba(180,220,255,.8)!important;border-color:#fff!important;animation:frameDiamond 1.5s infinite!important}
+  .duel-fighter.frame_dev{box-shadow:0 0 40px rgba(243,156,18,1),0 0 80px rgba(231,76,60,.8)!important;animation:frameRotate 3s linear infinite!important}
+  .duel-fighter.frame_creator{box-shadow:0 0 40px rgba(231,76,60,1),0 0 80px rgba(243,156,18,.8)!important;animation:frameFire 1.2s infinite!important}
+
+  /* ===== БОССЫ ===== */
+  .boss-card{background:linear-gradient(135deg,rgba(20,20,36,.95),rgba(15,15,25,.95));border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:.2s;border:2px solid rgba(255,255,255,.1);position:relative}
+  .boss-card:hover{transform:translateY(-3px)}
+  .boss-card.defeated{border-color:#27ae60;opacity:.7}
+  .boss-card.defeated::after{content:"✅";position:absolute;top:6px;right:6px;font-size:20px}
+  .boss-card.locked{opacity:.4;cursor:not-allowed;filter:grayscale(.8)}
+  .boss-card.current{border-color:#f5b800;box-shadow:0 0 20px rgba(243,156,18,.7);animation:pulseBadge 2s infinite}
+  .boss-card .bc-img{font-size:50px;margin-bottom:6px}
+  .boss-card .bc-name{font-size:12px;font-weight:800;color:#fff;margin-bottom:3px}
+  .boss-card .bc-lvl{font-size:10px;color:#f5b800;font-weight:800}
+  .boss-card .bc-reward{font-size:10px;color:#3498db;font-weight:700;margin-top:2px}
+  .boss-select-card{background:linear-gradient(135deg,rgba(20,20,36,.95),rgba(15,15,25,.95));border-radius:10px;padding:8px;text-align:center;cursor:pointer;border:2px solid #333;transition:.2s;position:relative}
+  .boss-select-card:hover{transform:translateY(-2px)}
+  .boss-select-card.selected{border-color:#f5b800;box-shadow:0 0 16px rgba(243,156,18,.7)}
+  .boss-select-card.selected::after{content:"✓";position:absolute;top:4px;right:6px;background:#27ae60;color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .boss-select-card .bsc-img{width:100%;height:70px;border-radius:6px;overflow:hidden;margin-bottom:5px;display:flex;align-items:center;justify-content:center;background:#0f0f1e}
+  .boss-select-card .bsc-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
+  .boss-select-card .bsc-name{font-size:10px;font-weight:700;color:#fff;line-height:1.1}
 </style>
-                                                                                  </head> <body>
+</head> <body>
 
 <div class="user-badge hidden" id="userBadge" title="Нажми чтобы открыть профиль">👤 <span id="userBadgeName">Гость</span></div>
 
@@ -521,46 +547,83 @@
     <div class="status-msg" id="authStatus"></div>
   </div>
 
-  <!-- ============ MENU ============ -->
+  <!-- ============ MAIN MENU ============ -->
   <div id="menuScreen" class="hidden">
     <div class="panel">
-      <div class="menu-group">
-        <div class="menu-group-title">🎮 Играть</div>
-        <div class="menu-grid">
-          <button class="menu-btn mb-purple" id="duelModeBtn"><span class="mb-icon">⚔️</span><span class="mb-title">ДУЭЛИ</span><span class="mb-sub">vs бот / 2 игрока</span></button>
-          <button class="menu-btn mb-teal" id="onlineDuelModeBtn"><span class="mb-icon">🌐</span><span class="mb-title">ОНЛАЙН-ДУЭЛЬ</span><span class="mb-sub">с живым игроком</span></button>
-          <button class="menu-btn mb-teal" id="otBtn"><span class="mb-icon">🏟️</span><span class="mb-title">ОНЛАЙН-ТУРНИР</span><span class="mb-sub">2-4 игрока</span></button>
-          <button class="menu-btn mb-orange" id="tournamentBtn"><span class="mb-icon">🏆</span><span class="mb-title">ТУРНИР БОТОВ</span><span class="mb-sub">аукцион + дуэли</span></button>
-        </div>
+      <div class="menu-grid-3">
+        <button class="menu-btn mb-primary" id="mainPlayBtn"><span class="mb-icon">🎮</span><span class="mb-title">ИГРАТЬ</span><span class="mb-sub">онлайн и офлайн</span></button>
+        <button class="menu-btn mb-teal" id="mainProfileBtn"><span class="mb-icon">🎒</span><span class="mb-title">ПРОФИЛЬ</span><span class="mb-sub">коллекция, титулы</span></button>
+        <button class="menu-btn mb-purple" id="mainShopBtn"><span class="mb-icon">💎</span><span class="mb-title">МАГАЗИН</span><span class="mb-sub">кейсы, рамки</span></button>
       </div>
-      <div class="menu-group">
-        <div class="menu-group-title">🌐 Онлайн-комнаты</div>
-        <div class="menu-grid">
-          <button class="menu-btn mb-primary" id="createRoomBtn"><span class="mb-icon">🎮</span><span class="mb-title">СОЗДАТЬ</span><span class="mb-sub">аукцион</span></button>
-          <button class="menu-btn mb-dark" id="joinRoomBtn"><span class="mb-icon">🚪</span><span class="mb-title">ПРИСОЕДИНИТЬСЯ</span><span class="mb-sub">по коду</span></button>
-        </div>
-      </div>
-      <div class="menu-group">
-        <div class="menu-group-title">🎒 Профиль</div>
-        <div class="menu-grid">
-          <button class="menu-btn mb-teal" id="profileBtn"><span class="mb-icon">👤</span><span class="mb-title">ПРОФИЛЬ</span><span class="mb-sub">аватар · рамка</span></button>
-          <button class="menu-btn mb-primary" id="achBtn"><span class="mb-icon">🏅</span><span class="mb-title">ДОСТИЖЕНИЯ</span><span class="mb-sub" id="achBadge">0/0</span></button>
-          <button class="menu-btn mb-purple" id="titlesBtn"><span class="mb-icon">🎖</span><span class="mb-title">ТИТУЛЫ</span><span class="mb-sub">выбери статус</span></button>
-          <button class="menu-btn mb-teal" id="heroBookBtn"><span class="mb-icon">📖</span><span class="mb-title">КНИГА ГЕРОЕВ</span><span class="mb-sub">вся коллекция</span></button>
-          <button class="menu-btn mb-orange" id="dailyBtn"><span class="mb-icon">🎁</span><span class="mb-title">БОНУС</span><span class="mb-sub">раз в день</span></button>
-          <button class="menu-btn mb-primary" id="ratingBtn"><span class="mb-icon">🏆</span><span class="mb-title">РЕЙТИНГ</span><span class="mb-sub">топ игроков</span></button>
-          <button class="menu-btn mb-teal" id="shopBtn"><span class="mb-icon">💎</span><span class="mb-title">МАГАЗИН</span><span class="mb-sub">кейсы · рамки</span></button>
-          <button class="menu-btn mb-purple" id="promoBtn"><span class="mb-icon">🎟️</span><span class="mb-title">ПРОМОКОД</span><span class="mb-sub">введи код</span></button>
-        </div>
-      </div>
-      <div class="menu-group hidden" id="adminGroup">
-        <div class="menu-group-title">🛠 Админ</div>
+      <div class="menu-group hidden" id="adminGroup" style="margin-top:14px">
         <div class="menu-grid">
           <button class="menu-btn mb-dark full" id="adminPanelBtn"><span class="mb-icon">⚙️</span><span class="mb-title">АДМИН-ПАНЕЛЬ</span><span class="mb-sub">управление игроками и миром</span></button>
         </div>
       </div>
-      <div class="menu-group hidden" id="hotseatMenu">
-        <button class="btn-primary" id="hotseatBtn" style="margin-top:8px">📱 Локальная игра</button>
+    </div>
+  </div>
+
+  <!-- ============ PLAY MENU ============ -->
+  <div id="playMenuScreen" class="hidden">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 style="margin:0">🎮 Играть</h2>
+        <button class="btn-secondary" id="backFromPlayMenu" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
+      </div>
+      <div class="menu-grid">
+        <button class="menu-btn mb-teal" id="onlineSectionBtn"><span class="mb-icon">🌐</span><span class="mb-title">ОНЛАЙН</span><span class="mb-sub">с другими игроками</span></button>
+        <button class="menu-btn mb-orange" id="offlineSectionBtn"><span class="mb-icon">📱</span><span class="mb-title">ОФЛАЙН</span><span class="mb-sub">боты и боссы</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ONLINE MENU ============ -->
+  <div id="onlineMenuScreen" class="hidden">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 style="margin:0">🌐 Онлайн</h2>
+        <button class="btn-secondary" id="backFromOnlineMenu" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
+      </div>
+      <div class="menu-grid">
+        <button class="menu-btn mb-primary" id="createRoomBtn"><span class="mb-icon">🎮</span><span class="mb-title">АУКЦИОН</span><span class="mb-sub">создать комнату</span></button>
+        <button class="menu-btn mb-dark" id="joinRoomBtn"><span class="mb-icon">🚪</span><span class="mb-title">ВОЙТИ</span><span class="mb-sub">по коду</span></button>
+        <button class="menu-btn mb-teal" id="onlineDuelModeBtn"><span class="mb-icon">⚔️</span><span class="mb-title">ОНЛАЙН-ДУЭЛЬ</span><span class="mb-sub">1 на 1</span></button>
+        <button class="menu-btn mb-teal" id="otBtn"><span class="mb-icon">🏟️</span><span class="mb-title">ОНЛАЙН-ТУРНИР</span><span class="mb-sub">2-4 игрока</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ OFFLINE MENU ============ -->
+  <div id="offlineMenuScreen" class="hidden">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 style="margin:0">📱 Офлайн</h2>
+        <button class="btn-secondary" id="backFromOfflineMenu" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
+      </div>
+      <div class="menu-grid">
+        <button class="menu-btn mb-orange" id="bossModeBtn" style="position:relative"><span class="mb-icon">👹</span><span class="mb-title">РЕЖИМ БОССОВ</span><span class="mb-sub">15 боссов · 1000💎</span><span id="bossTimerBadge" style="position:absolute;top:6px;right:8px;background:#e74c3c;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:8px">NEW</span></button>
+        <button class="menu-btn mb-purple" id="duelModeBtn"><span class="mb-icon">⚔️</span><span class="mb-title">ДУЭЛИ</span><span class="mb-sub">vs бот / 2 игрока</span></button>
+        <button class="menu-btn mb-orange" id="tournamentBtn"><span class="mb-icon">🏆</span><span class="mb-title">ТУРНИР БОТОВ</span><span class="mb-sub">аукцион + дуэли</span></button>
+        <button class="menu-btn mb-dark" id="hotseatBtn"><span class="mb-icon">📱</span><span class="mb-title">ЛОКАЛЬНО</span><span class="mb-sub">1 экран</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PROFILE MENU ============ -->
+  <div id="profileMenuScreen" class="hidden">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 style="margin:0">🎒 Профиль</h2>
+        <button class="btn-secondary" id="backFromProfileMenu" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
+      </div>
+      <div class="menu-grid">
+        <button class="menu-btn mb-teal" id="profileBtn"><span class="mb-icon">👤</span><span class="mb-title">МОЙ ПРОФИЛЬ</span><span class="mb-sub">аватар · рамка</span></button>
+        <button class="menu-btn mb-primary" id="achBtn"><span class="mb-icon">🏅</span><span class="mb-title">ДОСТИЖЕНИЯ</span><span class="mb-sub" id="achBadge">0/0</span></button>
+        <button class="menu-btn mb-purple" id="titlesBtn"><span class="mb-icon">🎖</span><span class="mb-title">ТИТУЛЫ</span><span class="mb-sub">выбери статус</span></button>
+        <button class="menu-btn mb-teal" id="heroBookBtn"><span class="mb-icon">📖</span><span class="mb-title">КНИГА ГЕРОЕВ</span><span class="mb-sub">вся коллекция</span></button>
+        <button class="menu-btn mb-orange" id="dailyBtn"><span class="mb-icon">🎁</span><span class="mb-title">БОНУС</span><span class="mb-sub">раз в день</span></button>
+        <button class="menu-btn mb-primary" id="ratingBtn"><span class="mb-icon">🏆</span><span class="mb-title">РЕЙТИНГ</span><span class="mb-sub">топ игроков</span></button>
+        <button class="menu-btn mb-purple" id="promoBtn"><span class="mb-icon">🎟️</span><span class="mb-title">ПРОМОКОД</span><span class="mb-sub">введи код</span></button>
       </div>
     </div>
   </div>
@@ -580,7 +643,7 @@
     </div>
     <div class="panel">
       <div class="row">
-        <div><label>Стартовые деньги</label><input type="number" id="startMoney" value="1000" step="100" min="100"></div>
+        <div><label>Стартовые деньги</label><input type="number" id="startMoney" value="1000" step="100" min="1"></div>
         <div><label>Персонажей</label><input type="number" id="charCount" value="10" min="3" max="40"></div>
       </div>
     </div>
@@ -639,7 +702,7 @@
     <div class="panel">
       <div class="row">
         <div><label>Игроков</label><input type="number" id="hsPlayerCount" value="2" min="2" max="6"></div>
-        <div><label>Стартовые деньги</label><input type="number" id="hsStartMoney" value="1000" step="100"></div>
+        <div><label>Стартовые деньги</label><input type="number" id="hsStartMoney" value="1000" step="100" min="1"></div>
         <div><label>Персонажей</label><input type="number" id="hsCharCount" value="10" min="3" max="40"></div>
       </div>
     </div>
@@ -766,6 +829,35 @@
     </div>
   </div>
 
+  <!-- ============ BOSS HOME ============ -->
+  <div id="bossHomeScreen" class="hidden">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="margin:0">👹 РЕЖИМ БОССОВ</h2>
+        <button class="btn-secondary" id="backFromBoss" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
+      </div>
+      <p style="color:#aaa;font-size:12px;text-align:center;margin-bottom:14px">Сразись с 15 боссами! Каждый сильнее предыдущего.<br>Раз в сутки · 50💎 за босса · 1000💎 за всех</p>
+      <div id="bossTimerInfo" style="text-align:center;margin-bottom:14px"></div>
+      <div class="hero-book-count" id="bossProgress"></div>
+      <div class="hero-book-grid" id="bossGrid"></div>
+      <button class="btn-primary" id="bossStartBtn" style="margin-top:14px" disabled>⚔️ ВЫБРАТЬ КАРТЫ</button>
+    </div>
+  </div>
+
+  <!-- ============ BOSS SELECT ============ -->
+  <div id="bossSelectScreen" class="hidden">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="margin:0">🃏 ВЫБЕРИ 3 КАРТЫ</h2>
+        <button class="btn-secondary" id="backFromBossSelect" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
+      </div>
+      <div id="bossSelected"></div>
+      <div class="hero-book-count" id="bossSelectCount"></div>
+      <div class="hero-book-grid" id="bossSelectGrid"></div>
+      <button class="btn-primary" id="bossFightBtn" style="margin-top:14px" disabled>⚔️ В БОЙ</button>
+    </div>
+  </div>
+
   <!-- ============ HERO BOOK ============ -->
   <div id="heroBookScreen" class="hidden">
     <div class="panel">
@@ -824,13 +916,13 @@
         <h2 style="margin:0">✏️ Редактор профиля</h2>
         <button class="btn-secondary" id="backFromProfileEdit" style="width:auto;padding:8px 14px;font-size:12px">← Назад</button>
       </div>
-      <div class="profile-edit-row"><label>Аватар</label></div>
+      <div><label>Аватар</label></div>
       <div class="avatar-picker" id="avatarPicker"></div>
-      <div class="profile-edit-row" style="margin-top:14px"><label>Рамка</label></div>
+      <div style="margin-top:14px"><label>Рамка</label></div>
       <div class="frame-picker" id="framePicker"></div>
-      <div class="profile-edit-row" style="margin-top:14px"><label>Описание</label></div>
+      <div style="margin-top:14px"><label>Описание</label></div>
       <textarea id="profileDescInput" maxlength="200" placeholder="Пара слов о себе..." style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(243,156,18,.25);background:rgba(20,20,40,.8);color:#eee;font-size:13px;outline:none;font-family:inherit;min-height:80px;resize:vertical"></textarea>
-      <div class="profile-edit-row" style="margin-top:14px"><label>Любимый герой</label><select id="profileFavHero"></select></div>
+      <div style="margin-top:14px"><label>Любимый герой</label><select id="profileFavHero"></select></div>
       <button class="btn-primary" id="profileSaveBtn" style="margin-top:14px">💾 СОХРАНИТЬ</button>
     </div>
   </div>
@@ -908,7 +1000,7 @@
         <button data-ach="unlocked">✅ Открытые</button>
         <button data-ach="locked">🔒 Закрытые</button>
       </div>
-      <div class="counter-text" id="achCounter"></div>
+      <div id="achCounter" style="text-align:center;font-size:12px;color:#aaa;margin-bottom:10px"></div>
       <div id="achList"></div>
     </div>
   </div>
@@ -959,7 +1051,7 @@
         <label><input type="radio" name="tourBotLvl" value="nightmare"> 🔴 Хардкор</label>
       </div>
       <div class="row" style="margin-top:12px">
-        <div><label>💰 Деньги</label><input type="number" id="tourStartMoney" value="1000" step="100" min="300"></div>
+        <div><label>💰 Деньги</label><input type="number" id="tourStartMoney" value="1000" step="100" min="1"></div>
         <div><label>🃏 Карт</label><input type="number" id="tourCardCount" value="12" min="4" max="30"></div>
       </div>
       <button class="btn-primary" id="tourStartBtn" style="margin-top:14px">🚀 НАЧАТЬ ТУРНИР</button>
@@ -1079,6 +1171,9 @@
             <option value="crystals">💎 Кристаллы</option>
             <option value="title">🎖 Титул</option>
             <option value="custom_title">✏️ Свой титул</option>
+            <option value="hero">🎴 Карта героя</option>
+            <option value="helper">🃏 Карта помощи</option>
+            <option value="bundle">📦 Набор (всё сразу)</option>
           </select>
           <input type="text" class="dev-input" id="promoRewardValue" placeholder="Значение" style="flex:1;margin:0">
         </div>
@@ -1097,7 +1192,7 @@
         <h4>📢 Глобальные действия</h4>
         <input type="text" class="dev-input" id="broadcastInput" placeholder="Текст рассылки всем игрокам">
         <div class="dev-row">
-          <button class="btn-dev" id="devBroadcast">📢 Отправить</button>
+          <button class="btn-dev" id="devBroadcast">📢 Отправить (тост)</button>
           <button class="btn-dev" id="devCleanRooms">🧹 Очистить комнаты</button>
         </div>
       </div>
@@ -1112,7 +1207,7 @@
     </div>
   </div>
 
-  <!-- ============ PLAYER MODAL (чужой профиль) ============ -->
+  <!-- ============ PLAYER MODAL ============ -->
   <div id="playerModal" class="admin-modal hidden">
     <div class="am-inner">
       <button id="playerModalClose" style="position:absolute;top:10px;right:10px;width:32px;height:32px;padding:0!important;border-radius:50%;background:rgba(120,30,30,.7);color:#fff;font-size:16px">✕</button>
@@ -1152,7 +1247,7 @@
     <input type="text" id="chatInput" maxlength="200" placeholder="Написать сообщение...">
     <button id="chatSendBtn">➤</button>
   </div>
-                 </div><script>
+ </div><script>
 const firebaseConfig = {
   apiKey: "AIzaSyCvxE90O88g_CIER2p6u66Ai80uAXzd48Y",
   authDomain: "auction-heroes-game.firebaseapp.com",
@@ -1616,7 +1711,7 @@ const ABILITY_EFFECTS = {
   portal_gun:{periodic:{n:5, dmg:450}}, super_punch:{firstStrike:{dmg:500}},
   mjolnir:{periodic:{n:3, dmg:400, stun:true}}, speed_force:{alwaysFirst:true, doubleHit:{chance:.3}},
   matrix:{firstNDodge:{n:2, chance:1}}, lasso:{periodic:{n:3, stun:true}},
-  metal_control:{periodic:{n:3, dmg:300, ignoreDef:true}}, force_push:{periodic:{n:3, dmg:300, stun:true}},
+  metal_control:{periodic:{n:3, dmg:300, ignoreDef:true}}, force_push:{periodic:{n:3, dmg:300, stun:t'Никt'Ник},
   light_of_valinor:{periodic:{n:4, dmg:400}}, time_stone:{periodic:{n:5, stun:true}},
   force_lightning:{periodic:{n:3, dmg:350}}, elder_wand:{periodic:{n:4, dmg:380, ignoreDef:true}},
   force_choke:{periodic:{n:4, dmg:320, stun:true}}, avada_kedavra:{instantKill:{chance:.2}},
@@ -1693,9 +1788,6 @@ const CHAR_IMAGES = {
   "Джокер":{file:"img/joker",fit:"cover"}
 };
 
-/* ============================================================
-   КАРТЫ-ПОМОЩНИКИ (25 шт)
-   ============================================================ */
 const HELPER_CARDS = [
   {id:"h_small_heal",n:"Малый хил",icon:"💚",rarity:"common",desc:"Восстанавливает 15% HP",effect:{type:"heal",percent:0.15}},
   {id:"h_small_atk",n:"Малый бафф",icon:"⚔️",rarity:"common",desc:"+20% ATK на 2 хода",effect:{type:"atkBuff",mult:1.2,turns:2}},
@@ -1726,35 +1818,35 @@ const HELPER_CARDS = [
 
 const HELPER_RARITY_NAMES = {common:"Обычная",rare:"Редкая",epic:"Эпическая",legendary:"Легендарная",royal:"Королевская"};
 
-/* ============================================================
-   РАМКИ ПРОФИЛЯ (15 шт)
-   ============================================================ */
 const FRAMES = [
-  {id:"frame_default",cls:"frame-default",name:"Серая",price:0,type:"default"},
-  {id:"frame_wood",cls:"frame-wood",name:"Дерево",price:0,type:"default"},
-  {id:"frame_stone",cls:"frame-stone",name:"Камень",price:0,type:"default"},
-  {id:"frame_iron",cls:"frame-iron",name:"Железо",price:0,type:"default"},
-  {id:"frame_bronze",cls:"frame-bronze",name:"Бронза",price:0,type:"default"},
-  {id:"frame_silver",cls:"frame-silver",name:"Серебро",price:100,type:"crystals"},
-  {id:"frame_gold",cls:"frame-gold",name:"Золото",price:300,type:"crystals"},
-  {id:"frame_platinum",cls:"frame-platinum",name:"Платина",price:800,type:"crystals"},
-  {id:"frame_emerald",cls:"frame-emerald",name:"Изумруд",req:"10 побед",type:"ach",check:d=>(d.wins||0)>=10},
-  {id:"frame_ruby",cls:"frame-ruby",name:"Рубин",req:"50 побед",type:"ach",check:d=>(d.wins||0)>=50},
-  {id:"frame_sapphire",cls:"frame-sapphire",name:"Сапфир",req:"5 мификов",type:"ach",check:d=>(d.mythicOwned||0)>=5},
-  {id:"frame_obsidian",cls:"frame-obsidian",name:"Обсидиан",req:"10 дуэлей",type:"ach",check:d=>(d.duelGames||0)>=10},
-  {id:"frame_diamond",cls:"frame-diamond",name:"Алмаз",req:"Все 156 карт",type:"ach",check:d=>(d.uniqueOwned||0)>=156},
-  {id:"frame_dev",cls:"frame-dev",name:"Радужная",type:"admin"},
-  {id:"frame_creator",cls:"frame-creator",name:"Огонь",type:"admin"}
+  {id:"frame_default",cls:"frame_default",name:"Серая",price:0,type:"default"},
+  {id:"frame_wood",cls:"frame_wood",name:"Дерево",price:0,type:"default"},
+  {id:"frame_stone",cls:"frame_stone",name:"Камень",price:0,type:"default"},
+  {id:"frame_iron",cls:"frame_iron",name:"Железо",price:0,type:"default"},
+  {id:"frame_bronze",cls:"frame_bronze",name:"Бронза",price:0,type:"default"},
+  {id:"frame_silver",cls:"frame_silver",name:"Серебро",price:100,type:"crystals"},
+  {id:"frame_gold",cls:"frame_gold",name:"Золото",price:300,type:"crystals"},
+  {id:"frame_platinum",cls:"frame_platinum",name:"Платина",price:800,type:"crystals"},
+  {id:"frame_emerald",cls:"frame_emerald",name:"Изумруд",req:"10 побед",type:"ach",check:d=>(d.wins||0)>=10},
+  {id:"frame_ruby",cls:"frame_ruby",name:"Рубин",req:"50 побед",type:"ach",check:d=>(d.wins||0)>=50},
+  {id:"frame_sapphire",cls:"frame_sapphire",name:"Сапфир",req:"5 мификов",type:"ach",check:d=>(d.mythicOwned||0)>=5},
+  {id:"frame_obsidian",cls:"frame_obsidian",name:"Обсидиан",req:"10 дуэлей",type:"ach",check:d=>(d.duelGames||0)>=10},
+  {id:"frame_diamond",cls:"frame_diamond",name:"Алмаз",req:"Все 156 карт",type:"ach",check:d=>(d.uniqueOwned||0)>=156},
+  {id:"frame_dev",cls:"frame_dev",name:"Радужная",type:"admin"},
+  {id:"frame_creator",cls:"frame_creator",name:"Огонь",type:"admin"},
+  {id:"frame_admin_gold",cls:"frame_admin_gold",name:"Админ-золото",type:"admin"},
+  {id:"frame_admin_blood",cls:"frame_admin_blood",name:"Админ-кровь",type:"admin"},
+  {id:"frame_admin_void",cls:"frame_admin_void",name:"Админ-пустота",type:"admin"},
+  {id:"frame_admin_rainbow",cls:"frame_admin_rainbow",name:"Админ-радуга",type:"admin"},
+  {id:"frame_admin_lightning",cls:"frame_admin_lightning",name:"Админ-молния",type:"admin"}
 ];
 
-/* ============================================================
-   АВАТАРЫ (эмодзи)
-   ============================================================ */
-const AVATARS = ["👤","😎","🦸","🦹","🥷","🤴","👸","🧙","🧝","🧛","🧟","👽","🤖","👾","💀","🎃","🐉","🦁","🐺","🦊","🐯","🐻","🦅","🦉","⚡","🔥","💎","🌟","👑","⚔️"];
+const AVATARS = [
+  "👤","😎","🦸","🦹","🥷","🤴","👸","🧙","🧝","🧛","🧟","👽","🤖","👾","💀","🎃","🐉","🦁","🐺","🦊",
+  "🐯","🐻","🦅","🦉","⚡","🔥","💎","🌟","👑","⚔️",
+  "👑","🛠","⚙️","🗡","🛡","⚔️","🌟","💠","🔮","☠️"
+];
 
-/* ============================================================
-   КЕЙСЫ (4 шт)
-   ============================================================ */
 const CASES = [
   {id:"case_wave",name:"Кейс Волн",icon:"🌊",price:200,cls:"case-common",desc:"Базовые карты помощи",
     drops:[{rarity:"common",chance:98},{rarity:"rare",chance:2}]},
@@ -1765,7 +1857,32 @@ const CASES = [
   {id:"case_king",name:"Кейс Короля",icon:"👑",price:2500,cls:"case-royal",desc:"Только легендарные и королевские",
     drops:[{rarity:"legendary",chance:55},{rarity:"royal",chance:45}]}
 ];
-  </script> <script>
+
+/* ============================================================
+   БОССЫ (15) — финальный блок
+   ============================================================ */
+const BOSSES = [
+  {n:"Страж Врат",  hp:300,  atk:22, def:18, agi:15, mag:0,  int:5,  ability:null,        icon:"🗿", desc:"Простой страж"},
+  {n:"Тень Ниндзя", hp:500,  atk:28, def:20, agi:35, mag:0,  int:10, ability:"cloneDodge", icon:"🥷", desc:"Уклоняется часто"},
+  {n:"Каменный Голем",hp:1200,atk:25, def:35, agi:8,  mag:0,  int:5,  ability:"endoskeleton",icon:"🪨", desc:"Отражает урон"},
+  {n:"Огненный Дух",hp:600,  atk:38, def:18, agi:30, mag:20, int:12, ability:"fire_bend",   icon:"🔥", desc:"Жжёт огнём"},
+  {n:"Ледяная Королева",hp:800,atk:30,def:25,agi:20,mag:40,int:20,ability:"ice_blast",   icon:"❄️", desc:"Замедляет"},
+  {n:"Кровавый Вампир",hp:1500,atk:35,def:22,agi:30,mag:15,int:18,ability:"vampire_regen",icon:"🧛",desc:"Восстанавливается"},
+  {n:"Демон Ярости", hp:700,  atk:45, def:15, agi:25, mag:0,  int:8,  ability:"rage_low_hp",icon:"😈", desc:"Ярится при HP<50%"},
+  {n:"Ледяной Титан", hp:2500,atk:38, def:35, agi:15, mag:20, int:15, ability:"defBuff",    icon:"⛰",  desc:"Толстая защита"},
+  {n:"Призрак Магии",hp:900,  atk:35, def:20, agi:35, mag:45, int:30, ability:"ghost_phase",icon:"👻", desc:"Уклоняется 2 хода"},
+  {n:"Тёмный Паладин",hp:2000,atk:42,def:30,agi:22,mag:20,int:25,ability:"force_choke", icon:"⚔️", desc:"Оглушает"},
+  {n:"Дракон Смерти",hp:3500,atk:48,def:32,agi:20,mag:35,int:22,ability:"fire_breath", icon:"🐉", desc:"Сжигает дот-эффектом"},
+  {n:"Космический Лорд",hp:3000,atk:40,def:28,agi:40,mag:50,int:38,ability:"kyoka_suigetsu",icon:"🌌",desc:"Уклон 2 хода + магия"},
+  {n:"Архимаг Хаоса",hp:2500,atk:38,def:25,agi:30,mag:60,int:45,ability:"reality_warp", icon:"🔮", desc:"Огромный маг-урон"},
+  {n:"Пожиратель Душ",hp:4000,atk:45,def:35,agi:30,mag:30,int:30,ability:"soulDecay",   icon:"💀", desc:"Снижает DEF при ударе"},
+  {n:"👑 ВЛАДЫКА БЕЗДНЫ",hp:6000,atk:55,def:42,agi:35,mag:55,int:50,ability:"one_punch", icon:"👑", desc:"ФИНАЛЬНЫЙ БОСС"}
+];
+
+const BOSS_REWARDS = 50;
+const BOSS_TOTAL_REWARD = 1000;
+const BOSS_COOLDOWN = 24*60*60*1000;
+ </script> <script>
 // ============ ПЕРЕМЕННЫЕ, НУЖНЫЕ РАНЬШЕ ============
 let myTitle='novice';
 
@@ -1920,8 +2037,8 @@ function enterGameAfterLogin(){
   checkAdminStatus();
   loadTitleFromFirebase().then(()=>{loadTitle();updateUserBadgeWithTitle();});
   if(!session.isGuest&&session.playerId){
-    loadProfileFromFirebase();
-    loadCrystalsFromFirebase();
+    if(typeof loadProfileFromFirebase==='function')loadProfileFromFirebase();
+    if(typeof loadCrystalsFromFirebase==='function')loadCrystalsFromFirebase();
   }
 }
 function updateUserBadge(){
@@ -1933,7 +2050,7 @@ function updateUserBadgeWithTitle(){
   if(!session.playerId){badge.classList.add('hidden');return;}
   badge.classList.remove('hidden');
   badge.classList.toggle('guest',!!session.isGuest);
-  const t=getTitleData(myTitle);
+  const t=typeof getTitleData==='function'?getTitleData(myTitle):null;
   nameEl.innerHTML=(t&&t.id!=='novice'?'<span class="title-badge title-'+t.cls+'">'+t.icon+'</span>':'')+escapeHtml(session.username)+(session.isGuest?' (гость)':'');
 }
 document.getElementById('userBadge').onclick=()=>{
@@ -1949,8 +2066,6 @@ function checkAdminStatus(){
   const isAdmin=!session.isGuest&&session.username&&session.username.toLowerCase()==='admin';
   grp.classList.toggle('hidden',!isAdmin);
   btn.classList.toggle('hidden',!isAdmin);
-  const devSec=document.getElementById('devPanelSection');
-  if(devSec)devSec.style.display=isAdmin?'':'none';
   if(isAdmin&&typeof devPopulateStats==='function')devPopulateStats();
 }
 async function loadAllPlayers(){
@@ -2185,9 +2300,13 @@ const state = {mode:null,role:null,myIdx:0,roomCode:null,playerId:null,roomRef:n
   activePlayers:[],turnPointer:0,startingMoney:0,firstBidderOffset:0,basePrice:0,phase:'lobby',
   log:[],poolSource:[],poolSize:0};
 
+// ★ ОБНОВЛЕНО: добавлены новые экраны иерархии и боссов
 const screens = [
-  'loginScreen','menuScreen','createScreen','lobbyScreen','joinScreen','hotseatScreen',
+  'loginScreen','menuScreen',
+  'playMenuScreen','onlineMenuScreen','offlineMenuScreen','profileMenuScreen',
+  'createScreen','lobbyScreen','joinScreen','hotseatScreen',
   'duelScreen','duelBattleScreen','onlineDuelScreen','onlineDuelLobbyScreen',
+  'bossHomeScreen','bossSelectScreen',
   'heroBookScreen','ratingScreen','otHomeScreen','otLobbyScreen',
   'achScreen','dailyScreen','titlesScreen',
   'tournamentScreen','tournamentAuctionScreen','tournamentBracketScreen','tournamentResultsScreen',
@@ -2244,18 +2363,35 @@ document.addEventListener('click',e=>{
   setTimeout(()=>ripple.remove(),700);
 });
 
-// ============ НАВИГАЦИЯ ============
+// ============ НАВИГАЦИЯ (иерархия) ============
+document.getElementById('mainPlayBtn').onclick=()=>show('playMenuScreen');
+document.getElementById('mainProfileBtn').onclick=()=>show('profileMenuScreen');
+document.getElementById('mainShopBtn').onclick=()=>{if(typeof renderShop==='function')renderShop();show('shopScreen');};
+
+document.getElementById('backFromPlayMenu').onclick=()=>show('menuScreen');
+document.getElementById('backFromOnlineMenu').onclick=()=>show('playMenuScreen');
+document.getElementById('backFromOfflineMenu').onclick=()=>show('playMenuScreen');
+document.getElementById('backFromProfileMenu').onclick=()=>show('menuScreen');
+
+document.getElementById('onlineSectionBtn').onclick=()=>show('onlineMenuScreen');
+document.getElementById('offlineSectionBtn').onclick=()=>{show('offlineMenuScreen');if(typeof renderBossHomeBadge==='function')renderBossHomeBadge();};
+
 document.getElementById('createRoomBtn').onclick=()=>show('createScreen');
 document.getElementById('joinRoomBtn').onclick=()=>show('joinScreen');
 document.getElementById('duelModeBtn').onclick=()=>show('duelScreen');
 document.getElementById('tournamentBtn').onclick=()=>show('tournamentScreen');
 document.getElementById('hotseatBtn').onclick=()=>{renderHotseatNames();show('hotseatScreen');};
-document.getElementById('backFromCreate').onclick=()=>show('menuScreen');
-document.getElementById('backFromJoin').onclick=()=>show('menuScreen');
-document.getElementById('backFromHs').onclick=()=>show('menuScreen');
-document.getElementById('backFromTour').onclick=()=>show('menuScreen');
-document.getElementById('backFromDuel').onclick=()=>{stopAutoBattle();botEnabled=false;document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');show('menuScreen');};
-document.getElementById('hotseatMenu')?.classList.remove('hidden');
+document.getElementById('backFromCreate').onclick=()=>show('onlineMenuScreen');
+document.getElementById('backFromJoin').onclick=()=>show('onlineMenuScreen');
+document.getElementById('backFromHs').onclick=()=>show('offlineMenuScreen');
+document.getElementById('backFromTour').onclick=()=>show('offlineMenuScreen');
+document.getElementById('backFromDuel').onclick=()=>{
+  if(typeof stopAutoBattle==='function')stopAutoBattle();
+  botEnabled=false;
+  document.getElementById('duelSetup').classList.remove('hidden');
+  document.getElementById('duelDecks').classList.add('hidden');
+  show('offlineMenuScreen');
+};
 
 // ============ АУКЦИОН ОНЛАЙН ============
 document.getElementById('createConfirmBtn').onclick=createRoom;
@@ -2266,7 +2402,7 @@ async function createRoom(){
   }
   const themes=[...document.querySelectorAll('.theme:checked')].map(el=>el.value);
   if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
-  const startMoney=Math.max(100,+document.getElementById('startMoney').value||1000);
+  const startMoney=Math.max(1,+document.getElementById('startMoney').value||1000);
   const charCount=Math.max(3,Math.min(40,+document.getElementById('charCount').value||10));
   const hostName=(session.username||document.getElementById('hostName').value.trim()||'Хост').slice(0,16);
   const pool=CHARACTERS.filter(c=>themes.includes(c.t));
@@ -2285,7 +2421,7 @@ async function createRoom(){
     document.getElementById('roomCode').textContent=code;
     show('lobbyScreen');setStatus('lobbyStatus','Комната создана. Ждём игроков...','ok');listenToRoom();
     saveActiveGame({type:'auction',code,playerId:state.playerId,role:'host',ts:Date.now()});
-    attachChat();
+    if(typeof attachChat==='function')attachChat();
   }).catch(err=>setStatus('lobbyStatus','Ошибка: '+err.message,'err'));
 }
 function listenToRoom(){
@@ -2305,7 +2441,7 @@ function handleRoomUpdate(room){
     show('lobbyScreen');
     document.getElementById('roomCode').textContent=room.code;
     const list=document.getElementById('lobbyList');list.innerHTML='';
-    playerList.forEach(p=>{const li=document.createElement('li');const tData=p.title&&p.title!=='novice'?getTitleData(p.title):null;const badge=tData?'<span class="title-badge title-'+tData.cls+'">'+tData.icon+'</span> ':'';li.innerHTML=badge+escapeHtml(p.name)+(p.id===state.playerId?' (ты)':'');list.appendChild(li);});
+    playerList.forEach(p=>{const li=document.createElement('li');const tData=p.title&&p.title!=='novice'&&typeof getTitleData==='function'?getTitleData(p.title):null;const badge=tData?'<span class="title-badge title-'+tData.cls+'">'+tData.icon+'</span> ':'';li.innerHTML=badge+escapeHtml(p.name)+(p.id===state.playerId?' (ты)':'');list.appendChild(li);});
     document.getElementById('lobbyCount').textContent='('+playerList.length+'/6)';
     const sBtn=document.getElementById('startOnlineBtn');
     if(state.role==='host')sBtn.disabled=playerList.length<2;
@@ -2335,7 +2471,7 @@ async function joinRoom(){
     state.roomRef.child('players/'+state.playerId).set({name:finalName,title:myTitle,money:room.startingMoney,characters:[],order:cnt});
     setStatus('joinStatus','ОК! Ждём...','ok');listenToRoom();
     saveActiveGame({type:'auction',code,playerId:state.playerId,role:'client',ts:Date.now()});
-    attachChat();
+    if(typeof attachChat==='function')attachChat();
   }).catch(err=>setStatus('joinStatus','Ошибка: '+err.message,'err'));
 }
 document.getElementById('startOnlineBtn').onclick=startOnlineGame;
@@ -2553,7 +2689,7 @@ function hostFinishRound(winnerIdx){
   });
 }
 function renderResults(view){
-  detachChat();
+  if(typeof detachChat==='function')detachChat();
   clearActiveGame();
   show('resultsScreen');
   const sorted=[...view.players].map(p=>({name:p.name,money:p.money,characters:p.characters||[],totalPower:(p.characters||[]).reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
@@ -2584,7 +2720,7 @@ renderHotseatNames();
 document.getElementById('hsStartBtn').onclick=()=>{
   const themes=[...document.querySelectorAll('.theme2:checked')].map(el=>el.value);
   if(!themes.length){alert('Выбери тематику!');return;}
-  const startMoney=Math.max(100,+document.getElementById('hsStartMoney').value||1000);
+  const startMoney=Math.max(1,+document.getElementById('hsStartMoney').value||1000);
   const charCount=Math.max(3,Math.min(40,+document.getElementById('hsCharCount').value||10));
   const names=[...hsNames.querySelectorAll('input')].map(i=>i.value.trim()||'Игрок');
   let pool=CHARACTERS.filter(c=>themes.includes(c.t));
@@ -2672,8 +2808,8 @@ function hsRenderResults(){
   bumpAch('games');
   if(w.name===getMyName())bumpAch('wins');
 }
-  </script><script>
-// ============ ПЕРЕМЕННЫЕ ============
+ </script><script>
+// ============ ОБЩИЕ ПЕРЕМЕННЫЕ ============
 let chatRef=null,chatQuery=null,chatListener=null,chatMessages=[],chatLastCount=0,chatUnreadCount=0,chatOpen=false;
 let achData=null,achFilter='all';
 let otRoomRef=null,otRoomListener=null,otMyId=null,otIsHost=false,otRoomCode=null,otLastLogLen=0,otLastPhase=null;
@@ -2684,7 +2820,7 @@ const HOST_DEAD_MS=18000;
 let auctionTimerInterval=null;
 const AUCTION_TURN_TIMEOUT=30;
 
-// ============ ДУЭЛИ + АВТО-БОЙ ============
+// ============ АВТО-БОЙ ============
 let autoBattleTimer=null;
 const AUTO_BATTLE_INTERVAL=1600;
 let battleSpeed=1600;
@@ -2702,9 +2838,7 @@ function stopAutoBattle(){
   if(autoBattleTimer){clearInterval(autoBattleTimer);autoBattleTimer=null;}
 }
 
-/* ============================================================
-   КАРТЫ-ПОМОЩНИКИ В ДУЭЛИ
-   ============================================================ */
+// ============ КАРТЫ-ПОМОЩНИКИ В ДУЭЛИ ============
 let duelHelpersEnabled=false;
 let duelP1Helpers=[],duelP2Helpers=[];
 let duelP1HelpersUsed=[],duelP2HelpersUsed=[];
@@ -2733,7 +2867,7 @@ function renderHelperBar(side){
   const helpers=side==='p1'?duelP1Helpers:duelP2Helpers;
   const used=side==='p1'?duelP1HelpersUsed:duelP2HelpersUsed;
   if(!duelHelpersEnabled||helpers.length===0){bar.classList.add('hidden');return;}
-  const mySide=duelState&&duelState.p1IsBot===false?'p1':(duelState&&duelState.p2IsBot===false?'p2':'p1');
+  const mySide=(duelState&&duelState.p1IsBot===false)?'p1':((duelState&&duelState.p2IsBot===false)?'p2':'p1');
   if(side!==mySide){bar.classList.add('hidden');return;}
   bar.classList.remove('hidden');
   bar.innerHTML='';
@@ -2744,9 +2878,7 @@ function renderHelperBar(side){
     const isUsed=used.includes(idx);
     chip.className='helper-card-chip rarity-'+h.rarity+(isUsed?' used':'');
     chip.innerHTML='<span class="hcc-icon">'+h.icon+'</span><span>'+h.n+'</span>';
-    if(!isUsed){
-      chip.onclick=()=>openHelperModal(idx,side);
-    }
+    if(!isUsed)chip.onclick=()=>openHelperModal(idx,side);
     bar.appendChild(chip);
   });
 }
@@ -2762,7 +2894,7 @@ function openHelperModal(idx,side){
     +'<div class="hm-name">'+h.n+'</div>'
     +'<span class="rarity-badge rarity-'+h.rarity+'">'+HELPER_RARITY_NAMES[h.rarity]+'</span>'
     +'<div class="hm-desc">'+h.desc+'</div>'
-    +'<div class="hm-count">В коллекции: '+(collection[h.n]||0)+'</div>'
+    +'<div class="hm-count">В коллекции: '+((typeof collection!=='undefined'&&collection[h.n])||0)+'</div>'
     +'<div class="btn-row"><button class="btn-primary" id="helperActivateBtn">⚡ Активировать</button><button class="btn-secondary" id="helperCancelBtn">Отмена</button></div>'
     +'</div>';
   document.body.appendChild(modal);
@@ -2869,9 +3001,7 @@ function applyHelperEffect(eff,cur,myP){
   }
 }
 
-/* ============================================================
-   СТАРТ ДУЭЛИ
-   ============================================================ */
+// ============ СТАРТ ДУЭЛИ ============
 let duelP1Deck=[],duelP2Deck=[],duelState=null,botEnabled=false,botLevel='off';
 
 document.getElementById('duelStartBtn').onclick=()=>{
@@ -2896,6 +3026,13 @@ function renderDuelDeck(cid,deck){
     div.innerHTML=imgHtml+'<div class="mc-name">'+name+'</div><div class="mc-stats">❤️'+stats.hp+' ⚔️'+stats.atk+'</div>';
     cont.appendChild(div);
   });
+  // Наложим рамку игрока на его карты в превью
+  if(cid==='duelP1Cards'&&typeof myProfile!=='undefined'&&myProfile&&myProfile.frame){
+    cont.querySelectorAll('.mini-card').forEach(el=>{
+      [...el.classList].forEach(c=>{if(c.startsWith('frame_'))el.classList.remove(c);});
+      el.classList.add(myProfile.frame);
+    });
+  }
 }
 document.getElementById('duelRedrawBtn').onclick=()=>document.getElementById('duelStartBtn').click();
 
@@ -2909,16 +3046,16 @@ document.getElementById('duelFightBtn').onclick=()=>{
     p2Name=lvlNames[botLevel]||'🤖 Бот';
   }
   if(duelHelpersEnabled){
-    loadCollection();
+    if(typeof loadCollection==='function')loadCollection();
     const owned=[];
-    HELPER_CARDS.forEach(h=>{if((collection[h.n]||0)>0)owned.push(h.id);});
+    HELPER_CARDS.forEach(h=>{if((typeof collection!=='undefined'&&collection[h.n]||0)>0)owned.push(h.id);});
     if(owned.length===0){
       duelP1Helpers=rollHelperCards(2);
     }else{
       duelP1Helpers=shuffle(owned).slice(0,5);
       while(duelP1Helpers.length<2)duelP1Helpers.push(rollHelperCards(1)[0]);
     }
-    duelP2Helpers=rollHelperCards(botEnabled?2:2);
+    duelP2Helpers=rollHelperCards(2);
     duelP1HelpersUsed=[];duelP2HelpersUsed=[];
   }else{
     duelP1Helpers=[];duelP2Helpers=[];duelP1HelpersUsed=[];duelP2HelpersUsed=[];
@@ -2933,7 +3070,7 @@ function startDuelRound(){
   if(duelState.p1Index>=duelState.p1Deck.length||duelState.p2Index>=duelState.p2Deck.length){endDuelMatch();return;}
   const c1Name=duelState.p1Deck[duelState.p1Index];
   const c2Name=duelState.p2Deck[duelState.p2Index];
-  const s1=CHAR_STATS[c1Name],s2=CHAR_STATS[c2Name];
+  const s1=CHAR_STATS[c1Name],s2={...CHAR_STATS[c2Name]};
   const fx1=ABILITY_EFFECTS[s1.ability]||{},fx2=ABILITY_EFFECTS[s2.ability]||{};
   let p1First;
   if(fx1.alwaysFirst&&!fx2.alwaysFirst)p1First=true;
@@ -2942,10 +3079,20 @@ function startDuelRound(){
   const st1={...s1},st2={...s2};
   if(fx1.defBuff)st1.def=Math.round(st1.def*fx1.defBuff.mult);
   if(fx2.defBuff)st2.def=Math.round(st2.def*fx2.defBuff.mult);
+  // ★ ОСЛАБЛЕННЫЙ ИИ В ДУЭЛИ (в турнире/боссе — стандартные множители)
   if(botEnabled){
-    const hpMult={easy:0.6,medium:1.0,hard:1.3,nightmare:1.6,hardplus:1.8}[botLevel]||1.0;
-    const atkMult={easy:0.85,medium:1.0,hard:1.15,nightmare:1.3,hardplus:1.45}[botLevel]||1.0;
-    const defMult={easy:0.9,medium:1.0,hard:1.1,nightmare:1.2,hardplus:1.3}[botLevel]||1.0;
+    const isTournament=!!duelState.tournamentStage;
+    const isBoss=!!duelState.isBoss;
+    let hpMult,atkMult,defMult;
+    if(isTournament||isBoss){
+      hpMult={easy:0.6,medium:1.0,hard:1.3,nightmare:1.6,hardplus:1.8}[botLevel]||1.0;
+      atkMult={easy:0.85,medium:1.0,hard:1.15,nightmare:1.3,hardplus:1.45}[botLevel]||1.0;
+      defMult={easy:0.9,medium:1.0,hard:1.1,nightmare:1.2,hardplus:1.3}[botLevel]||1.0;
+    }else{
+      hpMult={easy:0.45,medium:0.75,hard:0.95,nightmare:1.15,hardplus:1.35}[botLevel]||0.75;
+      atkMult={easy:0.6,medium:0.8,hard:0.98,nightmare:1.08,hardplus:1.2}[botLevel]||0.8;
+      defMult={easy:0.75,medium:0.85,hard:0.95,nightmare:1.02,hardplus:1.1}[botLevel]||0.85;
+    }
     st2.hp=Math.round(st2.hp*hpMult);st2.atk=Math.round(st2.atk*atkMult);st2.def=Math.round(st2.def*defMult);
   }
   duelState.current={c1:c1Name,c2:c2Name,s1:st1,s2:st2,hp1:st1.hp,hp2:st2.hp,maxHp1:st1.hp,maxHp2:st2.hp,
@@ -2968,6 +3115,8 @@ function startDuelRound(){
   ['duelF1','duelF2'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('rarity-common','rarity-rare','rarity-epic','rarity-legendary','rarity-mythic','hit');});
   document.getElementById('duelF1').classList.add('rarity-'+rar1);
   document.getElementById('duelF2').classList.add('rarity-'+rar2);
+  // Рамка игрока на его карту
+  applyFrameToFighter('duelF1');
   updateHpBars();document.getElementById('battleLog').innerHTML='';
   addBattleLog('— Раунд '+duelState.round+': '+c1Name+' vs '+c2Name+' —','round-title');
   addBattleLog((p1First?c1Name:c2Name)+' бьёт первым','round-title');
@@ -2986,6 +3135,12 @@ function renderDuelFighterImage(id,name){
     el.innerHTML='<img src="'+img.file+'.png" onerror="this.onerror=null;this.src=\''+img.file+'.jpg\'" alt="'+name+'">';
   }else{const ch=CHARACTERS.find(x=>x.n===name)||{};
     el.innerHTML='<div style="font-size:50px;filter:drop-shadow(0 0 10px #f39c12)">'+(THEME_EMOJI[ch.t]||'⭐')+'</div>';}
+}
+function applyFrameToFighter(fighterId){
+  const el=document.getElementById(fighterId);
+  if(!el)return;
+  [...el.classList].forEach(c=>{if(c.startsWith('frame_'))el.classList.remove(c);});
+  if(typeof myProfile!=='undefined'&&myProfile&&myProfile.frame)el.classList.add(myProfile.frame);
 }
 function updateHpBars(){
   const cur=duelState.current;
@@ -3261,23 +3416,29 @@ function endDuelMatch(){
     if(typeof odFinishMatch==='function')odFinishMatch();
     return;
   }
+  if(duelState&&duelState.isBoss){
+    if(typeof endBossFight==='function')endBossFight();
+    return;
+  }
   botEnabled=false;
   if(botLevel==='hardplus'&&duelState.p1Wins>duelState.p2Wins){
-    grantCrystals(15,true);
+    if(typeof grantCrystals==='function')grantCrystals(15,true);
   }else if(botLevel==='hardplus'&&duelState.p2Wins>duelState.p1Wins){
-    grantCrystals(8,true);
+    if(typeof grantCrystals==='function')grantCrystals(8,true);
   }
   let result;
   if(duelState.p1Wins>duelState.p2Wins)result=duelState.p1Name+' победил: '+duelState.p1Wins+' : '+duelState.p2Wins;
   else if(duelState.p2Wins>duelState.p1Wins)result=duelState.p2Name+' победил: '+duelState.p2Wins+' : '+duelState.p1Wins;
   else result='Ничья: '+duelState.p1Wins+' : '+duelState.p2Wins;
   alert('🏆 Матч завершён!\n\n'+result);
-  bumpAch('duelGames');
-  if(duelState.p1Wins>duelState.p2Wins)bumpAch('duelWins');
-  if(duelHelpersEnabled){
-    submitRating('duel_helpers',duelState.p1Wins>duelState.p2Wins?1:2,2);
-  }else{
-    submitRating('duel',duelState.p1Wins>duelState.p2Wins?1:2,2);
+  if(typeof bumpAch==='function'){
+    bumpAch('duelGames');
+    if(duelState.p1Wins>duelState.p2Wins)bumpAch('duelWins');
+    if(duelHelpersEnabled){
+      submitRating('duel_helpers',duelState.p1Wins>duelState.p2Wins?1:2,2);
+    }else{
+      submitRating('duel',duelState.p1Wins>duelState.p2Wins?1:2,2);
+    }
   }
   show('duelScreen');
   document.getElementById('duelSetup').classList.remove('hidden');
@@ -3285,7 +3446,7 @@ function endDuelMatch(){
 }
 document.getElementById('duelFinishBtn').onclick=()=>{if(confirm('Завершить?')){stopAutoBattle();botEnabled=false;show('duelScreen');document.getElementById('duelSetup').classList.remove('hidden');document.getElementById('duelDecks').classList.add('hidden');}};
 
-// ============ ТУРНИР (против ботов) с умным ботом ============
+// ============ ТУРНИР (против ботов) ============
 const tournament={players:[],pool:[],currentCard:null,currentBid:0,currentBidder:null,activePlayers:[],
   turnPointer:0,roundNumber:0,totalCards:12,startMoney:1000,botLevel:'medium',phase:'setup',bracket:[],matchNumber:0,log:[]};
 
@@ -3293,7 +3454,7 @@ document.getElementById('tourStartBtn').onclick=()=>{
   const themes=[...document.querySelectorAll('.tourTheme:checked')].map(el=>el.value);
   if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
   const playerName=(document.getElementById('tourPlayerName').value.trim()||'Ты').slice(0,16);
-  const startMoney=Math.max(300,+document.getElementById('tourStartMoney').value||1000);
+  const startMoney=Math.max(1,+document.getElementById('tourStartMoney').value||1000);
   const cardCount=Math.max(4,Math.min(30,+document.getElementById('tourCardCount').value||12));
   const botLevel=document.querySelector('input[name="tourBotLvl"]:checked')?.value||'medium';
   let pool=CHARACTERS.filter(c=>themes.includes(c.t));
@@ -3387,19 +3548,14 @@ function evaluateCardValue(card){
   const stats=CHAR_STATS[card.n];
   let bonus=0;
   if(stats){
-    if(stats.hp>=5000)bonus+=25;
-    else if(stats.hp>=2000)bonus+=15;
-    else if(stats.hp>=800)bonus+=8;
-    if(stats.atk>=38)bonus+=20;
-    else if(stats.atk>=34)bonus+=12;
-    else if(stats.atk>=30)bonus+=6;
+    if(stats.hp>=5000)bonus+=25;else if(stats.hp>=2000)bonus+=15;else if(stats.hp>=800)bonus+=8;
+    if(stats.atk>=38)bonus+=20;else if(stats.atk>=34)bonus+=12;else if(stats.atk>=30)bonus+=6;
     const abil=ABILITY_EFFECTS[stats.ability];
     if(abil){
       if(abil.instantKill)bonus+=40;
       if(abil.firstStrike&&abil.firstStrike.execute)bonus+=35;
       if(abil.ignoreDef)bonus+=20;
-      if(abil.periodic&&abil.periodic.dmg>=450)bonus+=20;
-      else if(abil.periodic&&abil.periodic.dmg>=350)bonus+=10;
+      if(abil.periodic&&abil.periodic.dmg>=450)bonus+=20;else if(abil.periodic&&abil.periodic.dmg>=350)bonus+=10;
       if(abil.regen&&abil.regen.hp>=30)bonus+=10;
       if(abil.lowHpBuff)bonus+=8;
     }
@@ -3499,6 +3655,8 @@ function tourRenderBracket(){
   const b=tournament.bracket;
   const getP=(idx)=>idx!==null?tournament.players[idx]:null;
   let html='<div style="display:grid;gap:14px">';
+  // Плашка "бой картами"
+  html+='<div class="auto-battle-banner" style="margin-bottom:4px">⚔️ ДАЛЬШЕ — БОИ ТВОИМИ КУПЛЕННЫМИ КАРТАМИ</div>';
   const s1p1=getP(b.semifinal1.p1),s1p2=getP(b.semifinal1.p2);
   html+='<div class="bracket-panel" style="border-color:'+(b.semifinal1.winner!==null?'#27ae60':b.stage==='semifinal1'?'#f39c12':'#333')+'"><h3>⚔️ Полуфинал 1</h3>';
   html+='<div style="font-size:14px;margin-top:8px">'+tourPlayerLine(s1p1)+'</div><div style="text-align:center;color:#f39c12;margin:6px 0;font-weight:700">vs</div><div style="font-size:14px">'+tourPlayerLine(s1p2)+'</div>';
@@ -3557,13 +3715,13 @@ function tourShowResults(){
   });
   show('tournamentResultsScreen');
   if(champion.isBot===false){
-    bumpAch('tourWins');
-    grantCrystals(15,false);
+    if(typeof bumpAch==='function')bumpAch('tourWins');
+    if(typeof grantCrystals==='function')grantCrystals(15,false);
   }else{
-    grantCrystals(4,false);
+    if(typeof grantCrystals==='function')grantCrystals(4,false);
   }
 }
-  </script> <script>
+ </script> <script>
 // ============ РЕКОННЕКТ ============
 function saveActiveGame(info){
   try{localStorage.setItem('ah_active_game',JSON.stringify(info));}catch(e){}
@@ -3737,7 +3895,7 @@ document.getElementById('onlineDuelModeBtn').onclick=()=>{
   setStatus('odStatus','');
   show('onlineDuelScreen');
 };
-document.getElementById('backFromOd').onclick=()=>{cleanupOnlineDuel();show('menuScreen');};
+document.getElementById('backFromOd').onclick=()=>{cleanupOnlineDuel();show('onlineMenuScreen');};
 document.getElementById('backFromOdLobby').onclick=()=>{cleanupOnlineDuel();show('onlineDuelScreen');};
 
 function cleanupOnlineDuel(){
@@ -3748,6 +3906,8 @@ function cleanupOnlineDuel(){
   if(odRoomRef&&odMyId){odRoomRef.child('players/'+odMyId).remove().catch(()=>{});}
   odRoomRef=null;odMyId=null;odIsHost=false;odRoomCode=null;odLastLogLen=0;
   stopAutoBattle();
+  // Сброс флага награды
+  matchRewardGiven=false;
 }
 
 document.getElementById('odCreateBtn').onclick=async()=>{
@@ -3759,7 +3919,7 @@ document.getElementById('odCreateBtn').onclick=async()=>{
   await odRoomRef.set({
     code:odRoomCode,hostId:odMyId,hostName:session.username,
     guestId:null,guestName:null,phase:'lobby',createdAt:Date.now(),
-    helpersEnabled:helpersOn
+    helpersEnabled:helpersOn,rewardClaimed:false
   });
   document.getElementById('odRoomCode').textContent=odRoomCode;
   document.getElementById('odLobbyTitle').textContent='Игроки';
@@ -3863,7 +4023,7 @@ document.getElementById('odStartBtn').onclick=async()=>{
     legDisney1:false,legDisney2:false,legCancel1:false,legCancel2:false,
     revengeCount1:0,revengeCount2:0,rageStack1:0,rageStack2:0,burn1:0,burn2:0};
   const log=[{t:'— Раунд 1: '+deck1[0]+' vs '+deck2[0]+' —',cls:'round-title'},{t:(p1First?deck1[0]:deck2[0])+' бьёт первым',cls:'round-title'}];
-  await odRoomRef.update({phase:'playing',duel:{
+  await odRoomRef.update({phase:'playing',rewardClaimed:false,duel:{
     p1Name:room.hostName,p2Name:room.guestName,
     p1Deck:deck1,p2Deck:deck2,p1Index:0,p2Index:0,p1Wins:0,p2Wins:0,round:1,
     current:cur,battleLog:log,phase:'playing',
@@ -3930,6 +4090,7 @@ function odRenderSpectator(duel){
   ['duelF1','duelF2'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('rarity-common','rarity-rare','rarity-epic','rarity-legendary','rarity-mythic');});
   document.getElementById('duelF1').classList.add('rarity-'+rar1);
   document.getElementById('duelF2').classList.add('rarity-'+rar2);
+  applyFrameToFighter('duelF1');
   const p1=Math.max(0,Math.round(cur.hp1/cur.maxHp1*100));
   const p2=Math.max(0,Math.round(cur.hp2/cur.maxHp2*100));
   document.getElementById('duelF1HpFill').style.width=p1+'%';
@@ -4117,20 +4278,24 @@ function odFinishMatch(){
     else if(d.p2Wins>d.p1Wins)winnerName=d.p2Name;
     else winnerName='Ничья';
     const helpers=!!room.helpersEnabled;
-    odRoomRef.update({phase:'finished','duel/phase':'finished'}).then(()=>{
-      bumpAch('duelGames');
-      if(winnerName===session.username)bumpAch('duelWins');
-      const mode=helpers?'duel_helpers':'duel';
-      submitRating(mode,winnerName===session.username?1:2,2);
-      if(winnerName===session.username)grantCrystals(15,false);
-      else if(winnerName==='Ничья')grantCrystals(5,false);
-      else grantCrystals(8,false);
+    // ★ ФИКС: награда только один раз за матч
+    const alreadyClaimed=room.rewardClaimed===true;
+    odRoomRef.update({phase:'finished','duel/phase':'finished',rewardClaimed:true}).then(()=>{
+      if(!alreadyClaimed){
+        bumpAch('duelGames');
+        if(winnerName===session.username)bumpAch('duelWins');
+        const mode=helpers?'duel_helpers':'duel';
+        submitRating(mode,winnerName===session.username?1:2,2);
+        if(winnerName===session.username)grantCrystals(15,false);
+        else if(winnerName==='Ничья')grantCrystals(5,false);
+        else grantCrystals(8,false);
+      }
       setTimeout(()=>{
         alert('🏆 Матч завершён!\n\nПобедил: '+winnerName);
         clearActiveGame();
         detachChat();
         cleanupOnlineDuel();
-        show('menuScreen');
+        show('onlineMenuScreen');
       },1000);
     });
   });
@@ -4143,7 +4308,7 @@ document.getElementById('otBtn').onclick=()=>{
   setStatus('otStatus','');
   show('otHomeScreen');
 };
-document.getElementById('backFromOt').onclick=()=>{cleanupOt();show('menuScreen');};
+document.getElementById('backFromOt').onclick=()=>{cleanupOt();show('onlineMenuScreen');};
 document.getElementById('backFromOtLobby').onclick=()=>{cleanupOt();show('otHomeScreen');};
 
 function cleanupOt(){
@@ -4232,7 +4397,7 @@ function otHandleRoomUpdate(room){
       const p=players[pid];
       const el=document.createElement('div');
       el.className='ot-lobby-player'+(pid===room.hostId?' host':'')+(pid===otMyId?' me':'');
-      const tData=p.title&&p.title!=='novice'?getTitleData(p.title):null;
+      const tData=p.title&&p.title!=='novice'&&typeof getTitleData==='function'?getTitleData(p.title):null;
       const badge=tData?'<span class="title-badge title-'+tData.cls+'">'+tData.icon+'</span> ':'';
       el.innerHTML='<div><div class="olp-name">'+(pid===room.hostId?'👑 ':'👤 ')+badge+escapeHtml(p.name)+(pid===otMyId?' (ты)':'')+'</div><div class="olp-tag">'+(pid===room.hostId?'Хост':(p.isBot?'Бот':'Игрок'))+'</div></div>';
       list.appendChild(el);
@@ -4455,7 +4620,7 @@ function otRenderAuction(room){
     el.className='player-item'+(isActive?' active':' out');
     if(isTurn)el.style.borderColor='#f39c12';
     const totalPower=(p.cards||[]).reduce((s,x)=>s+x.p,0);
-    const tData=p.title&&p.title!=='novice'?getTitleData(p.title):null;
+    const tData=p.title&&p.title!=='novice'&&typeof getTitleData==='function'?getTitleData(p.title):null;
     const badge=tData?'<span class="title-badge title-'+tData.cls+'">'+tData.icon+'</span> ':'';
     el.innerHTML='<div class="pn">'+(isTurn?'🎯 ':'')+(pid===room.hostId?'👑 ':'')+badge+p.name+(pid===otMyId?' (ты)':'')+'</div><div class="pm">💰 '+p.money+'</div><div class="pc">Карт: '+(p.cards||[]).length+' · Сила: '+totalPower+'</div>';
     pl.appendChild(el);
@@ -4546,6 +4711,7 @@ function otRenderBracket(room){
   const players=room.players||{};
   const getP=id=>id?players[id]:null;
   let html='<div style="display:grid;gap:12px">';
+  html+='<div class="auto-battle-banner">⚔️ ДАЛЬШЕ — БОИ КУПЛЕННЫМИ КАРТАМИ</div>';
   const renderMatch=(title,slot)=>{
     if(!slot||!slot.p1)return '';
     const p1=getP(slot.p1),p2=slot.p2?getP(slot.p2):null;
@@ -4902,7 +5068,7 @@ function renderChatMessages(){
       el.innerHTML='<div class="cm-text">'+escapeHtml(m.text)+'</div>';
     }else{
       const time=m.ts?new Date(m.ts).toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'}):'';
-      const tData=m.title&&m.title!=='novice'?getTitleData(m.title):null;
+      const tData=m.title&&m.title!=='novice'&&typeof getTitleData==='function'?getTitleData(m.title):null;
       const badge=tData?'<span class="title-badge title-'+tData.cls+'">'+tData.icon+'</span>':'';
       el.innerHTML='<div class="cm-author" data-pid="'+escapeHtml(m.authorId||'')+'">'+badge+escapeHtml(m.author||'?')+'<span class="cm-time">'+time+'</span></div><div class="cm-text">'+escapeHtml(m.text)+'</div>';
       const author=el.querySelector('.cm-author');
@@ -4949,7 +5115,7 @@ document.getElementById('chatCloseBtn').onclick=()=>{
 };
 document.getElementById('chatSendBtn').onclick=sendChat;
 document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
-  </script><script>
+ </script><script>
 // ============ АЧИВКИ ============
 const ACHIEVEMENTS=[
   {id:'first_game',icon:'🎮',title:'Первая игра',desc:'Сыграть первую партию',check:d=>d.games>=1},
@@ -5100,7 +5266,7 @@ function renderAchScreen(){
   });
 }
 document.getElementById('achBtn').onclick=()=>{renderAchScreen();show('achScreen');};
-document.getElementById('backFromAch').onclick=()=>show('menuScreen');
+document.getElementById('backFromAch').onclick=()=>show('profileMenuScreen');
 document.querySelectorAll('.ach-tabs button').forEach(b=>{
   b.onclick=()=>{
     document.querySelectorAll('.ach-tabs button').forEach(x=>x.classList.remove('on'));
@@ -5164,7 +5330,7 @@ function grantCrystals(amount,onlyHard){
 }
 function showToast(text){
   const t=document.createElement('div');
-  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:400;background:linear-gradient(135deg,#3498db,#8e44ad);color:#fff;padding:12px 20px;border-radius:14px;font-weight:800;font-size:14px;box-shadow:0 8px 24px rgba(52,152,219,.6);animation:cardAppear .4s';
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:400;background:linear-gradient(135deg,#3498db,#8e44ad);color:#fff;padding:12px 20px;border-radius:14px;font-weight:800;font-size:14px;box-shadow:0 8px 24px rgba(52,152,219,.6);animation:cardAppear .4s;max-width:80vw;text-align:center';
   t.textContent=text;
   document.body.appendChild(t);
   setTimeout(()=>{t.style.transition='opacity .4s';t.style.opacity='0';setTimeout(()=>t.remove(),450);},2200);
@@ -5209,7 +5375,7 @@ function renderDailyScreen(){
       const rar=c.p>=900?'mythic':c.p>=750?'legendary':c.p>=550?'epic':c.p>=300?'rare':'common';
       const rarName={common:'Обычная',rare:'Редкая',epic:'Эпическая',legendary:'Легендарная',mythic:'Мифическая'}[rar];
       content.innerHTML='<div class="daily-banner" style="animation:none"><h3>🎉 ТЫ ПОЛУЧИЛ КАРТУ!</h3><div class="daily-reward-big">'+(THEME_EMOJI[c.t]||'⭐')+'</div><div style="font-size:22px;color:#f5b800;font-weight:900;margin:8px 0">'+c.n+'</div><div style="font-size:12px;color:#aaa">'+c.d+'</div><span class="rarity-badge rarity-'+rar+'" style="margin-top:8px;display:inline-block">'+rarName+'</span><button class="btn-secondary" id="dailyCloseBtn" style="margin-top:16px;max-width:280px;margin-left:auto;margin-right:auto;display:block">Закрыть</button></div>';
-      document.getElementById('dailyCloseBtn').onclick=()=>show('menuScreen');
+      document.getElementById('dailyCloseBtn').onclick=()=>show('profileMenuScreen');
       updateAchBadge();
     };
   }else{
@@ -5220,7 +5386,7 @@ function renderDailyScreen(){
   }
 }
 document.getElementById('dailyBtn').onclick=()=>{renderDailyScreen();show('dailyScreen');};
-document.getElementById('backFromDaily').onclick=()=>show('menuScreen');
+document.getElementById('backFromDaily').onclick=()=>show('profileMenuScreen');
 
 // ============ ТИТУЛЫ ============
 const TITLES=[
@@ -5235,7 +5401,7 @@ const TITLES=[
   {id:'immortal',cls:'immortal',icon:'♾️',title:'Бессмертный',req:'1000 партий',check:d=>(d.games||0)>=1000},
   {id:'whale',cls:'whale',icon:'🐋',title:'Кит',req:'10000💎 потрачено',check:d=>(d.crystalsEarned||0)>=10000},
   {id:'lucky',cls:'lucky',icon:'🍀',title:'Счастливчик',req:'5 мификов',check:d=>(d.mythicOwned||0)>=5},
-  {id:'hunter',cls:'hunter',icon:'🎯',title:'Охотник',req:'Все карты темы',check:d=>(d.uniqueOwned||0)>=50},
+  {id:'hunter',cls:'hunter',icon:'🎯',title:'Охотник',req:'50 карт',check:d=>(d.uniqueOwned||0)>=50},
   {id:'bookworm',cls:'bookworm',icon:'📚',title:'Книжный червь',req:'Вся Книга',check:d=>(d.uniqueOwned||0)>=156},
   {id:'master_arcana',cls:'master_arcana',icon:'🃏',title:'Мастер арканов',req:'Все 25 помощников',check:d=>(d.helpersOwned||0)>=25},
   {id:'duel_lord',cls:'duel_lord',icon:'⚔️',title:'Владыка дуэлей',req:'Топ-1 дуэли',check:()=>false},
@@ -5315,10 +5481,25 @@ function getTitleData(id){
   const all=getAllTitles();
   return all.find(t=>t.id===id)||TITLES[0];
 }
-function renderTitlesScreen(){
+async function isTitleLockedByAdmin(titleId){
+  if(!session.playerId||session.isGuest)return false;
+  try{
+    const s=await db.ref('users/'+session.playerId+'/lockedTitles/'+titleId).once('value');
+    return s.val()===true;
+  }catch(e){return false;}
+}
+async function renderTitlesScreen(){
   const list=document.getElementById('titlesList');
   const ctx=achContext();
   loadMyTitles();
+  // Загружаем закреплённые титулы
+  let locked={};
+  if(session.playerId&&!session.isGuest){
+    try{
+      const s=await db.ref('users/'+session.playerId+'/lockedTitles').once('value');
+      locked=s.val()||{};
+    }catch(e){}
+  }
   list.innerHTML='';
   const all=getAllTitles();
   const visible=all.filter(t=>t.id!=='dev'||devIsAdmin());
@@ -5327,10 +5508,11 @@ function renderTitlesScreen(){
     const manualUnlocked=!!myUnlockedTitles[t.id];
     const unlocked=autoUnlocked||manualUnlocked;
     const isActive=myTitle===t.id;
+    const isLocked=!!locked[t.id];
     const el=document.createElement('div');
     el.className='title-card'+(isActive?' active':'')+(unlocked?'':' locked');
-    el.innerHTML='<div class="tc-icon">'+t.icon+'</div><div class="tc-body"><div class="tc-title"><span class="title-badge title-'+t.cls+'">'+t.title+'</span></div><div class="tc-req">'+(unlocked?'✅ Открыт':'🔒 '+t.req)+'</div></div>'+(isActive?'<div class="tc-active-tag">АКТИВЕН</div>':'');
-    if(unlocked){
+    el.innerHTML='<div class="tc-icon">'+t.icon+'</div><div class="tc-body"><div class="tc-title"><span class="title-badge title-'+t.cls+'">'+t.title+'</span>'+(isLocked?' <span style="color:#e74c3c">🔒</span>':'')+'</div><div class="tc-req">'+(unlocked?(isLocked?'🔒 ЗАКРЕПЛЁН':'✅ Открыт'):'🔒 '+t.req)+'</div></div>'+(isActive?'<div class="tc-active-tag">АКТИВЕН</div>':'');
+    if(unlocked&&!isLocked){
       el.onclick=()=>{
         saveTitle(t.id);
         renderTitlesScreen();
@@ -5340,12 +5522,14 @@ function renderTitlesScreen(){
           if(typeof state!=='undefined'&&state.roomRef&&state.playerId)state.roomRef.child('players/'+state.playerId+'/title').set(t.id);
         }
       };
+    }else if(unlocked&&isLocked){
+      el.onclick=()=>showToast('🔒 Титул закреплён админом — снять нельзя');
     }
     list.appendChild(el);
   });
 }
 document.getElementById('titlesBtn').onclick=()=>{renderTitlesScreen();show('titlesScreen');};
-document.getElementById('backFromTitles').onclick=()=>show('menuScreen');
+document.getElementById('backFromTitles').onclick=()=>show('profileMenuScreen');
 
 // ============ ПРОФИЛЬ ============
 let myProfile={avatar:'👤',frame:'frame_default',desc:'',favHero:''};
@@ -5370,8 +5554,15 @@ async function saveProfileToFirebase(){
 }
 loadProfileLocal();
 
+// ★ ФИКС: сохранение экрана при открытии профиля
+let _profileReturnScreen=null;
 async function openProfile(pid){
   if(!pid){pid=session.playerId;}
+  // Запомним текущий экран
+  const prev=document.querySelector('.container > div:not(.hidden)');
+  if(prev&&prev.id&&prev.id!=='profileScreen'&&prev.id!=='profileEditScreen'){
+    _profileReturnScreen=prev.id;
+  }
   const isMe=pid===session.playerId;
   const content=document.getElementById('profileContent');
   let uname='?',profile={avatar:'👤',frame:'frame_default',desc:'',favHero:''};
@@ -5417,10 +5608,20 @@ async function openProfile(pid){
     document.getElementById('openProfileEditBtn').onclick=()=>openProfileEdit();
   }
 }
-document.getElementById('backFromProfile').onclick=()=>show('menuScreen');
+// ★ Возврат туда, где были
+document.getElementById('backFromProfile').onclick=()=>{
+  const target=_profileReturnScreen||'menuScreen';
+  _profileReturnScreen=null;
+  show(target);
+  // Если возвращаемся в активную игру — обновим подписки
+  if(target==='gameScreen'&&state.roomRef&&state.roomCode)listenToRoom();
+  if(target==='duelBattleScreen'&&duelState&&duelState.current)startAutoBattle();
+  if(target==='tournamentAuctionScreen'&&typeof otRoomRef!=='undefined'&&otRoomRef)otListenRoom();
+};
 
 function openProfileEdit(){
   loadMyTitles();
+  loadMyFrames();
   const ctx=achContext();
   const ap=document.getElementById('avatarPicker');
   ap.innerHTML='';
@@ -5578,13 +5779,13 @@ document.querySelectorAll('.shop-tabs button').forEach(b=>{
 document.getElementById('shopBtn').onclick=()=>{renderShop();show('shopScreen');};
 document.getElementById('backFromShop').onclick=()=>show('menuScreen');
 
-// ============ ПРОМОКОДЫ ============
+// ============ ПРОМОКОДЫ (ИГРОК) ============
 document.getElementById('promoBtn').onclick=()=>{
   document.getElementById('promoInput').value='';
   document.getElementById('promoResult').innerHTML='';
   show('promoScreen');
 };
-document.getElementById('backFromPromo').onclick=()=>show('menuScreen');
+document.getElementById('backFromPromo').onclick=()=>show('profileMenuScreen');
 document.getElementById('promoSubmitBtn').onclick=async()=>{
   const code=(document.getElementById('promoInput').value||'').trim().toUpperCase();
   const result=document.getElementById('promoResult');
@@ -5598,16 +5799,16 @@ document.getElementById('promoSubmitBtn').onclick=async()=>{
       result.innerHTML='<div class="promo-error">⌛ Промокод истёк</div>';return;
     }
     if(promo.limit>0&&(promo.used||0)>=promo.limit){
-      result.innerHTML='<div class="promo-error">❌ Лимит использований исчерпан</div>';return;
+      result.innerHTML='<div class="promo-error">❌ Лимит исчерпан</div>';return;
     }
     if(promo.onlyPlayer&&promo.onlyPlayer!==session.playerId){
-      result.innerHTML='<div class="promo-error">❌ Промокод не для тебя</div>';return;
+      result.innerHTML='<div class="promo-error">❌ Не для тебя</div>';return;
     }
     if(promo.onlyTitle&&myTitle!==promo.onlyTitle){
       result.innerHTML='<div class="promo-error">❌ Нужен титул</div>';return;
     }
     const usedSnap=await db.ref('promoUsed/'+code+'/'+(session.playerId||getOrCreatePlayerId())).once('value');
-    if(usedSnap.val()){result.innerHTML='<div class="promo-error">❌ Ты уже использовал этот код</div>';return;}
+    if(usedSnap.val()){result.innerHTML='<div class="promo-error">❌ Уже использован</div>';return;}
     let rewardText='';
     if(promo.reward==='crystals'){
       const amt=+promo.value||0;
@@ -5622,7 +5823,24 @@ document.getElementById('promoSubmitBtn').onclick=async()=>{
       customTitles[tInfo.id]={name:tInfo.name,icon:tInfo.icon||'🎖'};
       saveCustomTitles();
       unlockTitleForMe(tInfo.id);
-      rewardText='✏️ Твой новый титул: '+tInfo.name;
+      rewardText='✏️ Титул: '+tInfo.name;
+    }else if(promo.reward==='hero'){
+      collectCard(promo.value);
+      const ch=CHARACTERS.find(c=>c.n===promo.value);
+      rewardText='🎴 Получен герой: '+(ch?ch.n:promo.value);
+      updateAchBadge();
+    }else if(promo.reward==='helper'){
+      collectHelper(promo.value);
+      rewardText='🃏 Карта помощи: '+promo.value;
+      updateAchBadge();
+    }else if(promo.reward==='bundle'){
+      const v=promo.value||{};
+      const lines=[];
+      if(v.crystals){grantCrystals(v.crystals,false);lines.push('💎 +'+v.crystals);}
+      if(v.title){unlockTitleForMe(v.title);lines.push('🎖 Титул: '+v.title);}
+      if(v.hero){collectCard(v.hero);lines.push('🎴 Герой: '+v.hero);}
+      rewardText='📦 НАБОР: '+lines.join(' · ');
+      updateAchBadge();
     }
     await db.ref('promoUsed/'+code+'/'+(session.playerId||getOrCreatePlayerId())).set(Date.now());
     await db.ref('promocodes/'+code+'/used').transaction(v=>(v||0)+1);
@@ -5723,7 +5941,7 @@ document.getElementById('heroBookBtn')?.addEventListener('click',()=>{
   renderHeroBook();
   show('heroBookScreen');
 });
-document.getElementById('backFromHeroBook')?.addEventListener('click',()=>show('menuScreen'));
+document.getElementById('backFromHeroBook')?.addEventListener('click',()=>show('profileMenuScreen'));
 
 // ============ РЕЙТИНГ ============
 let ratingMode='auction';
@@ -5782,7 +6000,7 @@ document.getElementById('ratingBtn')?.addEventListener('click',()=>{
   show('ratingScreen');
   loadRating('auction');
 });
-document.getElementById('backFromRating')?.addEventListener('click',()=>show('menuScreen'));
+document.getElementById('backFromRating')?.addEventListener('click',()=>show('profileMenuScreen'));
 
 // ============ SPEED CONTROL ============
 document.querySelectorAll('#speedControlBattle .speed-row button').forEach(b=>{
@@ -5967,6 +6185,17 @@ document.getElementById('devCreatePromo')?.addEventListener('click',async()=>{
     if(!nm){alert('Введи название');return;}
     const id='custom_'+code.toLowerCase();
     payload.value={id,name:nm,icon};
+  }else if(reward==='hero'){
+    if(!CHARACTERS.find(c=>c.n===valueStr)){alert('Герой не найден (точное имя)');return;}
+    payload.value=valueStr;
+  }else if(reward==='helper'){
+    if(!HELPER_CARDS.find(h=>h.n===valueStr)){alert('Карта помощи не найдена');return;}
+    payload.value=valueStr;
+  }else if(reward==='bundle'){
+    const cr=parseInt(prompt('Кристаллы (0=нет):','500'),10)||0;
+    const title=prompt('Титул (пусто=нет):','')||null;
+    const hero=prompt('Герой (пусто=нет):','')||null;
+    payload.value={crystals:cr,title,hero};
   }
   try{await db.ref('promocodes/'+code).set(payload);showToast('✅ Промокод создан');devRenderPromoList();}catch(e){showToast('❌ '+e.message);}
 });
@@ -5990,7 +6219,7 @@ async function devRenderPromoList(){
       const p=data[c];
       const el=document.createElement('div');
       el.style.cssText='font-size:11px;padding:6px;background:rgba(0,0,0,.3);border-radius:6px;margin-bottom:4px;cursor:pointer';
-      const reward=p.reward==='crystals'?('💎 '+p.value):(p.reward==='title'?'🎖 '+p.value:'✏️ '+(p.value?.name||'?'));
+      const reward=p.reward==='crystals'?('💎 '+p.value):(p.reward==='title'?'🎖 '+p.value:(p.reward==='hero'?'🎴 '+p.value:(p.reward==='helper'?'🃏 '+p.value:(p.reward==='bundle'?'📦 Набор':'✏️ '+(p.value?.name||'?')))));
       el.textContent=c+' → '+reward+' · used '+((p.used||0))+(p.limit?'/'+p.limit:'');
       el.onclick=()=>{document.getElementById('promoCodeInput').value=c;};
       list.appendChild(el);
@@ -5998,7 +6227,7 @@ async function devRenderPromoList(){
   }catch(e){list.innerHTML='<div style="color:#e74c3c;font-size:11px">Ошибка: '+e.message+'</div>';}
 }
 
-// ============ ADMIN: КАРТОЧКА ИГРОКА ============
+// ============ ADMIN: КАРТОЧКА ИГРОКА (базовая) ============
 async function openPlayerAdminCard(pid){
   const p=adminAllPlayers.find(x=>x.id===pid);
   if(!p)return;
@@ -6067,17 +6296,17 @@ async function openPlayerAdminCard(pid){
   };
   modal.querySelector('#pcSoftDelete').onclick=async()=>{
     if(!confirm('Пометить аккаунт как удалённый?'))return;
-    if(!confirm('Точно? При входе игрок увидит "аккаунт удалён".'))return;
+    if(!confirm('Точно?'))return;
     try{
       await db.ref('users/'+p.id+'/deleted').set(true);
       await db.ref('users/'+p.id+'/deletedAt').set(Date.now());
-      showToast('🗑 Аккаунт помечен как удалённый');
+      showToast('🗑 Помечен как удалённый');
       modal.remove();
     }catch(e){showToast('❌ '+e.message);}
   };
 }
 
-// ============ РАССЫЛКА ============
+// ============ BROADCAST (тост-слушатель) ============
 let broadcastRef=null;
 function startBroadcastListener(){
   if(broadcastRef)return;
@@ -6145,8 +6374,1151 @@ function startBroadcastListener(){
   setInterval(()=>{updateAchBadge();},5000);
   setInterval(()=>{if(state.role==='host'&&state.phase==='playing'&&state.roomRef)hostAutoCheck();},800);
   startBroadcastListener();
+  // Загружаем прогресс боссов (если функция определена — она в PART 8)
+  setTimeout(()=>{
+    if(typeof loadBossStateFromFirebase==='function'&&!session.isGuest){
+      loadBossStateFromFirebase().then(()=>{if(typeof renderBossHomeBadge==='function')renderBossHomeBadge();});
+    }
+  },1500);
+  // Кик/логаут/подарки слушатели (определены в ПАТЧ 7 — части 11)
+  setTimeout(()=>{
+    if(typeof startKickWatcher==='function')startKickWatcher();
+    if(typeof checkPendingGift==='function')checkPendingGift();
+    if(typeof loadRewardMultiplier==='function')loadRewardMultiplier();
+  },2500);
 })();
-  </script><script>
+ </script><script>
+// ============================================================
+// РЕЖИМ БОССОВ (15 боссов, раз в сутки, 50💎 за босса, 1000💎 за всех)
+// ============================================================
+let bossState={
+  currentBoss:0,
+  defeated:[],
+  lastReset:0
+};
+let bossSelectedCards=[];
+let bossDuelState=null;
+
+function loadBossState(){
+  try{
+    const raw=localStorage.getItem('ah_boss_state');
+    if(raw)bossState=JSON.parse(raw);
+  }catch(e){}
+  if(!bossState.defeated)bossState.defeated=[];
+  if(typeof bossState.currentBoss!=='number')bossState.currentBoss=0;
+  if(!bossState.lastReset)bossState.lastReset=Date.now();
+  return bossState;
+}
+function saveBossState(){
+  try{localStorage.setItem('ah_boss_state',JSON.stringify(bossState));}catch(e){}
+  if(!session.isGuest&&session.playerId){
+    db.ref('bossProgress/'+session.playerId).set(bossState).catch(()=>{});
+  }
+}
+async function loadBossStateFromFirebase(){
+  if(session.isGuest||!session.playerId)return;
+  try{
+    const s=await db.ref('bossProgress/'+session.playerId).once('value');
+    const v=s.val();
+    if(v){
+      bossState=v;
+      if(!bossState.defeated)bossState.defeated=[];
+      if(typeof bossState.currentBoss!=='number')bossState.currentBoss=0;
+      if(!bossState.lastReset)bossState.lastReset=Date.now();
+      try{localStorage.setItem('ah_boss_state',JSON.stringify(bossState));}catch(e){}
+    }
+  }catch(e){}
+}
+loadBossState();
+
+function bossCanPlay(){
+  loadBossState();
+  const now=Date.now();
+  if(now-bossState.lastReset>=BOSS_COOLDOWN)return true;
+  return false;
+}
+function bossNextResetTime(){
+  loadBossState();
+  return bossState.lastReset+BOSS_COOLDOWN;
+}
+function bossResetProgress(){
+  bossState.currentBoss=0;
+  bossState.defeated=[];
+  bossState.lastReset=Date.now();
+  saveBossState();
+}
+
+document.getElementById('bossModeBtn').onclick=()=>{
+  if(session.isGuest){alert('Режим боссов требует входа в аккаунт. Зарегистрируйся!');return;}
+  loadBossState();
+  // Автосброс по таймеру (если сутки прошли)
+  if(bossCanPlay()&&bossState.defeated.length>0){
+    bossResetProgress();
+  }
+  renderBossHome();
+  show('bossHomeScreen');
+};
+document.getElementById('backFromBoss').onclick=()=>{show('offlineMenuScreen');renderBossHomeBadge();};
+document.getElementById('backFromBossSelect').onclick=()=>{show('bossHomeScreen');renderBossHome();};
+
+function renderBossHome(){
+  loadBossState();
+  const grid=document.getElementById('bossGrid');
+  const progressEl=document.getElementById('bossProgress');
+  const timerEl=document.getElementById('bossTimerInfo');
+  if(!grid)return;
+
+  const defeatedCount=bossState.defeated.length;
+
+  // Таймер
+  if(timerEl){
+    if(defeatedCount===0){
+      timerEl.innerHTML='<div style="color:#27ae60;font-weight:800;font-size:14px">✅ Готово к бою! Пройди всех 15 боссов.</div>';
+    }else if(defeatedCount>=BOSSES.length){
+      timerEl.innerHTML='<div style="color:#f5b800;font-weight:800;font-size:14px">👑 ВСЕ БОССЫ ПОБЕЖДЕНЫ! Сброс через сутки.</div>';
+    }else{
+      const next=bossNextResetTime();
+      const diff=Math.max(0,next-Date.now());
+      const h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000);
+      timerEl.innerHTML='<div style="color:#aaa;font-size:13px">⏱ Сброс прогресса через <b style="color:#f5b800">'+h+' ч '+m+' мин</b></div>';
+    }
+  }
+  if(progressEl){
+    const earned=defeatedCount*BOSS_REWARDS;
+    progressEl.textContent='👹 Побеждено: '+defeatedCount+'/'+BOSSES.length+' · Заработано: '+earned+'💎 / '+BOSS_TOTAL_REWARD+'💎';
+  }
+
+  grid.innerHTML='';
+  BOSSES.forEach((b,idx)=>{
+    const isDefeated=bossState.defeated.includes(idx);
+    const isCurrent=idx===bossState.currentBoss&&!isDefeated;
+    const isLocked=idx>bossState.currentBoss&&!isDefeated;
+
+    const card=document.createElement('div');
+    card.className='boss-card'+(isDefeated?' defeated':'')+(isLocked?' locked':'')+(isCurrent?' current':'');
+    card.innerHTML=
+      '<div class="bc-img">'+b.icon+'</div>'+
+      '<div class="bc-name">'+b.n+'</div>'+
+      '<div class="bc-lvl">Уровень '+(idx+1)+' · HP '+b.hp+'</div>'+
+      '<div class="bc-reward">💰 '+BOSS_REWARDS+' 💎</div>'+
+      '<div style="font-size:10px;color:#888;margin-top:3px">'+b.desc+'</div>';
+    if(!isLocked&&!isDefeated){
+      card.onclick=()=>startBossSelect(idx);
+    }
+    grid.appendChild(card);
+  });
+
+  const startBtn=document.getElementById('bossStartBtn');
+  if(startBtn){
+    const canStart=bossState.currentBoss<BOSSES.length&&!bossState.defeated.includes(bossState.currentBoss);
+    startBtn.disabled=!canStart;
+    startBtn.onclick=()=>startBossSelect(bossState.currentBoss);
+    startBtn.textContent=canStart?'⚔️ БОЙ С БОССОМ '+BOSSES[bossState.currentBoss].n:'👑 ВСЕ ПРОЙДЕНЫ';
+  }
+}
+
+function startBossSelect(bossIdx){
+  if(bossIdx!==bossState.currentBoss){alert('Сначала победи предыдущего босса!');return;}
+  loadCollection();
+  const owned=Object.keys(collection).filter(n=>CHAR_STATS[n]);
+  if(owned.length<3){alert('Нужно минимум 3 карты в коллекции!');return;}
+  bossSelectedCards=[];
+  renderBossSelectGrid(bossIdx);
+  document.getElementById('bossSelectCount').textContent='Выбери 3 карты (0/3)';
+  document.getElementById('bossFightBtn').disabled=true;
+  document.getElementById('bossFightBtn').onclick=()=>fightBoss(bossIdx);
+  show('bossSelectScreen');
+}
+
+function renderBossSelectGrid(bossIdx){
+  const grid=document.getElementById('bossSelectGrid');
+  const selectedDiv=document.getElementById('bossSelected');
+  if(!grid)return;
+  grid.innerHTML='';
+  if(selectedDiv)selectedDiv.innerHTML='';
+
+  loadCollection();
+  const owned=Object.keys(collection).filter(n=>CHAR_STATS[n]).sort((a,b)=>{
+    const ca=CHARACTERS.find(x=>x.n===a),cb=CHARACTERS.find(x=>x.n===b);
+    return (cb?.p||0)-(ca?.p||0);
+  });
+
+  owned.forEach(name=>{
+    const imgInfo=CHAR_IMAGES[name];
+    const stats=CHAR_STATS[name];
+    const rarity=stats.hp>=5000?'mythic':stats.hp>=1500?'legendary':stats.hp>=700?'epic':stats.hp>=250?'rare':'common';
+    const isSel=bossSelectedCards.includes(name);
+    const card=document.createElement('div');
+    card.className='boss-select-card rarity-'+rarity+(isSel?' selected':'');
+    let imgHtml;
+    if(imgInfo){imgHtml='<img src="'+imgInfo.file+'.png" onerror="this.onerror=null;this.src=\''+imgInfo.file+'.jpg\'">';}
+    else{imgHtml='<div style="font-size:34px">'+(THEME_EMOJI[(CHARACTERS.find(c=>c.n===name)||{}).t]||'⭐')+'</div>';}
+    card.innerHTML='<div class="bsc-img">'+imgHtml+'</div><div class="bsc-name">'+name+'</div><div style="font-size:9px;color:#f5b800;font-weight:800">⚡'+stats.atk+' ❤️'+stats.hp+'</div>';
+    card.onclick=()=>{
+      const i=bossSelectedCards.indexOf(name);
+      if(i>=0){bossSelectedCards.splice(i,1);}
+      else{
+        if(bossSelectedCards.length>=3){showToast('Максимум 3 карты');return;}
+        bossSelectedCards.push(name);
+      }
+      renderBossSelectGrid(bossIdx);
+    };
+    grid.appendChild(card);
+  });
+
+  if(selectedDiv){
+    if(bossSelectedCards.length>0){
+      selectedDiv.innerHTML='<div style="text-align:center;font-size:12px;color:#f5b800;font-weight:800;margin-bottom:8px">Твоя команда:</div>'+
+        '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">'+
+        bossSelectedCards.map(n=>'<div style="background:rgba(243,156,18,.2);border:1.5px solid #f5b800;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:800;color:#f5b800">'+n+'</div>').join('')+
+        '</div>';
+    }
+  }
+  const cnt=document.getElementById('bossSelectCount');
+  if(cnt)cnt.textContent='Выбери 3 карты ('+bossSelectedCards.length+'/3)';
+  const fb=document.getElementById('bossFightBtn');
+  if(fb)fb.disabled=bossSelectedCards.length!==3;
+}
+
+function fightBoss(bossIdx){
+  if(bossSelectedCards.length!==3)return;
+  const boss=BOSSES[bossIdx];
+  const deck1=[...bossSelectedCards];
+
+  // Регистрируем фейковую карту-босса в CHAR_STATS
+  const bossAbility=boss.ability||'punch';
+  const bossCardKey='__BOSS_'+bossIdx;
+  CHAR_STATS[bossCardKey]={
+    hp:boss.hp, atk:boss.atk, def:boss.def, agi:boss.agi,
+    mag:boss.mag, int:boss.int, ability:bossAbility
+  };
+  CHAR_IMAGES[bossCardKey]={file:'',fit:'contain'};
+
+  botLevel='medium'; botEnabled=true;
+  duelHelpersEnabled=false;
+
+  bossDuelState={
+    p1Name:session.username||'Ты',
+    p2Name:boss.icon+' '+boss.n,
+    p1Deck:deck1,
+    p2Deck:[bossCardKey,bossCardKey,bossCardKey],
+    p1Index:0,p2Index:0,p1Wins:0,p2Wins:0,round:1,
+    p1IsBot:false,p2IsBot:true,
+    isBoss:true,
+    bossIdx:bossIdx
+  };
+  duelState=bossDuelState;
+  startBossRound();
+}
+
+function startBossRound(){
+  const st=duelState;
+  if(st.p1Index>=st.p1Deck.length||st.p2Index>=st.p2Deck.length){endBossFight();return;}
+  const c1Name=st.p1Deck[st.p1Index];
+  const bossIdx=st.bossIdx;
+  const boss=BOSSES[bossIdx];
+  const c2Name=boss.icon+' '+boss.n;
+  const s1=CHAR_STATS[c1Name];
+  const s2=CHAR_STATS['__BOSS_'+bossIdx];
+  const fx1=ABILITY_EFFECTS[s1.ability]||{},fx2=ABILITY_EFFECTS[s2.ability]||{};
+  let p1First;
+  if(fx1.alwaysFirst&&!fx2.alwaysFirst)p1First=true;
+  else if(fx2.alwaysFirst&&!fx1.alwaysFirst)p1First=false;
+  else p1First=s1.agi>=s2.agi;
+
+  const st1={...s1},st2={...s2};
+  if(fx1.defBuff)st1.def=Math.round(st1.def*fx1.defBuff.mult);
+  if(fx2.defBuff)st2.def=Math.round(st2.def*fx2.defBuff.mult);
+
+  duelState.current={c1:c1Name,c2:c2Name,s1:st1,s2:st2,hp1:st1.hp,hp2:st2.hp,maxHp1:st1.hp,maxHp2:st2.hp,
+    p1First:p1First,turn:1,atk1:0,atk2:0,skip1:false,skip2:false,
+    legWarmup1:false,legWarmup2:false,legDevourer1:false,legDevourer2:false,legSsj1:false,legSsj2:false,
+    legSunCharge1:false,legSunCharge2:false,legPainStack1:0,legPainStack2:0,legOmni1:0,legOmni2:0,
+    legAbsorb1:0,legAbsorb2:0,legLastStand1:false,legLastStand2:false,legDodgeStreak1:0,legDodgeStreak2:0,
+    legSteal1:false,legSteal2:false,legDemon1:0,legDemon2:0,legStun2x1:false,legStun2x2:false,
+    legTsuk1:false,legTsuk2:false,legFeast1:false,legFeast2:false,legRevive1:false,legRevive2:false,
+    legDisney1:false,legDisney2:false,legCancel1:false,legCancel2:false,
+    revengeCount1:0,revengeCount2:0,rageStack1:0,rageStack2:0,burn1:0,burn2:0,
+    bossAbility:boss.ability||'punch',bossIcon:boss.icon,battleLog:[]};
+
+  document.getElementById('duelRoundNum').textContent='👹';
+  document.getElementById('duelVsText').textContent='БОСС: '+boss.n;
+  document.getElementById('duelF1Name').textContent=c1Name;
+  document.getElementById('duelF2Name').textContent=boss.n;
+  document.getElementById('duelF1Atk').textContent=st1.atk;
+  document.getElementById('duelF1Def').textContent=st1.def;
+  document.getElementById('duelF2Atk').textContent=st2.atk;
+  document.getElementById('duelF2Def').textContent=st2.def;
+
+  // Рендер картинок
+  renderDuelFighterImage('duelF1Img',c1Name);
+  // Босс — эмодзи
+  const bossImgEl=document.getElementById('duelF2Img');
+  bossImgEl.className='df-img contain';
+  bossImgEl.innerHTML='<div style="font-size:70px;filter:drop-shadow(0 0 20px #e74c3c)">'+boss.icon+'</div>';
+
+  const rar1=st1.hp>=5000?'mythic':st1.hp>=1500?'legendary':st1.hp>=700?'epic':st1.hp>=250?'rare':'common';
+  ['duelF1','duelF2'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('rarity-common','rarity-rare','rarity-epic','rarity-legendary','rarity-mythic','hit');});
+  document.getElementById('duelF1').classList.add('rarity-'+rar1);
+  document.getElementById('duelF2').classList.add('rarity-mythic');
+  applyFrameToFighter('duelF1');
+
+  updateHpBars();
+  document.getElementById('battleLog').innerHTML='';
+  addBattleLog('👹 <b>БОСС: '+boss.n+'</b> (уровень '+(bossIdx+1)+')','round-title');
+  addBattleLog('Твоя карта: <b>'+c1Name+'</b>','round-title');
+
+  const banner=document.getElementById('autoBattleBanner');
+  if(banner)banner.textContent='👹 БОЙ С БОССОМ: '+boss.n;
+  show('duelBattleScreen');
+  startAutoBattle();
+}
+
+function endBossFight(){
+  stopAutoBattle();
+  if(!duelState||!duelState.isBoss)return;
+  const st=duelState;
+  const bossIdx=st.bossIdx;
+  const boss=BOSSES[bossIdx];
+  const won=st.p1Wins>st.p2Wins;
+
+  if(won){
+    if(!bossState.defeated.includes(bossIdx)){
+      bossState.defeated.push(bossIdx);
+      bossState.currentBoss=Math.min(bossState.currentBoss+1,BOSSES.length);
+      saveBossState();
+      if(typeof grantCrystals==='function')grantCrystals(BOSS_REWARDS,false);
+      // Доначисление за всех 15
+      if(bossState.defeated.length===BOSSES.length){
+        const bonus=BOSS_TOTAL_REWARD-BOSSES.length*BOSS_REWARDS;
+        if(bonus>0&&typeof grantCrystals==='function')grantCrystals(bonus,false);
+        showToast('👑 ВСЕ 15 БОССОВ ПОБЕЖДЕНЫ! +'+BOSS_TOTAL_REWARD+'💎');
+      }else{
+        showToast('🏆 Босс «'+boss.n+'» побеждён! +'+BOSS_REWARDS+'💎');
+      }
+    }
+  }else{
+    showToast('💀 Босс победил. Попробуй ещё!');
+  }
+  bossSelectedCards=[];
+  bossDuelState=null;
+  // Возврат на экран боссов
+  setTimeout(()=>{
+    renderBossHome();
+    show('bossHomeScreen');
+    renderBossHomeBadge();
+  },1500);
+}
+
+// Хук: если это бой с боссом — вызываем endBossFight из endDuelBattle
+// (перехватываем через флаг isBoss в конце PART 5 endDuelBattle,
+//  он уже вызывает endBossFight если isBoss === true)
+
+function renderBossHomeBadge(){
+  const badge=document.getElementById('bossTimerBadge');
+  if(!badge)return;
+  loadBossState();
+  const defeatedCount=bossState.defeated.length;
+  if(defeatedCount===0){
+    badge.textContent='NEW';
+    badge.style.background='#27ae60';
+  }else if(defeatedCount>=BOSSES.length){
+    badge.textContent='👑';
+    badge.style.background='#f5b800';
+  }else{
+    badge.textContent=defeatedCount+'/'+BOSSES.length;
+    badge.style.background='#e74c3c';
+  }
+}
+ </script><script>
+// ============================================================
+// ФИНАЛЬНЫЕ ХУКИ: рамки, бейджи, подгрузка
+// ============================================================
+
+// ★ Рамка игрока на карте в ЛОББИ и РЕЗУЛЬТАТАХ
+(function applyFrameToPlayerCards(){
+  // Перехват handleRoomUpdate — накладываем рамку на .player-item игрока
+  if(typeof handleRoomUpdate==='function'){
+    const _orig=handleRoomUpdate;
+    handleRoomUpdate=function(room){
+      _orig(room);
+      setTimeout(()=>{
+        const myIdx=state.myIdx;
+        if(myIdx<0)return;
+        const items=document.querySelectorAll('#playersList .player-item, #tourAucPlayers .player-item');
+        items.forEach((el,i)=>{
+          if(i===myIdx&&typeof myProfile!=='undefined'&&myProfile&&myProfile.frame){
+            [...el.classList].forEach(c=>{if(c.startsWith('frame_'))el.classList.remove(c);});
+            el.classList.add(myProfile.frame);
+          }
+        });
+      },100);
+    };
+  }
+
+  // Перехват tourRenderAuction — рамка на карточке игрока в турнире ботов
+  if(typeof tourRenderAuction==='function'){
+    const _origTour=tourRenderAuction;
+    tourRenderAuction=function(){
+      _origTour();
+      const items=document.querySelectorAll('#tourAucPlayers .player-item');
+      const myIdx=tournament.players.findIndex(p=>!p.isBot);
+      if(myIdx>=0&&items[myIdx]&&typeof myProfile!=='undefined'&&myProfile&&myProfile.frame){
+        [...items[myIdx].classList].forEach(c=>{if(c.startsWith('frame_'))items[myIdx].classList.remove(c);});
+        items[myIdx].classList.add(myProfile.frame);
+      }
+    };
+  }
+
+  // Перехват otRenderAuction — рамка в онлайн-турнире
+  if(typeof otRenderAuction==='function'){
+    const _origOt=otRenderAuction;
+    otRenderAuction=function(room){
+      _origOt(room);
+      const items=document.querySelectorAll('#tourAucPlayers .player-item');
+      const players=room.players||{};
+      const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+      const myIdx=ids.indexOf(otMyId);
+      if(myIdx>=0&&items[myIdx]&&typeof myProfile!=='undefined'&&myProfile&&myProfile.frame){
+        [...items[myIdx].classList].forEach(c=>{if(c.startsWith('frame_'))items[myIdx].classList.remove(c);});
+        items[myIdx].classList.add(myProfile.frame);
+      }
+    };
+  }
+
+  // Перехват renderResults — рамка на финальном экране
+  if(typeof renderResults==='function'){
+    const _origRes=renderResults;
+    renderResults=function(view){
+      _origRes(view);
+      // Подсветим строку с нашим ником
+      const rows=document.querySelectorAll('#resultsTable tr');
+      const myName=getMyName();
+      rows.forEach(tr=>{
+        if(tr.textContent.includes(myName)&&typeof myProfile!=='undefined'&&myProfile&&myProfile.frame){
+          tr.style.boxShadow='0 0 12px rgba(243,156,18,.6)';
+        }
+      });
+    };
+  }
+})();
+
+// ★ Обновление бейджа боссов при показе офлайн-меню
+(function bindBossBadge(){
+  const btn=document.getElementById('offlineSectionBtn');
+  if(btn){
+    const _origShow=show;
+    show=function(id){
+      _origShow(id);
+      if(id==='offlineMenuScreen'&&typeof renderBossHomeBadge==='function')renderBossHomeBadge();
+    };
+  }
+  // И на старте
+  setTimeout(()=>{
+    if(typeof renderBossHomeBadge==='function')renderBossHomeBadge();
+  },2000);
+})();
+
+// ★ Автообновление таймера боссов (раз в минуту, если игрок в офлайн-меню)
+setInterval(()=>{
+  const el=document.getElementById('offlineMenuScreen');
+  if(el&&!el.classList.contains('hidden')&&typeof renderBossHomeBadge==='function'){
+    renderBossHomeBadge();
+  }
+},60000);
+
+// ★ Рамка на экране выбора карт босса
+(function bindBossSelectFrame(){
+  if(typeof renderBossSelectGrid==='function'){
+    const _orig=renderBossSelectGrid;
+    renderBossSelectGrid=function(idx){
+      _orig(idx);
+      const grid=document.getElementById('bossSelectGrid');
+      if(!grid)return;
+      // Наложим обводку на выбранные (уже selected через CSS), плюс свечение от рамки игрока
+      if(typeof myProfile!=='undefined'&&myProfile&&myProfile.frame){
+        grid.querySelectorAll('.boss-select-card.selected').forEach(el=>{
+          [...el.classList].forEach(c=>{if(c.startsWith('frame_'))el.classList.remove(c);});
+          el.classList.add(myProfile.frame);
+        });
+      }
+    };
+  }
+})();
+
+// ★ Фикс: если в турнире ботов используется сумма для оценки карты —
+//   усиливаем разброс (чтобы боты не "упирались в 0"). Мелкий тюнинг ИИ.
+(function tuneTournamentBots(){
+  if(typeof tourBotBid==='function'){
+    const _orig=tourBotBid;
+    tourBotBid=function(idx){
+      // Перед ставкой — шанс "ошибки" 10% (защита от зажатого бота)
+      if(Math.random()<0.1){
+        // Бот пасует или делает минимальную ставку
+        const min=Math.max(1,tournament.currentBid+1);
+        if(Math.random()<0.5&&tournament.currentBidder!==idx){tourPass(idx);return;}
+      }
+      _orig(idx);
+    };
+  }
+})();
+
+// ★ Фикс: рефреш рамки в реальном времени при смене
+(function watchProfileFrame(){
+  let lastFrame=null;
+  setInterval(()=>{
+    if(typeof myProfile==='undefined')return;
+    if(myProfile.frame!==lastFrame){
+      lastFrame=myProfile.frame;
+      // Обновим все видимые элементы с рамкой
+      const f1=document.getElementById('duelF1');
+      if(f1&&!f1.classList.contains('hidden')){
+        applyFrameToFighter('duelF1');
+      }
+      // В лобби дуэли превью
+      if(typeof renderDuelDeck==='function'&&duelP1Deck&&duelP1Deck.length){
+        const cont=document.getElementById('duelP1Cards');
+        if(cont&&!cont.classList.contains('hidden')){
+          cont.querySelectorAll('.mini-card').forEach(el=>{
+            [...el.classList].forEach(c=>{if(c.startsWith('frame_'))el.classList.remove(c);});
+            el.classList.add(myProfile.frame);
+          });
+        }
+      }
+    }
+  },1000);
+})();
+
+// ★ Обновление бейджа ачивок при изменении (страховка от PART 7)
+setInterval(()=>{
+  if(typeof updateAchBadge==='function')updateAchBadge();
+},8000);
+
+// ★ Готово
+console.log('✅ PART 9 загружен: финальные хуки (рамки, бейджи, тюнинг ботов)');
+ </script> <script>
+// ============================================================
+// РАСШИРЕННАЯ АДМИНКА: глобалка 31-48
+// ============================================================
+
+/* ---------- 31. ОБЪЯВЛЕНИЕ (модалка у всех онлайн) ---------- */
+async function devBroadcastModal(){
+  if(!devIsAdmin()) return;
+  const text = prompt('Текст объявления (покажется модалкой у всех онлайн):', '');
+  if(!text) return;
+  await db.ref('broadcastModal').set({text, ts:Date.now(), from:session.username});
+  showToast('📢 Объявление отправлено');
+}
+
+/* ---------- 32. RELOAD ВСЕХ ---------- */
+async function devForceReloadAll(){
+  if(!devIsAdmin()) return;
+  if(!confirm('Принудительно перезагрузить у всех онлайн-игроков?')) return;
+  await db.ref('forceReloadAll').set({ts:Date.now(), from:session.username});
+  showToast('🔥 Сигнал отправлен');
+}
+
+// Слушатели
+let lastBroadcastModalTs = 0;
+function startBroadcastModalListener(){
+  db.ref('broadcastModal').on('value', snap => {
+    const v = snap.val();
+    if(!v || !v.ts || v.ts === lastBroadcastModalTs) return;
+    if(Date.now() - v.ts > 120000) return;
+    lastBroadcastModalTs = v.ts;
+    showBroadcastModal(v.text, v.from);
+  });
+  db.ref('forceReloadAll').on('value', snap => {
+    const v = snap.val();
+    if(!v || !v.ts) return;
+    if(Date.now() - v.ts > 60000) return;
+    if(session.isGuest) return;
+    showToast('🔥 Перезагрузка...');
+    setTimeout(()=>location.reload(), 1000);
+  });
+}
+function showBroadcastModal(text, from){
+  const modal = document.createElement('div');
+  modal.className = 'admin-modal';
+  modal.style.zIndex = 500;
+  modal.innerHTML =
+    '<div class="am-inner" style="max-width:480px;text-align:center;background:linear-gradient(135deg,rgba(243,156,18,.25),rgba(231,76,60,.15));border:2px solid rgba(243,156,18,.7)">' +
+      '<div style="font-size:60px;filter:drop-shadow(0 0 20px #f5b800)">📢</div>' +
+      '<h3 style="color:#f5b800;font-size:18px;margin-top:10px">ОБЪЯВЛЕНИЕ</h3>' +
+      '<div style="color:#fff;font-size:15px;line-height:1.5;margin:14px 0;padding:14px;background:rgba(0,0,0,.4);border-radius:12px">' + escapeHtml(text) + '</div>' +
+      '<div style="font-size:11px;color:#888;margin-bottom:14px">От: ' + escapeHtml(from || 'админ') + '</div>' +
+      '<button class="btn-primary" id="bcClose">Понятно</button>' +
+    '</div>';
+  document.body.appendChild(modal);
+  modal.querySelector('#bcClose').onclick = () => modal.remove();
+}
+
+/* ---------- 33. БЭКАП JSON ---------- */
+async function devBackupDB(){
+  if(!devIsAdmin()) return;
+  if(!confirm('Скачать JSON со всеми игроками?')) return;
+  try{
+    showToast('💾 Готовим бэкап...');
+    const paths = ['users','achievements','collections','bossProgress','leaderboard','promocodes','adminLog'];
+    const backup = { ts: Date.now(), data: {} };
+    for(const p of paths){
+      const s = await db.ref(p).once('value');
+      backup.data[p] = s.val() || {};
+    }
+    const blob = new Blob([JSON.stringify(backup, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'auction_heroes_backup_' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ Бэкап скачан');
+  }catch(e){ showToast('❌ ' + e.message); }
+}
+
+/* ---------- 35. ОЧИСТКА ЛИДЕРБОРДА 30 ДНЕЙ ---------- */
+async function devCleanLeaderboard(){
+  if(!devIsAdmin()) return;
+  if(!confirm('Удалить записи лидерборда старше 30 дней?')) return;
+  const cutoff = Date.now() - 30*86400000;
+  let removed = 0;
+  for(const path of ['leaderboard/auction','leaderboard/duel','leaderboard/duel_helpers']){
+    try{
+      const s = await db.ref(path).once('value');
+      const data = s.val() || {};
+      for(const id of Object.keys(data)){
+        if((data[id].lastPlayed || 0) < cutoff){
+          await db.ref(path + '/' + id).remove();
+          removed++;
+        }
+      }
+    }catch(e){}
+  }
+  showToast('🗑 Удалено: ' + removed);
+}
+
+/* ---------- 36. ЖИВОЙ ДАШБОРД ---------- */
+async function devLiveDashboard(){
+  if(!devIsAdmin()) return;
+  try{
+    const s = await db.ref('users').once('value');
+    const data = s.val() || {};
+    const now = Date.now();
+    let online = 0, idle = 0, offline = 0;
+    const active = [];
+    Object.keys(data).forEach(id => {
+      const last = data[id].lastPing || 0;
+      const diff = now - last;
+      if(diff < 60000){ online++; active.push({id, name:data[id].username, screen:data[id].currentScreen, diff}); }
+      else if(diff < 600000){ idle++; }
+      else offline++;
+    });
+    active.sort((a,b)=>a.diff-b.diff);
+    let text = '📊 ДАШБОРД\n\n';
+    text += '🟢 Онлайн: ' + online + '\n';
+    text += '🟡 AFK: ' + idle + '\n';
+    text += '⚫ Оффлайн: ' + offline + '\n\n';
+    text += '🎯 Топ активных:\n';
+    active.slice(0,10).forEach((a,i) => {
+      text += (i+1) + '. ' + (a.name||'?') + ' — ' + (a.screen||'?') + ' (' + Math.round(a.diff/1000) + 'с)\n';
+    });
+    alert(text);
+  }catch(e){ showToast('❌ ' + e.message); }
+}
+
+/* ---------- 37-41. ПРОМОКОДЫ: персональные, отзыв ---------- */
+(function addPersonalPromoUI(){
+  const section = document.querySelector('#adminPlayersModal .dev-section:last-child');
+  if(!section) return;
+  const row = document.createElement('div');
+  row.className = 'dev-row';
+  row.innerHTML =
+    '<button class="btn-dev" id="devPersonalPromo">🎯 Персональный промо</button>' +
+    '<button class="btn-dev-danger" id="devRevokePromo">🔄 Отозвать промо</button>';
+  section.appendChild(row);
+
+  document.getElementById('devPersonalPromo').onclick = async () => {
+    if(!devIsAdmin()) return;
+    const uid = prompt('playerId игрока:', '');
+    if(!uid) return;
+    const code = (prompt('Код (автоген если пусто):', '') || 'PERSONAL_' + Date.now().toString(36)).toUpperCase();
+    const cr = parseInt(prompt('Кристаллы:', '500'), 10) || 0;
+    const title = prompt('Титул (пусто = нет):', '') || null;
+    const hero = prompt('Герой (пусто = нет):', '') || null;
+    const payload = {code, reward:'bundle', used:0, limit:1, onlyPlayer:uid,
+      value:{crystals:cr, title, hero}, createdAt:Date.now(), createdBy:session.username};
+    await db.ref('promocodes/' + code).set(payload);
+    showToast('🎯 Персональный промо: ' + code);
+  };
+  document.getElementById('devRevokePromo').onclick = async () => {
+    if(!devIsAdmin()) return;
+    const code = prompt('Какой код отозвать:', '').toUpperCase();
+    if(!code) return;
+    if(!confirm('Удалить промокод ' + code + '?')) return;
+    await db.ref('promocodes/' + code).remove();
+    await db.ref('promoUsed/' + code).remove();
+    showToast('🔄 Отозван');
+  };
+})();
+
+/* ---------- 42. ИСТОРИЯ ДЕЙСТВИЙ АДМИНА ---------- */
+async function devShowAdminLog(){
+  if(!devIsAdmin()) return;
+  try{
+    const s = await db.ref('adminLog').once('value');
+    const data = s.val() || {};
+    const all = [];
+    Object.keys(data).forEach(adminId => {
+      Object.keys(data[adminId] || {}).forEach(ts => {
+        all.push({adminId, ts:+ts, ...data[adminId][ts]});
+      });
+    });
+    all.sort((a,b) => b.ts - a.ts);
+    const recent = all.slice(0, 50);
+    let text = '📜 ПОСЛЕДНИЕ 50 ДЕЙСТВИЙ\n\n';
+    recent.forEach(r => {
+      const date = new Date(r.ts).toLocaleString('ru', {month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+      text += '[' + date + '] ' + (r.admin||'?') + ' → ' + r.action + ' → ' + (r.target||'?') + '\n';
+    });
+    alert(text || 'Нет записей');
+  }catch(e){ showToast('❌ ' + e.message); }
+}
+
+/* ---------- 43. РЕПОРТЫ ОТ ИГРОКОВ ---------- */
+function addReportButton(){
+  const profileContent = document.getElementById('profileContent');
+  if(!profileContent) return;
+  const observer = new MutationObserver(() => {
+    if(document.getElementById('reportUserBtn')) return;
+    const btn = document.createElement('button');
+    btn.id = 'reportUserBtn';
+    btn.className = 'btn-secondary';
+    btn.style.cssText = 'margin-top:10px;background:linear-gradient(135deg,#7a2020,#5a1515);color:#fff;border:none';
+    btn.textContent = '🚨 Пожаловаться на игрока';
+    btn.onclick = () => {
+      const pidEl = profileContent.querySelector('.profile-id');
+      const pid = pidEl ? pidEl.textContent.trim() : null;
+      if(!pid || pid === session.playerId){ showToast('Нельзя пожаловаться на себя'); return; }
+      const reason = prompt('Причина жалобы:', '');
+      if(!reason) return;
+      db.ref('reports').push({
+        reporterId: session.playerId || 'guest',
+        reporterName: session.username || 'Гость',
+        targetId: pid,
+        reason,
+        ts: Date.now(),
+        status: 'new'
+      });
+      showToast('🚨 Жалоба отправлена');
+    };
+    profileContent.appendChild(btn);
+  });
+  observer.observe(profileContent, {childList:true, subtree:true});
+}
+addReportButton();
+
+async function devShowReports(){
+  if(!devIsAdmin()) return;
+  try{
+    const s = await db.ref('reports').once('value');
+    const data = s.val() || {};
+    const arr = Object.keys(data).map(k => ({id:k, ...data[k]})).filter(r => r.status === 'new').sort((a,b) => b.ts - a.ts);
+    if(!arr.length){ alert('📭 Репортов нет'); return; }
+    const text = arr.slice(0,20).map((r,i) =>
+      (i+1) + '. ' + r.reporterName + ' → ' + r.targetId + '\n   ' + r.reason
+    ).join('\n\n');
+    const action = prompt('📊 РЕПОРТЫ (всего: ' + arr.length + ')\n\n' + text + '\n\nВведи:\n• "clear" — очистить все\n• номер — отметить обработанным\n• пусто — закрыть', '');
+    if(action === 'clear'){
+      if(confirm('Удалить все репорты?')){
+        await db.ref('reports').remove();
+        showToast('🗑 Очищено');
+      }
+    } else if(action && !isNaN(+action)){
+      const idx = parseInt(action, 10) - 1;
+      if(arr[idx]){ await db.ref('reports/' + arr[idx].id + '/status').set('done'); showToast('✅ Обработан'); }
+    }
+  }catch(e){ showToast('❌ ' + e.message); }
+}
+
+/* ---------- 44-45. ПОИСК ПО ID КОМНАТЫ + НАБЛЮДАТЕЛЬ ---------- */
+async function devJoinAsSpectator(){
+  if(!devIsAdmin()) return;
+  const code = prompt('Код комнаты:', '').toUpperCase();
+  if(!code) return;
+  for(const p of ['rooms', 'tourRooms', 'duelRooms']){
+    const s = await db.ref(p + '/' + code).once('value');
+    const r = s.val();
+    if(r){
+      const info = 'Найдено: ' + p + '/' + code + '\nPhase: ' + r.phase + '\nИгроков: ' + Object.keys(r.players || {}).length;
+      alert(info);
+      if(r.log){
+        const logs = r.log || [];
+        alert('Логи:\n' + logs.slice(-20).join('\n'));
+      }
+      return;
+    }
+  }
+  alert('Комната не найдена');
+}
+
+/* ---------- 46-48. КОСМЕТИКА: +10 аватаров + 5 рамок + 3 темы ---------- */
+const ADMIN_AVATARS = ['👑','🛠','⚙️','🗡','🛡','⚔️','🌟','💠','🔮','☠️'];
+ADMIN_AVATARS.forEach(a => { if(!AVATARS.includes(a)) AVATARS.push(a); });
+
+// 5 админ-рамок уже добавлены в FRAMES (PART 3), но CSS-классы уже включены в PART 1
+
+// Темы
+const THEMES = {
+  default: {name:'Обычная', icon:'🌌', vars:{}},
+  blood:   {name:'Кровь', icon:'🩸', vars:{'--theme-bg':'linear-gradient(135deg,#1a0000,#0a0000)'}},
+  neon:    {name:'Неон', icon:'💚', vars:{'--theme-bg':'linear-gradient(135deg,#001a1a,#000a14)'}},
+  retro:   {name:'Ретро', icon:'📼', vars:{'--theme-bg':'linear-gradient(135deg,#1a1000,#0a0a00)'}}
+};
+let currentTheme = 'default';
+function applyTheme(themeId){
+  const t = THEMES[themeId];
+  if(!t) return;
+  currentTheme = themeId;
+  const body = document.body;
+  if(t.vars['--theme-bg']) body.style.background = t.vars['--theme-bg'];
+  else body.style.background = '';
+  try{ localStorage.setItem('ah_theme', themeId); }catch(e){}
+  if(session.playerId && !session.isGuest){
+    db.ref('users/' + session.playerId + '/theme').set(themeId).catch(()=>{});
+  }
+  showToast(t.icon + ' Тема: ' + t.name);
+}
+function openThemeSelector(){
+  const text = Object.keys(THEMES).map((k,i) =>
+    (i+1) + '. ' + THEMES[k].icon + ' ' + THEMES[k].name + (k === currentTheme ? ' (сейчас)' : '')
+  ).join('\n');
+  const choice = prompt('🎨 Выбери тему:\n\n' + text, '');
+  const idx = parseInt(choice, 10) - 1;
+  const keys = Object.keys(THEMES);
+  if(keys[idx]) applyTheme(keys[idx]);
+}
+
+/* ---------- РАСШИРЕНИЕ АДМИН-ПАНЕЛИ ---------- */
+(function extendAdminPanel(){
+  const modal = document.getElementById('adminPlayersModal');
+  if(!modal) return;
+  const inner = modal.querySelector('.am-inner');
+  if(!inner) return;
+
+  const section = document.createElement('div');
+  section.className = 'dev-section';
+  section.innerHTML =
+    '<h4>📢 Глобальные</h4>' +
+    '<div class="dev-row">' +
+      '<button class="btn-dev" id="devBroadcastModalBtn">📢 Объявление (модалка)</button>' +
+      '<button class="btn-dev-danger" id="devReloadAllBtn">🔥 Reload всех</button>' +
+    '</div>' +
+    '<div class="dev-row">' +
+      '<button class="btn-dev" id="devBackupBtn">💾 Бэкап JSON</button>' +
+      '<button class="btn-dev" id="devCleanLB">🗑 Очистка LB 30д</button>' +
+    '</div>' +
+    '<div class="dev-row">' +
+      '<button class="btn-dev" id="devDashBtn">📊 Дашборд</button>' +
+      '<button class="btn-dev" id="devLogBtn">📜 История админов</button>' +
+    '</div>' +
+    '<div class="dev-row">' +
+      '<button class="btn-dev" id="devReportsBtn">📊 Репорты</button>' +
+      '<button class="btn-dev" id="devSpectateBtn">👁 Зайти наблюдателем</button>' +
+    '</div>' +
+    '<div class="dev-row">' +
+      '<button class="btn-dev" id="devThemeBtn">🎨 Сменить тему</button>' +
+      '<button class="btn-dev" id="devAllCosmetics">🎁 Выдать себе всю косметику</button>' +
+    '</div>' +
+    '<div class="dev-row">' +
+      '<button class="btn-dev" id="devResetBossSelf">👹 Сбросить МОЙ таймер боссов</button>' +
+    '</div>';
+
+  const h3 = inner.querySelector('h3');
+  if(h3 && h3.nextSibling) inner.insertBefore(section, h3.nextSibling);
+  else inner.appendChild(section);
+
+  document.getElementById('devBroadcastModalBtn').onclick = devBroadcastModal;
+  document.getElementById('devReloadAllBtn').onclick = devForceReloadAll;
+  document.getElementById('devBackupBtn').onclick = devBackupDB;
+  document.getElementById('devCleanLB').onclick = devCleanLeaderboard;
+  document.getElementById('devDashBtn').onclick = devLiveDashboard;
+  document.getElementById('devLogBtn').onclick = devShowAdminLog;
+  document.getElementById('devReportsBtn').onclick = devShowReports;
+  document.getElementById('devSpectateBtn').onclick = devJoinAsSpectator;
+  document.getElementById('devThemeBtn').onclick = openThemeSelector;
+  document.getElementById('devAllCosmetics').onclick = async () => {
+    if(!devIsAdmin()) return;
+    loadMyFrames();
+    FRAMES.forEach(f => myUnlockedFrames[f.id] = true);
+    saveMyFrames();
+    loadMyTitles();
+    TITLES.forEach(t => myUnlockedTitles[t.id] = Date.now());
+    saveMyTitles();
+    showToast('🎁 Вся косметика выдана');
+  };
+  document.getElementById('devResetBossSelf').onclick = () => {
+    if(!devIsAdmin()) return;
+    bossState.currentBoss = 0;
+    bossState.defeated = [];
+    bossState.lastReset = Date.now();
+    saveBossState();
+    showToast('👹 Твой таймер боссов сброшен');
+    if(typeof renderBossHomeBadge === 'function') renderBossHomeBadge();
+  };
+})();
+
+/* ---------- АВТОЗАГРУЗКА ---------- */
+// Загрузка темы
+try{
+  const savedTheme = localStorage.getItem('ah_theme');
+  if(savedTheme && THEMES[savedTheme]) setTimeout(()=>applyTheme(savedTheme), 900);
+}catch(e){}
+
+// Слушатель объявлений
+setTimeout(()=>startBroadcastModalListener(), 2000);
+
+// Тема из Firebase
+if(session.playerId && !session.isGuest){
+  setTimeout(()=>{
+    db.ref('users/' + session.playerId + '/theme').once('value').then(s => {
+      const t = s.val();
+      if(t && THEMES[t]) applyTheme(t);
+    }).catch(()=>{});
+  }, 2200);
+}
+
+console.log('✅ PART 11 загружен: глобалка + промо + модерация + косметика (31-48)');
+ </script> <script>
+// ============================================================
+// ФИНАЛЬНЫЙ ОРКЕСТРАТОР: страховки, автосинхронизация, диагностика
+// ============================================================
+
+/* ---------- 1. NULL-CHECK для критичных элементов (safety net) ---------- */
+(function safeChecks(){
+  const required = [
+    'menuScreen','playMenuScreen','onlineMenuScreen','offlineMenuScreen','profileMenuScreen',
+    'bossHomeScreen','bossSelectScreen','duelBattleScreen','gameScreen','shopScreen',
+    'loginScreen','adminPlayersModal','chatPanel','chatToggleBtn'
+  ];
+  const missing = required.filter(id => !document.getElementById(id));
+  if(missing.length){
+    console.warn('⚠️ Не найдены элементы:', missing.join(', '));
+  }
+})();
+
+/* ---------- 2. АВТОЗАГРУЗКА прогресса боссов при старте ---------- */
+setTimeout(async ()=>{
+  if(session.playerId && !session.isGuest && typeof loadBossStateFromFirebase === 'function'){
+    try{
+      await loadBossStateFromFirebase();
+      if(typeof renderBossHomeBadge === 'function') renderBossHomeBadge();
+    }catch(e){}
+  }
+}, 2000);
+
+/* ---------- 3. АВТОСИНХРОНИЗАЦИЯ профиля в Firebase каждые 30 сек ---------- */
+setInterval(async ()=>{
+  if(session.isGuest || !session.playerId) return;
+  try{
+    if(typeof myProfile !== 'undefined' && typeof saveProfileToFirebase === 'function'){
+      await saveProfileToFirebase();
+    }
+  }catch(e){}
+}, 30000);
+
+/* ---------- 4. ПЕРЕ-РЕНДЕР бейджа ачивок при изменениях ---------- */
+const _originalBumpAch = typeof bumpAch === 'function' ? bumpAch : null;
+if(_originalBumpAch){
+  bumpAch = function(key, amount){
+    _originalBumpAch(key, amount);
+    if(typeof updateAchBadge === 'function') updateAchBadge();
+  };
+}
+
+/* ---------- 5. АВТООБРАБОТКА ОШИБОК ---------- */
+window.addEventListener('error', (e)=>{
+  // Тихо логируем, не пугаем игрока
+  console.warn('[AH error]', e.message, e.filename, e.lineno);
+});
+window.addEventListener('unhandledrejection', (e)=>{
+  console.warn('[AH promise]', e.reason);
+});
+
+/* ---------- 6. ВОССТАНОВЛЕНИЕ РЕКОННЕКТ-БАННЕРА при сворачивании ---------- */
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'visible'){
+    if(typeof showReconnectBanner === 'function'){
+      setTimeout(showReconnectBanner, 500);
+    }
+    if(typeof updateAchBadge === 'function') updateAchBadge();
+    if(typeof renderBossHomeBadge === 'function') renderBossHomeBadge();
+    if(typeof loadCrystalsFromFirebase === 'function' && !session.isGuest){
+      loadCrystalsFromFirebase();
+    }
+  }
+});
+
+/* ---------- 7. ХУК: показать профиль при клике на ник в чате ---------- */
+const _originalRenderChatMessages = typeof renderChatMessages === 'function' ? renderChatMessages : null;
+if(_originalRenderChatMessages){
+  renderChatMessages = function(){
+    _originalRenderChatMessages();
+    const box = document.getElementById('chatMessages');
+    if(!box) return;
+    box.querySelectorAll('.cm-author[data-pid]').forEach(el=>{
+      if(el.dataset.pidBound === '1') return;
+      el.dataset.pidBound = '1';
+      el.style.cursor = 'pointer';
+      el.onclick = ()=>{
+        const pid = el.dataset.pid;
+        if(pid && typeof openProfile === 'function') openProfile(pid);
+      };
+    });
+  };
+}
+
+/* ---------- 8. ХУК: показать профиль при клике на ник в рейтинге (страховка) ---------- */
+const _originalRenderRating = typeof renderRating === 'function' ? renderRating : null;
+if(_originalRenderRating){
+  renderRating = function(mode, arr){
+    _originalRenderRating(mode, arr);
+    const content = document.getElementById('ratingContent');
+    if(!content) return;
+    content.querySelectorAll('tr[data-pid]').forEach(tr=>{
+      if(tr.dataset.clickBound === '1') return;
+      tr.dataset.clickBound = '1';
+      tr.style.cursor = 'pointer';
+      tr.onclick = ()=>{
+        const pid = tr.dataset.pid;
+        if(pid && typeof openProfile === 'function') openProfile(pid);
+      };
+    });
+  };
+}
+
+/* ---------- 9. КНОПКИ ЗАКРЫТИЯ КАРТОЧКИ ИГРОКА (двойной клик / тап) ---------- */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    const modals = document.querySelectorAll('.admin-modal:not(.hidden), .helper-modal, .case-open-overlay');
+    modals.forEach(m => {
+      if(m.classList.contains('admin-modal')) m.classList.add('hidden');
+      else m.remove();
+    });
+  }
+});
+
+/* ---------- 10. КНОПКА "НАЗАД" БРАУЗЕРА ---------- */
+window.addEventListener('popstate', ()=>{
+  const visible = document.querySelector('.container > div:not(.hidden)');
+  if(!visible) return;
+  // Иерархия возврата
+  const backMap = {
+    'createScreen':'onlineMenuScreen',
+    'joinScreen':'onlineMenuScreen',
+    'onlineDuelScreen':'onlineMenuScreen',
+    'onlineDuelLobbyScreen':'onlineMenuScreen',
+    'otHomeScreen':'onlineMenuScreen',
+    'otLobbyScreen':'onlineMenuScreen',
+    'hotseatScreen':'offlineMenuScreen',
+    'duelScreen':'offlineMenuScreen',
+    'tournamentScreen':'offlineMenuScreen',
+    'bossHomeScreen':'offlineMenuScreen',
+    'bossSelectScreen':'bossHomeScreen',
+    'playMenuScreen':'menuScreen',
+    'onlineMenuScreen':'playMenuScreen',
+    'offlineMenuScreen':'playMenuScreen',
+    'profileMenuScreen':'menuScreen',
+    'shopScreen':'menuScreen',
+    'heroBookScreen':'profileMenuScreen',
+    'ratingScreen':'profileMenuScreen',
+    'achScreen':'profileMenuScreen',
+    'dailyScreen':'profileMenuScreen',
+    'titlesScreen':'profileMenuScreen',
+    'promoScreen':'profileMenuScreen',
+    'profileScreen':'_profileReturnScreen',
+    'profileEditScreen':'profileScreen'
+  };
+  const target = backMap[visible.id];
+  if(target){
+    if(target === '_profileReturnScreen' && typeof _profileReturnScreen !== 'undefined' && _profileReturnScreen){
+      show(_profileReturnScreen);
+      _profileReturnScreen = null;
+    } else if(target !== '_profileReturnScreen'){
+      show(target);
+    }
+  }else if(visible.id !== 'menuScreen' && visible.id !== 'loginScreen'){
+    show('menuScreen');
+  }
+});
+
+/* ---------- 11. БЫСТРЫЙ СТАРТ (горячие клавиши) ---------- */
+document.addEventListener('keydown', (e)=>{
+  // Только для админов
+  if(!devIsAdmin()) return;
+  if(e.ctrlKey && e.shiftKey && e.key === 'A'){
+    e.preventDefault();
+    if(typeof devLiveDashboard === 'function') devLiveDashboard();
+  }
+  if(e.ctrlKey && e.shiftKey && e.key === 'L'){
+    e.preventDefault();
+    if(typeof devShowAdminLog === 'function') devShowAdminLog();
+  }
+  if(e.ctrlKey && e.shiftKey && e.key === 'B'){
+    e.preventDefault();
+    if(typeof devBroadcastModal === 'function') devBroadcastModal();
+  }
+});
+
+/* ---------- 12. АВТООБНОВЛЕНИЕ отображения кристаллов в магазине ---------- */
+setInterval(()=>{
+  const shopCrystals = document.getElementById('shopCrystals');
+  if(shopCrystals && document.getElementById('shopScreen') && !document.getElementById('shopScreen').classList.contains('hidden')){
+    if(typeof myCrystals === 'number') shopCrystals.textContent = myCrystals + ' 💎';
+  }
+}, 3000);
+
+/* ---------- 13. ФИНАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ ---------- */
+(async function finalInit(){
+  // Небольшая задержка, чтобы все скрипты успели выполниться
+  await new Promise(r => setTimeout(r, 2500));
+
+  // Проверяем доступность всех ключевых функций
+  const checks = [
+    'show','loginUser','registerUser','createRoom','joinRoom',
+    'startDuelRound','duelAttack','endDuelBattle','tourStartMatch',
+    'openProfile','renderShop','renderHeroBook','loadRating',
+    'renderBossHome','fightBoss','openPlayerAdminCard'
+  ];
+  const missingFns = checks.filter(fn => typeof window[fn] !== 'function');
+  if(missingFns.length){
+    console.warn('⚠️ Не найдены функции:', missingFns.join(', '));
+  }else{
+    console.log('✅ Все ключевые функции инициализированы');
+  }
+
+  // Инициализация бейджа боссов
+  if(typeof renderBossHomeBadge === 'function') renderBossHomeBadge();
+  // Инициализация бейджа ачивок
+  if(typeof updateAchBadge === 'function') updateAchBadge();
+  // Инициализация кристаллов
+  if(typeof loadCrystalsFromFirebase === 'function' && !session.isGuest && session.playerId){
+    loadCrystalsFromFirebase();
+  }
+
+  console.log('🎮 Аукцион Героев — готов к игре!');
+})();
+
+/* ---------- 14. ЛОГ ПРИ ОТКЛЮЧЕНИИ ---------- */
+window.addEventListener('beforeunload', ()=>{
+  try{
+    if(session.playerId && !session.isGuest){
+      db.ref('users/' + session.playerId + '/lastPing').set(Date.now());
+    }
+  }catch(e){}
+});
+
+console.log('✅ PART 12 загружен: финальный оркестратор + страховки');
+ </script><script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('sw.js').then(()=>console.log('SW ok')).catch(e=>console.log('SW:',e));
