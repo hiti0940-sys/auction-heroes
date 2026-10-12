@@ -3807,6 +3807,641 @@ renderActionPanel = function(view){
 function hsBid(pidx,amount){
   const p=hsLocal.players[pidx];const min=calcMinBid(hsLocal.currentBid);amount=Math.round(amount);
   if(amount<min)return;if(amount>p.money)return;
+  hsLocal.cur<script>
+// ============================================================
+// AUTH UI
+// ============================================================
+let authMode='login';
+document.querySelectorAll('.auth-tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.auth-tabs button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    authMode=b.dataset.auth;
+    document.getElementById('authExtraReg').classList.toggle('hidden',authMode!=='register');
+    document.getElementById('authSubmitBtn').textContent=authMode==='login'?'🔑 Войти':'✨ Зарегистрироваться';
+    setStatus('authStatus','');
+  };
+});
+document.getElementById('authSubmitBtn').onclick=async()=>{
+  const u=document.getElementById('authUsername').value.trim();
+  const p=document.getElementById('authPassword').value;
+  if(!u){setStatus('authStatus','Введи ник','err');return;}
+  if(!p){setStatus('authStatus','Введи пароль','err');return;}
+  const btn=document.getElementById('authSubmitBtn');
+  btn.disabled=true;
+  try{
+    if(authMode==='register'){
+      const p2=document.getElementById('authPassword2').value;
+      if(p!==p2){setStatus('authStatus','Пароли не совпадают','err');btn.disabled=false;return;}
+      setStatus('authStatus','Создаём аккаунт...');
+      const r=await registerUser(u,p);
+      session={playerId:r.playerId,username:r.username,isGuest:false};
+      saveSession();
+      setStatus('authStatus','✅ Добро пожаловать, '+r.username+'!','ok');
+      await new Promise(r=>setTimeout(r,400));
+      enterGameAfterLogin();
+    }else{
+      setStatus('authStatus','Проверяем...');
+      const r=await loginUser(u,p);
+      session={playerId:r.playerId,username:r.username,isGuest:false};
+      saveSession();
+      setStatus('authStatus','✅ Привет, '+r.username+'!','ok');
+      await new Promise(r=>setTimeout(r,400));
+      enterGameAfterLogin();
+    }
+  }catch(err){
+    setStatus('authStatus','❌ '+(err.message||err),'err');
+  }finally{
+    btn.disabled=false;
+  }
+};
+document.getElementById('authGuestBtn').onclick=()=>{
+  session={playerId:getOrCreatePlayerId(),username:'Гость',isGuest:true};
+  saveSession();
+  enterGameAfterLogin();
+};
+function enterGameAfterLogin(){
+  updateUserBadge();
+  show('menuScreen');
+  if(typeof loadAchFromFirebase==='function')loadAchFromFirebase();
+  checkAdminStatus();
+  if(typeof loadTitleFromFirebase==='function'){
+    loadTitleFromFirebase().then(()=>{
+      if(typeof loadTitle==='function')loadTitle();
+      updateUserBadgeWithTitle();
+    });
+  }
+  if(!session.isGuest&&session.playerId){
+    if(typeof loadProfileFromFirebase==='function')loadProfileFromFirebase();
+    if(typeof loadCrystalsFromFirebase==='function')loadCrystalsFromFirebase();
+    if(typeof loadGoldFromFirebase==='function')loadGoldFromFirebase();
+    if(typeof loadPetStateFromFirebase==='function')loadPetStateFromFirebase();
+    if(typeof loadTowerFromFirebase==='function')loadTowerFromFirebase();
+    if(typeof loadCraftInvFromFirebase==='function')loadCraftInvFromFirebase();
+    if(typeof loadBossStateFromFirebase==='function')loadBossStateFromFirebase();
+    if(typeof loadArenaStateFromFirebase==='function')loadArenaStateFromFirebase();
+  }
+}
+function updateUserBadge(){updateUserBadgeWithTitle();}
+function updateUserBadgeWithTitle(){
+  const badge=document.getElementById('userBadge');
+  const nameEl=document.getElementById('userBadgeName');
+  if(!session.playerId){badge.classList.add('hidden');return;}
+  badge.classList.remove('hidden');
+  badge.classList.toggle('guest',!!session.isGuest);
+  const t=typeof getTitleData==='function'?getTitleData(myTitle):null;
+  nameEl.innerHTML=(t&&t.id!=='novice'?'<span class="title-badge title-'+t.cls+'">'+t.icon+'</span>':'')+escapeHtml(session.username)+(session.isGuest?' (гость)':'');
+}
+document.getElementById('userBadge').onclick=()=>{
+  if(typeof openProfile==='function')openProfile(session.playerId);
+};
+
+// ============================================================
+// ADMIN базовый
+// ============================================================
+let adminAllPlayers=[];
+function checkAdminStatus(){
+  const btn=document.getElementById('adminPanelBtn');
+  const grp=document.getElementById('adminGroup');
+  if(!btn||!grp)return;
+  const isAdmin=devIsAdmin();
+  grp.classList.toggle('hidden',!isAdmin);
+  btn.classList.toggle('hidden',!isAdmin);
+  if(isAdmin&&typeof devPopulateStats==='function')devPopulateStats();
+}
+async function loadAllPlayers(){
+  const list=document.getElementById('adminPlayersList');
+  list.innerHTML='<div style="text-align:center;color:#888;padding:20px">Загрузка...</div>';
+  try{
+    const snap=await db.ref('users').once('value');
+    const data=snap.val()||{};
+    adminAllPlayers=Object.keys(data).map(k=>({id:k,...data[k]}));
+    renderAdminPlayers();
+  }catch(e){
+    list.innerHTML='<div style="color:#e74c3c;text-align:center;padding:20px">Ошибка: '+e.message+'</div>';
+  }
+}
+function renderAdminPlayers(){
+  const list=document.getElementById('adminPlayersList');
+  const q=(document.getElementById('adminSearch').value||'').toLowerCase().trim();
+  let arr=adminAllPlayers.slice();
+  if(q)arr=arr.filter(p=>(p.username||'').toLowerCase().includes(q)||p.id.toLowerCase().includes(q));
+  arr.sort((a,b)=>(b.lastLogin||0)-(a.lastLogin||0));
+  if(arr.length===0){list.innerHTML='<div style="text-align:center;color:#888;padding:20px">Никого не найдено</div>';return;}
+  list.innerHTML='';
+  arr.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='ban-list-item'+(p.banned?' banned':'');
+    const regDate=new Date(p.createdAt||0).toLocaleDateString('ru');
+    const lastDate=p.lastLogin?new Date(p.lastLogin).toLocaleString('ru'):'—';
+    el.innerHTML='<div class="bl-info">'
+      +'<div class="bl-name">'+escapeHtml(p.username||'?')+(p.banned?' 🚫':'')+'</div>'
+      +'<div class="bl-meta">рег: '+regDate+' · вход: '+lastDate+'</div>'
+      +'<div class="bl-meta" style="font-family:monospace;color:#555">'+p.id+'</div>'
+      +'</div>'
+      +'<button class="bl-btn '+(p.banned?'unban':'ban')+'" data-pid="'+p.id+'" data-act="'+(p.banned?'unban':'ban')+'">'+(p.banned?'✅ Разбан':'🚫 Бан')+'</button>';
+    el.addEventListener('click',e=>{
+      if(e.target.tagName==='BUTTON')return;
+      openPlayerAdminCard(p.id);
+    });
+    list.appendChild(el);
+  });
+  list.querySelectorAll('.bl-btn').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      adminToggleBan(btn.dataset.pid,btn.dataset.act);
+    });
+  });
+}
+async function adminToggleBan(playerId,action){
+  const p=adminAllPlayers.find(x=>x.id===playerId);
+  if(!p)return;
+  if(action==='ban'&&playerId===session.playerId){alert('❌ Нельзя забанить самого себя!');return;}
+  if(action==='ban'){
+    if(!confirm('Забанить игрока «'+p.username+'»?'))return;
+    let reason=prompt('Причина бана (необязательно):','')||'';
+    await db.ref('users/'+playerId+'/banned').set(true);
+    await db.ref('users/'+playerId+'/banReason').set(reason);
+    await db.ref('users/'+playerId+'/bannedAt').set(Date.now());
+    setStatus('adminStatus','✅ Игрок забанен','ok');
+  }else{
+    if(!confirm('Разбанить «'+p.username+'»?'))return;
+    await db.ref('users/'+playerId+'/banned').set(false);
+    await db.ref('users/'+playerId+'/banReason').remove();
+    setStatus('adminStatus','✅ Игрок разбанен','ok');
+  }
+  p.banned=(action==='ban');
+  renderAdminPlayers();
+}
+
+// ============================================================
+// КАРТОЧКА ИГРОКА (для админа)
+// ============================================================
+async function openPlayerAdminCard(pid){
+  const p=adminAllPlayers.find(x=>x.id===pid);
+  if(!p)return;
+  const modal=document.createElement('div');
+  modal.className='admin-modal';
+  modal.innerHTML='<div class="am-inner" style="max-width:520px;position:relative">'
+    +'<button style="position:absolute;top:10px;right:10px;width:32px;height:32px;padding:0!important;border-radius:50%;background:rgba(120,30,30,.7);color:#fff;font-size:16px" id="pcClose">✕</button>'
+    +'<h3>👤 '+escapeHtml(p.username||'?')+'</h3>'
+    +'<div class="dev-stat">'
+    +'<div class="dev-stat-item"><div class="ds-l">ID</div><div class="ds-v" style="font-size:10px;word-break:break-all">'+p.id+'</div></div>'
+    +'<div class="dev-stat-item"><div class="ds-l">Рег.</div><div class="ds-v" style="font-size:11px">'+new Date(p.createdAt||0).toLocaleDateString('ru')+'</div></div>'
+    +'<div class="dev-stat-item"><div class="ds-l">Вход</div><div class="ds-v" style="font-size:10px">'+(p.lastLogin?new Date(p.lastLogin).toLocaleDateString('ru'):'—')+'</div></div>'
+    +'<div class="dev-stat-item"><div class="ds-l">Статус</div><div class="ds-v" style="font-size:11px;color:'+(p.banned?'#e74c3c':'#27ae60')+'">'+(p.banned?'🚫 Бан':'✅ OK')+'</div></div>'
+    +'</div>'
+    +'<div class="dev-section"><h4>💰 Действия</h4>'
+    +'<div class="dev-row">'
+    +'<button class="btn-dev" id="pcGive1000Coins">🪙 +1000 золота</button>'
+    +'<button class="btn-dev" id="pcGive500Cr">💎 +500 кристаллов</button>'
+    +'</div>'
+    +'<div class="dev-row">'
+    +'<button class="btn-dev" id="pcSetTitleBtn">🎖 Дать титул</button>'
+    +'<button class="btn-dev" id="pcResetStats">📉 Сбросить статистику</button>'
+    +'</div>'
+    +'<div class="dev-row">'
+    +'<button class="btn-dev-danger" id="pcBanToggle">'+(p.banned?'✅ Разбан':'🚫 Забанить')+'</button>'
+    +'</div></div></div>';
+  document.body.appendChild(modal);
+  modal.querySelector('#pcClose').onclick=()=>modal.remove();
+  modal.querySelector('#pcBanToggle').onclick=async()=>{
+    if(p.id===session.playerId){alert('Себя нельзя');return;}
+    await adminToggleBan(p.id,p.banned?'unban':'ban');
+    modal.remove();
+  };
+  modal.querySelector('#pcGive500Cr').onclick=async()=>{
+    try{
+      const s=await db.ref('users/'+p.id+'/crystals').once('value');
+      await db.ref('users/'+p.id+'/crystals').set((s.val()||0)+500);
+      showToast('💎 +500 кристаллов');
+    }catch(e){showToast('❌ '+e.message);}
+  };
+  modal.querySelector('#pcGive1000Coins').onclick=async()=>{
+    try{
+      const s=await db.ref('users/'+p.id+'/gold').once('value');
+      await db.ref('users/'+p.id+'/gold').set((s.val()||0)+1000);
+      showToast('🪙 +1000 золота');
+    }catch(e){showToast('❌ '+e.message);}
+  };
+  modal.querySelector('#pcSetTitleBtn').onclick=async()=>{
+    const all=getAllTitles().map(t=>t.id).join(', ');
+    const id=prompt('ID титула:\n'+all,'champion');
+    if(!id)return;
+    try{await db.ref('users/'+p.id+'/title').set(id);showToast('🎖 Титул выдан');}catch(e){showToast('❌ '+e.message);}
+  };
+  modal.querySelector('#pcResetStats').onclick=async()=>{
+    if(!confirm('Сбросить статистику?'))return;
+    try{
+      await db.ref('achievements/'+p.id).remove();
+      await db.ref('leaderboard/auction/'+p.id).remove();
+      await db.ref('leaderboard/duel/'+p.id).remove();
+      await db.ref('leaderboard/duel_helpers/'+p.id).remove();
+      showToast('📉 Сброшено');
+    }catch(e){showToast('❌ '+e.message);}
+  };
+}
+
+document.getElementById('adminPanelBtn').onclick=()=>{
+  document.getElementById('adminPlayersModal').classList.remove('hidden');
+  loadAllPlayers();
+  if(typeof devPopulateStats==='function')devPopulateStats();
+  if(typeof devShowMyId==='function')devShowMyId();
+  if(typeof devRenderPromoList==='function')devRenderPromoList();
+};
+document.getElementById('adminCloseBtn').onclick=()=>{
+  document.getElementById('adminPlayersModal').classList.add('hidden');
+};
+document.getElementById('adminSearch').addEventListener('input',renderAdminPlayers);
+
+// ============================================================
+// ОНЛАЙН-АУКЦИОН
+// ============================================================
+document.getElementById('createConfirmBtn').onclick=createRoom;
+async function createRoom(){
+  if(await forceLogoutIfBanned())return;
+  if(session.isGuest){
+    if(!confirm('Ты играешь как гость. Гости не сохраняют рейтинг. Продолжить?'))return;
+  }
+  const themes=[...document.querySelectorAll('.theme:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери хотя бы одну тематику!');return;}
+  const startMoney=Math.max(1,+document.getElementById('startMoney').value||1000);
+  const charCount=Math.max(3,Math.min(40,+document.getElementById('charCount').value||10));
+  const hostName=(session.username||document.getElementById('hostName').value.trim()||'Хост').slice(0,16);
+  const pool=CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length<charCount){alert('Только '+pool.length+' персонажей.');return;}
+  state.mode='online';state.role='host';state.myIdx=0;
+  state.startingMoney=startMoney;state.totalRounds=charCount;
+  state.poolSource=themes;state.poolSize=charCount;
+  state.playerId=getOrCreatePlayerId();
+  const code=genCode();state.roomCode=code;
+  const room={code,hostId:state.playerId,phase:'lobby',totalRounds:charCount,startingMoney:startMoney,
+    poolSource:themes,poolSize:charCount,roundNumber:0,current:null,basePrice:0,currentBid:0,currentBidder:null,
+    turnPointer:0,firstBidderOffset:0,activePlayers:[],log:[],pool:[],
+    players:{[state.playerId]:{name:hostName,title:myTitle,money:startMoney,characters:[],order:0}}};
+  state.roomRef=db.ref('rooms/'+code);
+  state.roomRef.set(room).then(()=>{
+    document.getElementById('roomCode').textContent=code;
+    show('lobbyScreen');setStatus('lobbyStatus','Комната создана. Ждём игроков...','ok');listenToRoom();
+    saveActiveGame({type:'auction',code,playerId:state.playerId,role:'host',ts:Date.now()});
+    if(typeof attachChat==='function')attachChat();
+  }).catch(err=>setStatus('lobbyStatus','Ошибка: '+err.message,'err'));
+}
+function listenToRoom(){
+  if(state.roomListener&&state.roomRef)state.roomRef.off('value',state.roomListener);
+  state.roomListener=state.roomRef.on('value',snap=>{
+    const d=snap.val();if(!d)return;handleRoomUpdate(d);
+  },err=>console.error(err));
+}
+function handleRoomUpdate(room){
+  const players=room.players||{};
+  const playerList=Object.keys(players).map(k=>({id:k,...players[k]})).sort((a,b)=>(a.order||0)-(b.order||0));
+  state.players=playerList;state.phase=room.phase;state.roundNumber=room.roundNumber||0;
+  state.totalRounds=room.totalRounds;state.startingMoney=room.startingMoney;state.current=room.current;
+  state.basePrice=room.basePrice||0;state.currentBid=room.currentBid||0;state.currentBidder=room.currentBidder;
+  state.turnPointer=room.turnPointer||0;state.activePlayers=room.activePlayers||[];
+  state.log=room.log||[];state.pool=room.pool||[];
+  const ids=playerList.map(p=>p.id);state.myIdx=ids.indexOf(state.playerId);
+  if(room.phase==='lobby'){
+    show('lobbyScreen');
+    document.getElementById('roomCode').textContent=room.code;
+    const list=document.getElementById('lobbyList');list.innerHTML='';
+    playerList.forEach(p=>{
+      const li=document.createElement('li');
+      const tData=p.title&&p.title!=='novice'&&typeof getTitleData==='function'?getTitleData(p.title):null;
+      const badge=tData?'<span class="title-badge title-'+tData.cls+'">'+tData.icon+'</span> ':'';
+      li.innerHTML=badge+escapeHtml(p.name)+(p.id===state.playerId?' (ты)':'');
+      list.appendChild(li);
+    });
+    document.getElementById('lobbyCount').textContent='('+playerList.length+'/6)';
+    const sBtn=document.getElementById('startOnlineBtn');
+    if(state.role==='host')sBtn.disabled=playerList.length<2;
+    else{sBtn.style.display='none';setStatus('lobbyStatus','Ожидание начала...');}
+  }else if(['playing','paused','results'].includes(room.phase)){
+    show('gameScreen');renderFromRoom(room,playerList);
+  }
+}
+document.getElementById('joinConfirmBtn').onclick=joinRoom;
+async function joinRoom(){
+  if(await forceLogoutIfBanned())return;
+  const code=document.getElementById('joinCode').value.trim().toUpperCase();
+  const name=(session.username||document.getElementById('joinName').value.trim()||'Игрок').slice(0,16);
+  if(code.length<4){setStatus('joinStatus','Введи код','err');return;}
+  setStatus('joinStatus','Подключаемся...');
+  state.mode='online';state.role='client';state.roomCode=code;state.playerId=getOrCreatePlayerId();
+  state.roomRef=db.ref('rooms/'+code);
+  state.roomRef.once('value').then(snap=>{
+    const room=snap.val();
+    if(!room){setStatus('joinStatus','Не найдена','err');return;}
+    if(room.phase!=='lobby'){setStatus('joinStatus','Уже началась','err');return;}
+    const cnt=Object.keys(room.players||{}).length;
+    if(cnt>=6){setStatus('joinStatus','Заполнена','err');return;}
+    if(room.players&&room.players[state.playerId]){setStatus('joinStatus','Ты уже в комнате','err');return;}
+    let finalName=name,n=2;
+    while(Object.values(room.players||{}).some(p=>p.name===finalName)){finalName=name+' '+n;n++;if(n>20)break;}
+    state.roomRef.child('players/'+state.playerId).set({name:finalName,title:myTitle,money:room.startingMoney,characters:[],order:cnt});
+    setStatus('joinStatus','ОК! Ждём...','ok');listenToRoom();
+    saveActiveGame({type:'auction',code,playerId:state.playerId,role:'client',ts:Date.now()});
+    if(typeof attachChat==='function')attachChat();
+  }).catch(err=>setStatus('joinStatus','Ошибка: '+err.message,'err'));
+}
+document.getElementById('startOnlineBtn').onclick=startOnlineGame;
+function startOnlineGame(){
+  if(state.role!=='host')return;
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const players=data.players||{};
+    if(Object.keys(players).length<2)return;
+    let pool=CHARACTERS.filter(c=>data.poolSource.includes(c.t));
+    pool=shuffle(pool).slice(0,data.poolSize);
+    room.child('pool').set(pool);room.child('phase').set('playing');room.child('roundNumber').set(0);
+    room.child('firstBidderOffset').set(0);room.child('log').set([]);hostNextRound();
+  });
+}
+function hostNextRound(){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const pool=data.pool||[];
+    if(pool.length===0){room.child('phase').set('results');return;}
+    const players=data.players||{};
+    const totalMoney=Object.values(players).reduce((s,p)=>s+(p.money||0),0);
+    if(totalMoney<=0){const log=data.log||[];log.push('💰 Все деньги кончились');room.update({phase:'results',log:log.slice(-100)});return;}
+    const next=pool[0];const rest=pool.slice(1);const roundNumber=(data.roundNumber||0)+1;
+    const playerIds=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const activeIdx=[];playerIds.forEach((pid,idx)=>{if(players[pid].money>0)activeIdx.push(idx);});
+    const turnPointer=activeIdx.length?((roundNumber-1)%activeIdx.length):0;
+    const updates={pool:rest,current:next,basePrice:0,roundNumber,currentBid:0,currentBidder:null,activePlayers:activeIdx,turnPointer};
+    const log=data.log||[];log.push('— Раунд '+roundNumber+': «'+next.n+'» (сила '+next.p+')');
+    updates.log=log.slice(-100);room.update(updates);
+  });
+}
+function renderFromRoom(room,playerList){
+  const view={phase:room.phase,round:room.roundNumber||0,totalRounds:room.totalRounds,char:room.current,
+    basePrice:room.basePrice||0,players:playerList.map(p=>({name:p.name,money:p.money,characters:p.characters||[],connected:true})),
+    currentBid:room.currentBid||0,currentBidder:room.currentBidder,
+    turnIdx:(room.activePlayers&&room.activePlayers.length)?room.activePlayers[room.turnPointer]:-1,
+    activeIdx:room.activePlayers||[],log:room.log||[],poolLeft:(room.pool||[]).length};
+  renderSnapshot(view);
+}
+let lastLogCount=0;
+function renderSnapshot(view){
+  document.getElementById('roundNum').textContent=view.round;
+  document.getElementById('roundTotal').textContent=view.totalRounds;
+  document.getElementById('charRemaining').textContent='Осталось: '+view.poolLeft;
+  if(view.phase==='results'){renderResults(view);return;}
+  if(view.phase==='lobby')return;
+  show('gameScreen');
+  const c=view.char;
+  if(c){
+    const pct=Math.min(100,Math.round(c.p/10));
+    const imgInfo=CHAR_IMAGES[c.n];
+    const rar=getRarity(c.p);
+    let topPart;
+    if(imgInfo){
+      const cls=imgInfo.fit==='contain'?' contain':(imgInfo.fit==='face'?' face':'');
+      const f=imgInfo.file;
+      topPart='<div class="char-img rarity-'+rar+cls+'"><img src="'+f+'.png" onerror="this.onerror=null;this.src=\''+f+'.jpg\'" alt="'+c.n+'"></div>';
+    }else{
+      const rarColors={common:'#555',bronze:'#cd7f32',silver:'#bdc3c7',gold:'#f5b800',rainbow:'#9b59b6',secret:'#f5b800'};
+      topPart='<div class="char-img rarity-'+rar+' contain" style="background:radial-gradient(circle,'+rarColors[rar]+'33,#0f0f1e 70%)"><div style="font-size:96px;filter:drop-shadow(0 0 20px '+rarColors[rar]+')">'+(THEME_EMOJI[c.t]||'⭐')+'</div></div>';
+    }
+    const stats=CHAR_STATS[c.n];
+    let statsHtml='';
+    if(stats){
+      statsHtml='<span class="rarity-badge rarity-'+rar+'">'+rarityName(rar)+'</span>'
+        +'<div class="stats-row"><div class="stat-box"><div class="lbl">❤️ HP</div><div class="val">'+stats.hp+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">⚔️ Атк</div><div class="val">'+stats.atk+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">🛡 Защ</div><div class="val">'+stats.def+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">💨 Лов</div><div class="val">'+stats.agi+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">🔮 Маг</div><div class="val">'+stats.mag+'</div></div>'
+        +'<div class="stat-box"><div class="lbl">🧠 Инт</div><div class="val">'+stats.int+'</div></div></div>'
+        +'<div class="ability-row"><div class="a-name">✨ '+(ABILITY_NAMES[stats.ability]||'?')+'</div><div class="a-desc">'+(ABILITY_DESC[stats.ability]||'')+'</div></div>';
+    }
+    document.getElementById('charCard').innerHTML=topPart+'<div class="char-name">'+c.n+'</div><div class="char-source">'+c.d+' · '+THEME_NAME[c.t]+'</div>'+statsHtml+'<div class="power-bar"><div class="power-fill" style="width:'+pct+'%"></div></div><div class="power-value">Сила: '+c.p+' / 1000</div>';
+  }
+  const pl=document.getElementById('playersList');pl.innerHTML='';
+  view.players.forEach((p,i)=>{
+    const isActive=view.activeIdx.includes(i);
+    const isTurn=view.turnIdx===i;
+    const el=document.createElement('div');
+    el.className='player-item'+(isActive?' active':' out');
+    el.style.borderColor=isTurn?'#f39c12':(isActive?'rgba(243,156,18,.3)':'transparent');
+    const totalPower=(p.characters||[]).reduce((s,x)=>s+x.p,0);
+    const youTag=(i===state.myIdx)?' (ты)':'';
+    el.innerHTML='<div class="pn">'+(isTurn?'🎯 ':'')+p.name+youTag+'</div><div class="pm">💰 '+p.money+'</div><div class="pc">Героев: '+(p.characters||[]).length+' · Сила: '+totalPower+'</div>';
+    pl.appendChild(el);
+  });
+  const bi=document.getElementById('bidInfo');
+  if(view.currentBid===0){bi.innerHTML='<div class="bid-amount">Ставок пока нет</div><div class="bid-who">Можно ставить любую сумму</div>';}
+  else{const lName=view.players[view.currentBidder]?view.players[view.currentBidder].name:'?';
+    bi.innerHTML='<div class="bid-amount">'+view.currentBid+' 💰</div><div class="bid-who">Лидер: <b>'+lName+'</b> · минимум '+(view.currentBid+1)+'</div>';}
+  renderActionPanel(view);
+  const log=document.getElementById('log');
+  if(view.log.length!==lastLogCount){
+    log.innerHTML='';
+    view.log.slice(-30).forEach(l=>{const d=document.createElement('div');d.textContent=l;log.appendChild(d);});
+    log.scrollTop=log.scrollHeight;lastLogCount=view.log.length;
+  }
+}
+function calcMinBid(cb){return(!cb||cb===0)?1:cb+1;}
+function renderActionPanel(view){
+  const ap=document.getElementById('actionPanel');
+  if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
+  if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
+  const cName=view.players[view.turnIdx].name;
+  const isMyTurn=(state.myIdx===view.turnIdx);
+  if(!isMyTurn){ap.innerHTML='<div class="turn-name">Ход: <b>'+cName+'</b></div><div style="color:#888;font-size:13px;margin-top:6px">Ожидание...</div>';return;}
+  const player=view.players[state.myIdx];
+  const min=calcMinBid(view.currentBid);
+  const canBid=player.money>=min;
+  const defaultVal=canBid?min:1;
+  const hint=view.currentBid===0?'Можно от 1':('Минимум '+min);
+  ap.innerHTML='<div class="turn-name">Твой ход · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег</div>');
+  if(canBid)document.getElementById('bidBtn').onclick=()=>{const v=+document.getElementById('bidInput').value;submitBid(v);};
+  document.getElementById('passBtn').onclick=submitPass;
+}
+function submitBid(a){if(state.role==='host')hostHandleBid(a);else clientHandleBid(a);}
+function submitPass(){if(state.role==='host')hostHandlePass();else clientHandlePass();}
+function hostHandleBid(amount){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const min=calcMinBid(data.currentBid);amount=Math.round(amount);
+    if(amount<min)return;if(amount>players[state.playerId].money)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' ставит '+amount);
+    const tp=(data.turnPointer+1)%data.activePlayers.length;
+    room.update({currentBid:amount,currentBidder:ids.indexOf(state.playerId),turnPointer:tp,log:log.slice(-100)}).then(()=>hostAutoCheck());
+  });
+}
+function hostHandlePass(){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' пасует');
+    const newActive=data.activePlayers.slice();newActive.splice(data.turnPointer,1);
+    const tp=newActive.length?(data.turnPointer%newActive.length):0;
+    room.update({activePlayers:newActive,turnPointer:tp,log:log.slice(-100)}).then(()=>hostAutoCheck());
+  });
+}
+function clientHandleBid(amount){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data)return;const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const min=calcMinBid(data.currentBid);amount=Math.round(amount);
+    if(amount<min)return;if(amount>players[state.playerId].money)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' ставит '+amount);
+    const tp=(data.turnPointer+1)%data.activePlayers.length;
+    room.update({currentBid:amount,currentBidder:ids.indexOf(state.playerId),turnPointer:tp,log:log.slice(-100)});
+  });
+}
+function clientHandlePass(){
+  const room=state.roomRef;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data)return;const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const turnPid=ids[data.activePlayers[data.turnPointer]];
+    if(turnPid!==state.playerId)return;
+    const log=data.log||[];log.push(players[state.playerId].name+' пасует');
+    const newActive=data.activePlayers.slice();newActive.splice(data.turnPointer,1);
+    const tp=newActive.length?(data.turnPointer%newActive.length):0;
+    room.update({activePlayers:newActive,turnPointer:tp,log:log.slice(-100)});
+  });
+}
+function hostAutoCheck(){
+  if(state.role!=='host')return;const room=state.roomRef;if(!room)return;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data||data.phase!=='playing')return;if(!data.current)return;
+    const ap=data.activePlayers||[];
+    if(ap.length===0){hostFinishRound(null);return;}
+    if(ap.length===1){const last=ap[0];
+      if(data.currentBidder===last)hostFinishRound(last);
+      else if(data.turnPointer!==0)room.child('turnPointer').set(0);}
+  }).catch(e=>console.error(e));
+}
+function hostFinishRound(winnerIdx){
+  const room=state.roomRef;if(!room)return;
+  room.once('value').then(snap=>{
+    const data=snap.val();if(!data)return;if(data.phase!=='playing')return;if(!data.current)return;
+    const players=data.players||{};
+    const ids=Object.keys(players).sort((a,b)=>(players[a].order||0)-(players[b].order||0));
+    const log=data.log||[];let updates={phase:'paused'};
+    if(winnerIdx!==null&&winnerIdx!==undefined){
+      const wPid=ids[winnerIdx];
+      const newMoney=players[wPid].money-data.currentBid;
+      const chars=(players[wPid].characters||[]).slice();chars.push(data.current);
+      updates['players/'+wPid+'/money']=newMoney;updates['players/'+wPid+'/characters']=chars;
+      log.push('✅ '+players[wPid].name+' купил «'+data.current.n+'» за '+data.currentBid);
+    }else log.push('❌ «'+data.current.n+'» не куплен');
+    updates.log=log.slice(-100);
+    room.update(updates).then(()=>{
+      setTimeout(()=>{
+        room.once('value').then(s2=>{
+          const d2=s2.val();if(!d2)return;
+          const totalMoney=Object.values(d2.players||{}).reduce((s,p)=>s+(p.money||0),0);
+          if((d2.pool||[]).length===0||totalMoney<=0){
+            if(totalMoney<=0&&(d2.pool||[]).length>0){
+              const l2=d2.log||[];l2.push('💰 Все деньги кончились');
+              room.update({phase:'results',log:l2.slice(-100)});
+            }else room.child('phase').set('results');
+          }else{room.child('phase').set('playing');hostNextRound();}
+        });
+      },1800);
+    });
+  });
+}
+function renderResults(view){
+  if(typeof detachChat==='function')detachChat();
+  if(typeof clearActiveGame==='function')clearActiveGame();
+  show('resultsScreen');
+  const sorted=[...view.players].map(p=>({name:p.name,money:p.money,characters:p.characters||[],totalPower:(p.characters||[]).reduce((s,x)=>s+x.p,0)})).sort((a,b)=>{if(b.totalPower!==a.totalPower)return b.totalPower-a.totalPower;return b.money-a.money;});
+  const w=sorted[0];
+  document.getElementById('winnerText').textContent='🏆 '+w.name+' — сила '+w.totalPower+'!';
+  const tbl=document.getElementById('resultsTable');
+  tbl.innerHTML='<tr><th>#</th><th>Игрок</th><th>Сила</th><th>Герои</th><th>💰</th></tr>';
+  sorted.forEach((p,i)=>{
+    const chars=(p.characters||[]).slice().sort((a,b)=>b.p-a.p).map(c=>c.n+' ('+c.p+')').join(', ')||'—';
+    tbl.innerHTML+='<tr><td>'+(i+1)+'</td><td>'+p.name+'</td><td><b style="color:#f39c12">'+p.totalPower+'</b></td><td class="chars-inline">'+chars+'</td><td>'+p.money+'</td></tr>';
+  });
+  if(typeof bumpAch==='function'){
+    bumpAch('games');
+    if(w.name===getMyName())bumpAch('wins');
+    if(state.mode==='online')bumpAch('onlineGames');
+  }
+}
+
+// ============================================================
+// ЛОКАЛЬНЫЙ РЕЖИМ (HOTSEAT)
+// ============================================================
+const hsLocal={players:[],pool:[],roundNumber:0,totalRounds:0,startingMoney:0,current:null,currentBid:0,currentBidder:null,activePlayers:[],turnPointer:0,basePrice:0,phase:'lobby',log:[],firstBidderOffset:0};
+const hsNames=document.getElementById('hsPlayerNames');
+document.getElementById('hsPlayerCount').addEventListener('input',renderHotseatNames);
+function renderHotseatNames(){
+  const n=Math.max(2,Math.min(6,+document.getElementById('hsPlayerCount').value||2));
+  const old=[...hsNames.querySelectorAll('input')].map(i=>i.value);
+  hsNames.innerHTML='';
+  for(let i=0;i<n;i++){const inp=document.createElement('input');inp.type='text';inp.value=old[i]||('Игрок '+(i+1));inp.maxLength=16;hsNames.appendChild(inp);}
+}
+renderHotseatNames();
+document.getElementById('hsStartBtn').onclick=()=>{
+  const themes=[...document.querySelectorAll('.theme2:checked')].map(el=>el.value);
+  if(!themes.length){alert('Выбери тематику!');return;}
+  const startMoney=Math.max(1,+document.getElementById('hsStartMoney').value||1000);
+  const charCount=Math.max(3,Math.min(40,+document.getElementById('hsCharCount').value||10));
+  const names=[...hsNames.querySelectorAll('input')].map(i=>i.value.trim()||'Игрок');
+  let pool=CHARACTERS.filter(c=>themes.includes(c.t));
+  if(pool.length<charCount){alert('Только '+pool.length);return;}
+  pool=shuffle(pool).slice(0,charCount);
+  state.mode='hotseat';state.role='host';state.myIdx=-1;
+  hsLocal.players=names.map(n=>({name:n,money:startMoney,characters:[]}));
+  hsLocal.pool=pool;hsLocal.totalRounds=charCount;hsLocal.roundNumber=0;hsLocal.startingMoney=startMoney;
+  hsLocal.firstBidderOffset=0;hsLocal.log=[];hsLocal.phase='playing';lastLogCount=0;
+  show('gameScreen');hsNextRound();
+};
+function hsNextRound(){
+  if(hsLocal.pool.length===0){hsRenderResults();return;}
+  const totalMoney=hsLocal.players.reduce((s,p)=>s+(p.money||0),0);
+  if(totalMoney<=0){hsLocal.log.push('💰 Деньги кончились');hsRenderResults();return;}
+  hsLocal.roundNumber++;hsLocal.current=hsLocal.pool.shift();hsLocal.basePrice=0;hsLocal.currentBid=0;hsLocal.currentBidder=null;
+  hsLocal.activePlayers=hsLocal.players.map((p,i)=>p.money>0?i:-1).filter(i=>i>=0);
+  if(hsLocal.activePlayers.length===0){hsFinishRound(null);return;}
+  hsLocal.turnPointer=((hsLocal.roundNumber-1)%hsLocal.activePlayers.length);
+  hsLocal.log.push('— Раунд '+hsLocal.roundNumber+': «'+hsLocal.current.n+'» (сила '+hsLocal.current.p+')');
+  hsRender();
+}
+function hsRender(){
+  const view={phase:hsLocal.phase,round:hsLocal.roundNumber,totalRounds:hsLocal.totalRounds,char:hsLocal.current,
+    basePrice:hsLocal.basePrice,players:hsLocal.players,currentBid:hsLocal.currentBid,currentBidder:hsLocal.currentBidder,
+    turnIdx:hsLocal.activePlayers.length?hsLocal.activePlayers[hsLocal.turnPointer]:-1,activeIdx:hsLocal.activePlayers,
+    log:hsLocal.log,poolLeft:hsLocal.pool.length};
+  renderSnapshot(view);
+}
+const origRenderActionPanel = renderActionPanel;
+renderActionPanel = function(view){
+  const ap=document.getElementById('actionPanel');
+  if(state.mode!=='hotseat'){origRenderActionPanel(view);return;}
+  if(view.phase==='paused'){ap.innerHTML='<div class="turn-name">Раунд завершён...</div>';return;}
+  if(view.turnIdx===-1){ap.innerHTML='<div class="turn-name">Ждём...</div>';return;}
+  const player=view.players[view.turnIdx];
+  const min=calcMinBid(view.currentBid);
+  const canBid=player.money>=min;
+  const defaultVal=canBid?min:1;
+  const hint=view.currentBid===0?'Можно от 1':('Минимум '+min);
+  ap.innerHTML='<div class="turn-name">Ход: <b>'+player.name+'</b> · 💰 '+player.money+'</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">'+hint+'</div><div class="bid-controls"><input type="number" id="bidInput" min="'+min+'" max="'+player.money+'" step="1" value="'+defaultVal+'" '+(canBid?'':'disabled')+'><button class="btn-bid" id="bidBtn" '+(canBid?'':'disabled')+'>Ставка</button><button class="btn-pass" id="passBtn">Пас</button></div>'+(canBid?'':'<div style="color:#e74c3c;margin-top:8px;font-size:13px">Мало денег</div>');
+  if(canBid)document.getElementById('bidBtn').onclick=()=>{const v=+document.getElementById('bidInput').value;hsBid(hsLocal.activePlayers[hsLocal.turnPointer],v);};
+  document.getElementById('passBtn').onclick=()=>hsPass(hsLocal.activePlayers[hsLocal.turnPointer]);
+};
+function hsBid(pidx,amount){
+  const p=hsLocal.players[pidx];const min=calcMinBid(hsLocal.currentBid);amount=Math.round(amount);
+  if(amount<min)return;if(amount>p.money)return;
   hsLocal.currentBid=amount;hsLocal.currentBidder=pidx;hsLocal.log.push(p.name+' ставит '+amount);
   hsLocal.turnPointer=(hsLocal.turnPointer+1)%hsLocal.activePlayers.length;hsCheckEnd();
 }
@@ -3851,8 +4486,7 @@ function hsRenderResults(){
 }
 
 console.log('✅ Часть 4 (auth UI + admin + аукцион + hotseat) загружена');
-   </script> <script>
-// ============================================================
+</script>==================================================
 // ОБЩИЕ ПЕРЕМЕННЫЕ БОЯ
 // ============================================================
 let chatRef=null,chatQuery=null,chatListener=null,chatMessages=[],chatLastCount=0,chatUnreadCount=0,chatOpen=false;
